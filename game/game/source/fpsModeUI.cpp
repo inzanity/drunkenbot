@@ -5,6 +5,11 @@
 
 CFPSModeUI::CFPSModeUI() : mActive(false), mCounter(0), mMech()
 {
+	LPDIRECT3DDEVICE9 device = d3dObj->mD3DDevice;
+    D3DXCreateSprite(device, &mSprite);
+	mCrossCursor = CAnimationStorage::ptr()->getTexture("data/cross.png");
+	mWeaponBarTexture = CAnimationStorage::ptr()->getTexture("data/weaponbar.bmp");
+	mRadarTexture = CAnimationStorage::ptr()->getTexture("data/fpsradar.bmp");
 }
 
 CFPSModeUI::~CFPSModeUI()
@@ -54,7 +59,7 @@ void CFPSModeUI::handleInput()
 		D3DXQUATERNION quaternion(0, -.001f, 0, 1);
 		mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
 	}
-	else if (mouseX > 800)
+	else if (mouseX > d3dObj->width() - 200)
 	{
 		D3DXQUATERNION quaternion(0, .001f, 0, 1);
 		mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
@@ -66,10 +71,12 @@ void CFPSModeUI::draw(uint32 aTime)
 	if (mActive && mCounter < 1000) mCounter += 50;
 	else if (!mActive && mCounter > 0) mCounter -= 50;
 	else if (mCounter == 0) return;
-	CMech *ptr = (CMech *)mMech.ptr();
-	if (ptr)
-	{
-	}
+
+	mSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+	mSprite->Draw(*mCrossCursor, NULL, NULL, &D3DXVECTOR3(d3dObj->width()/2.f, d3dObj->height()/2.f, 0.f), 0xFFFFFFFF);
+	mSprite->Draw(*mWeaponBarTexture, NULL, NULL, &D3DXVECTOR3(1, d3dObj->height() - 128, 0.f), 0xFFFFFFFF);
+	mSprite->Draw(*mRadarTexture, NULL, NULL, &D3DXVECTOR3(d3dObj->width() - 128, d3dObj->height() - 128, 0.f), 0xFFFFFFFF);
+	mSprite->End();
 	return;
 }
 

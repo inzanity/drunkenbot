@@ -165,7 +165,7 @@ bool CGame::loop()
 	}
 	MGameObj *fpsTarget = mCam->targetObj().ptr();
 	for (i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
-		if (mMechs.mTable[i].mObj != fpsTarget)
+		if (mMechs.mTable[i].mObj != fpsTarget) //dont draw the mech currently in control
 			mMechs.mTable[i].mObj->draw(10);
 
 	if (directInput->checkKey(WRITE_TEXT))

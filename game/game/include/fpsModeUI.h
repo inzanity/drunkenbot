@@ -15,6 +15,10 @@ public:
 private:
 	bool mActive;
 	int mCounter;
+	ID3DXSprite *mSprite;
+	CTexture *mCrossCursor;
+	CTexture *mWeaponBarTexture;
+	CTexture *mRadarTexture;
 	CGameObjPtr mMech;
 };
 
