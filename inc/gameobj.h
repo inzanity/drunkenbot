@@ -11,6 +11,8 @@
 #ifndef GAMEOBJ_H
 #define GAMEOBJ_H
 
+#define PI 3.14159265358979f
+
 #define KTeamMask 0xF00
 
 class CBotInfo;
