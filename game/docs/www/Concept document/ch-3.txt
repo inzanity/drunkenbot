@@ -174,7 +174,9 @@ Controlling the mech requires both the mouse and the keyboard. Upper body can be
 
 3.5.2	Interfaces
 <a href="images/rts.jpg"><img src="images/rts.jpg" width="400"></a>
+Picture 1: RTS user interface
 <a href="images/fps.jpg"><img src="images/fps.jpg" width="400"></a>
+Picture 2: FPS user interface
 
 3.5.3	Feedback
 Few lines of text can be shown on the screen. Following information or warnings can be displayed:
