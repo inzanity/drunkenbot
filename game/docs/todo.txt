@@ -1,23 +1,9 @@
-chapter 8 dokkariin
-kirjotusvirheet!!
-multiplayer on mainittu monessa kohtaa, pitäis tehdä selväks että se on jatkokehitysidea
-tietokonevastustajan korkean tason strategical ai:sta pitäs kertoo jotain.. siitä tehään aika simppeli (jatkokehitysidea: parempi ai)
-size/weight jutut jäi säännöissä epäselviks (kokoa päivitetään, painoon vaikuttaa myös suojat ja aseet?)
-päätin että energiaa kerätään vaan 24h voimaloista tai yösähköstä. ei aurinkovoimaloita (mun mielestä vaan haittaa). onko ok?
+2.1.5, 2.1.6, 2.1.7 - Resurssit. "inherited from CGameObj class" ehkä turhan tarkasti sanottu, varsinkin ku heightmap-törmäyskin pitää tarkistaa.
+2.1.9 - Vois olla yleisemmin mech actions.
+2.1.9 / 2.2.3 Shooting Dama mallista vois kertoo jotain
+3.1.X - Upgrading mechs. Kun esim joku ase on kehitetty, niin mechit pitää vielä yks kerrallaan upgradettaa. Onko just rakennetulla mechillä muuten upgradet, vai pitääkö nekin päivittää?
+3.1.4 - Resurssejen kerääntyminen on myös toiminnallisuutta.
+3.1.5 - Yön ja päivän vaihtelusta enemmän. Salamat ei tee damaa.
+3.1.X - Strategic AI
+3.2.X - Tactical AI
 
-
-tehtävänjakoo vois parantaa:
-mulle vois laittaa (vaikka master coderin tilalle :) core engine architecture, ai programming, tools development
-jompi kumpi vois ottaa päävastuun level designista, ja yleinsä content creation (tech tree suunnittelu, ai scriptien kirjotus jne)
-usability on ihan hyvä olla jollain, mut ei ehkä mulla :)
-
- ----
-
-Tarkistettava: poistetaan 3.7 Levels (ei haluta varmaan määrätä vielä). tai sit kirjotetaan muutama lause yleisellä tasolla..?
-Tarkistettava: controls kappaleeseen maininta, että näppäimet default asetuksia, ja täysin conffattavissa (jos niin halutaan) (Myös RTS?)
-Tarkistettava: 3.6.1 Multiplayer experience, kirjotin vaan yhen rivin :) (vähän lisää)
-
- ----
-
-Korjattu: kuvat interface-kohdassa ei näy (kuvia ei varmaan kopioida oikeeseen paikkaan?)
-Korjattu: design history (palautettava versio on 1.0, ja muutokset kirjataan vasta siitä eteenpäin)
