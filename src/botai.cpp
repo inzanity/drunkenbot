@@ -86,7 +86,7 @@ bool CBotAI::setAction(TBotAction aAction, int aExclusiveActions)
 {
 	int old = mAction;
 	mAction &= !aExclusiveActions;
-	mAction |= EActionMove;
+	mAction |= aAction;
 	if (checkAction())
 		return true;
 	mAction = old;
