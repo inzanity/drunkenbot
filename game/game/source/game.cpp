@@ -42,12 +42,12 @@ bool CGame::init()
 	CDrawable *fire = new CDrawable(0, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(-5, 0, 20), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(fire);
 
-	anim = CAnimationStorage::ptr()->getAnimation("data/sphere.x");
+	anim = CAnimationStorage::ptr()->getAnimation("data/tiger.x");
 	CDrawable *tiger = new CDrawable(1, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(5, 0, 20), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(tiger);
 
-	anim = CAnimationStorage::ptr()->getAnimation("data/teapot.x");
-	CDrawable *ufo = new CDrawable(2, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(0, -5, 20), &D3DXQUATERNION());
+	anim = CAnimationStorage::ptr()->getAnimation("data/sphere.x");
+	CDrawable *ufo = new CDrawable(2, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(0, -5, 20), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(ufo);
 
 	cam = new CCamera(3, 6969);

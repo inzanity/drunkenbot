@@ -27,7 +27,7 @@ void CMessageList::add(CMessage *aMsg)
 	mList.insert(iter, aMsg);
 }
 
-void CMessageList::sendMessages(double aTime, MIndexList<MGameObj> *aObjList)
+void CMessageList::sendMessages(double aTime, CIndexList<MGameObj> *aObjList)
 {
 	list<CMessage *>::iterator iter, tempIter;
 	for (iter = mList.begin(); iter != mList.end() && (*iter)->mTime <= aTime;)

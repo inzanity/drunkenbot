@@ -21,7 +21,7 @@
 using std::istream;
 using std::ostream;
 
-struct CMessage;
+class CMessage;
 /**
  * Struct for collision boxes.
  */

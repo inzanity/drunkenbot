@@ -5,19 +5,6 @@
 
 #include "def.h"
 
-// Interface
-
-template <class T>
-class MIndexList
-{
-public:
-	virtual uint16		firstEmpty	()				= 0;
-	virtual void		add			(T *aObj)		= 0;
-	virtual void		remove		(uint16 aIndex)	= 0;
-	virtual T *			object		(uint16 aIndex)	= 0;
-};
-
-// Default implementation
 
 template <class T>
 class TIndexListNode
@@ -28,7 +15,7 @@ public:
 };
 
 template <class T>
-class CIndexList : public MIndexList<T>
+class CIndexList
 {
 public:
 						CIndexList			(uint16 aMaxSize);

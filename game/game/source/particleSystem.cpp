@@ -217,6 +217,7 @@ void CParticleSystem::draw(uint32 aTime)
 	device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	device->SetRenderState(D3DRS_POINTSPRITEENABLE, FALSE);
+
 }
 
 uint32 CParticleSystem::getDuration()
