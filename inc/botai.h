@@ -161,10 +161,10 @@ public:
 	list<CVisibleBotInfo *> mBots;
 
 	/** List of all visible weapons. */
-	list<CVisibleWeaponInfo *> mWeapons;
+	list<CWeaponInfo *> mWeapons;
 
 	/** List of all visible bullets. Bullets are usually fast, but may be detected and dodged. */
-	list<CVisibleBulletInfo *> mBullets;
+	list<CMovingGameObj *> mBullets;
 
 	/** List of sources causing noise. Only angle of incidence can be detected. */
 	list<float> mSourcesOfNoise;

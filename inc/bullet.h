@@ -1,12 +1,8 @@
 /** @file bullet.h
- * Definition of bullet info classes CVisibleBulletInfo and CBulletInfo.
- * This header specifies the public (for the AI:s) and private
- * (for the engine) data structures for flying bullets.
- *
- * @todo Everything
+ * Definition of bullet info class CBulletInfo.
  *
  * @author inz
- * @version 0.2
+ * @version 1.0
  */
 
 #ifndef BULLET_H
@@ -15,42 +11,11 @@
 #include "gameobj.h"
 
 /**
- * Public class for bullets
- * When bots see a bullet, this is the info they get of it
- */
-class CVisibleBulletInfo : public CMovingGameObj
-{
-public:
-	/** Default constructor. */
-	CVisibleBulletInfo(int aBulletType);
-
-	/**
-	 * Copy constructor.
-	 * This will only be called with data of type CBulletInfo,
-	 * and will change coordinates from absolute to relative,
-	 * thus needing current location of the bot
-	 *
-	 * @param aBullet The private info of the bullet
-	 * @param aXPos Current X coordinate of the bot
-	 * @param aYPos Current Y coordinate of the bot
-	 */
-	CVisibleBulletInfo(const CVisibleBulletInfo *aBullet, float aXPos, float aYPos);
-
-	/** Destructor. */
-	virtual ~CVisibleBulletInfo();
-	
-	/** Getter for the bullet type. */
-	int bulletType() const;
-
-private:
-	int mBulletType;
-};
-
-/**
- * Private class for bullets.
+ * Class for bullets.
  * Data structure the engine uses for storing information about bullets.
+ * @note AI classes can only see bullets as moving game objects.
  */
-class CBulletInfo : public CVisibleBulletInfo
+class CBulletInfo : public CMovingGameObj
 {
 public:
 	/** Constructor with type and coordinates.
@@ -62,7 +27,7 @@ public:
 	 * @param aVelocity Velocity of the bullet (tiles/round).
 	 * @param aShooter The bot that shot this bullet.
 	 */
-	CBulletInfo(int aBulletType, float aXPos, float aYPos, float aDirection, float aVelocity, CBotInfo *aShooter);
+	CBulletInfo(float aXPos, float aYPos, float aDirection, CBotInfo *aShooter);
 
 	/** Destructor. */
 	virtual ~CBulletInfo();
@@ -89,6 +54,9 @@ protected:
 
 private:
 	CBotInfo *mShooter;
+	float mExplosionSpeed;
+	float mExplosionRadius;
+	float mDamage;
 };
 
 #endif // BULLET_H

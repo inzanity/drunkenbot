@@ -69,11 +69,11 @@ void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo
 	}
 	for (weaIter = aWeaponList->begin(); weaIter != aWeaponList->end(); weaIter++)
 		if (!(aTilemap[int((*weaIter)->yPos())][int((*weaIter)->xPos())] & 0x80))
-			mBotAI->mWeapons.push_front(new CVisibleWeaponInfo(*weaIter, mSpawningPos.mX, mSpawningPos.mY));
+			mBotAI->mWeapons.push_front(new CWeaponInfo(*weaIter, mSpawningPos.mX, mSpawningPos.mY));
 
 	for (bulIter = aBulletList->begin(); bulIter != aBulletList->end(); bulIter++)
 		if (!(aTilemap[int((*bulIter)->yPos())][int((*bulIter)->xPos())] & 0x80))
-			mBotAI->mBullets.push_front(new CVisibleBulletInfo(*bulIter, mSpawningPos.mX, mSpawningPos.mY));
+			mBotAI->mBullets.push_front(new CMovingGameObj(*bulIter, mSpawningPos.mX, mSpawningPos.mY));
 
 	for (voiIter = aVoices->begin(); voiIter != aVoices->end(); voiIter++)
 		if (!(aTilemap[int((*voiIter).mY)][int((*voiIter).mX)] & 0x80))
@@ -154,10 +154,9 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		if (mBotAction == EActionShoot && mWeapon->shoot())
 		{
 			TVector pos = { mPos.mX + (mRadius + 0.3f) * cos(mOrientation), mPos.mY + (mRadius + 0.3f) * sin(mOrientation) };
-			aBulletList->push_back(new CBulletInfo(/*mWeapon->type()*/0,
-												   mPos.mX + (mRadius + 0.5f) * cos(mOrientation),
+			aBulletList->push_back(new CBulletInfo(mPos.mX + (mRadius + 0.5f) * cos(mOrientation),
 												   mPos.mY + (mRadius + 0.5f) * sin(mOrientation),
-												   mOrientation + mBotAI->shootingDir(), mWeapon->bulletSpeed(), this));
+												   mOrientation + mBotAI->shootingDir(), this));
 			aVoices->push_back(pos);
 			mActionDelay = (char)mWeapon->reloadTime();
 		}

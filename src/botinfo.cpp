@@ -32,7 +32,7 @@ CBotInfo::CBotInfo(int aTeamInfo) : CVisibleBotInfo(aTeamInfo), mWeapon(NULL), m
 }
 
 CBotInfo::CBotInfo(CBotInfo *aBotInfo, float aXPos, float aYPos) : CVisibleBotInfo(aBotInfo, aXPos, aYPos, aBotInfo->type()),
-																   mWeapon(aBotInfo->mWeapon),
+																   mWeapon(new CWeapon(aBotInfo->mWeapon)),
 																   mBotAction(aBotInfo->mBotAction),
 																   mActionDelay(aBotInfo->mActionDelay),
 																   mBunkered(aBotInfo->mBunkered),
