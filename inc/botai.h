@@ -19,6 +19,8 @@
 
 using std::list;
 
+#define FOV		(PI / 2.f)
+
 /**
  * Base class for external AI class.
  * Bots are controlled using think() method once in every frame.
