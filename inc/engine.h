@@ -31,7 +31,7 @@ public:
 	 * Data is read from streams in given order.
 	 * @param aWeapons Stream to read available weapon types.
 	 * @param aMap Stream to read tilemap.
-	 * @param aStream Stream to load teams and bots, or NULL to load all available bots (ffa).
+	 * @param aTeamInfo Stream to load teams and bots, or NULL to load all available bots (ffa).
 	 */
 	CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo = NULL);
 
