@@ -52,6 +52,15 @@ public:
 
 	/** Destructor. */
 	virtual ~CBotInfo();
+
+	/**
+	 * Getter for the remaining time to reload weapon.
+	 * @return Turns left before done reloading.
+	 */
+	char actionDelay();
+
+protected:
+	char mActionDelay;
 };
 
 #endif // BOTINFO_H
