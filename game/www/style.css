@@ -55,6 +55,7 @@ div.content {
 	background: url("trans-bg-white.png");
 	border: solid 1px black;
 	margin-left: 125px;
+	color: #000000;
 }
 * html div.content {
 	background: url("trans-bg-white.gif");
@@ -77,6 +78,7 @@ blockquote {
 		background: #ffffff;
 		font-family: "verdana", "lucida sans unicode", sans-serif;
 		font-size: 12pt;
+		color: #000000;
 	}
 	div.menu {
 		display: none;
@@ -84,5 +86,9 @@ blockquote {
 	div.content {
 		margin: 0;
 		border: 0;
+	}
+	a {
+		color: #000000;
+		text-decoration: none;
 	}
 }
