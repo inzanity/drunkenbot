@@ -87,7 +87,7 @@ void CGameEngine::setGraphicsEngine(CGraphicsEngine *aGraphicsEngine)
 
 bool CGameEngine::loop()
 {
-	list<CBulletInfo *>::iterator bulIter;
+	std::list<CBulletInfo *>::iterator bulIter;
 	int i;
 	for (i = 0; i < mBotNum; i++)
 		if (!mBots[i]->update())
@@ -112,7 +112,7 @@ bool CGameEngine::loop()
 
 void CGameEngine::draw(float aTimeInterval, int aBotIndex)
 {
-	list<CBulletInfo *>::iterator bulIter;
+	std::list<CBulletInfo *>::iterator bulIter;
 	if (!mGfxEngine)
 		return;
 	mGfxEngine->setActiveBot(aBotIndex >= 0 && aBotIndex < mBotNum ? mBots[aBotIndex] : NULL);
