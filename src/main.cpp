@@ -12,7 +12,11 @@ using std::ifstream;
 #include <unistd.h>
 #include <signal.h>
 
+#ifdef SDL
+#include "../inc/sdlgraphicsengine.h"
+#else
 #include "../inc/textengine.h"
+#endif
 
 bool gameRunning;
 
@@ -25,24 +29,40 @@ int main(int argc, char **argv)
 {
 	gameRunning = true;
 	signal(SIGINT, signalh);
-	ifstream map("res/tmap.txt");
+	ifstream map("res/map.txt");
 	ifstream weapons("res/weapons.txt");
+#ifdef SDL
+	ifstream gfxopts("res/sdlgfx.txt");
+#endif
 
 	srand(argc > 1?atoi(argv[1]):3);
 
 	CGameEngine *engine = new CGameEngine(&weapons, &map);
 
-	CGraphicsEngine *gEngine = new CTextEngine();
+#ifdef SDL
+	CSDLGraphicsEngine *gEngine = new CSDLGraphicsEngine(&gfxopts);
+#else
+	CTextEngine *gEngine = new CTextEngine();
+#endif
 
-	engine->setGraphicsEngine(gEngine);
+	engine->setGraphicsEngine((CGraphicsEngine *)gEngine);
 
 	map.close();
 	weapons.close();
 
+	int i = 0;
+	int j = 0;
+
 	while (gameRunning & engine->loop())
 	{
 		engine->draw(1.f, 0);
-		usleep(100000);
+		usleep(50000);
+		if (!(j = (j + 1) & 0xff))
+			i = (i + 1) % 21;
+#ifdef SDL
+		if (gameRunning)
+			gameRunning = gEngine->flip();
+#endif
 	}
 	delete gEngine;
 	char **results = engine->getResults(false);
