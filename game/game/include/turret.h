@@ -19,16 +19,18 @@ public:
 
 	// returns the angle of turretTop
 	float			angle			();
+	// returns true, if ready to shoot
+	bool			active			();
 	// draws turret and turretTop
 	void			draw(uint32 aTimeFactor);
 
 private:
-	D3DXQUATERNION	mDestination;
 	CBuildingData	*mTurret;
 	MAnimation		*mTurretTop;
-	float			mTurretAngle;
-
+	float			mTurretAngle, mTargetAngle;
 	time_t			mTime;
+	float			mSize;
+	bool			mTargetReached;
 };
 
 #endif // TURRET_H

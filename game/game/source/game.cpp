@@ -81,7 +81,7 @@ bool CGame::init()
 
 	CTurret *turret = new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
 	mBuildings.add(turret);
-	CTurret *turret2 = new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(5, mHeightMap->height(5, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
+	CTurret *turret2 = new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 20), 20), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
 	mBuildings.add(turret2);
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
@@ -132,11 +132,10 @@ bool CGame::loop()
 	}
 	if (directInput->checkKey(KEY_1))
 	{
-/*		if (mCam->gameMode() == EModeRTS)
+		if (mCam->gameMode() == EModeRTS)
 			mCam->setFPSMode(mMechs.mTable[mMechs.first()].mObj->objectPtr());
 		else
 			mCam->setRTSMode();
-*/
 	}
 	mGameUI->draw();
 	mMessageBox->draw();
