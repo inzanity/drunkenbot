@@ -54,7 +54,7 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 		for (i = 0; i < mBotNum; i++)
 		{
 			sprintf(fileName, "bots/%s", findFileData.cFileName);
-			mBots[i] = new CBot(fileName, i);
+			mBots[i] = new CBot(fileName, (i << KObjectTeamShift) | (i << KObjectIndexShift));
 			FindNextFile(handle, &findFileData);
 		}
 #else

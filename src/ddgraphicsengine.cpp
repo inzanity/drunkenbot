@@ -129,6 +129,11 @@ void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 		rect.right = rect.left + mSrcTileWidth;
 		rect.bottom = rect.top + mSrcTileHeight;
 		mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
+		rect.left = index * mSrcTileWidth;
+		rect.top = 8 * mSrcTileHeight;
+		rect.right = rect.left + mSrcTileWidth;
+		rect.bottom = rect.top + mSrcTileHeight;
+		mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
 	}
 	else if (type == CGameObj::EObjectBullet || type == CGameObj::EObjectExplosion)
 	{

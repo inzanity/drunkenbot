@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-CBot::CBot(const char *aDllName, int aTeamNumber) : CBotInfo(aTeamNumber << KObjectTeamShift), mBotAI(NULL), mDllName(NULL), mDllHandle(NULL), mFrags(0)
+CBot::CBot(const char *aDllName, int aTeamInfo) : CBotInfo(aTeamInfo), mBotAI(NULL), mDllName(NULL), mDllHandle(NULL), mFrags(0)
 {
 	mDllName = new char[strlen(aDllName) + 1];
 	strcpy(mDllName, aDllName);

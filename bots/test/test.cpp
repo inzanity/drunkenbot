@@ -34,7 +34,7 @@ CTestAI::~CTestAI()
 
 void CTestAI::think()
 {
-	float angle = mData->weapon()->damage() * (mData->weapon()->explosionRadius() ? mData->weapon()->explosionRadius() : 1);
+	float angle = mData->weapon()->weaponType();
 	float plop;
 	bool weapon = 0;
 	CGameObj *target = NULL;
@@ -42,7 +42,7 @@ void CTestAI::think()
 	list<CWeaponInfo *>::iterator w;
 
 	for (w = mWeapons.begin(); w != mWeapons.end(); w++)
-		if ((plop = (*w)->damage() * ((*w)->explosionRadius() ? (*w)->explosionRadius() : 1)) > angle)
+		if ((plop = (*w)->weaponType()) > angle)
 		{
 			angle = plop;
 			target = *w;

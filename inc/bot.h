@@ -28,8 +28,12 @@ using std::list;
 class CBot : public CBotInfo
 {
 public:
-	/** Constructor. @param aDllName Name of the .dll file to load CBotAI. @param aTeamNumber Team number. */
-	CBot(const char *aDllName, int aTeamNumber);
+	/**
+	 * Constructor.
+	 * @param aDllName Name of the .dll file to load CBotAI.
+	 * @param aTeamInfo Team number combined with bot index.
+	 */
+	CBot(const char *aDllName, int aTeamInfo);
 
 	/**
 	 * Reloads AI from dll, creates and initializes new bot.
