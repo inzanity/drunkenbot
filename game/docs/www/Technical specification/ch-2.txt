@@ -63,11 +63,9 @@
 
 2.2.4	Changing a weapon
 
-	- <b>Performing</b>: 
+	- <b>Performing</b>: The primary weapon can be changed using the right mouse button or pressing numbers 1 through 10 for certain weapon.
+	- <b>Implementation</b>: CDirectInput class tells that right mouse button or one of the number buttons was pressed. The mech game object will then be told that it should change weapon. The object will then set it's primary weapon and update it's animation to show the new selected weapon.
 
 2.2.5	Building power distribution system
 
-	- <b>Performing</b>:
-
-
-
+	- <b>Performing</b>: A Power Distribution System building can be build by pressing the 'b' key at the desired location.
