@@ -42,8 +42,15 @@ void CMech::handleCollision(const MGameObj *aObj)
 
 void CMech::checkMapCollision(uint32 aTimeFactor)
 {
+	float maxRise = 0.05f;
+	float kvant = 0.01f;
 	D3DXVECTOR3 dest = (mSpeed * aTimeFactor + mPos);
-	if(	dest.y + 0.05f/*+ maxrise*/< game->mHeightMap->height(dest.x, dest.z)) 
+	if(	  (dest.y + maxRise< game->mHeightMap->height(dest.x, dest.z))
+		||(dest.y + maxRise< game->mHeightMap->height(dest.x + kvant, dest.z))
+		||(dest.y + maxRise< game->mHeightMap->height(dest.x - kvant, dest.z))
+		||(dest.y + maxRise< game->mHeightMap->height(dest.x, dest.z + kvant))
+		||(dest.y + maxRise< game->mHeightMap->height(dest.x, dest.z - kvant))
+		) 
 		handleCollision(NULL);
 }
 
