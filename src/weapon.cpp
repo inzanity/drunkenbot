@@ -41,6 +41,11 @@ int CWeapon::bulletCount() const
 	return mBulletCount;
 }
 
+int CWeapon::type() const
+{
+	return mType;
+}
+
 float CWeapon::bulletSpeed() const
 {
 	return mBulletSpeed;

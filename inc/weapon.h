@@ -48,6 +48,12 @@ public:
 	int bulletCount() const;
 
 	/**
+	 * Getter for type.
+	 * @return Type.
+	 */
+	int type() const;
+
+	/**
 	 * Getter for bullet speed.
 	 * @return Speed of bullet in tiles/turn.
 	 */
@@ -74,6 +80,7 @@ public:
 private:
 	int mReloadTime;
 	int mBulletCount;
+	int mType;
 	float mBulletSpeed;
 	float mExplosionRadius;
 	float mExplosionSpeed;
