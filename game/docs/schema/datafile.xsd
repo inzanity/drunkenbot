@@ -49,7 +49,7 @@
 									<xsd:attribute name="weapon" type="xsd:integer"/>
 									<xsd:attribute name="hitpoints" type="xsd:integer" use="required"/>
 									<xsd:attribute name="animation" type="xsd:string" use="required"/>
-									<xsd:attribute name="upperBodyAnimation" type="xsd:string" use="required"/>
+									<xsd:attribute name="upperBodyAnimation" type="xsd:string" default=""/>
 									<xsd:attribute name="constructAnimation" type="xsd:string" use="required"/>
 									<xsd:attribute name="constructTime" type="xsd:integer" use="required"/>
 									<xsd:attribute name="picture" type="xsd:string" use="required"/>
