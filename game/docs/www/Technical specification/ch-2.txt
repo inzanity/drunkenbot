@@ -48,7 +48,7 @@
 2.1.10	Changing into FPS mode
 
 	- <b>Performing</b>: First select a mech you want to control in first person perspective. Then you can press 'enter' or binded key for this mech from keyboard or double click it with left mouse button. Perspective moves to FPS instantaneously.
-	- <b>Implementation</b>: When CDirectInput class tells that left mouse button is double clicked or 'enter' or number is pressed, the message is sended to the selected object and is proceeds with changing perspective to FPS if everything is in order (selected object is mech etc.).
+	- <b>Implementation</b>: When CDirectInput class tells that left mouse button is double clicked or 'enter' or number is pressed, the message is sent to the selected object and it proceeds with changing perspective to FPS if everything is in order (selected object is mech etc.).
 
 2.2	FPS Functions
 2.2.1	Moving
@@ -75,3 +75,8 @@
 
 	- <b>Performing</b>: A Power Distribution System building can be build by pressing the 'b' key at the desired location.
 	- <b>Implementation</b>: CDirectInput class tells that that the 'b' key was pressed. The mech game object will be told to start building. The mech then sets it's animation and sets a flag that it is building. The mechs coordinates are quieried and a new CBuilding object will be created for the building being built to the mech's location.
+
+2.2.6	Changing into RTS mode
+
+	- <b>Performing</b>: The mode can be changed back to the RTS mode by pressing escape in the FPS mode. This may also occurr non-interactively, if the mech in question is destroyed while in use.
+	- <b>Implementation</b>: CDirectInput tells when the key is pressed. The mech object will be notified, and it will return to the state it was before the FPS mode, and the visible area in the RTS will be centered to the mech.
