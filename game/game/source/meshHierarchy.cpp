@@ -43,11 +43,11 @@ CMeshHierarchy::CMeshHierarchy(const char *aPath) : mPath(aPath)
 //-----------------------------------------------------------------------------
 HRESULT CMeshHierarchy::CreateFrame(LPCTSTR Name, LPD3DXFRAME *ppNewFrame)
 {
-	D3DXFRAME_DERIVED *pFrame;
+	CFrame *pFrame;
 
 	*ppNewFrame = NULL;
 
-	pFrame = new D3DXFRAME_DERIVED;
+	pFrame = new CFrame;
 	if (pFrame == NULL)
 		return E_OUTOFMEMORY;
 
@@ -83,15 +83,14 @@ HRESULT CMeshHierarchy::CreateMeshContainer(THIS_
 	CONST D3DXEFFECTINSTANCE *,						// Not used
 	DWORD NumMaterials,
 	CONST DWORD *pAdjacency,
-	LPD3DXSKININFO,									// Not used
+	LPD3DXSKININFO pSkinInfo,
 	LPD3DXMESHCONTAINER* ppNewMeshContainer)
 
 {
 	HRESULT hr;
-	D3DXMESHCONTAINER_DERIVED *pMeshContainer = NULL;
+	CMeshContainer *pMeshContainer = NULL;
 	UINT NumFaces;
 	UINT i;
-	LPDIRECT3DDEVICE9 pd3dDevice = NULL;
 
 	LPD3DXMESH pMesh = NULL;
 
@@ -109,17 +108,16 @@ HRESULT CMeshHierarchy::CreateMeshContainer(THIS_
 		return E_FAIL;
 
 	// allocate the overloaded structure to return as a D3DXMESHCONTAINER
-	pMeshContainer = new D3DXMESHCONTAINER_DERIVED;
+	pMeshContainer = new CMeshContainer;
 	if (pMeshContainer == NULL)
 		return E_OUTOFMEMORY;
-	memset(pMeshContainer, 0, sizeof(D3DXMESHCONTAINER_DERIVED));
+	memset(pMeshContainer, 0, sizeof(CMeshContainer));
 
 	// make sure and copy the name.  All memory as input belongs to caller, interfaces can be addref'd though
 	hr = allocateName(Name, &pMeshContainer->Name);
 	if (FAILED(hr))
 		goto e_Exit;        
 
-	pMesh->GetDevice(&pd3dDevice);
 	NumFaces = pMesh->GetNumFaces();
 
 	// if no normals are in the mesh, add them
@@ -130,7 +128,7 @@ HRESULT CMeshHierarchy::CreateMeshContainer(THIS_
 		// clone the mesh to make room for the normals
 		hr = pMesh->CloneMeshFVF(pMesh->GetOptions(), 
 									pMesh->GetFVF() | D3DFVF_NORMAL, 
-									pd3dDevice, &pMeshContainer->MeshData.pMesh);
+									d3dObj->mD3DDevice, &pMeshContainer->MeshData.pMesh);
 		if (FAILED(hr))
 			goto e_Exit;
 
@@ -191,13 +189,43 @@ HRESULT CMeshHierarchy::CreateMeshContainer(THIS_
 		pMeshContainer->pMaterials[0].MatD3D.Diffuse.g = 0.5f;
 		pMeshContainer->pMaterials[0].MatD3D.Diffuse.b = 0.5f;
 		pMeshContainer->pMaterials[0].MatD3D.Specular = pMeshContainer->pMaterials[0].MatD3D.Diffuse;
+		pMeshContainer->pMaterials[0].MatD3D.Ambient = pMeshContainer->pMaterials[0].MatD3D.Diffuse;
+	}
+	if(pSkinInfo)
+	{
+		// first save off the SkinInfo and original mesh data
+	    pMeshContainer->pSkinInfo = pSkinInfo;
+	    pSkinInfo->AddRef();
+
+        pMeshContainer->MeshData.pMesh->GetAttributeTable(NULL, &pMeshContainer->mNumAttributeGroups);
+        pMeshContainer->mAttributeTable = new D3DXATTRIBUTERANGE[pMeshContainer->mNumAttributeGroups];
+        pMeshContainer->MeshData.pMesh->GetAttributeTable(pMeshContainer->mAttributeTable, NULL);
+
+		// Will need an array of offset matrices to move the vertices from 
+		//	the figure space to the bone's space
+	    UINT uBones = pSkinInfo->GetNumBones();
+	    pMeshContainer->mBoneOffsets = new D3DXMATRIX[uBones];
+
+		//Create the arrays for the bones and the frame matrices
+		pMeshContainer->mFrameMatrices = new D3DXMATRIX*[uBones];
+
+	    // get each of the bone offset matrices so that we don't need to 
+		//	get them later
+	    for (UINT i = 0; i < uBones; i++)
+	        pMeshContainer->mBoneOffsets[i] = *(pMeshContainer->pSkinInfo->GetBoneOffsetMatrix(i));
+	}
+	else
+	{
+		pMeshContainer->pSkinInfo = NULL;
+		pMeshContainer->mBoneOffsets = NULL;
+		pMeshContainer->mSkinnedMesh = NULL;
+		pMeshContainer->mFrameMatrices = NULL;
 	}
 
 	*ppNewMeshContainer = pMeshContainer;
 	pMeshContainer = NULL;
 
 e_Exit:
-	SAFE_RELEASE(pd3dDevice);
 
 	// call Destroy function to properly clean up the memory allocated 
 	if (pMeshContainer != NULL)
@@ -230,7 +258,7 @@ HRESULT CMeshHierarchy::DestroyFrame(LPD3DXFRAME pFrameToFree)
 HRESULT CMeshHierarchy::DestroyMeshContainer(LPD3DXMESHCONTAINER pMeshContainerBase)
 {
 	UINT i;
-	D3DXMESHCONTAINER_DERIVED *pMeshContainer = (D3DXMESHCONTAINER_DERIVED*)pMeshContainerBase;
+	CMeshContainer *pMeshContainer = (CMeshContainer*)pMeshContainerBase;
 
 	SAFE_DELETE_ARRAY(pMeshContainer->Name);
 	SAFE_DELETE_ARRAY(pMeshContainer->pAdjacency);

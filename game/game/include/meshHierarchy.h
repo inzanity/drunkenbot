@@ -24,13 +24,20 @@ private:
 	const char *mPath;
 };
 
-struct D3DXMESHCONTAINER_DERIVED : public D3DXMESHCONTAINER
+struct CMeshContainer : public D3DXMESHCONTAINER
 {
 	CTexture **mTextures;
+
+	//Skinned mesh variables
+	LPD3DXMESH           mSkinnedMesh;		// The skinned mesh
+    LPD3DXATTRIBUTERANGE mAttributeTable;
+    DWORD                mNumAttributeGroups; 
+	LPD3DXMATRIX		 mBoneOffsets;		// The bone matrix offsets
+	LPD3DXMATRIX*		 mFrameMatrices;	// Pointer to the frame matrix
 };
 
 
-struct D3DXFRAME_DERIVED : public D3DXFRAME
+struct CFrame : public D3DXFRAME
 {
 	D3DXMATRIXA16 mCombinedTransformationMatrix;
 };

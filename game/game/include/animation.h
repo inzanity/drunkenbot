@@ -37,11 +37,16 @@ private:
 	void drawMeshContainer(LPD3DXMESHCONTAINER aMeshContainerBase, LPD3DXFRAME aFrameBase);
 	void updateFrameMatrices(const D3DXFRAME *aFrameBase, const D3DXMATRIX *aParentMatrix);
 	HRESULT loadXFile(const char *aFileName);
+	void setupBoneMatrices(CFrame *aFrame, LPD3DXMATRIX aParentMatrix);
 private:
 	LPD3DXFRAME mFrameRoot;
 	LPD3DXANIMATIONCONTROLLER mAnimController;
 	DWORD mCurrentTrack;
 	uint32 mPrevTime;
+
+	// For skinning
+	D3DXMATRIX *mBoneMatrices;
+	uint32 mMaxBones;
 };
 
 /*
