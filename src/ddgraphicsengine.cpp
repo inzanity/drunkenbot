@@ -111,8 +111,8 @@ void CDDGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 {
 	int type = (aGameObj->type() & KObjectTypeMask) >> KObjectTypeShift;
-	int index = (aGameObj->type() & KObjectTypeMask) >> KObjectIndexShift;
-//	int team = (aGameObj->type() >> KObjectTeamShift) & KObjectTypeMask;
+	int index = (aGameObj->type() & KObjectIndexMask) >> KObjectIndexShift;
+//	int team = (aGameObj->type() & KObjectTeamMask) >> KObjectTeamShift;
 	int frame = aGameObj->animationTimer() * 0/*framenum*/;
 	int dir = int((aGameObj->orientation() + PI / 8.f) / (PI / 4.f)) % 8;
 	int w = mDestTileWidth * 2.f * aGameObj->radius();
