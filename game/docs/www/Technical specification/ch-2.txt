@@ -9,4 +9,11 @@
 
 
 
-2.2 FPS Functions
+2.2	FPS Functions
+2.2.1	Moving
+2.2.2	Aiming
+2.2.3	Shooting
+2.2.4	Changing a weapon
+2.2.5	
+
+
