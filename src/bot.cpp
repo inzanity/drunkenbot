@@ -90,8 +90,10 @@ void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo
 	mBotAI->mSourcesOfNoise.clear();
 }
 
-void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVoices)
+void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVoices,
+						  list<CWeaponInfo *> *aWeaponList, const CWeapon *aDefaultWeapon)
 {
+	std::list<CWeaponInfo *>::iterator weaIter;
 	if (!mBotAI)
 		return;
 	if (mActionDelay)
@@ -100,9 +102,22 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 			if (mBotAction == EActionBunker)
 				mBunkered = !mBunkered;
 			else if (mBotAction == EActionPickWeapon)
-				mWeapon = mWeapon; // TODO
+			{
+				for (weaIter = aWeaponList->begin(); weaIter != aWeaponList->end(); weaIter++)
+					if (sqr((*weaIter)->xPos() - mPos.mX) + sqr((*weaIter)->yPos() - mPos.mY) <=
+						sqr((*weaIter)->radius() + mRadius))
+					{
+						delete mWeapon;
+						mWeapon = *weaIter;
+						aWeaponList->erase(weaIter);
+						break;
+					}
+			}
 			else if (mBotAction == EActionDropWeapon)
-				mWeapon = mWeapon; // TODO
+			{
+				delete mWeapon;
+				mWeapon = new CWeapon(aDefaultWeapon);
+			}
 			mBotAction = EActionNone;
 		}
 
