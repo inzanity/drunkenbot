@@ -10,6 +10,8 @@
 #ifndef WEAPONINFO_H
 #define WEAPONINFO_H
 
+#include "gameobj.h"
+
 /**
  * Public interface for weapons.
  * When bots see a weapon, this is the info they get of it
@@ -18,7 +20,7 @@ class CVisibleWeaponInfo : public CGameObj
 {
 public:
 	/** Default constructor */
-	CVisibleWeaponInfo();
+	CVisibleWeaponInfo(int aWeaponType);
 
 	/**
 	 * Copy constructor
@@ -52,9 +54,7 @@ private:
  */
 class CWeaponInfo : public CVisibleWeaponInfo
 {
-	/** Default constructor */
-	CWeaponInfo();
-
+public:
 	/**
 	 * Constructor with type and coordinates.
 	 * Creates a weapon of given type to given coordinates..
