@@ -65,8 +65,8 @@ private:
 	IGraphicsEngine *mGfxEngine;
 	list<CBulletInfo *> mBulletList;
 	list<CWeaponInfo *> mWeaponList;
-	CWeapon *mWeaponTypes;
-	CBot *mBots;
+	CWeapon **mWeaponTypes;
+	CBot **mBots;
 	char **mTilemap;
 	int mBotNum;
 	int mWeaponNum;
