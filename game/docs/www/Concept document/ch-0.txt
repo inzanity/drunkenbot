@@ -1,3 +1,4 @@
+<center><img src="images/logo.gif"></center>
 <a href="foo.cgi">Update document</a>
 
 In the Face entertainment is proud to present Avalance: Battle over Platonia, the world-renovating innovation, which will change the game industry forever. The combination of RTS and FPS, two very popular game genres, can lead to nothing but success. With the story that would sell millions as a novel, graphics that make the sun look dim and playability on a level too high to be described, the game will make other game companies look small and fragile. And since the music makes the London Symphony Orchestra sound like 3-year-old going-to-be-a-big-violinist-some-days, the game has no drawbacks whatsoever.
