@@ -1,27 +1,15 @@
 #ifndef GAMEUI_H
 #define GAMEUI_H
 
-#include "texture.h"
-#include "gameobj.h"
+#include "gameObj.h"
 
-class CGameUI
+class MGameUI
 {
 public:
-	CGameUI();
-	~CGameUI();
-
-	void draw(uint32 aTime);
-	void handleInput();
-	CGameObjPtr selected();
-private:
-	CGameObjPtr mSelected;
-	MAnimation *mSelectedAnim;
-	ID3DXSprite *mSprite;
-	CTexture *mMouseCursor;
-	CTexture *mMenuTexture;
-	IDirect3DTexture9 *mMinimapTexture;
+	virtual ~MGameUI() {}
+	virtual void draw(uint32 aTime) = 0;
+	virtual void handleInput() = 0;
+	virtual void activate(CGameObjPtr aTarget) = 0;
 };
-
-//extern CGameUI *gameUI;
 
 #endif // GAMEUI_H

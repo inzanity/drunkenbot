@@ -34,10 +34,11 @@ bool CGame::init()
 	device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(1.0f));
     device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
     device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+//	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
 
     D3DLIGHT9 light;
     D3DXVECTOR3 vecLightDirUnnormalized(0.0f, -1.0f, 0.4f);
-    ZeroMemory( &light, sizeof(D3DLIGHT9) );
+    ZeroMemory(&light, sizeof(D3DLIGHT9));
     light.Type        = D3DLIGHT_DIRECTIONAL;
 	light.Ambient.r = 0.2f;
 	light.Ambient.g = 0.2f;
@@ -55,7 +56,8 @@ bool CGame::init()
     device->LightEnable(0, TRUE);
 
 	mHeightMap = new CHeightMap("data/map.bmp");
-	mGameUI = new CGameUI();
+	mRTSModeUI = new CRTSModeUI();
+	mFPSModeUI = new CFPSModeUI();
 
 	// Set the projection matrix
 	D3DXMATRIX projectionMatrix;
@@ -86,10 +88,11 @@ bool CGame::init()
 	mBuildings.add(turret2);
 
 	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(15, mHeightMap->height(15, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
-	mBuildings.add(dock1);
+//	mBuildings.add(dock1);
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
 
+	mRTSModeUI->activate(CGameObjPtr());
 	mTime = 0;
 
 	return true;
@@ -122,7 +125,8 @@ bool CGame::loop()
 	mHeightMap->draw(0);
 //	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
-	mGameUI->handleInput();
+	mRTSModeUI->handleInput();
+	mFPSModeUI->handleInput();
 /*	if (directInput->checkMouseButton(0))
 	{
 		static int find = 0;
@@ -146,11 +150,11 @@ bool CGame::loop()
 	}
 */
 //	mPathFinder->drawPath();
-/*
-	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-	mHeightMap->draw(0);
-	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-*/
+
+//	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+//	mHeightMap->draw(0);
+//	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
 	for (i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
 		mMechs.mTable[i].mObj->update(10);
 
@@ -166,14 +170,8 @@ bool CGame::loop()
 
 	if (directInput->checkKey(WRITE_TEXT))
 		mMessageBox->addMessage("foo", 10);
-	if (directInput->checkKey(KEY_1))
-	{
-		if (mCam->gameMode() == EModeRTS)
-			mCam->setFPSMode(mMechs.mTable[mMechs.first()].mObj->objectPtr());
-		else
-			mCam->setRTSMode();
-	}
-	mGameUI->draw(mTime);
+	mRTSModeUI->draw(mTime);
+	mFPSModeUI->draw(mTime);
 	if (mShowFPS)
 		mShowFPS++;
 	if (mShowFPS > 20)
@@ -222,7 +220,12 @@ void CGame::chkDestroyList()
 	list<MGameObj *>::iterator iter;
 	while (!mDestroyList.empty())
 	{
-//		objectList()->remove(iter->m_object->index());
+		CGameObjPtr objPtr = (*iter)->objectPtr();
+		int objType = objPtr.index() >> 12;
+		if (objType == ETypeBuilding)
+			mBuildings.remove(objPtr.index());
+		else if (objType == ETypeMech)
+			mMechs.remove(objPtr.index());
 		delete mDestroyList.back();
 		mDestroyList.pop_back();
 	}
@@ -253,4 +256,12 @@ MGameObj *CGame::getGameObj(uint16 aIndex, uint16 aId)
 	if (obj && obj->objectPtr().id() == aId)
 		return obj;
 	return NULL;
+}
+
+TObjectType CGame::getObjType(CGameObjPtr aPtr)
+{
+	uint16 index = aPtr.index();
+	if (index == KNullIndex)
+		return ETypeNone;
+	return (TObjectType)(index >> 12);
 }

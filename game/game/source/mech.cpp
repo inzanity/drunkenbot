@@ -40,7 +40,7 @@ void CMech::handleMessage(CMessage *aMsg)
 		break;
 	case EMsgMechTurnAround:
 		mSpeed = D3DXVECTOR3(0, 0, 0);
-		D3DXQuaternionRotationYawPitchRoll(&mRotSpeed, 3.1415/2000.f, 0, 0);
+		D3DXQuaternionRotationYawPitchRoll(&mRotSpeed, 3.1415f/2000.f, 0, 0);
 		game->sendMessage(EMsgMechMove, this, 0, 0, 2000);
 		break;
 	}

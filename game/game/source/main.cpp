@@ -70,7 +70,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 		return false;
 
 	CD3DObj *d3dObj = new CD3DObj(hWnd);
-//	if (!d3dObj->initFullScreen(1280, 1024))
+//	if (!d3dObj->initFullScreen(KScreenWidth, KScreenHeight))
 	if (!d3dObj->initWindowed())
 	{
 		delete d3dObj;

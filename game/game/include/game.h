@@ -8,10 +8,11 @@
 #include "heightMap.h"
 //#include "pathFinder.h"
 #include "messageBox.h"
-#include "gameui.h"
+#include "rtsModeUI.h"
+#include "fpsModeUI.h"
 #include "building.h"
 
-enum TObjectType{ETypeBuilding, ETypeMech, ETypeExplosion, ETypeCamera};
+enum TObjectType{ETypeBuilding, ETypeMech, ETypeExplosion, ETypeCamera, ETypeNone};
 
 class CGame
 {
@@ -28,6 +29,7 @@ public:
 	void destroyObj(MGameObj *aObj);
 	CGameObjPtr getNewGameObjectPtr(TObjectType aObjType);
 	MGameObj *getGameObj(uint16 aIndex, uint16 aId);
+	TObjectType getObjType(CGameObjPtr aPtr);
 private:
 	void chkDestroyList	();
 
@@ -35,13 +37,14 @@ public:
 	CHeightMap *mHeightMap;
 	CIndexList<CDrawable> mBuildings;
 	CIndexList<CMech> mMechs;
+	CCamera *mCam;
+	CRTSModeUI *mRTSModeUI;
+	CFPSModeUI *mFPSModeUI;
 private:
 	list<MGameObj *> mDestroyList;
 //	CPathFinder *mPathFinder;
 	CMessageList mMsgList;
-	CCamera *mCam;
 	CMessageBox *mMessageBox;
-	CGameUI *mGameUI;
 	uint32 mTime;
 	uint16 mNewId;
 	DWORD mPrevTime;

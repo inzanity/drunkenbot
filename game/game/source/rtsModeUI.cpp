@@ -1,9 +1,9 @@
-#include "../include/gameui.h"
+#include "../include/rtsModeUI.h"
 #include "../include/directInput.h"
 #include "../include/animationStorage.h"
 #include "../include/game.h"
 
-CGameUI::CGameUI() : mSprite(NULL), mMouseCursor(NULL)
+CRTSModeUI::CRTSModeUI() : mActive(false), mCounter(0), mSprite(NULL), mMouseCursor(NULL)
 {
 	LPDIRECT3DDEVICE9 device = d3dObj->mD3DDevice;
     D3DXCreateSprite(device, &mSprite);
@@ -14,9 +14,9 @@ CGameUI::CGameUI() : mSprite(NULL), mMouseCursor(NULL)
 	D3DXCreateTexture(device, 128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &mMinimapTexture);
 
 	D3DXMATRIX projectionMatrix;
-	int h = game->mHeightMap->horizontalSize() - 1;
-	int v = game->mHeightMap->verticalSize() - 1;
-	D3DXMatrixOrthoLH(&projectionMatrix, h, v, h/(float)v, 150.0f);
+	float h = (float)game->mHeightMap->horizontalSize() - 1;
+	float v = (float)game->mHeightMap->verticalSize() - 1;
+	D3DXMatrixOrthoLH(&projectionMatrix, h, v, h/v, 150.0f);
 //	D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI/2, 1.f, 1.0f, 150.0f);
 	device->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 
@@ -34,15 +34,23 @@ CGameUI::CGameUI() : mSprite(NULL), mMouseCursor(NULL)
 	device->SetRenderTarget(0, orig);
 }
 
-CGameUI::~CGameUI()
+CRTSModeUI::~CRTSModeUI()
 {
 	if (mSprite)
 		mSprite->Release();
 }
 
-void CGameUI::handleInput()
+void CRTSModeUI::handleInput()
 {
+	if (!mActive) return; /* Active UI will handle input */
 	int mouseX = directInput->getMouseX(), mouseY = directInput->getMouseY();
+	if (directInput->checkKey(KEY_1) && game->getObjType(mSelected) == ETypeMech)
+	{
+		mActive = false;
+		game->mFPSModeUI->activate(mSelected);
+		return;
+	}
+	if (!mCounter) return; /* Controlling requires 100% RTS mode */
 	if (directInput->checkMouseButton(0))
 	{
 		D3DXVECTOR3 m = game->mHeightMap->mouseCoords(mouseX, mouseY);
@@ -70,8 +78,11 @@ void CGameUI::handleInput()
 	}
 }
 
-void CGameUI::draw(uint32 aTime)
+void CRTSModeUI::draw(uint32 aTime)
 {
+	if (mActive && mCounter < 1000) mCounter += 100;
+	else if (!mActive && mCounter > 0) mCounter -= 100;
+	else if (mCounter == 0) return;
 //	const DIMOUSESTATE2 *mouseState = directInput->getMouseState();
 	MColliding *selected = (CDrawable *)mSelected.ptr();
 	if (selected)
@@ -88,10 +99,10 @@ void CGameUI::draw(uint32 aTime)
 		d3dObj->mMatrixStack->Pop();
 		
 	}
-	int w = d3dObj->width() - 148;
+	float w = (float)(d3dObj->width() - 148 * (mCounter / 1000.f));
 	D3DXMATRIX matrix, matrix2;
 	D3DXMatrixScaling(&matrix, 148/128.f, 768/512.f, 1.f);
-	D3DXMatrixTranslation(&matrix2, w, 0, 0);
+	D3DXMatrixTranslation(&matrix2, w, 0.f, 0.f);
 	matrix *= matrix2;
 	mSprite->SetTransform(&matrix);
 	mSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
@@ -100,8 +111,15 @@ void CGameUI::draw(uint32 aTime)
 	D3DXMatrixIdentity(&matrix);
 	mSprite->SetTransform(&matrix);
 	mSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-	mSprite->Draw(mMinimapTexture, NULL, NULL, &D3DXVECTOR3(w + 10, 46, 0), 0xFFFFFFFF);
+	mSprite->Draw(mMinimapTexture, NULL, NULL, &D3DXVECTOR3(w + 10.f, 46.f, 0.f), 0xFFFFFFFF);
 	mSprite->Draw(*mMouseCursor, NULL, NULL,
-		&D3DXVECTOR3((float)directInput->getMouseX(), (float)directInput->getMouseY(), 0), 0xFFFFFFFF);
+		&D3DXVECTOR3((float)directInput->getMouseX(), (float)directInput->getMouseY(), 0.f), 0xFFFFFFFF);
 	mSprite->End();
+}
+
+void CRTSModeUI::activate(CGameObjPtr aTarget)
+{
+	mActive = true;
+	mSelected = aTarget;
+	game->mCam->setRTSMode();
 }

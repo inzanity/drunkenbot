@@ -142,15 +142,29 @@ void CHeightMap::restore(const char *)
 	DWORD *adjacency = new DWORD[3 * mesh->GetNumFaces()];
 	mesh->GenerateAdjacency(0.f, adjacency);
 	D3DXComputeNormals(mesh, adjacency);
-	float *vertexWeights = new float[mNumVertices];
+/*	float *vertexWeights = new float[mNumVertices];
 	for (int i = 0; i < mVMapSize; i++)
 		for (int j = 0; j < mHMapSize; j++)
 			vertexWeights[i * mHMapSize + j] = (i == 0 || i == mVMapSize - 1 || j == 0 || j == mHMapSize - 1 ? 1000.f : 1.f);
-	D3DXSimplifyMesh(mesh, adjacency, NULL, vertexWeights, mNumVertices / 10, D3DXMESHSIMP_VERTEX, &mMesh);
+
+	D3DXATTRIBUTEWEIGHTS attributeWeights;
+	ZeroMemory(&attributeWeights, sizeof(D3DXATTRIBUTEWEIGHTS));
+	attributeWeights.Position = 1; attributeWeights.Boundary = 1; attributeWeights.Normal = 4;
+*/
+	D3DXSimplifyMesh(mesh, adjacency, NULL, NULL, mNumVertices / 10, D3DXMESHSIMP_VERTEX, &mMesh);
 //	mMesh = mesh;
 	mesh->Release();
 	delete [] adjacency;
-	delete [] vertexWeights;
+//	delete [] vertexWeights;
+/*
+	float *ptr = NULL;
+	short *ptr = NULL;
+	mesh->LockVertexBuffer(0, (void **)&ptr);
+	mesh->LockIndexBuffer(0, (void **)&ptr);
+
+	mesh->UnlockIndexBuffer();
+	mesh->UnlockVertexBuffer();
+*/
 }
 
 float CHeightMap::height(float aX, float aZ) const
