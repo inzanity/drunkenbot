@@ -6,17 +6,16 @@ Basically Avalance: Battle over Platonia is a real time strategy (RTS) game. As 
 3.2	Gameplay description
 From the strategical point of view, game is about gathering and managing resources, building a base, developing technologies and constructing the war machines. This is called the RTS mode. Player observes the world from top-down perspective. Only small part of the map fits to the screen, and the screen can be scrolled to view different areas of the map. Minimap can be used to get the general idea of the whole map. Unknown areas are shown as black, and have to be explored before seeing them. Areas far from buildings and units are covered by fog (fog of war). Enemy units can't be seen under the fog, but the rest of the map is seen as it was before.
 
-There are three types of resources - electric power, metals and chemicals. Metals and chemicals for the industry can be collected from the rich occurrences of the otherwise bare ground by building distribution channels. Electricity can be produced with nuclear factories or from nigth storms by storing energy from the lighnings. Electricity is needed to maintain the functioning of the base. Mech contains internal source of power, and doesn't need resources in order to operate. Metals and chemicals are needed for buildings, machines, technologies and upgrades. Buildings and technologies may also require other buildings and technologies (see 3.3.3).
-
+There are three types of resources - electric power, metals and chemicals. Metals and chemicals for the industry can be collected from the rich occurrences of the otherwise bare ground by building distribution channels. Electricity can be produced with nuclear factories or from nigth storms by storing energy from the lighnings. Electricity is needed to maintain the functioning of the base. Mech contains internal source of power, and doesn't need resources in order to operate. Metals and chemicals are needed for buildings, machines, technologies and upgrades. Buildings and technologies may also require other buildings and technologies (see 3.3.2).
 Simple commands can be given to mechs from RTS mode. These commands and their execution depends on the AI technology level of the mech. Mech without AI technology has to be controlled by hand, and it doesn't have any ability to avoid obstacles. On the other hand, mech provided with the highest AI technology is able to function with just one attack or defence command.
 
-Full control of the mechs happens from the first person perspective (FPS mode). Instead of giving commands, player is able to operate the mech as accurately as possible. This includes moving, turning, aiming, weapon selection, firing and some other actions (see 3.3.2). Most of the important battles are made in FPS mode.
+Full control of the mechs happens from the first person perspective (FPS mode). Instead of giving commands, player is able to operate the mech as accurately as possible. This includes moving, turning, aiming, weapon selection, firing and some other actions (see 3.3.1). Most of the important battles are made in FPS mode.
 
 3.3	Rules
 This chapter explains the rules and core mechanics of the game. Implementation details are not covered here. All constants and properties required for balancing the game are left outside.
 
 3.3.1	Mech properties and actions
-Mech has several properties affecting the gameplay. For example speed, hitpoints, weapons and other available technologies. For more detailed explanation of technologies, see 3.3.3.
+Mech has several properties affecting the gameplay. For example speed, hitpoints, weapons and other available technologies. See 3.3.3 for more detailed explanation of technologies.
 
 From RTS mode, following commands can be given to mech:
 	- Move
@@ -24,7 +23,7 @@ From RTS mode, following commands can be given to mech:
 	- Patrol
 	- Select weapon
 	- Attack to target or use special weapon
-	- Build power distribution system (see 3.2.2.4)
+	- Build power distribution system (see 3.2.2.5)
 
 Mech can be fully controlled in FPS mode. This includes:
 	- Moving forward
@@ -44,7 +43,7 @@ Mech has following automatic operation modes (enabled by AI technologies, see 3.
 	- Defence mode
 
 3.3.2	Buildings and technology tree
-Game contains one set of buildings and technologies for player to use. However, different sets are used for enemies in single player game. These sets is called technology trees. Technology tree consists of buildings, and dependence relationships between buildings and technologies. Because technology trees are fully configurable by tools (see 7.1), and have to be balanced by tweaking, they are not defined in this document. However, there are several buildings and relationships common to all technology trees. Each building is defined by following properties:
+Game contains one set of buildings and technologies for player to use. However, different sets are used for enemies in single player game. These sets is called technology trees. Technology tree consists of buildings, and dependence relationships between buildings and technologies. Because technology trees are fully configurable by tools (see 7.3.1), and have to be balanced by tweaking, they are not defined in this document. However, there are several buildings and relationships common to all technology trees. Each building is defined by following properties:
 	- Cost in metals
 	- Cost in chemicals
 	- Power consumption
@@ -53,21 +52,21 @@ Game contains one set of buildings and technologies for player to use. However, 
 	- Audiovisual appearance
 	- Depencence relationships
 
-3.2.2.1	Command center
+3.3.2.1	Command center
 Command center is the main building of the game. It is required to build any other buildings. Resource distribution channels (see 3.2.2.2) must be connected to the command center in order to deliver resources.
 
-3.2.2.2	Resource gathering
+3.3.2.2	Resource gathering
 Each technology tree needs a buildings for producing energy. These buildings use negative power consumption property to indicate power producing. Each of these buildings increase the power storage capacity. When running with low power, resource gathering and defence systems are working slower. Additional flag (and possibly animations) are needed for buildings producing energy from lightnings.
 
 Distribution channels are needed for every technology tree as well. They are sort of a pipes from Command center to the metal or chemical occurrences. For collision checking, channel is considered as rough terrain (see movement area, 3.3.3). Channel consists of blocks, but visual appearance is a contunuous pipe. Two channels can be connected, and it's possible to have branches. Block of the channel can be destroyed as any other building, and unconnected channel doesn't deliver resources.
 
-3.2.2.3	Dock yard
+3.3.2.3	Dock yard
 Place for building, reparing and upgrading mechs. When mech is ordered to move to the Dock yard, it walks to the center of the building. After that it can be repaired or upgraded, if any upgrades are available and it has all required upgrades installed. Implementation note: repairing the mech should be much cheaper than building a new one.
 
-3.2.2.4	Defence of the base
-Each technology tree has special kind of buildings for defence, which are automatically firing at enemies nearby. Weapon is defined by additional property. Other important defence building is wall, cheap building with high hitpoints. While it's not necessary for all technology trees, it should be very common.
+3.3.2.4	Defence of the base
+Each technology tree has special kind of buildings for defence, which are automatically firing at enemies nearby. Weapon is defined by additional property. Another important defence building is wall, cheap building with high hitpoints. While it's not necessary for all technology trees, it should be very common.
 
-3.2.2.5	Power distribution system
+3.3.2.5	Power distribution system
 Buildings can only be constructed close to the other buildings. One action of the mech is build a power distribution system. This action is enabled, if all requirements for the building are fulfilled. Power distribution system makes it possible to build distant expansion bases. These are important for the gameplay, since the player is forced to scout for additional enemy resource gathering bases and defence centers.
 
 3.3.3	Technologies
@@ -118,12 +117,12 @@ To enable different kind of strategies, game contains four different technology 
 	- Tactical AI (enables automatic scout, attack and defence modes for mech)
 
 3.3.3.5	Upgrades
-When technology research has been completed, mechs aren't automatically able to use it. All mechs have to be upgraded one by one to get the advantages of the new technology (see 3.2.2.3). Some upgrades (weapons, shields) may increase the weight of the mech.
+When technology research has been completed, mechs aren't automatically able to use it. All mechs have to be upgraded one by one to get the advantages of the new technology (see 3.3.2.3). Some upgrades (weapons, shields) may increase the weight of the mech.
 
 In addition to the technology upgrades, size of the mech can be upgraded. Each technology tree defines certain number of size upgrades. Size has a linear impact to hitpoints.
 
 3.3.4	Weapons
-Like buildings and technology trees, game contains one set of weapons for player to use, but different sets are used for enemies in single player game. Weapons are fully configurable by tools (see 7.1), and need to be tweaked for balancing. Each weapon has following properties:
+Like buildings and technology trees, game contains one set of weapons for player to use, but different sets are used for enemies in single player game. Weapons are fully configurable by tools (see 7.3.1), and need to be tweaked for balancing. Each weapon has following properties:
 	- Technology cost in metals
 	- Technology cost in chemicals
 	- Technology research time
@@ -156,16 +155,15 @@ To complete single player mission, player has to accomplish mission objectives. 
 Victory can be achieved by accomplishing all the goals. In that case, game is ended instantly. Failing any goal will cause defeat. This will end the game in single player game, but in multiplayer game, if implemented, player is just dropped out of the game. In addition to victory and defeat, there is no scoring system.
 
 3.5	User interface
-[Map out the game procedures and controls: what does the player have to do? Use visual aids like control tables and flowcharts, along with detailed descriptions.]
 
 3.5.1	Controls
 
 3.5.1.1	RTS mode controls
-In RTS mode, everything can be done using the mouse. Screen is scrolled by moving cursor to the side of the screen or with arrow keys. One building or mech can be selected at the time by left clicking it, and it can be unselected by left clicking empty map or pressing esc. Shortcut can be binded to selected object by pressing ctrl + number key. Pressing binded number key will select that object later. If nothing is selected, all buildings are shown as a list of buttons in the Action list (see 3.5.2.2). Pushing the button will make the mouse cursor look like the building, and the building can be started by selecting (left clicking) an empty location for it. Building action can be cancelled by right clicking anywhere or pressing esc. If building is already started, it can be cancelled by selecting the building and left clicking "Cancel" button from the action menu or pressing esc.
+In RTS mode, everything can be done using the mouse. Screen is scrolled by moving cursor to the side of the screen or with arrow keys. One building or mech can be selected at the time by left clicking it, and it can be unselected by left clicking empty map or pressing esc. Shortcut can be binded to selected object by pressing ctrl + number key. Pressing binded number key will select that object later. If nothing is selected, all buildings are shown as a list of buttons in the Action list (see 3.5.2). Pushing the button will make the mouse cursor look like the building, and the building can be started by selecting (left clicking) an empty location for it. Building action can be cancelled by right clicking anywhere or pressing esc. If building is already started, it can be cancelled by selecting the building and left clicking "Cancel" button from the action menu or pressing esc.
 
-If building is selected, all technologies and upgrades from that building are shown as a list of buttons in the Action list. Buttons are disabled if the technology or upgrade is not available. When button is left clicked, item is added to the queue (see 3.5.2.3). If upgrade can be done several times (armour, speed, upper body turning and size upgrades, see 3.3.3), pushing the button again adds another upgrade to the queue.
+If building is selected, all technologies and upgrades from that building are shown as a list of buttons in the action list. Buttons are disabled if the technology or upgrade is not available. When button is left clicked, item is added to the action queue (see 3.5.2). If upgrade can be done several times (armour, speed, upper body turning and size upgrades, see 3.3.3), pushing the button again adds another upgrade to the queue.
 
-If the mech is selected, all actions and automatic operation modes are shown as a list of buttons in Action list. After selecting move, patrol, attack or building the power distribution system, destination of the action has to be selected by left clicking on the map. These actions can be cancelled by right clicking anywhere, or pressing esc. If shift key is being pressed while selecting the action, action will be appended to the queue. Otherwise selected action will be the only action in the queue. Patrol is an exception to this rule, anything appended to the queue will remove patrol from it (as it lasts "forever").
+If the mech is selected, all actions and automatic operation modes are shown as a list of buttons in action list. After selecting move, patrol, attack or building the power distribution system, destination of the action has to be selected by left clicking on the map. These actions can be cancelled by right clicking anywhere, or pressing esc. If shift key is being pressed while selecting the action, action will be appended to the queue. Otherwise selected action will be the only action in the queue. Patrol is an exception to this rule, anything appended to the queue will remove patrol from it (as it lasts "forever").
 
 Every action in the game has a shortcut key. For example, pressing 's' when mech is selected will stop the mech. Items from the queue can be cancelled and removed by left clicking the item. Queue has a fixed length, and new actions can't be selected while queue is full. Player can change to the FPS mode by double clicking the mech, pressing enter when mech is selected or pressed binded number key of the selected mech (after selection).
 
