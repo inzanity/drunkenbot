@@ -72,6 +72,8 @@ void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 		out = mBotSymbols[(aGameObj->type() >> KObjectTeamShift) & 3];
 	else if ((aGameObj->type() & KObjectTypeMask) == CGameObj::EObjectBullet)
 		out = mBulletSymbols[int((((const CMovingGameObj *)aGameObj)->movingDirection()) / PI * 4 + .5f) & 3];
+	else if ((aGameObj->type() & KObjectTypeMask) == CGameObj::EObjectWeapon)
+		out = '^';
 	if (mActiveBot)
 	{
 		if (!(mActiveBot->botAI()->mTilemap->getTile(x - mActiveBot->spawningXPos(), y - mActiveBot->spawningYPos()) & KTileFowMask))
