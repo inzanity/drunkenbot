@@ -197,7 +197,11 @@ void CDrawable::update(uint32 aTimeFactor)
 {
 	mPos += mSpeed * (float)aTimeFactor;
 	mXAngle += mXRotSpeed * aTimeFactor;
+	if (mXAngle > 2 * D3DX_PI) mXAngle -= 2 * D3DX_PI;
+	else if (mXAngle < 0) mXAngle += 2 * D3DX_PI;
 	mYAngle += mYRotSpeed * aTimeFactor;
+	if (mYAngle > 2 * D3DX_PI) mYAngle -= 2 * D3DX_PI;
+	else if (mYAngle < 0) mYAngle += 2 * D3DX_PI;
 }
 
 float CDrawable::radiusSqr() const
