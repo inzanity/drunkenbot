@@ -25,6 +25,10 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots, int aBotNum,
 				 list<CBulletInfo *> *aBulletList, list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
 {
+	mBotAI->resetAction();
+	if (mBotAI->mData)
+		delete mBotAI->mData;
+	mBotAI->mData = new CBotInfo(this, mSpawningPos.mX, mSpawningPos.mY);
 	std::list<CBulletInfo *>::iterator bulIter;
 	std::list<CWeaponInfo *>::iterator weaIter;
 	std::list<TVector>::iterator voiIter;
@@ -33,20 +37,25 @@ void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo
 	mBotAI->mTilemap->resetFogOfWar();
 	float dAngle = FOV / (2 * sqrt(aWidth * aWidth + aHeight * aHeight) * tan(FOV / 2.f));
 	scanTilemap(aTilemap, dAngle);
-	for (int i = 0; i < aBotNum; i++)
-		if (aBots[i]->type() != mType && !(aTilemap[int(aBots[i]->yPos())][int(aBots[i]->yPos())] & 0x80))
-			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mPos.mX, mPos.mY, mType));
+	for (int i = 0; aBots[i]; i++)
+	{
+		int j = 5;
+		if (aBots[i]->type() != mType && !(mBotAI->mTilemap->getTile(int(aBots[i]->xPos() - mSpawningPos.mX), int(aBots[i]->yPos() - mSpawningPos.mY)) >> 7))
+		{
+			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mSpawningPos.mX, mSpawningPos.mY, mType));
+		}
+	}
 	for (weaIter = aWeaponList->begin(); weaIter != aWeaponList->end(); weaIter++)
 		if (!(aTilemap[int((*weaIter)->yPos())][int((*weaIter)->xPos())] & 0x80))
-			mBotAI->mWeapons.push_front(new CVisibleWeaponInfo(*weaIter, mPos.mX, mPos.mY));
+			mBotAI->mWeapons.push_front(new CVisibleWeaponInfo(*weaIter, mSpawningPos.mX, mSpawningPos.mY));
 
 	for (bulIter = aBulletList->begin(); bulIter != aBulletList->end(); bulIter++)
 		if (!(aTilemap[int((*bulIter)->yPos())][int((*bulIter)->xPos())] & 0x80))
-			mBotAI->mBullets.push_front(new CVisibleBulletInfo(*bulIter, mPos.mX, mPos.mY));
+			mBotAI->mBullets.push_front(new CVisibleBulletInfo(*bulIter, mSpawningPos.mX, mSpawningPos.mY));
 
 	for (voiIter = aVoices->begin(); voiIter != aVoices->end(); voiIter++)
 		if (!(aTilemap[int((*voiIter).mY)][int((*voiIter).mX)] & 0x80))
-			mBotAI->mSourcesOfNoise.push_front(atan2((*voiIter).mY - mBotAI->mData.yPos(), (*voiIter).mX - mBotAI->mData.xPos()));
+			mBotAI->mSourcesOfNoise.push_front(atan2((*voiIter).mY - mPos.mY, (*voiIter).mX - mPos.mX));
 
 	mBotAI->think();
 
@@ -107,6 +116,10 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		}
 		if (mMovingDirection >= 2 * PI)
 			mMovingDirection -= 2 * PI;
+	}
+	else
+	{
+		mVelocity = 0;
 	}
 	mBotAction = (TBotAction)(mBotAI->action() & (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon));
 	if (mBotAction == EActionShoot && mWeapon->shoot())
