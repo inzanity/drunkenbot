@@ -3,7 +3,7 @@
 
 #include "gameObj.h"
 
-enum TMechMessage{EMsgMove, EMsgTurnAround};
+enum TMechMessage{EMsgMechMove, EMsgMechTurnAround, EMsgMechLast};
 
 class CMech : public CDrawable
 {

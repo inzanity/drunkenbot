@@ -91,7 +91,7 @@ bool CGame::init()
 bool CGame::loop()
 {
 	LPDIRECT3DDEVICE9 device = d3dObj->mD3DDevice;
-	mTime += 30; // TODO: Real timing system
+	mTime += 10; // TODO: Real timing system
 	device->Clear(0,0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
 
 	mMsgList.sendMessages(mTime);

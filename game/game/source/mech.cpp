@@ -1,13 +1,14 @@
 #include "../include/game.h"
 #include "../include/animationStorage.h"
 
+
 #define GRAVITY 0.05f
 
 CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
-	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/bones_move.x"), 1.f, aPos, aOrientation)
+	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/teppo.x"), 1.f, aPos, aOrientation)
 {
 	D3DXQuaternionRotationYawPitchRoll(&mOrientation, 0.5f, 0, 0);
-	game->sendMessage(EMsgMove, this, 0, 0, 0);
+	game->sendMessage(EMsgMechMove, this, 0, 0, 0);
 	mSize = 2;
 }
 
@@ -30,18 +31,17 @@ void CMech::handleMessage(CMessage *aMsg)
 	D3DXVECTOR4 out;
 	switch (aMsg->mMsg)
 	{
-	case EMsgMove:
+	case EMsgMechMove:
 		D3DXMatrixRotationQuaternion(&mat, &mOrientation);
-		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, 0.002f), &mat);
+		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, .002f), &mat);
 		D3DXQuaternionIdentity(&mRotSpeed);
 		mSpeed = (D3DXVECTOR3)out;
-		game->sendMessage(EMsgTurnAround, this, aMsg->mParam1, 0, 30000);
+		game->sendMessage(EMsgMechTurnAround, this, 0, 0, 20000);
 		break;
-	case EMsgTurnAround:
-		float dir = 0.5f + (aMsg->mParam1 == 0 ? 0 : 2 * 3.14f);
+	case EMsgMechTurnAround:
 		mSpeed = D3DXVECTOR3(0, 0, 0);
-		D3DXQuaternionRotationYawPitchRoll(&mRotSpeed, dir/2000.f, 0, 0);
-		game->sendMessage(EMsgMove, this, 1 - aMsg->mParam1, 0, 2000);
+		D3DXQuaternionRotationYawPitchRoll(&mRotSpeed, 3.1415/2000.f, 0, 0);
+		game->sendMessage(EMsgMechMove, this, 0, 0, 2000);
 		break;
 	}
 }
