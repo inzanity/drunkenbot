@@ -1,4 +1,4 @@
-/** @file bot.h
+/** @file graphicsengine.h
  * Definition of IGraphicsEngine.
  * All general graphics related stuff. 
  *
