@@ -5,7 +5,10 @@
 // CBulletInfo
 
 CBulletInfo::CBulletInfo(float aXPos, float aYPos, float aDirection, CBotInfo *aShooter) :
-	CMovingGameObj(EObjectBullet | (aShooter->weapon()->weaponType() << KObjectIndexShift)), mShooter(aShooter)
+	CMovingGameObj(EObjectBullet | (aShooter->weapon()->weaponType() << KObjectIndexShift)), mShooter(aShooter),
+	mExplosionSpeed(aShooter->weapon()->explosionSpeed()), mExplosionRadius(aShooter->weapon()->explosionRadius()),
+	mDamage(aShooter->weapon()->damage())
+
 {
 	mPos.mX = aXPos;
 	mPos.mY = aYPos;
