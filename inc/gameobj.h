@@ -77,20 +77,31 @@ public:
 
 protected:
 	/**
-	 * Move object according to its velocity and direction.
+	 * Moves object according to its velocity and direction.
 	 * @param aTimeFactor Time interval to move object.
 	 */
 	void move(float aTimeFactor);
 
 	/**
-	 * Check collisions and calculate time factor for moving.
+	 * Checks collisions and calculates time factor for moving.
 	 * Time factor is 1.0, if no collisions are detected. In a case of collision
 	 * both objects are handled using handleCollision().
 	 * @param aTileMap Tilemap to detect collisions. Bots can collide with walls and obstacles,
 	 *        while bullets can collide only with walls.
 	 * @param aBots List of all bots.
 	 */
-	void chkCollision(char **aTileMap, CBotInfo **aBots);
+	void chkCollision(const char **aTileMap, CBotInfo **aBots);
+
+	/**
+	 * Raycaster to scan visible tiles. Can be used to check collisions with walls.
+	 * @param aSrcTileMap Full tilemap to read tiles for scanning.
+	 * @param aAngle Moving direction for casted ray.
+	 * @param aDstTileMap Tilemap to write visible tiles. NULL to disable vision scanning
+	 *		  (with collision detection).
+	 * @param aXPos X position of the detected collision.
+	 * @param aYPos X position of the detected collision.
+	 */
+	void scanTileMap(const char **aSrcTileMap, float aAngle, CTileMap *aDstTileMap, float &aXPos, float &aYPos);
 
 	/** Collision handling.  */
 	virtual void handleCollision(int aType) = 0;
