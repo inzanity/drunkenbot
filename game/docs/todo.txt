@@ -1,0 +1,9 @@
+chapter 8 dokkariin
+kuvat interface-kohdassa ei näy (kuvia ei varmaan kopioida oikeeseen paikkaan?)
+kirjotusvirheet!!
+design history (palautettava versio on 1.0, ja muutokset kirjataan vasta siitä eteenpäin)
+controls kappaleeseen maininta, että näppäimet default asetuksia, ja täysin conffattavissa (jos niin halutaan)
+multiplayer on mainittu monessa kohtaa, pitäis tehdä selväks että se on jatkokehitysidea
+tietokonevastustajan korkean tason strategical ai:sta pitäs kertoo jotain.. siitä tehään aika simppeli (jatkokehitysidea: parempi ai)
+size/weight jutut jäi säännöissä epäselviks (kokoa päivitetään, painoon vaikuttaa myös suojat ja aseet?)
+päätin että energiaa kerätään vaan 24h voimaloista tai yösähköstä. ei aurinkovoimaloita (mun mielestä vaan haittaa). onko ok?
