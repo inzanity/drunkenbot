@@ -60,7 +60,7 @@ float CGameObj::animationTimer() const
 
 // CMovingGameObj
 
-const float CMovingGameObj::mEpsilon = 0.00001f;
+const float CMovingGameObj::mEpsilon = 0.0001f;
 
 CMovingGameObj::CMovingGameObj(int aType) : CGameObj(aType), mVelocity(0), mMovingDirection(0), mCollisionDetected(false),
 											mMovingTimeFactor(1.f)
@@ -86,11 +86,6 @@ float CMovingGameObj::velocity() const
 float CMovingGameObj::movingDirection() const
 {
 	return mMovingDirection;
-}
-
-void CMovingGameObj::resetTimeFactor()
-{
-	mMovingTimeFactor = 1.f;
 }
 
 void CMovingGameObj::move(float aTimeFactor)
@@ -136,7 +131,7 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 			handleCollision(15);
 	}
 
-	xSpeed += .0001f;
+	xSpeed += mEpsilon;
 	int i;
 	for (i = 0; aBots[i]; i++)
 	{
@@ -189,6 +184,7 @@ bool CMovingGameObj::update()
 	move(mMovingTimeFactor);
 	if (mCollisionDetected)
 		mVelocity = 0;
+	mMovingTimeFactor = 1.f;
 	return true;
 }
 
@@ -211,8 +207,8 @@ float CMovingGameObj::getNextEdge(TVector aPos, TVector aSpeed)
 	float dX = aSpeed.mX < 0 ? floorf(aPos.mX) - aPos.mX : 1.f - aPos.mX + floorf(aPos.mX);
 	float dY = aSpeed.mY < 0 ? floorf(aPos.mY) - aPos.mY : 1.f - aPos.mY + floorf(aPos.mY);
 
-	if (dX == 0) dX = (aSpeed.mX < 0 ? -1.f : 1.f);
-	if (dY == 0) dY = (aSpeed.mY < 0 ? -1.f : 1.f);
+	if (dX == 0 && aSpeed.mX >= 0) dX = 1.f;
+	if (dY == 0 && aSpeed.mY >= 0) dY = 1.f;
 
 	float xTime = dX / aSpeed.mX, yTime = dY / aSpeed.mY;
 
