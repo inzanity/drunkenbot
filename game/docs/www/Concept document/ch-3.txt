@@ -31,7 +31,9 @@ Mech can be fully controlled in FPS mode. This includes:
 	- Moving backward
 	- Turning
 	- Turning the upper part of the mech, including vision and weapons
-	- All actions from RTS mode
+	- Select weapon
+	- Attack or use special weapon
+	- Build power distribution system
 
 Mech has following automatic operation modes (enabled by AI technologies, see 3.3.3):
 	- Manual mode
@@ -55,7 +57,7 @@ Game contains one set of buildings and technologies for player to use. However, 
 Command center is the main building of the game. It is required to build any other buildings. Resource distribution channels (see 3.2.2.2) must be connected to the command center in order to deliver resources.
 
 3.2.2.2	Resource gathering
-Each technology tree needs a buildings for producing energy. These buildings use negative power consumption property to indicate power producing. Each of these buildings increase the power storage capacity. Additional flag (and possibly animations) are needed for buildings producing energy from lightnings.
+Each technology tree needs a buildings for producing energy. These buildings use negative power consumption property to indicate power producing. Each of these buildings increase the power storage capacity. When running with low power, resource gathering and defence systems are working slower. Additional flag (and possibly animations) are needed for buildings producing energy from lightnings.
 
 Distribution channels are needed for every technology tree as well. They are sort of a pipes from Command center to the metal or chemical occurrences. For collision checking, channel is considered as rough terrain (see movement area, 3.3.3). Channel consists of blocks, but visual appearance is a contunuous pipe. Two channels can be connected, and it's possible to have branches. Block of the channel can be destroyed as any other building, and unconnected channel doesn't deliver resources.
 
@@ -71,7 +73,7 @@ Buildings can only be constructed close to the other buildings. One action of th
 3.3.3	Technologies
 To enable different kind of strategies, game contains four different technology branches. These branches are not exclusive, but having the most advanced technologies usually requires developing the whole branch. Each technology has cost in metals, cost in chemicals and research time.
 
-3.3.3.1	Movement
+3.3.3.1	Movement branch
 	- Movement area
 		- Basic movement, plain terrain (default)
 		- Advanced movement, rough terrain
@@ -84,7 +86,7 @@ To enable different kind of strategies, game contains four different technology 
 		- Certain number of upgrades
 			- Linear impact to the maximum turning angle
 			- Maximum of 180 degrees, which enables full turning
-3.3.3.2	Attack
+3.3.3.2	Attack branch
 	- Collection of weapons. Example collection could look like this:
 		- Chain saw
 		- Minigun
@@ -95,17 +97,17 @@ To enable different kind of strategies, game contains four different technology 
 		- Homing missile
 		- EMP Shockwave
 
-3.3.3.3	Defence
+3.3.3.3	Defence branch
 	- Armour
 		- Certain number of piercing armour upgrades
 		- Certain number of explosion armour upgrades
 			- Both damage types can be reduced by some percentage value
 			- The impact gets smaller and smaller with every upgrade (of that type)
-		- Defence mechanism for homing missiles
-		- EMP defence system
-		- Landmine detector
+	- Defence mechanism for homing missiles
+	- EMP defence system
+	- Landmine detector
 
-3.3.3.4	Technology
+3.3.3.4	Technology branch
 	- Radar (spinning radar with short radius and delayed detection)
 	- Machine vision (detect enemy mechs, usually required for pathfinding and autoaiming)
 	- Path finding
@@ -150,26 +152,46 @@ To complete single player mission, player has to accomplish mission objectives. 
 	- Destroy targets (buildings or mechs)
 	- Get to the target (area, building or mech)
 
-3.4.4	End conditions and scoring system
+3.4.4	End conditions
 Victory can be achieved by accomplishing all the goals. In that case, game is ended instantly. Failing any goal will cause defeat. This will end the game in single player game, but in multiplayer game player is just dropped out of the game.In addition to victory and defeat, there is no scoring system.
 
-3.5	Controls and feedback
+3.5	User interface
 [Map out the game procedures and controls: what does the player have to do? Use visual aids like control tables and flowcharts, along with detailed descriptions.]
 
-3.5.1	Interfaces
+3.5.1	Controls
+
+3.5.1.1	RTS mode controls
+In RTS mode, everything can be done using the mouse. Screen is scrolled by moving cursor to the side of the screen or with arrow keys. One building or mech can be selected at the time by left clickin it, and it can be unselected by left clicking empty map or pressing esc. Shortcut can be binded to selected object by pressing ctrl + number key. Pressing binded number key will select that object later. If nothing is selected, all buildings are shown as a list of buttons in the Action box (see 3.5.2.2). Pushing the button will make the mouse cursor look like the building, and the building can be started by selecting (left clicking) an empty location for it. Building action can be cancelled by right clicking anywhere or pressing esc. If building is already started, it can be cancelled by selecting the building and left clicking "Cancel" button from the action menu or pressing esc.
+
+If building is selected, all technologies and upgrades from that building are shown as a list of buttons in the Action box. Buttons are disabled, if the technology or upgrade is not available. When button is left clicked, item is added to the queue (see 3.5.2.3). If upgrade can be done several times (armour, speed, upper body turning and size upgrades, see 3.3.3), pushing the button again adds another upgrade to the queue.
+
+If the mech is selected, all actions and automatic operation modes are shown as a list of buttons in Action box. After selecting move, patrol, attack or building the power distribution system, destination of the action has to be selected by left clicking on the map. These actions can be cancelled by right clicking anywhere, or pressing esc. If shift key is being pressed while selecting the action, action will be appended to the queue. Otherwise selected action will be the only action in the queue. Patrol is an exception to this rule, anything appended to the queue will remove patrol from it (as it lasts "forever").
+
+Every action in the game has a shortcut key. For example, pressing 's' when mech is selected will stop the mech. Items from the queue can be cancelled and removed by left clicking the item. Queue has a fixed length, and new actions can't be selected while queue is full. Player can change to the FPS mode by double clicking the mech, pressing enter when mech is selected or pressed binded number key of the selected mech (after selection).
+
+3.5.1.2	FPS mode controls
+Controlling the mech requires both the mouse and the keyboard. Upper body can be turned using mouse. Pressing 'w' key moves the mech forwards, and 's' moves it backwards. Turning of the mech can be done with 'a' and 'd' keys. Left mouse button is used for shooting, right mouse button for changing weapon. There are shortcut keys for automatic operation modes, and for building the power distribution system. If scout, attack or defence automatic operation mode is selected, moving the mech manually returns it to autofire mode. Pressing esc or binded shortcut number returns the game to the RTS mode.
+
+3.5.2	Interfaces
 [Create wireframes for every interface the artists will need to create. Along with each wireframe should be a description of how it functions. Detail out the various stages for each interface.]
 
-3.5.2	Feedback
-[Describe ways of how the player gets feedback from his actions.]
+3.5.3	Feedback
+Few lines of text can be shown on the screen. Following information or warnings can be displayed:
+	- Player is trying to do something illegal
+	- Building or mech is under attack
+	- Building, technology or upgrade has completed
+	- Warning for low power
+	- Information related to mission objectives
+	- Messages written by players
+Sounds are also used to give feedback to the player.
 
 3.6	Modes and other features
-[Describe the different modes or other features that will affect the implementation of the gameplay.]
 
 3.6.1	Multiplayer experience
-[What community related features are there? How does communication between players take place?]
+In multiplayer game, players can communicate by writing messages (see 3.5.3). 
 
 3.6.2	Saving and resuming
-[Explain how the game situation can be saved and resumed.]
+In single player game, player is able to skip passed levels and continue playing the level where he was before. Game can not be saved during the mission.
 
 3.7	Levels
 [Describe the designs for each level. Describe in what ways the levels differ. What transitions are there between levels (e.g. cut-scenes)? If there are no levels as such, describe ways in which the player can get a breather.]
