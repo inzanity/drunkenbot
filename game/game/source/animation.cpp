@@ -59,7 +59,10 @@ void CMeshAnimation::restore(const char *aFileName)
 
 uint32 CMeshAnimation::getDuration()
 {
-	return 0; //mAnimController->;
+	LPD3DXANIMATIONSET set;
+	mAnimController->GetTrackAnimationSet(0, &set);
+	double period = set->GetPeriod();
+	return (uint32)(period * 1000.f);
 }
 
 void CMeshAnimation::drawFrame(LPD3DXFRAME aFrame)
@@ -108,16 +111,6 @@ void CMeshAnimation::drawMeshContainer(LPD3DXMESHCONTAINER aMeshContainerBase, L
 		meshContainer->mSkinnedMesh->UnlockVertexBuffer();
 		meshContainer->MeshData.pMesh->UnlockVertexBuffer();
 		// Draw all subsets
-/*		for (i = 0; i < meshContainer->NumMaterials; i++)
-		{
-			device->SetMaterial(&meshContainer->pMaterials[i].MatD3D);
-			if (meshContainer->mTextures[i])
-				device->SetTexture(0, *meshContainer->mTextures[i]);
-			else
-				device->SetTexture(0, NULL);
-			meshContainer->mSkinnedMesh->DrawSubset(i);
-		}
-*/
 		for (i = 0; i < meshContainer->mNumAttributeGroups; i++)
         {
 			int id = meshContainer->mAttributeTable[i].AttribId;
