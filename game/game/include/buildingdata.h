@@ -44,8 +44,8 @@ public:
 	int getTechnologyMask() const;
 
 private:
-	char *mAnimation;
-	char *mConstructAnimation;
+	MAnimation *mAnimation;
+	MAnimation *mConstructAnimation;
 	int mHitpoints;
 	int mPrice;
 	int mTechnologyMask;

@@ -1,5 +1,5 @@
 
-#include "buildingdata.h"
+#include "../include/buildingdata.h"
 
 CBuildingData::CBuildingData(const MAnimation *aAnimation, const MAnimation *aConstructAnimation, int aHitpoints, int aPrice, int aTechnologyMask) :
 	mAnimation(aAnimation), mConstructAnimation(aConstructAnimation), mHitpoints(aHitpoints), mPrice(aPrice), mTechnologyMask(aTechnologyMask)
