@@ -22,9 +22,11 @@ public:
 	void			scroll			(float aRight, float aUp);
 	CGameObjPtr		targetObj		() const;
 	TGameMode		gameMode		() const;
+	const D3DXMATRIX *transformation() const;
 protected:
 	TGameMode		mMode;
 
+	D3DXMATRIX		mTransformation;
 	D3DXVECTOR3		mPos, mSpeed;
 	D3DXQUATERNION	mOrientation;//, mRotSpeed;
 

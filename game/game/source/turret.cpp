@@ -41,8 +41,8 @@ void CTurret::handleMessage(CMessage *aMsg)
 		for (i = 0; i < game->mMechs.size(); i++)
 		{
 			temp	= *game->mMechs.object(i)->pos();
-			temp.x	-= mPos.x; temp.y	-= mPos.y; temp.z	-= mPos.z;
-			if (sqrt((temp.x*temp.x)+(temp.y*temp.y)+(temp.z*temp.z)) < 10)
+			temp -= mPos;
+			if (sqrt(D3DXVec3Dot(&temp, &temp)) < 10)
 			{
 				mTargetAngle	= (float)atan2f(temp.z, temp.x) + D3DX_PI;
 				game->sendMessage(EMsgActivate, this, 0, 0, 0);

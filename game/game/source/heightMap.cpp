@@ -1,5 +1,6 @@
 #include "../include/heightMap.h"
 #include "../include/animationStorage.h"
+#include "../include/game.h"
 
 inline D3DCOLOR lerp(D3DCOLOR x, D3DCOLOR y, float s);
 
@@ -192,9 +193,8 @@ D3DXVECTOR3 CHeightMap::mouseCoords(int aMouseX, int aMouseY)
 	v.z =  1.0f;
 
 	// Get the inverse view matrix
-	D3DXMATRIX matView, m;
-	d3dObj->mD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-	D3DXMatrixInverse(&m, NULL, &matView);
+	D3DXMATRIX m;
+	D3DXMatrixInverse(&m, NULL, game->mCam->transformation());
 
 	// Transform the screen space pick ray into 3D space
 	D3DXVECTOR3 dir, pos;

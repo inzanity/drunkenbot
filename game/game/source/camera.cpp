@@ -131,10 +131,12 @@ void CCamera::transform(uint32 aTimeFactor)
 			mSpeed.z = 0;
 	}
 	// Transformation
+	D3DXMatrixTranslation(&mTransformation, -mPos.x, -mPos.y, -mPos.z);
+	D3DXMATRIX rotation;
 	D3DXQuaternionToAxisAngle(&mOrientation, &vec, &angle);
-	d3dObj->mMatrixStack->LoadIdentity();
-	d3dObj->mMatrixStack->Translate(-mPos.x, -mPos.y, -mPos.z);
-	d3dObj->mMatrixStack->RotateAxis(&vec, -angle);
+	D3DXMatrixRotationAxis(&rotation, &vec, -angle);
+	mTransformation *= rotation;
+	d3dObj->mMatrixStack->LoadMatrix(&mTransformation);
 }
 
 void CCamera::setRTSMode()
@@ -205,4 +207,9 @@ CGameObjPtr CCamera::targetObj() const
 TGameMode CCamera::gameMode() const
 {
 	return mMode;
+}
+
+const D3DXMATRIX *CCamera::transformation() const
+{
+	return &mTransformation;
 }

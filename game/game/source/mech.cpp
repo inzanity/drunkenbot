@@ -1,3 +1,4 @@
+#include "../include/mech.h"
 #include "../include/game.h"
 #include "../include/animationStorage.h"
 
@@ -10,7 +11,8 @@ CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION 
 	mUpperBodyAngleY(0), mUpperBodyAngleXSpeed(0), mUpperBodyAngleYSpeed(0), mFPSMode(false),
 	mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true),
 	mMaxUpperBodyAngleX(.5f), mMaxUpperBodyAngleY(.5f),
-	mMaxUpperBodyAngleXSpeed(0.08f), mMaxUpperBodyAngleYSpeed(0.08f)
+	mMaxUpperBodyAngleXSpeed(0.08f), mMaxUpperBodyAngleYSpeed(0.08f),
+	mMoveToDest(false)
 {
 	const TBox *box = mAnimation->getBoundingBox();
 	mUBPos = D3DXVECTOR3(0, box->mMax.y, 0);
@@ -35,27 +37,26 @@ void CMech::externalize(ostream &aStream)
 
 void CMech::handleMessage(CMessage *aMsg)
 {
-	D3DXMATRIX mat;
-	D3DXVECTOR4 out;
 	switch (aMsg->mMsg)
 	{
 	case EMsgMechMove:
-		D3DXMatrixRotationQuaternion(&mat, &mOrientation);
-		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, .002f), &mat);
-		D3DXQuaternionIdentity(&mRotSpeed);
-		mSpeed = (D3DXVECTOR3)out;
-		game->sendMessage(EMsgMechTurnAround, this, 0, 0, 20000);
-		break;
-	case EMsgMechTurnAround:
-		mSpeed = D3DXVECTOR3(0, 0, 0);
-		D3DXQuaternionRotationYawPitchRoll(&mRotSpeed, 3.1415f/2000.f, 0, 0);
-		game->sendMessage(EMsgMechMove, this, 0, 0, 2000);
+		mDestPos.x = *(float *)&aMsg->mParam1; mDestPos.z = *(float *)&aMsg->mParam1;
+		mDestPos.y = game->mHeightMap->height(mDestPos.x, mDestPos.z);
+		mMoveToDest = true;
 		break;
 	}
 }
 
 void CMech::update(uint32 aTimeFactor)
 {
+	if (mMoveToDest)
+	{
+		float destAngle = atan2f(mDestPos.x - mPos.x, mDestPos.z - mPos.z);
+		float angle;
+		D3DXVECTOR3 vec;
+		D3DXQuaternionToAxisAngle(&mOrientation, &vec, &angle);
+		if (vec.y < 0) angle = 2 * D3DX_PI - angle;
+	}
 	CDrawable::update(aTimeFactor);
 	addUpperBodyAngle(aTimeFactor * mUpperBodyAngleXSpeed / 100.f, aTimeFactor * mUpperBodyAngleYSpeed / 100.f);
 	float h = game->mHeightMap->height(mPos.x, mPos.z);

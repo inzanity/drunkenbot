@@ -6,11 +6,12 @@
 #include "camera.h"
 #include "message.h"
 #include "heightMap.h"
-//#include "pathFinder.h"
+#include "pathFinder.h"
 #include "messageBox.h"
 #include "rtsModeUI.h"
 #include "fpsModeUI.h"
 #include "building.h"
+#include "player.h"
 
 enum TObjectType{ETypeBuilding, ETypeMech, ETypeExplosion, ETypeCamera, ETypeNone};
 
@@ -35,6 +36,7 @@ private:
 
 public:
 	CHeightMap *mHeightMap;
+	CIndexList<CDrawable> mExplosions;
 	CIndexList<CDrawable> mBuildings;
 	CIndexList<CMech> mMechs;
 	CCamera *mCam;
@@ -42,8 +44,11 @@ public:
 	CFPSModeUI *mFPSModeUI;
 	CMessageBox *mMessageBox;
 private:
+	CPlayer **mPlayers;
+	int mNumPlayers;
+	int mPlayer;
 	list<MGameObj *> mDestroyList;
-//	CPathFinder *mPathFinder;
+	CPathFinder *mPathFinder;
 	CMessageList mMsgList;
 	uint32 mTime;
 	uint16 mNewId;

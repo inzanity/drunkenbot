@@ -10,7 +10,7 @@ inline DWORD FtoDW(FLOAT f) {return *((DWORD*)&f);}
 
 CGame *game = NULL;
 
-CGame::CGame() : mBuildings(64), mMechs(32), mTime(0), mNewId(0), mPrevTime(timeGetTime()), mShowFPS(1)
+CGame::CGame() : mBuildings(64), mMechs(32), mExplosions(32), mTime(0), mNewId(0), mPrevTime(timeGetTime()), mShowFPS(1)
 {
 	game = this;
 }
@@ -34,7 +34,7 @@ bool CGame::init()
 	device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(1.0f));
     device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
     device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-//	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CW);
+	device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
     D3DLIGHT9 light;
     D3DXVECTOR3 vecLightDirUnnormalized(0.0f, -1.0f, 0.4f);
@@ -55,8 +55,13 @@ bool CGame::init()
     device->SetLight(0, &light);
     device->LightEnable(0, TRUE);
 
+	mNumPlayers = 2;
+	mPlayers = new CPlayer *[mNumPlayers];
+	mPlayers[0] = new CPlayer(NULL, 0);
+	mPlayers[1] = new CPlayer(NULL, 0);
+	mPlayer = 0;
 	mHeightMap = new CHeightMap("data/map.bmp");
-	mRTSModeUI = new CRTSModeUI();
+	mRTSModeUI = new CRTSModeUI(mPlayers[mPlayer]);
 	mFPSModeUI = new CFPSModeUI();
 
 	// Set the projection matrix
@@ -73,7 +78,7 @@ bool CGame::init()
 //	mCam = new CCamera(getNewGameObjectPtr(ETypeCamera), 10, 54, -2, 39, &D3DXVECTOR3(32, 25, -5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
 	mCam = new CCamera(getNewGameObjectPtr(ETypeCamera), 10, 54, -4, 39, &D3DXVECTOR3(10, 20, 0), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
 
-//	mPathFinder			= new CPathFinder(mHeightMap->mesh());
+	mPathFinder			= new CPathFinder(mHeightMap->mesh());
 
 	anim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/flame_small.lua");
 	CDrawable *fire		= new CDrawable(getNewGameObjectPtr(ETypeBuilding), anim, 1.f, &D3DXVECTOR3(2, mHeightMap->height(2, 6), 6), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
@@ -189,7 +194,12 @@ bool CGame::loop()
 //		mMessageBox->addMessage(temp, mTime + 20*10);
 		mShowFPS = 1;
 	}
+
 	mMessageBox->draw(mTime);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	for (i = mExplosions.first(); i != mExplosions.end(); i = mExplosions.mTable[i].mNext)
+		mExplosions.mTable[i].mObj->draw(10);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 
 	device->EndScene();
 	d3dObj->flip();

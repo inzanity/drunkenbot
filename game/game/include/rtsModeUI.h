@@ -3,17 +3,24 @@
 
 #include "gameUI.h"
 #include "texture.h"
+#include "player.h"
+
+enum MenuItem{ITEM_NONE, ITEM_BUILDING, ITEM_MOVE, ITEM_PATROL, ITEM_ATTACK, ITEM_STOP, ITEM_SELECT_WEAPON, ITEM_SELECT_MODE};
+enum MechCommands{MECH_MOVE, MECH_PATROL, MECH_ATTACK, MECH_STOP, NUM_MECH_COMMANDS};
 
 class CRTSModeUI : public MGameUI
 {
 public:
-	CRTSModeUI();
+	CRTSModeUI(const CPlayer *aPlayer);
 	~CRTSModeUI();
 
 	void draw(uint32 aTime);
 	void handleInput();
 	void activate(CGameObjPtr aTarget);
 private:
+	int getNumMenuItems();
+private:
+	const CPlayer *mPlayer;
 	bool mActive;
 	int mCounter;
 	CGameObjPtr mSelected;
@@ -21,7 +28,13 @@ private:
 	ID3DXSprite *mSprite;
 	CTexture *mMouseCursor;
 	CTexture *mMenuTexture;
+	CTexture *mMechCommandTextures[NUM_MECH_COMMANDS];
+	CTexture *mCancelTexture;
 	IDirect3DTexture9 *mMinimapTexture;
+	int mQueuePos;
+	int mMenuPos;
+	MenuItem mSelectedMenuItem;
+	int mSelectedMenuItemIndex;
 };
 
 #endif // RTSMODEUI_H
