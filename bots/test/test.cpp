@@ -50,9 +50,9 @@ void CTestAI::think()
 		if (fabs(angle) > PI / 20 && action() == EActionNone)
 		{
 			if  (angle < 0)
-				turn(ETurnRight);
-			else
 				turn(ETurnLeft);
+			else
+				turn(ETurnRight);
 		}
 		else
 			if (pow2(target->yPos() - mData->yPos()) + pow2(target->xPos() - mData->xPos()) < 49)

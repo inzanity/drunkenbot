@@ -113,9 +113,9 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 	if (mBotAI->action() & EActionTurn)
 	{
 		if (mBotAI->turningDir() == CBotAI::ETurnLeft)
-			mOrientation += KTurnSpeed;
-		else if (mBotAI->turningDir() == CBotAI::ETurnRight)
 			mOrientation -= KTurnSpeed;
+		else if (mBotAI->turningDir() == CBotAI::ETurnRight)
+			mOrientation += KTurnSpeed;
 		if (mOrientation < 0)
 			mOrientation += 2 * PI;
 		else if (mOrientation >= 2 * PI)
