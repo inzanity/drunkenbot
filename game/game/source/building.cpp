@@ -2,8 +2,8 @@
 #include "../include/message.h"
 
 CBuilding::CBuilding(CGameObjPtr aObjPtr, CBuildingData *aBuildingData, bool aReady,
-					 const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
-	CDrawable(aObjPtr, NULL, 1.f, aPos, aOrientation), 
+					 const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle) :
+	CDrawable(aObjPtr, NULL, 1.f, aPos, aXAngle, aYAngle), 
 	mBuildingData(aBuildingData), mHitpoints(aBuildingData->getHitpoints())
 {
 	if (aReady)

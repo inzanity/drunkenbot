@@ -64,6 +64,14 @@ CGameObjPtr MGameObj::objectPtr()
 
 // MColliding
 
+MColliding::MColliding(CGameObjPtr aObjPtr) : MGameObj(aObjPtr)
+{
+}
+
+MColliding::MColliding(istream &aStream) : MGameObj(aStream)
+{
+}
+
 MColliding::~MColliding()
 {
 }
@@ -75,17 +83,17 @@ void MColliding::checkCollision(MColliding *aObj)
 // CDrawable
 
 CDrawable::CDrawable(CGameObjPtr aObjPtr, MAnimation *aAnim,
-					 float aAnimSpeed, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
-	MGameObj(aObjPtr), mPos(*aPos), mSpeed(0, 0, 0), mOrientation(*aOrientation), mRotSpeed(0, 0, 0, 1)
+					 float aAnimSpeed, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle) :
+	MColliding(aObjPtr), mPos(*aPos), mSpeed(0, 0, 0), mXAngle(aXAngle), mYAngle(aYAngle), mXRotSpeed(0), mYRotSpeed(0)
 {
 	setAnimation(aAnim, aAnimSpeed);
 }
 
-CDrawable::CDrawable(CGameObjPtr aObjPtr) : MGameObj(aObjPtr)
+CDrawable::CDrawable(CGameObjPtr aObjPtr) : MColliding(aObjPtr)
 {
 }
 
-CDrawable::CDrawable(istream &aStream) : MGameObj(aStream)
+CDrawable::CDrawable(istream &aStream) : MColliding(aStream)
 {
 }
 
@@ -101,11 +109,8 @@ void CDrawable::draw(uint32 aTimeFactor)
 {
 	d3dObj->mMatrixStack->Push();
 
-	D3DXVECTOR3 vec;
-	float angle;
 	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
-	D3DXQuaternionToAxisAngle(&mOrientation, &vec, &angle);
-	d3dObj->mMatrixStack->RotateAxisLocal(&vec, angle);
+	d3dObj->mMatrixStack->RotateYawPitchRollLocal(mYAngle, mXAngle, 0);
 
 	mAnimTime += (uint32)(aTimeFactor * mAnimSpeed);
 	if (mAnimation)
@@ -148,14 +153,14 @@ void CDrawable::setSpeed(const D3DXVECTOR3 *aSpeed)
 	mSpeed = *aSpeed;
 }
 
-void CDrawable::setOrientation(const D3DXQUATERNION *aOrientation)
+void CDrawable::setOrientation(float aXAngle, float aYAngle)
 {
-	mOrientation = *aOrientation;
+	mXAngle = aXAngle; mYAngle = aYAngle;
 }
 
-void CDrawable::setRotSpeed(const D3DXQUATERNION *aRotSpeed)
+void CDrawable::setRotSpeed(float aXRotSpeed, float aYRotSpeed)
 {
-	mRotSpeed = *aRotSpeed;
+	mXRotSpeed = aXRotSpeed; mYRotSpeed = aYRotSpeed;
 }
 
 const D3DXVECTOR3 *CDrawable::pos() const
@@ -168,31 +173,31 @@ const D3DXVECTOR3 *CDrawable::speed() const
 	return &mSpeed;
 }
 
-const D3DXQUATERNION *CDrawable::orientation() const
+float CDrawable::xRot() const
 {
-	return &mOrientation;
+	return mXAngle;
 }
 
-const D3DXQUATERNION *CDrawable::rotSpeed() const
+float CDrawable::yRot() const
 {
-	return &mRotSpeed;
+	return mYAngle;
+}
+
+float CDrawable::xRotSpeed() const
+{
+	return mXRotSpeed;
+}
+
+float CDrawable::yRotSpeed() const
+{
+	return mYRotSpeed;
 }
 
 void CDrawable::update(uint32 aTimeFactor)
 {
 	mPos += mSpeed * (float)aTimeFactor;
-//	if (!D3DXQuaternionIsIdentity(&mRotSpeed))
-	{
-		D3DXVECTOR3 vec;
-		float angle = 0;
-		D3DXQUATERNION unitQuaternion;
-		D3DXQuaternionNormalize(&unitQuaternion, &mRotSpeed);
-		D3DXQuaternionToAxisAngle(&unitQuaternion, &vec, &angle);
-		angle *= aTimeFactor / 100.f;
-		D3DXQUATERNION temp;
-		D3DXQuaternionRotationAxis(&temp, &vec, angle);
-		mOrientation *= temp;
-	}
+	mXAngle += mXRotSpeed * aTimeFactor;
+	mYAngle += mYRotSpeed * aTimeFactor;
 }
 
 float CDrawable::radiusSqr() const

@@ -9,7 +9,7 @@ enum TMechOperationMode{EMechManualMode, EMechAutoAimMode, EMechAutoFireMode, EM
 class CMech : public CDrawable
 {
 public:
-	CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation);
+	CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle);
 	CMech(istream &aStream);
 	virtual ~CMech();
 	virtual void externalize(ostream &aStream);
@@ -35,6 +35,7 @@ private:
 	float mUpperBodyAngleXSpeed, mUpperBodyAngleYSpeed; 
 	float mMaxUpperBodyAngleX, mMaxUpperBodyAngleY; 
 	float mMaxUpperBodyAngleXSpeed, mMaxUpperBodyAngleYSpeed; 
+	float mMaxSpeed, mMaxRotSpeed;
 	float mRadarRange;
 	bool mRadarDelay;
 	float mSize;

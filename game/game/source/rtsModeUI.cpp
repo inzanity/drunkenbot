@@ -172,7 +172,7 @@ void CRTSModeUI::draw(uint32 aTime)
 	for (int i = 0; i < num && i < 10; i++)
 	{
 		int ind = mMenuPos * 2 + i;
-		D3DXVECTOR3 pos = D3DXVECTOR3(w + 6.f + (i & 1 ? 72.f : 0.f), 246.f + (int)(i / 2) * 64.f, 0.f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(w + 6.f + (i & 1 ? 72.f : 0.f), 246.f + (int)(i / 2) * 72.f, 0.f);
 		if (i == num - 1 && mSelectedMenuItem != ITEM_NONE && mSelectedMenuItem != ITEM_STOP)
 			mSprite->Draw(*mCancelTexture, NULL, NULL, &pos, color);
 		else if (selectedMech)

@@ -86,9 +86,16 @@ protected:
  * Objects to be checked for collisions.
  * Collisions are tested using radius and collision rectangles.
  */
-class MColliding
+class MColliding : public MGameObj
 {
 public:
+	/**
+	 * Constructor with id and index.
+	 * @param aObjPtr Object pointer containing id and index for the object
+	 */
+	MColliding(CGameObjPtr aObjPtr);
+	/**	Constructor to read object from the stream. @param aStream Stream to read object from */
+	MColliding(istream &aStream);
 	virtual ~MColliding();
 	
 	/** Check collision with another MColliding object. @param aObj Object to perform collision checks with */
@@ -108,7 +115,7 @@ public:
  * All drawable objects can be checked for collisions.
  * Objects are first transformed and then rendered using current Animation.
  */
-class CDrawable : public MGameObj, public MColliding
+class CDrawable : public MColliding
 {
 public:
 	/**
@@ -116,10 +123,11 @@ public:
 	 * @param aObjPtr Object pointer containing id and index for the object
 	 * @param aAnim Animation for drawing. Null Animation disables drawing
 	 * @param aPos Initial position of the object
-	 * @param aRos Initial rotation angle of the object
+	 * @param aXAngle Initial rotation angle around the x-axis
+	 * @param aYAngle Initial rotation angle around the x-axis
 	 */
 	CDrawable(CGameObjPtr aObjPtr, MAnimation *aAnim,
-			  float aAnimSpeed, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation);
+			  float aAnimSpeed, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle);
 	/**	Basic constructor with id and index. @see MGameObj */
 	CDrawable(CGameObjPtr aObjPtr);
 	/**	Constructor to read object from the stream. @see MGameObj */
@@ -147,22 +155,26 @@ public:
 	/** Set Animation playing speed. @param Animation speed */
 	void setAnimSpeed(float aAnimSpeed);
 
-	/** Set objects position. @param New position */
+	/** Set objects position. @param aPos New position */
 	void setPos(const D3DXVECTOR3 *aPos);
-	/** Set objects speed. @param New speed */
+	/** Set objects speed. @param aSpeed New speed */
 	void setSpeed(const D3DXVECTOR3 *aSpeed);
-	/** Set objects orientation. @param New orientation */
-	void setOrientation(const D3DXQUATERNION *aOrientation);
-	/** Set objects rotation speed. @param New rotation speed */
-	void setRotSpeed(const D3DXQUATERNION *aRotSpeed);
+	/** Set rotation parameters. @param aXAngle Rotation around the x-axis @param aYAngle Rotation around the y-axis */
+	void setOrientation(float aXAngle, float aYAngle);
+	/** Set rotation speed parameters. @param aXRotSpeed Rotation speed around the x-axis @param aYRotSpeed Rotation speed around the y-axis */
+	void setRotSpeed(float aXRotSpeed, float aYRotSpeed);
 	/** Get objects position. @return Current position */
-	const D3DXVECTOR3 *pos () const;
+	const D3DXVECTOR3 *pos() const;
 	/** Get objects speed. @return Current speed */
 	const D3DXVECTOR3 * speed() const;
-	/** Get objects orientation. @return Current orientation */
-	const D3DXQUATERNION *orientation () const;
-	/** Get objects rotation speed. @return Current rotation speed */
-	const D3DXQUATERNION *rotSpeed() const;
+	/** Get objects rotation angle around the x-axis. @return Current rotation around the x-axis */
+	float xRot() const;
+	/** Get objects rotation angle around the y-axis. @return Current rotation around the y-axis */
+	float yRot() const;
+	/** Get objects rotation speed around the x-axis. @return Current rotation speed around the x-axis */
+	float xRotSpeed() const;
+	/** Get objects rotation speed around the y-axis. @return Current rotation speed around the y-axis */
+	float yRotSpeed() const;
 	/**
 	 * Get squared radius for collision checks.
 	 * Radius of the current animation is used by default. @see MColliding
@@ -180,7 +192,8 @@ protected:
 	float			mAnimSpeed;
 	MAnimation *	mAnimation;
 	D3DXVECTOR3		mPos, mSpeed;
-	D3DXQUATERNION	mOrientation, mRotSpeed;
+	float			mXAngle, mYAngle;
+	float			mXRotSpeed, mYRotSpeed;
 };
 
 #endif // GAMEOBJ_H

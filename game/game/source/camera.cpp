@@ -49,19 +49,12 @@ void CCamera::transform(uint32 aTimeFactor)
 		if (mMode == EModeFPS) // If we're moving to FPS-mode, update destination
 		{
 			CMech *ptr = (CMech *)mFPSTargetObj.ptr();
-			if (!ptr)
-				setRTSMode(); // Mech not available, move back to RTS-mode
-			else
+			if (ptr)
 			{
-				mDestPos = ptr->getEyePos();
-				mDestOrientation = *ptr->orientation();
 				float x, y;
-				D3DXQUATERNION rotation;
 				ptr->upperBodyAngle(&x, &y);
-				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(1, 0, 0), y);
-				mDestOrientation *= rotation;
-				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), x);
-				mDestOrientation *= rotation;
+				D3DXQuaternionRotationYawPitchRoll(&mDestOrientation, ptr->yRot() + y, ptr->xRot() + x, 0);
+				mDestPos = ptr->getEyePos();
 			}
 		}
 		if (aTimeFactor >= mTimeToDest)
@@ -74,27 +67,14 @@ void CCamera::transform(uint32 aTimeFactor)
 	// Use mech position and orientation
 	else if (mMode == EModeFPS)
 	{
-			CMech *ptr = (CMech *)mFPSTargetObj.ptr();
-			if (!ptr)
-				setRTSMode(); // Mech not available, move back to RTS-mode
-			else
-			{
-				float x, y;
-				ptr->upperBodyAngle(&x, &y);
-
-				D3DXQUATERNION rotationx, rotationy;
-				D3DXQuaternionRotationAxis(&rotationy, &D3DXVECTOR3(1, 0, 0), y);
-				D3DXQuaternionRotationAxis(&rotationx, &D3DXVECTOR3(0, 1, 0), x);
-
-//				mOrientation = *ptr->orientation();
-				mOrientation = rotationy;
-//				mOrientation = rotationx;
-//				mOrientation *= rotationy;
-				mOrientation *= rotationx;
-				mOrientation *= *ptr->orientation();
-
-				mPos = ptr->getEyePos();
-			}
+		CMech *ptr = (CMech *)mFPSTargetObj.ptr();
+		if (ptr)
+		{
+			float x, y;
+			ptr->upperBodyAngle(&x, &y);
+			D3DXQuaternionRotationYawPitchRoll(&mOrientation, ptr->yRot() + y, ptr->xRot() + x, 0);
+			mPos = ptr->getEyePos();
+		}
 	}
 	// Update using current speed
 	else

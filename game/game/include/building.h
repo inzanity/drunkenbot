@@ -10,7 +10,7 @@ class CBuilding : public CDrawable
 {
 public:
 	CBuilding(CGameObjPtr aObjPtr, CBuildingData *aBuildingData, bool aReady,
-		const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation = &D3DXQUATERNION(0, 0, 0, 1));
+		const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle);
 	CBuilding(istream &aStream);
 	virtual ~CBuilding();
 	virtual void externalize(ostream &aStream);

@@ -8,7 +8,7 @@ enum TTurretMessage{EMsgActivate = EMsgBuildingLast};
 class CTurret : public CBuilding
 {
 public:
-	CTurret(CGameObjPtr aObjPtr, bool aReady, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation = &D3DXQUATERNION(0, 0, 0, 1));
+	CTurret(CGameObjPtr aObjPtr, bool aReady, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle);
 	CTurret(istream &aStream);
 	virtual			~CTurret();
 

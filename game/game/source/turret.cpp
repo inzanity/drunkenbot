@@ -3,15 +3,14 @@
 #include "../include/turret.h"
 #include "../include/animationStorage.h"
 
-CTurret::CTurret(CGameObjPtr aObjPtr, bool aReady, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
-CBuilding(aObjPtr, (mTurret = new CBuildingData(CAnimationStorage::ptr()->getAnimation("data/turret.x"), CAnimationStorage::ptr()->getAnimation("data/turret.x"), 1, "Foobar", NULL, 0, 1, 1, 1, 1, 1, 1, TURRET, 1, NULL)), aReady, aPos, aOrientation)
+CTurret::CTurret(CGameObjPtr aObjPtr, bool aReady, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle) :
+CBuilding(aObjPtr, (mTurret = new CBuildingData(CAnimationStorage::ptr()->getAnimation("data/turret.x"), CAnimationStorage::ptr()->getAnimation("data/turret.x"), 1, "Foobar", NULL, 0, 1, 1, 1, 1, 1, 1, TURRET, 1, NULL)), aReady, aPos, aXAngle, aYAngle)
 {
 	mTurretTop				= CAnimationStorage::ptr()->getAnimation("data/turretTop.x");
 	mTurretAngle			= 0.f;
 	mSize					= 1.5f;
 	mTargetReached			= false;
 
-	D3DXQuaternionRotationYawPitchRoll(&mOrientation, 0.0f, 0, 0);
 	game->sendMessage(EMsgActivate, this, 0, 0, 0);
 
 	time(&(mTime));
@@ -115,12 +114,9 @@ void CTurret::draw(uint32 aTimeFactor)
 {
 	d3dObj->mMatrixStack->Push();
 
-	D3DXVECTOR3 vec;
-	float angle;
 	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
 	d3dObj->mMatrixStack->ScaleLocal(mSize, mSize, mSize);
-	D3DXQuaternionToAxisAngle(&mOrientation, &vec, &angle);
-	d3dObj->mMatrixStack->RotateAxisLocal(&vec, angle);
+	d3dObj->mMatrixStack->RotateYawPitchRollLocal(mYAngle, mXAngle, 0);
 
 	mAnimTime += (uint32)(aTimeFactor * mAnimSpeed);
 	if (mAnimation)

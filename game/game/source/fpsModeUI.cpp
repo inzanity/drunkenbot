@@ -31,56 +31,44 @@ void CFPSModeUI::handleInput()
 		mActive = false;
 		game->mRTSModeUI->activate(mMech);
 		mech->setSpeed(&D3DXVECTOR3(0, 0, 0));
-		mech->setRotSpeed(&D3DXQUATERNION(0, 0, 0, 1));
+		mech->setRotSpeed(0, 0);
 		return;
 	}
 	if (!mCounter || !mech) return; /* Controlling requires 100% FPS mode */
 //reset stuff before new button check
 	{
 		mech->setSpeed(&D3DXVECTOR3(0, 0, 0));
-		mech->setRotSpeed(&D3DXQUATERNION(0, 0, 0, 1));
+		mech->setRotSpeed(0, 0);
 	}
 
 	if (directInput->isPressed(MOVE_LEFT))
 	{
-		D3DXQUATERNION rotation;
-		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), -.05f);
-		mech->setRotSpeed((const D3DXQUATERNION *)&rotation);
+		mech->setRotSpeed(0, -0.0005);
 	}
 	else if (directInput->isPressed(MOVE_RIGHT))
 	{
-		D3DXQUATERNION rotation;
-		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), .05f);
-		mech->setRotSpeed((const D3DXQUATERNION *)&rotation);
+		mech->setRotSpeed(0, 0.0005f);
 	}
 
 	if (directInput->isPressed(MOVE_UP))
 	{
-		D3DXMATRIX mat;
-		D3DXVECTOR4 out;
-		D3DXMatrixRotationQuaternion(&mat, mech->orientation());
-		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, .005f), &mat);
-		mech->setSpeed((const D3DXVECTOR3 *)&out);
+		mech->setSpeed(&D3DXVECTOR3(sin(mech->yRot()) * .005f, 0, cos(mech->yRot()) * .005f));
 	}
 	if (directInput->isPressed(MOVE_DOWN))
 	{
-		D3DXMATRIX mat;
-		D3DXVECTOR4 out;
-		D3DXMatrixRotationQuaternion(&mat, mech->orientation());
-		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, -.005f), &mat);
-		mech->setSpeed((const D3DXVECTOR3 *)&out);
+		mech->setSpeed(&D3DXVECTOR3(sin(mech->yRot()) * -.005f, 0, cos(mech->yRot()) * -.005f));
 	}
 
 	float maxXSpeed = mech->maxUBAngleXSpeed();
 	float maxYSpeed = mech->maxUBAngleYSpeed();
 
-	if (mouseX < 200) mech->setUpperBodyAngleXSpeed(-maxXSpeed);
-	else if (mouseX > d3dObj->width() - 200) mech->setUpperBodyAngleXSpeed(maxXSpeed);
-	else mech->setUpperBodyAngleXSpeed(.0f);
-
-	if (mouseY < 100) mech->setUpperBodyAngleYSpeed(-maxYSpeed);
-	else if (mouseY > d3dObj->height() - 100) mech->setUpperBodyAngleYSpeed(maxYSpeed);
+	if (mouseX < 200) mech->setUpperBodyAngleYSpeed(-maxYSpeed);
+	else if (mouseX > d3dObj->width() - 200) mech->setUpperBodyAngleYSpeed(maxYSpeed);
 	else mech->setUpperBodyAngleYSpeed(.0f);
+
+	if (mouseY < 100) mech->setUpperBodyAngleXSpeed(-maxXSpeed);
+	else if (mouseY > d3dObj->height() - 100) mech->setUpperBodyAngleXSpeed(maxXSpeed);
+	else mech->setUpperBodyAngleXSpeed(.0f);
 }
 
 void CFPSModeUI::draw(uint32 aTime)
@@ -97,12 +85,9 @@ void CFPSModeUI::draw(uint32 aTime)
 	mSprite->End();
 
 	CMech *mech = (CMech *)mMech.ptr();
-	const D3DXQUATERNION *mechOrientation = mech->orientation();
-	float angle;
 	float a = aTime/(float)mRadarAnim->getDuration();
 	a -=(int)a;	
-	D3DXVECTOR3 vec;
-	D3DXQuaternionToAxisAngle(mechOrientation, &vec, &angle);
+	float angle = mech->yRot();
 
 	d3dObj->mMatrixStack->Push();
 	D3DXMATRIX *identityMatrix = d3dObj->mMatrixStack->GetTop();
@@ -115,9 +100,8 @@ void CFPSModeUI::draw(uint32 aTime)
 	d3dObj->mMatrixStack->Push();
 	identityMatrix = d3dObj->mMatrixStack->GetTop();
 	D3DXMatrixIdentity(identityMatrix);
-	d3dObj->mMatrixStack->RotateAxis(&D3DXVECTOR3(vec.x, vec.z, vec.y), angle);
+	d3dObj->mMatrixStack->RotateAxis(&D3DXVECTOR3(0, 0, 1), angle);
 	d3dObj->mMatrixStack->Translate(0.55f, -0.35f, 1.5f);
-	if (vec.y < 0) angle = 2 * D3DX_PI - angle;
 	float radarRange2 = mech->radarRange() * mech->radarRange();
 	float scale = sqrt(mRadarAnim->getRadiusSqr()) / mech->radarRange();
 
@@ -133,7 +117,7 @@ void CFPSModeUI::draw(uint32 aTime)
 			f = 2 * D3DX_PI * a + D3DX_PI/2.f- f;
 			if (f < 0) f += 2 * D3DX_PI;
 			if (f > 2 * D3DX_PI) f -= 2 * D3DX_PI;
-			int time = mMinimapPingAnim->getDuration() * f / (2 * D3DX_PI);
+			int time = (int)(mMinimapPingAnim->getDuration() * f / (2 * D3DX_PI));
 			d3dObj->mMatrixStack->Push();
 			d3dObj->mMatrixStack->TranslateLocal(position.x*scale, position.z*scale, 0);
 			mMinimapPingAnim->draw(time);
