@@ -19,7 +19,7 @@
 
 using std::list;
 
-#define PI 3.14
+#define PI 3.14159265358979
 
 /**
  * Base class for external AI class.

@@ -47,7 +47,7 @@ bool CBulletInfo::handleCollision(int aDamage)
 
 int CBulletInfo::getDamage() const
 {
-	return mShooter->weapon()->damage();
+	return int(mShooter->weapon()->damage());
 }
 
 void CBulletInfo::addFrag()

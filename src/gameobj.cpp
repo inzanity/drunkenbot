@@ -89,18 +89,18 @@ void CMovingGameObj::move(float aTimeFactor)
 	}
 }
 
-bool CMovingGameObj::chkCollision(const char ** /*aTilemap*/, CBotInfo ** /*aBots*/, bool /*aCollisionWithObstacles*/)
+bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, bool aCollisionWithObstacles)
 {
 	return true;
 }
 
-TVector CMovingGameObj::scanTilemap(const char ** /*aSrcTilemap*/, float /*'aAngle*/, CTilemap * /*aDstTilemap*/) const
+TVector CMovingGameObj::scanTilemap(const char ** aSrcTilemap, float aAngle, CTilemap * aDstTilemap) const
 {
 	TVector pos = mPos;
 	return pos;
 }
 
-bool CMovingGameObj::handleCollision(int /*aDamage*/)
+bool CMovingGameObj::handleCollision(int aDamage)
 {
 	return true;
 }

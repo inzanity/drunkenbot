@@ -8,15 +8,15 @@ CBot::CBot(const char *aDllName) : mBotAI(NULL), mDllName(NULL), mDllHandle(NULL
 	strcpy(mDllName, aDllName);
 }
 
-void CBot::spawn(const char ** /*aTilemap*/, int aWidth, int aHeight, const CGameObj * /*aGameObjects*/)
+void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj * aGameObjects)
 {
 	mPos.mX = float(rand() % aWidth);
 	mPos.mY = float(rand() % aHeight);
 	loadAI();
 }
 
-void CBot::think(const char ** /*aTilemap*/, CVisibleBotInfo * /*aBots*/, list<CBulletInfo *> * /*aBulletList*/,
-				 list<CWeaponInfo *> * /*aWeaponList*/, list<TVector> * /*aVoices*/)
+void CBot::think(const char ** aTilemap, CVisibleBotInfo * aBots, list<CBulletInfo *> * aBulletList,
+				 list<CWeaponInfo *> * aWeaponList, list<TVector> * aVoices)
 {
 	if (!mBotAI)
 		return;
@@ -24,7 +24,7 @@ void CBot::think(const char ** /*aTilemap*/, CVisibleBotInfo * /*aBots*/, list<C
 	mBotAI->think();
 }
 
-void CBot::performActions(list<CWeaponInfo *> * /*aBulletList*/, list<TVector> * /*aVoices*/)
+void CBot::performActions(list<CWeaponInfo *> * aBulletList, list<TVector> * aVoices)
 {
 	if (!mBotAI)
 		return;
