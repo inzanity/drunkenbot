@@ -48,5 +48,11 @@ void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 	int x, y;
 	x = (int)aGameObj->xPos();
 	y = (int)aGameObj->yPos();
-	printf("\033[%d;%dH%c\n", y + 1, x + 1, mBotSymbols[(aGameObj->type() >> 4) & 3]);
+	if (mActiveBot)
+	{
+		if (!(mActiveBot->botAI()->mTilemap->getTile(x - mActiveBot->spawningXPos(), y - mActiveBot->spawningYPos()) >> 7))
+			printf("\033[%d;%dH%c\n", y + 1, x + 1, mBotSymbols[(aGameObj->type() >> 4) & 3]);
+	}
+	else
+		printf("\033[%d;%dH%c\n", y + 1, x + 1, mBotSymbols[(aGameObj->type() >> 4) & 3]);
 }
