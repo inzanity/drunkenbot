@@ -1,6 +1,8 @@
 #ifndef BUILDINGDATA_H
 #define BUILDINGDATA_H
 
+#include "animation.h"
+
 class CBuildingData
 {
 public:
@@ -9,13 +11,13 @@ public:
 	 * These will be constructed with
 	 * the xml-parser, all information is constant.
 	 *
-	 * @param aAnimation Path to animation file of the building.
-	 * @param aConstructAnimation Path to constructing animation file.
+	 * @param aAnimation Animation of the building.
+	 * @param aConstructAnimation Constructing animation.
 	 * @param aHitPoints Amount of hitpoints for this type of building.
 	 * @param aPrice Price of buildingtype.
 	 * @param aReqMask Bitmask defining the required technologies.
 	 */
-	CBuildingData(const char *aAnimation, const char *aConstructAnimation, int aHitpoints, int aPrice, int aReqMask);
+	CBuildingData(const MAnimation *aAnimation, const MAnimation *aConstructAnimation, int aHitpoints, int aPrice, int aReqMask);
 	/**
 	 * Destructor.
 	 */
@@ -23,11 +25,11 @@ public:
 	/**
 	 * Getter for the animation file path.
 	 */
-	const char *getAnimation() const;
+	const MAnimation *getAnimation() const;
 	/**
 	 * Getter for the constructing animation file path.
 	 */
-	const char *getConstructAnimation() const;
+	const MAnimation *getConstructAnimation() const;
 	/**
 	 * Getter for hitpoints.
 	 */
