@@ -103,7 +103,7 @@ void CMovingGameObj::move(float aTimeFactor)
 
 bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, bool aCollisionWithObstacles)
 {
-	float time1, time2, minTime = 1.f;
+	float time1, time2 = 1.f, minTime = 1.f;
 	float xSpeed = mVelocity * cos(mMovingDirection);
 	float ySpeed = mVelocity * sin(mMovingDirection);
 
@@ -117,7 +117,7 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 		{
 			TVector pos = {mPos.mX + cos(i * PI / 4.f) * mRadius,
 						   mPos.mY + sin(i * PI / 4.f) * mRadius};
-			for (time1 = totalTime = 0; totalTime < mMovingTimeFactor; totalTime += time1)
+			for (time1 = totalTime = 0; totalTime < time2; totalTime += time1)
 			{
 				pos.mX += time1 * speed.mX; pos.mY += time1 * speed.mY;
 				tile = aTilemap[(int)pos.mY][(int)pos.mX] & KTileTypeMask;
@@ -125,12 +125,14 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 					break;
 				time1 = getNextEdge(pos, speed);
 			}
-			if (mMovingTimeFactor > totalTime)
-				mMovingTimeFactor = totalTime;
+			if (time2 > totalTime)
+				time2 = totalTime;
 		}
-		if (mMovingTimeFactor < 1.f)
+		if (time2 < 1.f)
 			if (!handleCollision(15))
-				changeFragNum(false);
+;//				changeFragNum(false);
+		if (mMovingTimeFactor > time2)
+			mMovingTimeFactor = time2;
 	}
 
 	xSpeed += mEpsilon;
@@ -166,7 +168,7 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 						if (!handleCollision(((const CMovingGameObj *)aBots[i])->getDamage()))
 							aBots[i]->changeFragNum(enemy);
 						if (!((CMovingGameObj *)aBots[i])->handleCollision(getDamage()))
-							aBots[i]->changeFragNum(enemy);
+							changeFragNum(enemy);
 					}
 				}
 				else if ((time1 > mEpsilon && time2 < -mEpsilon) || (time1 < -mEpsilon && time2 > mEpsilon))
