@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 #include "../inc/engine.h"
 
 using std::cout;
@@ -8,14 +9,16 @@ using std::ifstream;
 
 
 #ifndef WIN32
+#include <unistd.h>
 
 #include "../inc/textengine.h"
 
-
-int main()
+int main(int argc, char **argv)
 {
 	ifstream map("res/tmap.txt");
 	ifstream weapons("res/weapons.txt");
+
+	srand(argc > 1?atoi(argv[1]):3);
 
 	CGameEngine *engine = new CGameEngine(&weapons, &map);
 
@@ -27,7 +30,10 @@ int main()
 	weapons.close();
 
 	while (engine->loop())
-		engine->draw(1.f, -1);
+	{
+		engine->draw(1.f, 0);
+		usleep(100000);
+	}
 	char **results = engine->getResults(false);
 	for (int i = 0; results[i]; i++)
 		cout << results[i] << endl;
