@@ -1,0 +1,14 @@
+2.	Overview
+
+2.1	Core concept
+The game is a combination of real time strategy and first person shooter. The goal is to free the planet from evil by destroying it. The evil has its own forces, which try to prevent this. The game allows the player to explore the world in a first person view, while also allowing building, thus modifying the game world.
+
+2.2	Technological and social environment
+The game is played on a normal PC-computer, and can be played against and/or with other players via local area network or the Internet.
+
+2.3	Setting 
+The game is placed in a distant future on an inhabitable planet, where all human lifeforms must stay indoors, and everything outdoors is done with robots.
+
+2.4	Look and feel
+[Give a summary of the look and feel of the game. Describe the style of the graphics, music and overall mood.]
+
