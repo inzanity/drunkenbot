@@ -103,6 +103,9 @@ public:
 	/** Getter for the moving direction. */
 	float movingDirection() const;
 
+	/** Reset mMovingTimeFactor to 1. */
+	void resetTimeFactor();
+
 	/**
 	 * Moves object according to its velocity and direction.
 	 * @param aTimeFactor Time interval to move object.
