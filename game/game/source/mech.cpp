@@ -12,7 +12,7 @@ CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, float aXAngle, float 
 	mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true),
 	mMaxUpperBodyAngleX(.5f), mMaxUpperBodyAngleY(.5f),
 	mMaxUpperBodyAngleXSpeed(0.0008f), mMaxUpperBodyAngleYSpeed(0.0008f),
-	mMaxSpeed(.005f), mMaxRotSpeed(.0005f),
+	mMaxSpeed(.005f), mMaxRotSpeed(.001f),
 	mMoveToDest(false)
 {
 	const TBox *box = mAnimation->getBoundingBox();
@@ -131,6 +131,16 @@ void CMech::setUpperBodyAngleXSpeed(float angle)
 void CMech::setUpperBodyAngleYSpeed(float angle) 
 {
 	mUpperBodyAngleYSpeed = angle;
+}
+
+float CMech::maxRotSpeed()
+{
+	return mMaxRotSpeed;
+}
+
+float CMech::maxSpeed()
+{
+	return mMaxSpeed;
 }
 
 float CMech::maxUBAngleX()

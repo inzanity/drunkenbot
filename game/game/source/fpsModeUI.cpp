@@ -41,33 +41,36 @@ void CFPSModeUI::handleInput()
 		mech->setRotSpeed(0, 0);
 	}
 
+	float mechRotSpeed = mech->maxRotSpeed();
+	float mechSpeed = mech->maxSpeed();
+
 	if (directInput->isPressed(MOVE_LEFT))
 	{
-		mech->setRotSpeed(0, -0.0005);
+		mech->setRotSpeed(0, -mechRotSpeed);
 	}
 	else if (directInput->isPressed(MOVE_RIGHT))
 	{
-		mech->setRotSpeed(0, 0.0005f);
+		mech->setRotSpeed(0, mechRotSpeed);
 	}
 
 	if (directInput->isPressed(MOVE_UP))
 	{
-		mech->setSpeed(&D3DXVECTOR3(sin(mech->yRot()) * .005f, 0, cos(mech->yRot()) * .005f));
+		mech->setSpeed(&D3DXVECTOR3(sin(mech->yRot()) * .005f, 0, cos(mech->yRot()) * mechSpeed));
 	}
 	if (directInput->isPressed(MOVE_DOWN))
 	{
-		mech->setSpeed(&D3DXVECTOR3(sin(mech->yRot()) * -.005f, 0, cos(mech->yRot()) * -.005f));
+		mech->setSpeed(&D3DXVECTOR3(sin(mech->yRot()) * -.005f, 0, cos(mech->yRot()) * -mechSpeed));
 	}
 
-	float maxXSpeed = mech->maxUBAngleXSpeed();
-	float maxYSpeed = mech->maxUBAngleYSpeed();
+	float maxXAngleSpeed = mech->maxUBAngleXSpeed();
+	float maxYAngleSpeed = mech->maxUBAngleYSpeed();
 
-	if (mouseX < 200) mech->setUpperBodyAngleYSpeed(-maxYSpeed);
-	else if (mouseX > d3dObj->width() - 200) mech->setUpperBodyAngleYSpeed(maxYSpeed);
+	if (mouseX < 200) mech->setUpperBodyAngleYSpeed(-maxYAngleSpeed);
+	else if (mouseX > d3dObj->width() - 200) mech->setUpperBodyAngleYSpeed(maxYAngleSpeed);
 	else mech->setUpperBodyAngleYSpeed(.0f);
 
-	if (mouseY < 100) mech->setUpperBodyAngleXSpeed(-maxXSpeed);
-	else if (mouseY > d3dObj->height() - 100) mech->setUpperBodyAngleXSpeed(maxXSpeed);
+	if (mouseY < 100) mech->setUpperBodyAngleXSpeed(-maxXAngleSpeed);
+	else if (mouseY > d3dObj->height() - 100) mech->setUpperBodyAngleXSpeed(maxXAngleSpeed);
 	else mech->setUpperBodyAngleXSpeed(.0f);
 }
 

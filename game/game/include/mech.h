@@ -25,6 +25,8 @@ public:
 	void setUpperBodyAngleYSpeed(float angle);
 	float maxUBAngleX();
 	float maxUBAngleY();
+	float maxRotSpeed();
+	float maxSpeed();
 	float maxUBAngleXSpeed();
 	float maxUBAngleYSpeed();
 private:
