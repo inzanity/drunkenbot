@@ -13,16 +13,9 @@ namespace ParticleLib
 	{
 	public:
 		ParticleSystem(String *aLuaFile);
-		ParticleSystem(int aParticles, char aPosNum, char aColorNum, char aSizeNum, String *aTexFile);
 		~ParticleSystem();
 
-		void setDefaultColor(const D3DCOLOR *aColor);
-		void setDefaultSize(const float *aSize);
-		void enableLooping(bool aLooping);
 		void setTexture(String *aTexFile);
-
-		void setParticle(int aIndex, int aLife, const D3DXVECTOR3 *aPos, const int *aColor, const float *aSize);
-
 		void draw(int aTime);
 	private:
 		CParticleSystem *mParticleSystem;
@@ -37,7 +30,9 @@ namespace ParticleLib
 		void beginScene();
 		void endScene();
 		void setTransform(float aX, float aY, float dist);
+		void setBGColor(D3DCOLOR aColor);
 	private:
 		CD3DObj *mD3DObj;
+		D3DCOLOR mBGColor;
 	};
 }
