@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fg="http://humppa.mikas.net/~avalance/" elementFormDefault="qualified">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fg="http://humppa.mikas.net/~avalance/" elementFormDefault="qualified">
 
-	<xs:element name="race">
-		<xs:attribute name="id" type="xs:integer"/>
-		<xs:attribute name="name" type="xs:string"/>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="technology">
-					<xs:attribute name="id" type="xs:integer" use="required"/>
-					<xs:attribute name="name" type="xs:string" use="required"/>
-					<xs:attribute name="requires" type="xs:integer" default="0"/>
-					<xs:attribute name="price" type="xs:integer" use="required"/>
-				</xs:element>
-				<xs:element name="building">
-					<xs:attribute name="id" type="xs:integer" use="required"/>
-					<xs:attribute name="name" type="xs:string" use="required"/>
-					<xs:attribute name="requires" type="xs:integer" default="0"/>
-					<xs:attribute name="price" type="xs:integer" use="required"/>
-					<xs:attribute name="hitpoints" type="xs:integer" use="required"/>
-					<xs:attribute name="animation" type="xs:string" use="required"/>
-					<xs:attribute name="constructAnimation" type="xs:string" use="required"/>
-				</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-</xs:schema>
+	<xsd:element name="race">
+		<xsd:attribute name="id" type="xs:integer"/>
+		<xsd:attribute name="name" type="xs:string"/>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="technology">
+					<xsd:attribute name="id" type="xs:integer" use="required"/>
+					<xsd:attribute name="name" type="xs:string" use="required"/>
+					<xsd:attribute name="requires" type="xs:integer" default="0"/>
+					<xsd:attribute name="price" type="xs:integer" use="required"/>
+				</xsd:element>
+				<xsd:element name="building">
+					<xsd:attribute name="id" type="xs:integer" use="required"/>
+					<xsd:attribute name="name" type="xs:string" use="required"/>
+					<xsd:attribute name="requires" type="xs:integer" default="0"/>
+					<xsd:attribute name="price" type="xs:integer" use="required"/>
+					<xsd:attribute name="hitpoints" type="xs:integer" use="required"/>
+					<xsd:attribute name="animation" type="xs:string" use="required"/>
+					<xsd:attribute name="constructAnimation" type="xs:string" use="required"/>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
