@@ -3,8 +3,7 @@
 #define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=NULL; } }
 #define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p)=NULL; } }
 
-
-CDirectInput::CDirectInput	(HWND *aHWnd)
+CDirectInput::CDirectInput(HWND *aHWnd)
 {
 	if (FAILED(DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, 
 									IID_IDirectInput8, (void**)&mDI, NULL)))
@@ -19,7 +18,7 @@ CDirectInput::CDirectInput	(HWND *aHWnd)
 		FreeDirectInput();
 
 }
-CDirectInput::~CDirectInput	()
+CDirectInput::~CDirectInput()
 {
 	FreeDirectInput();
 }
