@@ -15,7 +15,7 @@ class CBotInfo;
 class CTilemap;
 
 /** Struct for 2D coordinates. */
-struct TPosition
+struct TVector
 {
 	/** X-coordinates */
 	float mX;
@@ -46,7 +46,7 @@ public:
 	float radius();
 
 	/** Getter for the orientation of the object. */
-	float direction();
+	float orientation();
 
 	/** Getter for the type of the object. @see mType. */
 	int type();
@@ -56,11 +56,11 @@ public:
 
 protected:
 	/** Coordinates of the object. */
-	TPosition mPos;
+	TVector mPos;
 	/** Radius of the game object. */
 	float mRadius;
-	/** Orientation of the game object. With moving objects, orientation is used as a moving direction. */
-	float mDirection;
+	/** Orientation angle of the game object. */
+	float mOrientation;
 	/** Type of the game object. @todo Game object type specification. */
 	int mType;
 	/** Timer for animations. Animation is played during 1 time units. */
@@ -109,15 +109,34 @@ protected:
 	 *		  (with collision detection).
 	 * @return Position of the detected collision.
 	 */
-	TPosition scanTilemap(const char **aSrcTilemap, float aAngle, CTilemap *aDstTilemap);
+	TVector scanTilemap(const char **aSrcTilemap, float aAngle, CTilemap *aDstTilemap);
 
-	/** Collision handling. @param aDamage Damage caused by collision. */
-	virtual void handleCollision(int aDamage) = 0;
+	/** Collision handling. @param aDamage Damage caused by collision. @return False if object (CBot) has died. */
+	virtual bool handleCollision(int aDamage) = 0;
 
-	/** Velocity of the moving game object. Moving direction depends on the orientation of the object. */
+	/** Getter for damage caused by this object in collisions. @return Caused damage. */
+	virtual int getDamage() = 0;
+
+	/** Increase frag counter of the responsible CBot. */
+	virtual void addFrag() = 0;
+
+	/** Velocity of the game object. */
 	float mVelocity;
 
+	/** Moving direction of the game object. */
+	float mMovingDirection;
+
 private:
+	/**
+	 * Find next edge from tilemap. <code>aPos + distance * aSpeed</code> is always in the next tile.
+	 * With collision detection, 2 * mEpsilon should be decreased from distance.
+	 * @param aPos Initial position of the "casted ray".
+	 * @param aSpeed Speed of the "casted ray". In normal case, this is <code>velocity * [cos direction, sin direction]</code>.
+	 * @return Distance to the next edge. mEpsilon is added to distance to avoid problems with precision.
+	 */
+	float getNextEdge(TVector aPos, TVector aSpeed);
+
+	static const float mEpsilon;
 	float mMovingTimeFactor;
 };
 

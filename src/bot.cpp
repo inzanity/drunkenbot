@@ -21,7 +21,7 @@ void CBot::spawn(const char ** /*aTilemap*/, int aWidth, int aHeight, const CGam
 }
 
 void CBot::think(const char ** /*aTilemap*/, CVisibleBotInfo * /*aBots*/, list<CBulletInfo *> * /*aBulletList*/,
-				 list<CWeaponInfo *> * /*aWeaponList*/, list<TPosition> * /*aVoices*/)
+				 list<CWeaponInfo *> * /*aWeaponList*/, list<TVector> * /*aVoices*/)
 {
 	if (!mBotAI)
 		return;
@@ -29,7 +29,7 @@ void CBot::think(const char ** /*aTilemap*/, CVisibleBotInfo * /*aBots*/, list<C
 	mBotAI->think();
 }
 
-void CBot::performActions(list<CWeaponInfo *> * /*aBulletList*/, list<TPosition> * /*aVoices*/)
+void CBot::performActions(list<CWeaponInfo *> * /*aBulletList*/, list<TVector> * /*aVoices*/)
 {
 	if (!mBotAI)
 		return;

@@ -13,10 +13,6 @@
 #include "botai.h"
 #include "graphicsengine.h"
 
-#ifndef _WINDOWS_
-# define HMODULE void *
-#endif
-
 using std::list;
 /*
 #ifndef HMODULE
@@ -50,14 +46,14 @@ public:
 	 * @param aVoices List of all voice sources.
 	 */
 	void think(const char **aTilemap, CVisibleBotInfo *aBots, list<CBulletInfo *> *aBulletList,
-			   list<CWeaponInfo *> *aWeaponList, list<TPosition> *aVoices);
+			   list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices);
 
 	/**
 	 * Does error checking and performs valid actions.
 	 * @param aBulletList List to add new bullets in case of <code>EActionShoot</code>.
 	 * @param aVoices List to add new sound sources in case of <code>EActionShoot</code>.
 	 */
-	void performActions(list<CWeaponInfo *> *aBulletList, list<TPosition> *aVoices);
+	void performActions(list<CWeaponInfo *> *aBulletList, list<TVector> *aVoices);
 
 	/**
 	 * Checks and handles collisions. See CMovingGameObj::chkCollision().

@@ -66,24 +66,30 @@ public:
 	/** Destructor. */
 	virtual ~CBotInfo();
 
-	/**
-	 * Getter for the remaining time to finish current action.
-	 * @return Turns left before finished current action.
-	 */
-	char actionDelay();
-
 	/** Getter for current weapon */
 	const CWeapon *weapon();
 
-protected:
-	/** Turns remaining before done current action. */
-	char mActionDelay;
+	/**
+	 * Getter for action being executed.
+	 * @return Unfinished action. actionDelay() can be used to get remaining time to finish action.
+	 */
+	TBotAction currentAction();
 
+	/** Getter for the remaining time to finish current action. @return Turns left before finished current action. */
+	char actionDelay();
+
+	/** Getter for bunkering mode. @return True if bot is bunkered. */
+	bool bunkered();
+
+protected:
 	/** Current weapon. */
 	CWeapon *mWeapon;
 
 	/** Current action. */
 	TBotAction mBotAction;
+
+	/** Turns remaining before done current action. */
+	char mActionDelay;
 
 	/** Is the robot bunkered. */
 	bool mBunkered;
