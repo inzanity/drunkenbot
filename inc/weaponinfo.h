@@ -40,14 +40,9 @@ public:
 	 * @return Type of weapon.
 	 * */
 	int weaponType();
-	/**
-	 * Getter for the bullet type.
-	 * @return Type of bullet the weapon shoots.
-	 */
 
 private:
 	int mWeaponType;
-	int mBulletType;
 };
 
 /**
