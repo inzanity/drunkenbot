@@ -110,13 +110,13 @@ HRESULT STDMETHODCALLTYPE MyContent::startElement(
 			else if (!wcsnicmp(ln, L"hitpoints", lnl))
 				mBuildingData.back()->setHitpoints(atoi(buf));
 			else if (!wcsnicmp(ln, L"picture", lnl))
-				mBuildingData.back()->setPicture(CAnimationStorage::ptr()->getTexture(buf));
+				mBuildingData.back()->setPicture(*buf ? CAnimationStorage::ptr()->getTexture(buf) : NULL);
 			else if (!wcsnicmp(ln, L"animation", lnl))
-				mBuildingData.back()->setAnimation(CAnimationStorage::ptr()->getAnimation(buf));
+				mBuildingData.back()->setAnimation(* buf ? CAnimationStorage::ptr()->getAnimation(buf) : NULL);
 			else if (!wcsnicmp(ln, L"upperBodyAnimation", lnl))
-				mBuildingData.back()->setUpperBodyAnimation(CAnimationStorage::ptr()->getAnimation(buf));
+				mBuildingData.back()->setUpperBodyAnimation(*buf ? CAnimationStorage::ptr()->getAnimation(buf) : NULL);
 			else if (!wcsnicmp(ln, L"constructAnimation", lnl))
-				mBuildingData.back()->setConstructAnimation(CAnimationStorage::ptr()->getAnimation(buf));
+				mBuildingData.back()->setConstructAnimation(*buf ? CAnimationStorage::ptr()->getAnimation(buf) : NULL);
 			else if (!wcsnicmp(ln, L"constructionTime", lnl))
 				mBuildingData.back()->setConstructionTime(atoi(buf));
 			else if (!wcsnicmp(ln, L"shortcut", lnl))
@@ -146,7 +146,7 @@ HRESULT STDMETHODCALLTYPE MyContent::startElement(
 			else if (!wcsnicmp(ln, L"speed", lnl))
 				mMechData.back()->setSpeed(atoi(buf));
 			else if (!wcsnicmp(ln, L"animation", lnl))
-				mMechData.back()->setAnimation(CAnimationStorage::ptr()->getAnimation(buf));
+				mMechData.back()->setAnimation(*buf ? CAnimationStorage::ptr()->getAnimation(buf) : NULL);
 			else if (!wcsnicmp(ln, L"mass", lnl))
 				mMechData.back()->setMass(atoi(buf));
 		}
@@ -173,7 +173,7 @@ HRESULT STDMETHODCALLTYPE MyContent::startElement(
 			else if (!wcsnicmp(ln, L"developTime", lnl))
 				mTechnologyData.back()->setDevelopTime(atoi(buf));
 			else if (!wcsnicmp(ln, L"picture", lnl))
-				mTechnologyData.back()->setPicture(CAnimationStorage::ptr()->getTexture(buf));
+				mTechnologyData.back()->setPicture(*buf ? CAnimationStorage::ptr()->getTexture(buf) : NULL);
 			else if (!wcsnicmp(ln, L"shortcut", lnl))
 				mTechnologyData.back()->setShortcut(atoi(buf));
 		}
@@ -194,11 +194,11 @@ HRESULT STDMETHODCALLTYPE MyContent::startElement(
 			else if (!wcsnicmp(ln, L"name", lnl))
 				mWeaponData.back()->setName(buf);
 			else if (!wcsnicmp(ln, L"model", lnl))
-				mWeaponData.back()->setModel(CAnimationStorage::ptr()->getAnimation(buf));
+				mWeaponData.back()->setModel(*buf ? CAnimationStorage::ptr()->getAnimation(buf) : NULL);
 			else if (!wcsnicmp(ln, L"bullet", lnl))
-				mWeaponData.back()->setBullet(CAnimationStorage::ptr()->getAnimation(buf));
+				mWeaponData.back()->setBullet(*buf ? CAnimationStorage::ptr()->getAnimation(buf) : NULL);
 			else if (!wcsnicmp(ln, L"picture", lnl))
-				mWeaponData.back()->setPicture(CAnimationStorage::ptr()->getTexture(buf));
+				mWeaponData.back()->setPicture(*buf ? CAnimationStorage::ptr()->getTexture(buf) : NULL);
 			else if (!wcsnicmp(ln, L"priceMineral", lnl))
 				mWeaponData.back()->setPriceMineral(atoi(buf));
 			else if (!wcsnicmp(ln, L"priceGas", lnl))
@@ -243,7 +243,7 @@ HRESULT STDMETHODCALLTYPE MyContent::startElement(
 			else if (!wcsnicmp(ln, L"shortcut", lnl))
 				mUpgradeData.back()->setShortcut(atoi(buf));
 			else if (!wcsnicmp(ln, L"picture", lnl))
-				mUpgradeData.back()->setPicture(CAnimationStorage::ptr()->getTexture(buf));
+				mUpgradeData.back()->setPicture(*buf ? CAnimationStorage::ptr()->getTexture(buf) : NULL);
 		}
 	}
     return hr;
