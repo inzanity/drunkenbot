@@ -29,19 +29,19 @@ void CBot::think(const char **aTilemap, CVisibleBotInfo **aBots, int aBotNum, li
 	if (!mBotAI)
 		return;
 	for (int i = 0; i < aBotNum; i++)
-		if (aBots[i]->type() != mType && aTilemap[int(aBots[i]->yPos())][int(aBots[i]->yPos())] & 0x80)
+		if (aBots[i]->type() != mType && !(aTilemap[int(aBots[i]->yPos())][int(aBots[i]->yPos())] & 0x80))
 			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mPos.mX, mPos.mY, mType));
 	for (weaIter = aWeaponList->begin(); weaIter != aWeaponList->end(); weaIter++)
-		if (aTilemap[int((*weaIter)->yPos())][int((*weaIter)->xPos())] & 0x80)
+		if (!(aTilemap[int((*weaIter)->yPos())][int((*weaIter)->xPos())] & 0x80))
 			mBotAI->mWeapons.push_front(new CVisibleWeaponInfo(*weaIter, mPos.mX, mPos.mY));
 
 	for (bulIter = aBulletList->begin(); bulIter != aBulletList->end(); bulIter++)
-		if (aTilemap[int((*bulIter)->yPos())][int((*bulIter)->xPos())] & 0x80)
+		if (!(aTilemap[int((*bulIter)->yPos())][int((*bulIter)->xPos())] & 0x80))
 			mBotAI->mBullets.push_front(new CVisibleBulletInfo(*bulIter, mPos.mX, mPos.mY));
 
 	for (voiIter = aVoices->begin(); voiIter != aVoices->end(); voiIter++)
-		if (aTilemap[int((*voiIter).mY)][int((*voiIter).mX)] & 0x80)
-			mBotAI->mSourcesOfNoise.push_front(atan2((*voiIter).mX - mBotAI->mData.xPos(), (*voiIter).mY - mBotAI->mData.yPos()));
+		if (!(aTilemap[int((*voiIter).mY)][int((*voiIter).mX)] & 0x80))
+			mBotAI->mSourcesOfNoise.push_front(atan2((*voiIter).mY - mBotAI->mData.yPos(), (*voiIter).mX - mBotAI->mData.xPos()));
 
 	mBotAI->think();
 
