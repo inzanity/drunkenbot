@@ -41,7 +41,7 @@ void CFPSModeUI::handleInput()
 		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, .005f), &mat);
 		mech->setSpeed((const D3DXVECTOR3 *)&out);
 	}
-	else if (directInput->isPressed(MOVE_DOWN))
+	if (directInput->isPressed(MOVE_DOWN))
 	{
 		D3DXMATRIX mat;
 		D3DXVECTOR4 out;
@@ -49,12 +49,12 @@ void CFPSModeUI::handleInput()
 		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, -.005f), &mat);
 		mech->setSpeed((const D3DXVECTOR3 *)&out);
 	}
-	else if (directInput->isPressed(MOVE_LEFT))
+	if (mouseX < 200)
 	{
 		D3DXQUATERNION quaternion(0, -.001f, 0, 1);
 		mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
 	}
-	else if (directInput->isPressed(MOVE_RIGHT))
+	else if (mouseX > 800)
 	{
 		D3DXQUATERNION quaternion(0, .001f, 0, 1);
 		mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
