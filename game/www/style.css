@@ -37,7 +37,8 @@ div.menu a {
 	color: #000000;
 	background: #dddddd;
 	text-decoration: none;
-	font-weight: bold;
+	font-weight: bold; 
+	font-size: 90%;
 	margin-bottom: 5px;
 }
 div.menu a:hover {
@@ -90,5 +91,26 @@ blockquote {
 	a {
 		color: #000000;
 		text-decoration: none;
+	}
+	h3 {
+		margin-left: .5em;
+	}
+	h4 {
+		margin-left: 1em;
+	}
+	h5 {
+		margin-left: 1.5em;
+	}
+	h6 {
+		margin-left: 1.7em;
+	}
+	p {
+		margin-left: 2em;
+	}
+	ul {
+		margin-left: 3em;
+	}
+	ul ul {
+		margin-left: 1em;
 	}
 }
