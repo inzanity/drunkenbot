@@ -64,6 +64,9 @@ public:
 	 */
 	void update(float aTimeFactor);
 
+	/** Getter for AI. May be used by CGraphicsEngine. @return Const pointer to the AI object. */
+	const CBotAI *botAI() const;
+
 private:
 	void loadAI();
 

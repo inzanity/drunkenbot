@@ -125,6 +125,12 @@ void CBot::update(float aTimeFactor)
 	// TODO: Set mAnimationTimer.
 }
 
+const CBotAI *CBot::botAI() const
+{
+	return mBotAI;
+}
+
+
 void CBot::loadAI()
 {
 	if (mBotAI)
