@@ -16,6 +16,29 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 	{
 		// ...
 	}
+	else
+	{
+#ifdef WIN32
+		char *fileName = new char[64];
+		WIN32_FIND_DATA findFileData;
+		HANDLE handle = FindFirstFile("bots/*.dll", &findFileData);
+		if (handle == INVALID_HANDLE_VALUE)
+			return;
+
+		for (mBotNum = 1; FindNextFile(handle, &findFileData); mBotNum++);
+		mBots = new CBot *[mBotNum];
+
+		handle = FindFirstFile("bots/*.dll", &findFileData);
+		for (int i = 0; i < mBotNum; i++)
+		{
+			sprintf(fileName, "bots/%s", findFileData.cFileName);
+			mBots[i] = new CBot(fileName);
+			FindNextFile(handle, &findFileData);
+		}
+#else
+		// TODO: purkka
+#endif
+	}
 
 	restart(aMap);
 }
@@ -27,8 +50,13 @@ void CGameEngine::setGraphicsEngine(IGraphicsEngine *aGraphicsEngine)
 
 bool CGameEngine::loop()
 {
+	int i;
 	if (mGfxEngine)
+	{
 		mGfxEngine->drawTilemap(mTilemap, mMapWidth, mMapHeight);
+		for (i = 0; i < mBotNum; i++)
+			mGfxEngine->drawGameObj(mBots[i]);
+	}
 	return true;
 }
 
@@ -82,6 +110,9 @@ void CGameEngine::restart(istream *aMap)
 
 	delete [] sTemp;
 	delete [] lookup;
+
+	for (i = 0; i < mBotNum; i++)
+		mBots[i]->spawn((const char **)mTilemap, mMapWidth, mMapHeight, (const CGameObj**)mBots);
 }
 
 void CGameEngine::setFragLimit(int aFragLimit)

@@ -8,11 +8,12 @@ CBot::CBot(const char *aDllName) : mBotAI(NULL), mDllName(NULL), mDllHandle(NULL
 	strcpy(mDllName, aDllName);
 }
 
-void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj * aGameObjects)
+void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects)
 {
-	mPos.mX = float(rand() % aWidth);
-	mPos.mY = float(rand() % aHeight);
+	mPos.mX = 1.f + rand() % (aWidth-2);
+	mPos.mY = 1.f + rand() % (aHeight-2);
 	loadAI();
+	mRadius = 1.f;
 }
 
 void CBot::think(const char ** aTilemap, CVisibleBotInfo * aBots, list<CBulletInfo *> * aBulletList,

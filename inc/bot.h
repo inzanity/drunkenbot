@@ -38,7 +38,7 @@ public:
 	 * @param aWidth Width of the tilemap. @aHeight Height of the tilemap.
 	 * @param aGameObjects Bot should not be located near these objects.
 	 */
-	void spawn(const char **aTilemap, int aWidth, int aHeight, const CGameObj *aGameObjects);
+	void spawn(const char **aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects);
 
 	/**
 	 * Updates visible objects and bots actions using CBotAI.
