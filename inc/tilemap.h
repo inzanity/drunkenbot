@@ -33,9 +33,9 @@ public:
 	 * Setter for tiles.
 	 * @param aX X-coordinates of the tile.
 	 * @param aY Y-coordinates of the tile.
-	 * @param aTile Type of the tile. Setted tile is always visible.
+	 * @param aTile Type of the tile. Setted tile should be always visible.
 	 */
-	void setTile(int aX, int aY, TTileType aTile);
+	void setTile(int aX, int aY, char aTile);
 
 	/** Resets "fog of war"-flags to true. All tiles are initially not visible. */
 	void resetFogOfWar();
@@ -44,34 +44,34 @@ public:
 	 * Tile getter. @param aX X-coordinates of the tile. @param aY Y-coordinates of the tile.
 	 * @return TTileType combined with "fog of war"-flag (most significant bit).
 	 */
-	unsigned char getTile(int aX, int aY) const;
+	char getTile(int aX, int aY) const;
 
 	/**
 	 * Tile getter with float coordinates. Coordinates are rounded downwards.
 	 * @param aX X-coordinates of the tile. @param aY Y-coordinates of the tile.
 	 * @return TTileType combined with "fog of war"-flag (most significant bit).
 	 */
-	unsigned char getTile(float aX, float aY) const;
+	char getTile(float aX, float aY) const;
 
 	/**
 	 * Gets tile in position of the given object.
 	 * @param aGameObj Object to get coordinates.
 	 * @return TTileType combined with "fog of war"-flag (most significant bit).
 	 */
-	unsigned char getTile(const CGameObj *aGameObj) const;
+	char getTile(const CGameObj *aGameObj) const;
 
 	/** Getter for tile type. @param aTile Tile to get type from. */
-	TTileType type(unsigned char aTile) const;
+	TTileType type(char aTile) const;
 
 	/**
 	 * Getter for visibility of the tile. "Fog of war" is detected from the most significant bit of the tile.
 	 * @param aTile Tile to get visibility from.
 	 * @return True if tile is visible.
 	 */
-	bool visible(unsigned char aTile) const;
+	bool visible(char aTile) const;
 
 private:
-	unsigned char **mTilemap;
+	char **mTilemap;
 	int mWidth, mHeight;
 };
 
