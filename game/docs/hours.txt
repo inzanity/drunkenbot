@@ -25,5 +25,6 @@ Anza	22.10	3	Programming
 Anza	24.10	1	Programming
 Anza	25.10	2	Programming
 Anza	29.10	3	Documenting
-Anza	30.10	3	Documenting
+Anza	30.10	7	Documenting
+Anza	31.10	3	Music Composing
 
