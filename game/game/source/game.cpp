@@ -86,6 +86,12 @@ bool CGame::init()
 
 	CMech *mech			= new CMech(getNewGameObjectPtr(ETypeMech), &D3DXVECTOR3(5, mHeightMap->height(5, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 0, 0));
 	mMechs.add(mech);
+	mech = new CMech(getNewGameObjectPtr(ETypeMech), &D3DXVECTOR3(15, mHeightMap->height(15, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 0, 0));
+	mMechs.add(mech);
+	mech = new CMech(getNewGameObjectPtr(ETypeMech), &D3DXVECTOR3(25, mHeightMap->height(25, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 0, 0));
+	mMechs.add(mech);
+	mech = new CMech(getNewGameObjectPtr(ETypeMech), &D3DXVECTOR3(35, mHeightMap->height(35, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 0, 0));
+	mMechs.add(mech);
 
 	CTurret *turret	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
 	mBuildings.add(turret);
