@@ -5,8 +5,12 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 						 mBotNum(0), mWeaponNum(0), mMapWidth(0), mMapHeight(0),
 						 mFragLimit(0), mTeamNum(0), mTeamNames(NULL), mFriendlyFire(true)
 {
+	int i;
+
 	*aWeapons >> mWeaponNum;
-	// ...
+	mWeaponTypes = new CWeapon*[mWeaponNum];
+	for (i = 0; i < mWeaponNum; i++)
+		mWeaponTypes[i] = new CWeapon(aWeapons);
 
 	if (aTeamInfo)
 	{
