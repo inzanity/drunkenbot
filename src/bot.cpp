@@ -10,7 +10,7 @@ CBot::CBot(const char *aDllName, int aTeamNumber) : CBotInfo(aTeamNumber << 8), 
 	strcpy(mDllName, aDllName);
 }
 
-void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects)
+void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects, const CWeapon *aWeapon)
 {
 	loadAI();
 	int speed, armour, aiming, size;
@@ -42,9 +42,10 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 	mSpawningPos = mPos;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
 	mHealth = 100;
+	mWeapon = new CWeapon(aWeapon);
 }
 
-void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots, int aBotNum,
+void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots,
 				 list<CBulletInfo *> *aBulletList, list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
 {
 	mBotAI->resetAction();
@@ -61,7 +62,6 @@ void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo
 	scanTilemap(aTilemap, dAngle);
 	for (int i = 0; aBots[i]; i++)
 	{
-		int j = 5;
 		if (aBots[i]->type() != mType && !(mBotAI->mTilemap->getTile(int(aBots[i]->xPos() - mSpawningPos.mX), int(aBots[i]->yPos() - mSpawningPos.mY)) >> 7))
 		{
 			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mSpawningPos.mX, mSpawningPos.mY, mType));
@@ -148,7 +148,7 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 	mBotAction = (TBotAction)(mBotAI->action() & (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon));
 	if (mBotAction == EActionShoot && mWeapon->shoot())
 	{
-		// TODO: Add bullet and voice.
+		aBulletList->push_back(new CBulletInfo(3, mPos.mX + (mRadius + 0.5f) * cos(mOrientation), mPos.mY + (mRadius + 0.5f) * sin(mOrientation), mOrientation + mBotAI->shootingDir(), mWeapon->bulletSpeed(), this));
 		mActionDelay = (char)mWeapon->reloadTime();
 	}
 	else if (mBotAction == EActionBunker)
