@@ -1,58 +1,129 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<datafile xmlns:x0="http://www.w3.org/2001/XMLSchema">
-    <race id="1" name="Furies">
-        <technology developTime="100" id="11" name="Turning Torso"
-            picture="tech_torso.bmp" priceGas="100" priceMineral="200" shortcut="20">
-            <requires>25</requires>
-        </technology>
-        <building animation="command.x" buildingType="general"
-            constructAnimation="command.x" constructTime="100"
-            energyConsumption="0" energyProductionDay="100"
-            energyProductionNight="100" hitpoints="200" id="21"
-            name="Command Center" picture="command_icon.bmp"
-            priceGas="500" priceMineral="1000" shortcut="24"/>
-        <building animation="dock.x" buildingType="dockyard"
-            constructAnimation="dock.x" constructTime="50"
-            energyConsumption="30" hitpoints="50" id="22"
-            name="Dock Yard" picture="dock_icon.bmp" priceGas="300"
-            priceMineral="500" shortcut="32">
-            <requires>21</requires>
-        </building>
-        <building animation="silo.x" buildingType="general"
-            constructAnimation="silo.x" constructTime="30"
-            energyConsumption="0" energyProductionDay="50"
-            energyProductionNight="50" hitpoints="20" id="23"
-            name="Silo" picture="silo_icon.bmp" priceGas="0"
-            priceMineral="100" shortcut="31">
-            <requires>21</requires>
-        </building>
-        <building animation="pipeConnector.x" buildingType="pipe"
-            constructAnimation="pipeConnector.x" constructTime="0"
-            energyConsumption="0" hitpoints="20" id="24" name="Pipe"
-            picture="pipe_icon.bmp" priceGas="0" priceMineral="10" shortcut="25">
-            <requires>21</requires>
-        </building>
-        <building animation="techCenter.x" buildingType="general"
-            constructAnimation="techCenter.x" constructTime="75"
-            energyConsumption="40" hitpoints="40" id="25"
-            name="Tech Center" picture="techCenter_icon.bmp"
-            priceGas="250" priceMineral="500" shortcut="46">
-            <requires>22</requires>
-        </building>
-        <weapon accuracy="7" bullet="" explosiveDamage="0" id="31"
-            mass="10" model="machineGun.x" name="Machine Gun"
-            picture="machineGun_icon.bmp" piercingDamage="10"
-            priceGas="0" priceMineral="0" range="50" shortcut="2" type="normal"/>
-        <weapon accuracy="10" bullet="" explosiveDamage="0" id="32"
-            mass="15" model="laser.x" name="Laser"
-            picture="laser_icon.bmp" piercingDamage="20" priceGas="0"
-            priceMineral="50" range="30" shortcut="3" type="continuous"/>
-        <mech animation="mech.x" explosiveArmor="100" hitpoints="300"
-            mass="150" piercingArmor="100" priceGas="500"
-            priceMineral="1000" speed="20"/>
-        <upgrade id="41" name="Weapon" picture="upgrd_weapon.bmp"
-            priceGas="100" priceMineral="100" shortcut="17"/>
-        <upgrade id="42" name="Shield" picture="upgrd_shield.bmp"
-            priceGas="100" priceMineral="100" shortcut="31"/>
-    </race>
-</datafile>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:fg="http://www.FGolubov.com/XMLEditor" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+			
+	<xsd:element name="datafile">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="race" minOccurs="1" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="technology" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="requires" minOccurs="0" maxOccurs="unbounded" type="xsd:integer" />
+									</xsd:sequence>
+									<xsd:attribute name="id" type="xsd:integer" use="required"/>
+									<xsd:attribute name="name" type="xsd:string" use="required"/>
+									<xsd:attribute name="shortcut" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
+									<xsd:attribute name="developTime" type="xsd:integer" use="required"/>
+									<xsd:attribute name="picture" type="xsd:string" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="building" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="requires" minOccurs="0" maxOccurs="unbounded" type="xsd:integer"/>
+										<xsd:element name="technology" minOccurs="0" maxOccurs="unbounded" type="xsd:integer"/>
+									</xsd:sequence>
+									<xsd:attribute name="id" type="xsd:integer" use="required"/>
+									<xsd:attribute name="name" type="xsd:string" use="required"/>
+									<xsd:attribute name="shortcut" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
+									<xsd:attribute name="energyProductionNight" type="xsd:integer" default="0"/>
+									<xsd:attribute name="energyProductionDay" type="xsd:integer" default="0"/>
+									<xsd:attribute name="energyConsumption" type="xsd:integer" use="required"/>
+									<xsd:attribute name="buildingType" use="required">
+										<xsd:simpleType>
+											<xsd:restriction base="xsd:string">
+												<xsd:enumeration value="general"/>
+												<xsd:enumeration value="turret"/>
+												<xsd:enumeration value="pipe"/>
+												<xsd:enumeration value="dockyard"/>
+											</xsd:restriction>
+										</xsd:simpleType>
+									</xsd:attribute>
+										
+									<xsd:attribute name="weapon" type="xsd:integer"/>
+									<xsd:attribute name="hitpoints" type="xsd:integer" use="required"/>
+									<xsd:attribute name="animation" type="xsd:string" use="required"/>
+									<xsd:attribute name="upperBodyAnimation" type="xsd:string" default=""/>
+									<xsd:attribute name="constructAnimation" type="xsd:string" use="required"/>
+									<xsd:attribute name="constructTime" type="xsd:integer" use="required"/>
+									<xsd:attribute name="picture" type="xsd:string" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="weapon" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="requires" minOccurs="0" maxOccurs="unbounded" type="xsd:integer" />
+									</xsd:sequence>
+									<xsd:attribute name="id" type="xsd:integer" use="required"/>
+									<xsd:attribute name="name" type="xsd:string" use="required"/>
+									<xsd:attribute name="shortcut" type="xsd:integer" use="required"/>
+									<xsd:attribute name="model" type="xsd:string" use="required"/>
+									<xsd:attribute name="bullet" type="xsd:string" use="required"/>
+									<xsd:attribute name="picture" type="xsd:string" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
+									<xsd:attribute name="mass" type="xsd:integer" use="required"/>
+									<xsd:attribute name="range" type="xsd:integer" use="required"/>
+									<xsd:attribute name="time" type="xsd:integer" default="0"/>
+									<xsd:attribute name="type" use="required">
+										<xsd:simpleType>
+											<xsd:restriction base="xsd:string">
+												<xsd:enumeration value="normal"/>
+												<xsd:enumeration value="homing"/>
+												<xsd:enumeration value="landmine"/>
+												<xsd:enumeration value="continuous"/>
+											</xsd:restriction>
+										</xsd:simpleType>
+									</xsd:attribute>
+									<xsd:attribute name="piercingDamage" type="xsd:integer" use="required"/>
+									<xsd:attribute name="explosiveDamage" type="xsd:integer" use="required"/>
+									<xsd:attribute name="accuracy" type="xsd:integer" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="mech" minOccurs="1" maxOccurs="1">
+								<xsd:complexType>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
+									<xsd:attribute name="hitpoints" type="xsd:integer" use="required"/>
+									<xsd:attribute name="piercingArmor" type="xsd:integer" use="required"/>
+									<xsd:attribute name="explosiveArmor" type="xsd:integer" use="required"/>
+									<xsd:attribute name="speed" type="xsd:integer" use="required"/>
+									<xsd:attribute name="animation" type="xsd:string" use="required"/>
+									<xsd:attribute name="upperBodyAnimation" type="xsd:string" default=""/>
+									<xsd:attribute name="mass" type="xsd:integer" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="upgrade" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="setValue" minOccurs="0" maxOccurs="unbounded">
+											<xsd:complexType>
+												<xsd:attribute name="variable" type="xsd:string" use="required"/>
+												<xsd:attribute name="value" type="xsd:string" use="required"/>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="requires" minOccurs="0" maxOccurs="unbounded" type="xsd:integer" />
+									</xsd:sequence>
+									<xsd:attribute name="id" type="xsd:integer" use="required"/>
+									<xsd:attribute name="name" type="xsd:string" use="required"/>
+									<xsd:attribute name="shortcut" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="picture" type="xsd:string" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="id" type="xsd:integer" use="required"/>
+						<xsd:attribute name="name" type="xsd:string" use="required"/>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
