@@ -1,6 +1,5 @@
 #ifndef TURRET_H
 #define TURRET_H
-
 #include "building.h"
 #include <time.h>
 
