@@ -26,7 +26,8 @@ int main()
 	map.close();
 	weapons.close();
 
-	while (engine->loop());
+	while (engine->loop())
+		engine->draw(1.f, -1);
 	char **results = engine->getResults(false);
 	for (int i = 0; results[i]; i++)
 		cout << results[i] << endl;
@@ -123,6 +124,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 			{
 				if(!gameEngine->loop())
 					break;
+				gameEngine->draw(1.f, -1);
 				gfxEngine->flip();
 				if (++frameCounter >= 100)
 				{
