@@ -6,6 +6,11 @@
  *
  * @author Japa
  * @version 0.1
+ * @include bot.txt
+ */
+
+/** @mainpage Drunken Bot III
+ * paske!
  */
 
 #ifndef BOT_H
