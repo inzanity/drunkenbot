@@ -14,6 +14,7 @@ public:
 	virtual ~CMech();
 	virtual void externalize(ostream &aStream);
 	virtual void handleMessage(CMessage *aMsg);
+	virtual void handleCollision(const MGameObj *aObj);
 	virtual void update(uint32 aTimeFactor);
 	virtual void draw(uint32 aTimeFactor);
 	D3DXVECTOR3 getEyePos() const;

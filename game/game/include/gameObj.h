@@ -99,7 +99,7 @@ public:
 	virtual ~MColliding();
 	
 	/** Check collision with another MColliding object. @param aObj Object to perform collision checks with */
-	void checkCollision(MColliding *aObj);
+	void checkCollision(MColliding *aObj, uint32 aTimeFactor);
 	/** Handle detected collision or other interaction with another object. @param aObj Target of the collision */
 	virtual	void handleCollision(const MGameObj *aObj) = 0;
 	/** Get objects position. Usually center of the object. @return Objects position. */
@@ -108,6 +108,8 @@ public:
 	virtual float radiusSqr() const = 0;
 	/** Get bounding box for collision checks. @return Collision box. */
 	virtual const TBox *boundingBox() const = 0;
+	/** Get objects speed. @return Current speed */
+	virtual const D3DXVECTOR3 * speed() const = 0;
 };
 
 /**

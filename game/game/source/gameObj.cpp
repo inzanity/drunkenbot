@@ -76,8 +76,52 @@ MColliding::~MColliding()
 {
 }
 
-void MColliding::checkCollision(MColliding *aObj)
+void MColliding::checkCollision(MColliding *aObj, uint32 aTimeFactor)
 {
+	TBox obj1 = *boundingBox();
+	TBox obj2 = *aObj->boundingBox();
+
+	obj1.mMax += *speed() * aTimeFactor + *pos();
+	obj1.mMin += *speed() * aTimeFactor + *pos();
+	obj2.mMax += *aObj->speed() * aTimeFactor + *aObj->pos();
+	obj2.mMin += *aObj->speed() * aTimeFactor + *aObj->pos();
+
+
+	if ((obj1.mMax.x < obj2.mMax.x && obj1.mMax.x > obj2.mMin.x &&
+		 obj1.mMax.y < obj2.mMax.y && obj1.mMax.y > obj2.mMin.y &&
+		 obj1.mMax.z < obj2.mMax.z && obj1.mMax.z > obj2.mMin.z) ||
+
+		 (obj1.mMin.x < obj2.mMax.x && obj1.mMin.x > obj2.mMin.x &&
+		 obj1.mMax.y < obj2.mMax.y && obj1.mMax.y > obj2.mMin.y &&
+		 obj1.mMax.z < obj2.mMax.z && obj1.mMax.z > obj2.mMin.z) ||
+
+		 (obj1.mMax.x < obj2.mMax.x && obj1.mMax.x > obj2.mMin.x &&
+		 obj1.mMin.y < obj2.mMax.y && obj1.mMin.y > obj2.mMin.y &&
+		 obj1.mMax.z < obj2.mMax.z && obj1.mMax.z > obj2.mMin.z) ||
+
+		 (obj1.mMax.x < obj2.mMax.x && obj1.mMax.x > obj2.mMin.x &&
+		 obj1.mMax.y < obj2.mMax.y && obj1.mMax.y > obj2.mMin.y &&
+		 obj1.mMin.z < obj2.mMax.z && obj1.mMin.z > obj2.mMin.z) ||
+
+		 (obj1.mMin.x < obj2.mMax.x && obj1.mMin.x > obj2.mMin.x &&
+		 obj1.mMin.y < obj2.mMax.y && obj1.mMin.y > obj2.mMin.y &&
+		 obj1.mMax.z < obj2.mMax.z && obj1.mMax.z > obj2.mMin.z) ||
+
+		 (obj1.mMin.x < obj2.mMax.x && obj1.mMin.x > obj2.mMin.x &&
+		 obj1.mMax.y < obj2.mMax.y && obj1.mMax.y > obj2.mMin.y &&
+		 obj1.mMin.z < obj2.mMax.z && obj1.mMin.z > obj2.mMin.z) ||
+
+		 (obj1.mMax.x < obj2.mMax.x && obj1.mMax.x > obj2.mMin.x &&
+		 obj1.mMin.y < obj2.mMax.y && obj1.mMin.y > obj2.mMin.y &&
+		 obj1.mMin.z < obj2.mMax.z && obj1.mMin.z > obj2.mMin.z) ||
+
+		 (obj1.mMax.x < obj2.mMax.x && obj1.mMax.x > obj2.mMin.x &&
+		 obj1.mMax.y < obj2.mMax.y && obj1.mMax.y > obj2.mMin.y &&
+		 obj1.mMax.z < obj2.mMax.z && obj1.mMax.z > obj2.mMin.z))
+	{
+		handleCollision(aObj);
+		aObj->handleCollision(this);
+	}
 }
 
 // CDrawable

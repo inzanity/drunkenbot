@@ -12,7 +12,7 @@ CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, float aXAngle, float 
 	mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true),
 	mMaxUpperBodyAngleX(.5f), mMaxUpperBodyAngleY(.5f),
 	mMaxUpperBodyAngleXSpeed(0.0008f), mMaxUpperBodyAngleYSpeed(0.0008f),
-	mMaxSpeed(.005f), mMaxRotSpeed(.001f),
+	mMaxSpeed(.005f), mMaxRotSpeed(.003f),
 	mMoveToDest(false)
 {
 	const TBox *box = mAnimation->getBoundingBox();
@@ -33,6 +33,11 @@ CMech::~CMech()
 
 void CMech::externalize(ostream &aStream)
 {
+}
+
+void CMech::handleCollision(const MGameObj *aObj)
+{
+	setSpeed(&D3DXVECTOR3(0, 0, 0));
 }
 
 void CMech::handleMessage(CMessage *aMsg)
