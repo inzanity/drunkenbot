@@ -28,7 +28,7 @@ class CGameEngine
 public:
 	/**
 	 * Constructor to load bots from stream.
-	 * Data is read from streams in given order.
+	 * Data is read from streams in order team info, weapons, map.
 	 * @param aWeapons Stream to read available weapon types.
 	 * @param aMap Stream to read tilemap.
 	 * @param aTeamInfo Stream to load teams and bots, or NULL to load all available bots (ffa).
