@@ -1,6 +1,6 @@
-/** @file ddgraphicsengine.h
+/** @file sdlgraphicsengine.h
  * Definition of CSDLGraphicsEngine.
- * Direct Draw graphics for the game. 
+ * Simple DirectMedia Layer graphics for the game. 
  *
  * @author inz
  * @version 1.0
@@ -24,10 +24,7 @@ class CSDLGraphicsEngine : public CGraphicsEngine
 {
 public:
 	/**
-	 * Constructor. Window should be created before creating Direct Draw graphics engine.
-	 * @param aHWnd Handle to the created window.
-	 * @param aWidth Width of the canvas.
-	 * @param aHeight Height of the canvas.
+	 * Constructor.
 	 * @param aGfxInfo Stream to contain information about stream.
 	 */
 	CSDLGraphicsEngine(istream *aGfxInfo);
@@ -47,7 +44,7 @@ public:
 	void drawGameObj(const CGameObj *aGameObj);
 
 	/** Flip buffers. */
-	bool flip();
+	char flip();
 
 	/**
 	 * Resizes canvas if size of the window has changed.
@@ -57,8 +54,6 @@ public:
 
 private:
 	void releaseObjects();
-/*	HRESULT restore();
-	bool initFail(const char *aMsg); */
 
 	int mWidth, mHeight;
 	int mMapWidth, mMapHeight;
