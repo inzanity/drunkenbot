@@ -111,7 +111,7 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 			if (rooted > 0)
 			{
 				float root = sqrt(rooted);
-				float plop = (ySpeed2 - ySpeed) * (aBots[i]->yPos() - mPos.mY) + (xSpeed2 - xSpeed) * (aBots[i]->xPos() - xSpeed);
+				float plop = (ySpeed - ySpeed2) * (aBots[i]->yPos() - mPos.mY) + (xSpeed - xSpeed2) * (aBots[i]->xPos() - xSpeed);
 				float divider = 1 / (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2));
 				foo = time = (plop + root) * divider;
 				if (time > 0)
