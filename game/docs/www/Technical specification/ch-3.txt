@@ -1,14 +1,45 @@
 3.	Non-interactive functionality
 3.1	RTS-mode
-3.1.1	Attacking enemies or neutrals
-3.1.2	
+3.1.1	Enemies and neutrals
+
+	- <b>Performing</b>: When enemies or neutrals are sighted, they attack you immediately or retreat, depending on the situation.
+	- <b>Implementation</b>: When an enemy or an neutral game object is close enough to a players object it starts to follow scripted routine or calculates the situation based on current strength etc. wheter to attack or retreat.
+
+3.1.2	On-game messages
+
+	- <b>Performing</b>: Every important message in game is printed on the bottom-left corner of screen and stays there for a while.
+	- <b>Implementation</b>: There are certain events on game, which are important enough to be shown to player. These events send messages to In-Game Message system that prints correct information to screen.
+
+3.1.3	Map
+
+	- <b>Performing</b>: The whole map is shown here. Clicking here with left mouse button you can change the place of top-down view or use actions of selected objects directly to a certain place.
+	- <b>Implementation</b>: The whole game world is projected here like it's seen to player. If CDirectInput class tells that left mouse button is pressed on top this map, correct place of the place in the world is calculated and left mouse button message is generated to object or the game depending on if there is any object selected etc.
+
+3.1.4	Resources display
+
+	- <b>Performing</b>: Your available resources are displayed in the top-right corner.
+	- <b>Implementation</b>: Amount of metal and chemicals are stored in variables and the overall and used amount of power is calculated from all the building objects and energy generator objects preferences.
+
+3.1.5	Environmental occurrences
+
+	- <b>Performing</b>: Every now and then in the nights lightning strikes down from the sky creating damage to what ever it hits. Lightnings can be captured with lighning power station thus enabling certain area around the station to be safe from damage from lightnings.
+	- <b>Implementation</b>: When game time variable increases to match definion of night time, game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down creating damage to whatever object it hits (if object present).
+
 
 
 
 
 3.2	FPS-mode
 3.2.1	Radar
-3.2.2	
+
+	- <b>Performing</b>: 
+	- <b>Implementation</b>: 
+
+3.2.2	On-game messages
+
+	- <b>Performing</b>: 
+	- <b>Implementation</b>: 
+
 
 
 
