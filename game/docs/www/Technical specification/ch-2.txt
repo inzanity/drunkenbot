@@ -58,7 +58,7 @@
 2.1.8.4	Attacking actions
 
 	- <b>Performing</b>: Attack action depends on the available technology and the selected weapon. EMP shockwave can be launched instantly, byt destination coordinates are required for other weapons. With landmines, mech has to travel to the selected location before burrowing the mine. Othervice mech starts to shoot the target. If autoaim technology is available, moving target can be attacked as long as it is on sight. Without autoaim fixed destination coordinates are used.
-	- <b>Implementation</b>: Bullet creation and damage model is identical to the fps mode shooting (see 2.2.3). Attacking will continue until target is destroyed (requires machine vision), or new command is given.
+	- <b>Implementation</b>: Bullet creation (see 2.2.3) and damage model (see 3.2.2) is identical to the fps mode shooting. Attacking will continue until target is destroyed (requires machine vision), or new command is given.
 
 2.1.9	Changing into FPS mode
 
