@@ -87,7 +87,7 @@ bool CGame::init()
 	mBuildings.add(turret2);
 
 	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(15, mHeightMap->height(15, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
-//	mBuildings.add(dock1);
+	mBuildings.add(dock1);
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
 
