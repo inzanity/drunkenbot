@@ -28,7 +28,7 @@
 3.1.6	Tactical AI
 
 	- <b>Performing</b>: After tactical AI technology has been developed, automatic operation modes can be changed from action menu (or by shortcut keys in fps-mode). Manual commands will be performed in spite of the current operation mode. However, manual controlling from the fps-mode returns mech to autofire mode.
-	- <b>Implementation</b>: Tactical AI is implemented using scripts, state machines and special knowledge class (see 1.5.2). If attack mode is used, information about enemy base locations and mechs are used to generate plan of actions. Communication between other mechs is possible using messages, for example to synchronize attacks. Damaged mech will try to avoid enemy mechs and defence systems. Defence mode requires information about own bases and resources. Communication between mechs enables distributed defence and asking for help. Scout mode requires information about enemy mechs, terrain and resource locations. Comminication between mechs is not required.
+	- <b>Implementation</b>: Tactical AI is implemented using scripts, state machines and special knowledge class (see 1.5.2). If attack mode is used, information about enemy base locations and mechs are used to generate plan of actions. Communication between other mechs is possible using messages, for example to synchronize attacks. Damaged mech will try to avoid enemy mechs and defence systems. Defence mode requires information about own bases and resources. Communication between mechs enables distributed defence and asking for help. Scout mode requires information about enemy mechs, terrain and resource locations. In scout mode comminication between mechs is not required.
 
 3.1.7	Strategic AI
 
