@@ -16,7 +16,6 @@
 									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
 									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
 									<xsd:attribute name="picture" type="xsd:string" use="required"/>
-									<xsd:attribute name="animation" type="xsd:string" use="required"/>
 								</xsd:complexType>
 							</xsd:element>
 							<xsd:element name="building" minOccurs="0" maxOccurs="unbounded">
