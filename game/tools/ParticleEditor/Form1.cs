@@ -5,8 +5,6 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 
 using System.Runtime.InteropServices;
 
@@ -485,6 +483,7 @@ namespace ParticleEditor
 																				0,
 																				0,
 																				0});
+			this.numericUpDownDuration.TextChanged += new System.EventHandler(this.valueChanged);
 			// 
 			// label5
 			// 
@@ -862,7 +861,8 @@ namespace ParticleEditor
 			if (openFileDialogTex.ShowDialog() == DialogResult.OK)
 			{
 				pictureBoxTexture.Image = Image.FromFile(openFileDialogTex.FileName);
-				particleSystem.setTexture(openFileDialogTex.FileName);
+				if (particleSystem != null)
+					particleSystem.setTexture(openFileDialogTex.FileName);
 				Dirty = true;
 			}
 		}
@@ -983,11 +983,13 @@ namespace ParticleEditor
 			numericUpDownColors.Value = 1;
 			numericUpDownSizes.Value = 1;
 			checkBoxLooping.Checked = true;
-			openFileDialogTex.FileName = Path.GetFullPath(homeDir + "/../../particles/32x32_default.bmp");
+			openFileDialogTex.FileName = Path.GetFullPath(homeDir + "/particles/32x32_default.bmp");
 			pictureBoxTexture.Image = Image.FromFile(openFileDialogTex.FileName);
 			textBox1.Text = "";
 			xRot = yRot = 0;
 			dist = 20;
+			saveFileDialogPS.FileName = "";
+			Text = "Particle Editor";
 			Dirty = false;
 		}
 		

@@ -49,7 +49,7 @@
                     FileAlignment = "4096"
                     IncrementalBuild = "false"
                     Optimize = "true"
-                    OutputPath = "bin\Release\"
+                    OutputPath = ".\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -86,16 +86,6 @@
                     Name = "ParticleLib"
                     AssemblyName = "ParticleLib"
                     HintPath = "..\ParticleLib\Debug\ParticleLib.dll"
-                />
-                <Reference
-                    Name = "Microsoft.DirectX.Direct3D"
-                    AssemblyName = "Microsoft.DirectX.Direct3D"
-                    HintPath = "C:\WINNT\Microsoft.NET\Managed DirectX\v9.02.2904\Microsoft.DirectX.Direct3D.dll"
-                />
-                <Reference
-                    Name = "Microsoft.DirectX"
-                    AssemblyName = "Microsoft.DirectX"
-                    HintPath = "C:\WINNT\Microsoft.NET\Managed DirectX\v9.02.2904\Microsoft.DirectX.dll"
                 />
             </References>
         </Build>
