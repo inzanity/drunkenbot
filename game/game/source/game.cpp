@@ -29,7 +29,6 @@ bool CGame::init()
 	device->SetRenderState(D3DRS_AMBIENT, 0xffffffff);
 
 	// General particle render states
-	device->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);
 	device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
 	device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(1.0f));
     device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
@@ -46,8 +45,8 @@ bool CGame::init()
 	CDrawable *tiger = new CDrawable(1, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(5, 0, 20), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(tiger);
 
-	anim = CAnimationStorage::ptr()->getAnimation("data/sphere.x");
-	CDrawable *ufo = new CDrawable(2, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(0, -5, 20), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
+	anim = CAnimationStorage::ptr()->getAnimation("data/bones_move.x");
+	CDrawable *ufo = new CDrawable(2, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(0, -1.5f, 5), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(ufo);
 
 	cam = new CCamera(3, 6969);

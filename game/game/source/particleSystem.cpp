@@ -1,7 +1,9 @@
 #include "stdafx.h"
 
 #include "../include/particleSystem.h"
+#ifndef PARTICLE_LIB
 #include "../include/animationStorage.h"
+#endif
 
 #define COLOR_A(x)	((signed)(x >> 24))
 #define COLOR_R(x)	((signed)((x >> 16) & 0xFF))
@@ -41,7 +43,7 @@ CParticleSystem::CParticleSystem(int aParticles, int aDuration, char aPosNum, ch
 		mLife[i] = 0;
 		mStartingTime[i] = 0;
 	}
-	mTexture = CAnimationStorage::ptr()->getTexture(aTexFile);
+	setTexture(aTexFile);
 }
 
 CParticleSystem::~CParticleSystem()
@@ -91,7 +93,16 @@ void CParticleSystem::enableLooping(bool aLooping)
 
 void CParticleSystem::setTexture(const char *aTexFile)
 {
+#ifdef PARTICLE_LIB
+	if (mTexture)
+	{
+		mTexture->release();
+		delete mTexture;
+	}
+	mTexture = new CTexture(aTexFile);
+#else
 	mTexture = CAnimationStorage::ptr()->getTexture(aTexFile);
+#endif
 }
 
 void CParticleSystem::setParticle(int aIndex, int aLife, int aStartingTime, const D3DXVECTOR3 *aPos, const D3DCOLOR *aColor, const float *aSize)
@@ -156,6 +167,7 @@ void CParticleSystem::draw(uint32 aTime)
 	device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	device->SetRenderState(D3DRS_POINTSPRITEENABLE, TRUE);
+	device->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);
 	if ((mFVF & D3DFVF_PSIZE) == false && mSize)
 	    device->SetRenderState(D3DRS_POINTSIZE, *((DWORD*)&mSize[0][0]));
 //    device->SetRenderState( D3DRS_POINTSIZE_MIN, FtoDW(1.0f) ); // Float value that specifies the minimum size of point primitives. Point primitives are clamped to this size during rendering. 
@@ -217,7 +229,7 @@ void CParticleSystem::draw(uint32 aTime)
 	device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	device->SetRenderState(D3DRS_POINTSPRITEENABLE, FALSE);
-
+	device->SetRenderState(D3DRS_POINTSCALEENABLE, FALSE);
 }
 
 uint32 CParticleSystem::getDuration()
@@ -232,7 +244,7 @@ void CParticleSystem::release()
 		mVertexBuffer->Release();
 		mVertexBuffer = NULL;
 	}
-	if (mTexture)
+	if (mTexture) // TODO: ParticleLib should also delete CTexture object
 		mTexture->release();
 	// TODO: rest
 }

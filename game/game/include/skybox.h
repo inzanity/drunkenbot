@@ -1,7 +1,7 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
-#include "gameobj.h"
+#include "animation.h"
 
 enum TSkyBoxTexDir{ESkyBoxTop, ESkyBoxBottom, ESkyBoxLeft, ESkyBoxRight, ESkyBoxFront, ESkyBoxBack};
 

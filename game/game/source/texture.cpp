@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "..\include\texture.h"
 
 // CTexture

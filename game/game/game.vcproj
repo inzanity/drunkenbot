@@ -117,13 +117,22 @@
 				RelativePath="source\d3dUtil.cpp">
 			</File>
 			<File
+				RelativePath="source\directInput.cpp">
+			</File>
+			<File
 				RelativePath="source\game.cpp">
 			</File>
 			<File
 				RelativePath="source\gameObj.cpp">
 			</File>
 			<File
+				RelativePath="source\heightMap.cpp">
+			</File>
+			<File
 				RelativePath="source\main.cpp">
+			</File>
+			<File
+				RelativePath="source\meshHierarchy.cpp">
 			</File>
 			<File
 				RelativePath="source\message.cpp">
@@ -160,13 +169,22 @@
 				RelativePath="include\def.h">
 			</File>
 			<File
+				RelativePath="include\directInput.h">
+			</File>
+			<File
 				RelativePath="include\game.h">
 			</File>
 			<File
 				RelativePath="include\gameObj.h">
 			</File>
 			<File
+				RelativePath="include\heightMap.h">
+			</File>
+			<File
 				RelativePath="include\indexList.h">
+			</File>
+			<File
+				RelativePath="include\meshHierarchy.h">
 			</File>
 			<File
 				RelativePath="include\message.h">

@@ -8,8 +8,7 @@
 #ifndef	ANIMATION_H
 #define	ANIMATION_H
 
-#include "d3dUtil.h"
-#include "texture.h"
+#include "meshHierarchy.h"
 
 /**
  * General Animation interface.
@@ -24,6 +23,28 @@ public:
 	virtual void	restore		(const char *aFileName)	= 0;
 };
 
+class CMeshAnimation : public MAnimation
+{
+public:
+	CMeshAnimation(const char *aFileName);
+	virtual ~CMeshAnimation();
+	void draw(uint32 aTime);
+	uint32 getDuration();
+	void release();
+	void restore(const char *aFileName);
+private:
+	void drawFrame(LPD3DXFRAME aFrame);
+	void drawMeshContainer(LPD3DXMESHCONTAINER aMeshContainerBase, LPD3DXFRAME aFrameBase);
+	void updateFrameMatrices(const D3DXFRAME *aFrameBase, const D3DXMATRIX *aParentMatrix);
+	HRESULT loadXFile(const char *aFileName);
+private:
+	LPD3DXFRAME mFrameRoot;
+	LPD3DXANIMATIONCONTROLLER mAnimController;
+	DWORD mCurrentTrack;
+	uint32 mPrevTime;
+};
+
+/*
 class CMeshAnimation : public MAnimation
 {
 public:
@@ -43,5 +64,5 @@ private:
 	D3DMATERIAL9 *	mMaterial;
 	CTexture *		mTexture;
 };
-
+*/
 #endif // ANIMATION_H
