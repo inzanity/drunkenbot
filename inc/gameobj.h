@@ -123,15 +123,6 @@ public:
 	virtual void addFrag();
 
 protected:
-	/**
-	 * Raycaster to scan visible tiles.
-	 * @param aSrcTilemap Full tilemap to read tiles for scanning.
-	 * @param aAngle Moving direction for casted ray.
-	 * @param aDstTilemap Tilemap to write visible tiles.
-	 * @return Position of the detected collision.
-	 */
-	TVector scanTilemap(const char **aSrcTilemap, float aAngle, CTilemap *aDstTilemap) const;
-
 	/** Collision handling. @param aDamage Damage caused by collision. @return False if object (CBot) has died. */
 	virtual bool handleCollision(int aDamage);
 
@@ -144,7 +135,6 @@ protected:
 	/** Moving direction of the game object. */
 	float mMovingDirection;
 
-private:
 	/**
 	 * Find next edge from tilemap. <code>aPos + time * aSpeed</code> is always in the next tile.
 	 * With collision detection, 2 * mEpsilon should be decreased from time.
@@ -152,8 +142,9 @@ private:
 	 * @param aSpeed Speed of the "casted ray". In normal case, this is <code>velocity * [cos direction, sin direction]</code>.
 	 * @return Time difference to the next edge. mEpsilon is added to time to avoid problems with precision.
 	 */
-	float getNextEdge(TVector aPos, TVector aSpeed) const;
+	static float getNextEdge(TVector aPos, TVector aSpeed);
 
+private:
 	static const float mEpsilon;
 	float mMovingTimeFactor;
 };
