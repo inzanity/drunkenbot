@@ -20,3 +20,8 @@ Japa	6.10.	6	Tools
 Japa	12.10.	1	Programming
 Japa	18.10.	3	Programming
 Japa	20.10.	3	Programming
+Anza	21.10	3	Programming
+Anza	22.10	3	Programming
+Anza	24.10	1	Programming
+Anza	25.10	2	Programming
+
