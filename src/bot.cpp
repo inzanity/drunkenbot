@@ -34,11 +34,11 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 	do {
 		mPos.mX = 1 + rand() % (aWidth-2);
 		mPos.mY = 1 + rand() % (aHeight-2);
-		tile = aTilemap[int(mPos.mY - mRadius)][int((mPos.mX + mRadius))] &
-				   aTilemap[int(mPos.mY - mRadius)][int((mPos.mX - mRadius))] &
-				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX + mRadius))] &
-				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX - mRadius))];
-	} while (tile & 3 != CTilemap::ETileEmpty);
+		tile = aTilemap[int(mPos.mY - mRadius)][int(mPos.mX + mRadius)] &
+				   aTilemap[int(mPos.mY - mRadius)][int(mPos.mX - mRadius)] &
+				   aTilemap[int(mPos.mY + mRadius)][int(mPos.mX + mRadius)] &
+				   aTilemap[int(mPos.mY + mRadius)][int(mPos.mX - mRadius)];
+	} while ((tile & 3) != CTilemap::ETileEmpty);
 	mSpawningPos = mPos;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
 	mHealth = 100;
@@ -230,9 +230,9 @@ void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 	{
 		TVector pos = mPos;
 		TVector speed = {cos(angle), sin(angle)};
-		for (tile = aTilemap[(int)pos.mY][(int)pos.mX];
+		for (tile = aTilemap[(int)floorf(pos.mY)][(int)floorf(pos.mX)];
 			 (CTilemap::TTileType)(tile & 3) != CTilemap::ETileWall;
-			 tile = aTilemap[(int)pos.mY][(int)pos.mX])
+			 tile = aTilemap[(int)floorf(pos.mY)][(int)floorf(pos.mX)])
 		{
 			mBotAI->mTilemap->setTile((int)(floorf(pos.mX) - mSpawningPos.mX), (int)(floorf(pos.mY) - mSpawningPos.mY), tile);
 			time = getNextEdge(pos, speed);
