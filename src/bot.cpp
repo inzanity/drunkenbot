@@ -62,7 +62,7 @@ void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo
 	scanTilemap(aTilemap, dAngle);
 	for (int i = 0; aBots[i]; i++)
 	{
-		if (aBots[i]->type() != mType && !(mBotAI->mTilemap->getTile(int(aBots[i]->xPos() - mSpawningPos.mX), int(aBots[i]->yPos() - mSpawningPos.mY)) >> 7))
+		if (aBots[i]->type() != mType && !(mBotAI->mTilemap->getTile(floorf(aBots[i]->xPos()) - mSpawningPos.mX, floorf(aBots[i]->yPos()) - mSpawningPos.mY) >> 7))
 		{
 			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mSpawningPos.mX, mSpawningPos.mY, mType));
 		}
@@ -222,11 +222,12 @@ void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 			 (CTilemap::TTileType)(tile & 3) != CTilemap::ETileWall;
 			 tile = aTilemap[(int)pos.mY][(int)pos.mX])
 		{
-			mBotAI->mTilemap->setTile((int)floorf(pos.mX - mSpawningPos.mX), (int)floorf(pos.mY - mSpawningPos.mY), tile);
+			mBotAI->mTilemap->setTile((int)(floorf(pos.mX) - mSpawningPos.mX), (int)(floorf(pos.mY) - mSpawningPos.mY), tile);
 			time = getNextEdge(pos, speed);
+			float x = pos.mX + time * speed.mX, y = pos.mY + time * speed.mY;
 			pos.mX += time * speed.mX;
 			pos.mY += time * speed.mY;
 		}
-		mBotAI->mTilemap->setTile((int)floorf(pos.mX - mSpawningPos.mX), (int)floorf(pos.mY - mSpawningPos.mY), tile);
+		mBotAI->mTilemap->setTile((int)(floorf(pos.mX) - mSpawningPos.mX), (int)(floorf(pos.mY) - mSpawningPos.mY), tile);
 	}
 }
