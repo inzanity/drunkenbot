@@ -80,25 +80,47 @@ int main(int argc, char **argv)
 
 
 #include "../inc/ddgraphicsengine.h"
+#include <richedit.h>
 #pragma comment(lib, "winmm")
 
 CDDGraphicsEngine *gfxEngine = NULL;
 bool active = true;
+HWND hWnd = NULL;
+HWND hResults = NULL;
+char **results = NULL;
 
 long FAR PASCAL	windowProc(HWND	aHWnd, UINT	aMsg, WPARAM aWParam, LPARAM aLParam)
 {
 	switch(aMsg)
 	{
+	case WM_PAINT:
+		if (aHWnd == hResults)
+		{
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hResults, &ps);
+			RECT rect;
+			GetClientRect(hResults, &rect);
+			Rectangle(hdc, rect.left, rect.top, rect.right, rect.bottom);
+			for (int i = 0; results && results[i]; i++)
+				TextOut(hdc, 5, i * 20 + 5, results[i], strlen(results[i]));
+			EndPaint(hResults, NULL);
+		}
+		else
+			return DefWindowProc(aHWnd,	aMsg, aWParam, aLParam);
+		break;
 	case WM_DESTROY:
-		PostQuitMessage(0);
+		if (aHWnd == hWnd)
+			PostQuitMessage(0);
 		break;
 	case WM_SIZE:
-		if (gfxEngine)
-			gfxEngine->resize();
+		if (aHWnd == hWnd)
+			if (gfxEngine)
+				gfxEngine->resize();
 		break;
 	case WM_KEYDOWN:
-		if (aWParam == VK_ESCAPE)
-			active = !active;
+		if (aHWnd == hWnd)
+			if (aWParam == VK_ESCAPE)
+				active = !active;
 	default:
 		return DefWindowProc(aHWnd,	aMsg, aWParam, aLParam);
 	}
@@ -108,16 +130,19 @@ long FAR PASCAL	windowProc(HWND	aHWnd, UINT	aMsg, WPARAM aWParam, LPARAM aLParam
 
 int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int aCmdShow)
 {
-	const char	KClassName[]	= "DrunkenBot";
-	const char	KWindowName[]	= "Drunken Bot III";
+	const char	KClassName[]		= "DrunkenBot";
+	const char	KResultClassName[]	= "DrunkenBotResults";
+	const char	KWindowName[]		= "Drunken Bot III";
+	const char	KResultWindowName[]	= "Results";
+	HMODULE		mHRichEdit			= LoadLibrary("riched32.dll");
 	char *windowName = new char[64];
 	int frameCounter = 0;
 	float fps;
 	DWORD startTime = timeGetTime();
 
 	WNDCLASS	wc;
+	WNDCLASS	wc2;
 	MSG			msg;
-	HWND		hWnd;
 	BOOL		gotMsg;
 
 	if (!aHInstPrev)
@@ -134,6 +159,19 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 		wc.lpszClassName = KClassName;
 		if (!RegisterClass(&wc))
 			return 0;
+
+		wc2.style = CS_HREDRAW |	CS_VREDRAW;
+		wc2.lpfnWndProc = windowProc;
+		wc2.cbClsExtra =	0;
+		wc2.cbWndExtra =	0;
+		wc2.hInstance = aHInst;
+		wc2.hIcon = NULL;
+		wc2.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wc2.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+		wc2.lpszMenuName	= NULL;
+		wc2.lpszClassName = KResultClassName;
+		if (!RegisterClass(&wc2))
+			return 0;
 	}
 
 	// Create window
@@ -142,6 +180,9 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 	{
 		ShowWindow(hWnd, aCmdShow);
 		UpdateWindow(hWnd);
+		hResults = CreateWindow(KResultClassName, KResultWindowName, WS_OVERLAPPED|WS_VISIBLE, 0, 0, 320, 200, NULL, NULL, NULL, NULL);
+		if (hResults)
+			ShowWindow(hResults, SW_SHOW);
 	}
 	else
 		return false;
@@ -169,8 +210,11 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 				gfxEngine->flip();
 				if (++frameCounter >= 100)
 				{
-					frameCounter = 0;
 					fps = 100000.f / float(timeGetTime() - startTime);
+					frameCounter = 0;
+					results = gameEngine->getResults(false, results);
+					InvalidateRect(hResults, NULL, false);
+					UpdateWindow(hResults);
 					sprintf(windowName, "%s, fps: %f", KWindowName, fps);
 					SetWindowText(hWnd, windowName);
 					startTime = timeGetTime();
