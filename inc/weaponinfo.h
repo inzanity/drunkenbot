@@ -41,7 +41,7 @@ public:
 	 * Getter for the weapon type.
 	 * @return Type of weapon.
 	 * */
-	int weaponType();
+	int weaponType() const;
 
 private:
 	int mWeaponType;

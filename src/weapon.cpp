@@ -25,32 +25,32 @@ bool CWeapon::shoot()
 	return true;
 }
 
-int CWeapon::reloadTime()
+int CWeapon::reloadTime() const
 {
 	return mReloadTime;
 }
 
-int CWeapon::bulletCount()
+int CWeapon::bulletCount() const
 {
 	return mBulletCount;
 }
 
-float CWeapon::bulletSpeed()
+float CWeapon::bulletSpeed() const
 {
 	return mBulletSpeed;
 }
 
-float CWeapon::explosionRadius()
+float CWeapon::explosionRadius() const
 {
 	return mExplosionRadius;
 }
 
-float CWeapon::explosionSpeed()
+float CWeapon::explosionSpeed() const
 {
 	return mExplosionSpeed;
 }
 
-float CWeapon::damage()
+float CWeapon::damage() const
 {
 	return mDamage;
 }

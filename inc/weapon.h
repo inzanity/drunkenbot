@@ -9,6 +9,8 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
+#include <istream>
+
 using std::istream;
 
 /**
@@ -37,37 +39,37 @@ public:
 	 * Getter for reload time.
 	 * @return Reload time in turns.
 	 */
-	int reloadTime();
+	int reloadTime() const;
 	
 	/**
 	 * Getter for bullet count.
 	 * @return Amount of bullets available.
 	 */
-	int bulletCount();
+	int bulletCount() const;
 
 	/**
 	 * Getter for bullet speed.
 	 * @return Speed of bullet in tiles/turn.
 	 */
-	float bulletSpeed();
+	float bulletSpeed() const;
 
 	/**
 	 * Getter for explosion radius.
 	 * @return Radius of explosion of bullet in tiles, 0 for non-explosive bullet.
 	 */
-	float explosionRadius();
+	float explosionRadius() const;
 	
 	/**
 	 * Getter for explosion speed.
 	 * @return Explosion radius growth speed in tiles/turn.
 	 */
-	float explosionSpeed();
+	float explosionSpeed() const;
 
 	/**
 	 * Getter for bullet damage.
 	 * @return Amount of damage done when hit/caught in explosion.
 	 */
-	float damage();
+	float damage() const;
 
 private:
 	int mReloadTime;

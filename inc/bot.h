@@ -14,11 +14,14 @@
 #include "graphicsengine.h"
 
 using std::list;
-/*
-#ifndef HMODULE
-#define HMODULE void *
+
+#ifdef WIN32
+#	include <windows.h>
+#else
+#	include <dlfcn.h>
+#	define HMODULE void *
 #endif
-*/
+
 /**
  * Class to store all bots information.
  * Bots are controlled using CBotAI. AI is always reloaded during spawning.

@@ -1,8 +1,3 @@
-#ifdef WIN32
-# include <windows.h>
-#else
-# include <dlfcn.h>
-#endif
 #include <cstring>
 #include <cstdlib>
 #include "../inc/bot.h"

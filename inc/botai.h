@@ -19,6 +19,8 @@
 
 using std::list;
 
+#define PI 3.14
+
 /**
  * Base class for external AI class.
  * Bots are controlled using think() method once in every frame.
@@ -75,16 +77,18 @@ public:
 	 * If <code>EActionBunker</code>, <code>EActionPickWeapon</code> or <code>EActionDropWeapon</code> is defined,
 	 * it will be cancelled. If bot has been bunkered, it can not move before unbunkering.
 	 * @param aDir Moving direction. If direction is invalid, no action is performed.
+	 * @return True if action was legal.
 	 */
-	void move(TBotMovingDir aDir);
+	bool move(TBotMovingDir aDir);
 
 	/**
 	 * Turn bot to the given direction.
 	 * If <code>EActionBunker</code>, <code>EActionPickWeapon</code> or <code>EActionDropWeapon</code> is defined,
 	 * it will be cancelled.
 	 * @param aDir Turning direction. If direction is invalid, no action is performed.
+	 * @return True if action was legal.
 	 */
-	void turn(TBotTurningDir aDir);
+	bool turn(TBotTurningDir aDir);
 
 	/**
 	 * Shoot to the given direction with the current weapon.
@@ -92,32 +96,36 @@ public:
 	 * it will be cancelled. Moving at the same time will decrease precision.
 	 * Reloading time depends on weapon. If bot is still reloading the weapon, no action is performed.
 	 * @param aDir Shooting direction in radians. If direction is invalid (|dir| > PI/8), no action is performed.
+	 * @return True if action was legal.
 	 */
-	void shoot(float aDir);
+	bool shoot(float aDir);
 
 	/**
 	 * Bunker/unbunker bot. Action duration 4 rounds.
 	 * If <code>EActionShoot</code>, <code>EActionPickWeapon</code> or <code>EActionDropWeapon</code> is defined,
 	 * it will be cancelled.
+	 * @return True if action was legal.
 	 */
-	void bunker();
+	bool bunker();
 
 	/**
 	 * Pick up a weapon. Action duration 2 rounds.
 	 * If <code>EActionShoot</code>, <code>EActionBunker</code> or <code>EActionDropWeapon</code> is defined,
 	 * it will be cancelled. To pick a weapon, it has to be close enough (distance <= radius of the bot + radius of the weapon).
+	 * @return True if action was legal.
 	 */
-	void pickWeapon();
+	bool pickWeapon();
 
 	/**
 	 * Drop a weapon. Action duration 1 round.
 	 * If <code>EActionShoot</code>, <code>EActionBunker</code> or <code>EActionPickWeapon</code> is defined,
 	 * it will be cancelled. Dropped weapon disappears permanently, and it can not be picked up again.
+	 * @return True if action was legal.
 	 */
-	void dropWeapon();
+	bool dropWeapon();
 
 	/** Getter for action. @return Action to be performed next. */
-	int action();
+	int action() const;
 
 	/**
 	 * Check validity of the action.
@@ -127,7 +135,7 @@ public:
 	 * Action can not be changed, before it has been completed. See CBotInfo::actionDelay().
 	 * @return True for legal actions, false for illegal.
 	 */
-	bool checkAction();
+	bool checkAction() const;
 
 	/** Map of the surrounding world. Bot is placed in the middle of the map (tile 0, 0). */
 	CTilemap *mTilemap;
@@ -148,9 +156,11 @@ public:
 	CBotInfo mData;
 
 private:
+	bool setAction(TBotAction aAction, int aExclusiveActions);
+
 	int mAction;
 	TBotMovingDir mMovingDir;
-	TBotMovingDir mTurningDir;
+	TBotTurningDir mTurningDir;
 	float mShootingDir;
 };
 

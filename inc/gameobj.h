@@ -11,6 +11,8 @@
 #ifndef GAMEOBJ_H
 #define GAMEOBJ_H
 
+#define KTeamMask 0xF00
+
 class CBotInfo;
 class CTilemap;
 
@@ -33,26 +35,29 @@ public:
 	/** Constructor. @param aType Type of the game object. @see mType. */
 	CGameObj(int aType);
 
+	/** Copy constructor. @param aGameObj Source game object to copy data from. */
+	CGameObj(const CGameObj *aGameObj);
+
 	/** Destructor. */
 	virtual ~CGameObj();
 
 	/** Getter for x-coordinates of the object. */
-	float xPos();
+	float xPos() const;
 	
 	/** Getter for y-coordinates of the object. */
-	float yPos();
+	float yPos() const;
 
 	/** Getter for the radius. Used with drawing and collision detection. */
-	float radius();
+	float radius() const;
 
 	/** Getter for the orientation of the object. */
-	float orientation();
+	float orientation() const;
 
 	/** Getter for the type of the object. @see mType. */
-	int type();
+	int type() const;
 
 	/** Getter for animation timer. May be used by IGraphicsEngine. */
-	float animationTimer();
+	float animationTimer() const;
 
 protected:
 	/** Coordinates of the object. */
@@ -77,11 +82,17 @@ public:
 	/** Constructor. @param aType Type of the object. */
 	CMovingGameObj(int aType);
 
+	/** Copy constructor. @param aGameObj Source game object to copy data from. */
+	CMovingGameObj(const CMovingGameObj *aGameObj);
+
 	/** Destructor. */
 	virtual ~CMovingGameObj();
 
 	/** Getter for the velocity. */
-	float velocity();
+	float velocity() const;
+
+	/** Getter for the moving direction. */
+	float movingDirection() const;
 
 	/**
 	 * Moves object according to its velocity and direction.
@@ -97,28 +108,28 @@ public:
 	 * @param aBots List of all bots.
 	 * @param aCollisionWithObstacles True to enable collisions with obstacles.
 	 *        Bots can collide with walls and obstacles, while bullets can collide only with walls.
+	 * @return True if no collisions were detected.
 	 */
-	void chkCollision(const char **aTilemap, CBotInfo **aBots, bool aCollisionWithObstacles);
+	bool chkCollision(const char **aTilemap, CBotInfo **aBots, bool aCollisionWithObstacles);
+
+	/** Increase frag counter of the responsible CBot. */
+	virtual void addFrag();
 
 protected:
 	/**
-	 * Raycaster to scan visible tiles. Can be used to check collisions with walls.
+	 * Raycaster to scan visible tiles.
 	 * @param aSrcTilemap Full tilemap to read tiles for scanning.
 	 * @param aAngle Moving direction for casted ray.
-	 * @param aDstTilemap Tilemap to write visible tiles. NULL to disable vision scanning
-	 *		  (with collision detection).
+	 * @param aDstTilemap Tilemap to write visible tiles.
 	 * @return Position of the detected collision.
 	 */
-	TVector scanTilemap(const char **aSrcTilemap, float aAngle, CTilemap *aDstTilemap);
+	TVector scanTilemap(const char **aSrcTilemap, float aAngle, CTilemap *aDstTilemap) const;
 
 	/** Collision handling. @param aDamage Damage caused by collision. @return False if object (CBot) has died. */
 	virtual bool handleCollision(int aDamage);
 
 	/** Getter for damage caused by this object in collisions. @return Caused damage. */
-	virtual int getDamage();
-
-	/** Increase frag counter of the responsible CBot. */
-	virtual void addFrag();
+	virtual int getDamage() const;
 
 	/** Velocity of the game object. */
 	float mVelocity;
@@ -128,13 +139,13 @@ protected:
 
 private:
 	/**
-	 * Find next edge from tilemap. <code>aPos + distance * aSpeed</code> is always in the next tile.
-	 * With collision detection, 2 * mEpsilon should be decreased from distance.
+	 * Find next edge from tilemap. <code>aPos + time * aSpeed</code> is always in the next tile.
+	 * With collision detection, 2 * mEpsilon should be decreased from time.
 	 * @param aPos Initial position of the "casted ray".
 	 * @param aSpeed Speed of the "casted ray". In normal case, this is <code>velocity * [cos direction, sin direction]</code>.
-	 * @return Distance to the next edge. mEpsilon is added to distance to avoid problems with precision.
+	 * @return Time difference to the next edge. mEpsilon is added to time to avoid problems with precision.
 	 */
-	float getNextEdge(TVector aPos, TVector aSpeed);
+	float getNextEdge(TVector aPos, TVector aSpeed) const;
 
 	static const float mEpsilon;
 	float mMovingTimeFactor;

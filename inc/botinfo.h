@@ -14,6 +14,7 @@
 #ifndef BOTINFO_H
 #define BOTINFO_H
 
+#include "gameobj.h"
 #include "weapon.h"
 
 /**
@@ -86,15 +87,15 @@ public:
 	/** Getter for frag counter. @return Number of killed enemies. */
 	int fragNum();
 
+	/** Increase frag counter. */
+	void addFrag();
+
 protected:
 	/** Collision handling. @param aDamage Damage caused by collision. @return False if mHealth <= aDamage. */
 	bool handleCollision(int aDamage);
 
 	/** Getter for damage caused by this object in collisions. @return Caused damage. */
 	int getDamage();
-
-	/** Increase frag counter. */
-	void addFrag();
 
 	/** Current weapon. */
 	CWeapon *mWeapon;
@@ -108,8 +109,11 @@ protected:
 	/** Is the robot bunkered. */
 	bool mBunkered;
 
+	/** Remainig health. */
+	int mHealth;
+
 private:
-	int fragNum;
+	int mFragNum;
 };
 
 #endif // BOTINFO_H

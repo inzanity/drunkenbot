@@ -12,6 +12,8 @@
 #ifndef BULLET_H
 #define BULLET_H
 
+#include "gameobj.h"
+
 /**
  * Public class for bullets
  * When bots see a bullet, this is the info they get of it
@@ -20,7 +22,8 @@ class CVisibleBulletInfo : public CMovingGameObj
 {
 public:
 	/** Default constructor. */
-	CVisibleBulletInfo();
+	CVisibleBulletInfo(int aBulletType);
+
 	/**
 	 * Copy constructor.
 	 * This will only be called with data of type CBulletInfo,
@@ -32,17 +35,12 @@ public:
 	 * @param aYPos Current Y coordinate of the bot
 	 */
 	CVisibleBulletInfo(const CVisibleBulletInfo *aBullet, float aXPos, float aYPos);
+
 	/** Destructor. */
 	virtual ~CVisibleBulletInfo();
 	
 	/** Getter for the bullet type. */
-	int bulletType();
-
-	/**
-	 * Collision handler.
-	 * @param aType Type of the collision.
-	 */
-	void handleCollision(int aType);
+	int bulletType() const;
 
 private:
 	int mBulletType;
@@ -55,9 +53,6 @@ private:
 class CBulletInfo : public CVisibleBulletInfo
 {
 public:
-	/** Default constructor. */
-	CBulletInfo();
-
 	/** Constructor with type and coordinates.
 	 * Creates a bullet of given type to given coordinates.
 	 * @param aBulletType Type of bullet.
@@ -69,16 +64,13 @@ public:
 	 */
 	CBulletInfo(int aBulletType, float aXPos, float aYPos, float aDirection, float aVelocity, CBotInfo *aShooter);
 
-	/**
-	 * Checks and handles collisions. See CMovingGameObj::chkCollision().
-	 * @param aTilemap Tilemap to detect collisions. Bullets can collide only with walls.
-	 * @param aBots List of all bots.
-	 */
-	void chkCollision(const char **aTilemap, CBotInfo **aBots);
-
 	/** Destructor. */
 	virtual ~CBulletInfo();
 
+	/** Increase frag counter of the shooter bot. */
+	void addFrag();
+
+protected:
 	/**
 	 * Collision handling.
 	 * @param aDamage Damage caused by collision.
@@ -87,10 +79,7 @@ public:
 	bool handleCollision(int aDamage);
 
 	/** Getter for damage caused in collision. */
-	int getDamage();
-
-	/** Increase frag counter of the shooter bot. */
-	void addFrag();
+	int getDamage() const;
 
 private:
 	CBotInfo *mShooter;

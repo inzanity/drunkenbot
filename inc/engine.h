@@ -50,7 +50,7 @@ public:
 	 * @param aTeamResults True to get team results, false to get results for every bot.
 	 * @return Sorted table of strings including scores and names.
 	 */
-	char **getResults(bool aTeamResults);
+	char **getResults(bool aTeamResults) const;
 
 	/**
 	 * Resets scores and initializes new game.
