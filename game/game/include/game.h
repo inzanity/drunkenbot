@@ -6,7 +6,7 @@
 #include "camera.h"
 #include "message.h"
 #include "heightMap.h"
-#include "pathFinder.h"
+//#include "pathFinder.h"
 #include "messageBox.h"
 #include "rtsModeUI.h"
 #include "fpsModeUI.h"
@@ -48,7 +48,7 @@ private:
 	int mNumPlayers;
 	int mPlayer;
 	list<MGameObj *> mDestroyList;
-	CPathFinder *mPathFinder;
+//	CPathFinder *mPathFinder;
 	CMessageList mMsgList;
 	uint32 mTime;
 	uint16 mNewId;
