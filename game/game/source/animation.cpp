@@ -24,6 +24,7 @@ void CMeshAnimation::draw(uint32 aTime)
 		if (aTime < mPrevTime)
 		{
 			mAnimController->ResetTime();
+			mAnimController->SetTrackPosition(0, 0);
 			mPrevTime = 0;
 		}
 		mAnimController->AdvanceTime((aTime - mPrevTime) / 1000.0, NULL);
