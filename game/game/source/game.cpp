@@ -101,10 +101,9 @@ bool CGame::init()
 	mBuildings.add(turret);
 	turret	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 50), 50), 0, 1);
 	mBuildings.add(turret);
-
+*/
 	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(35, mHeightMap->height(35, 10), 10), 0, 1);
 	mBuildings.add(dock1);
-*/
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
 

@@ -59,7 +59,7 @@ void CFPSModeUI::handleInput()
 	}
 	if (directInput->isPressed(MOVE_DOWN))
 	{
-		mech->setSpeed(&D3DXVECTOR3(sin(mech->yRot()) * mechSpeed, 0, cos(mech->yRot()) * -mechSpeed));
+		mech->setSpeed(&D3DXVECTOR3(sin(mech->yRot()) * -mechSpeed, 0, cos(mech->yRot()) * -mechSpeed));
 	}
 
 	float maxXAngleSpeed = mech->maxUBAngleXSpeed();
