@@ -101,6 +101,7 @@ bool CGameEngine::loop()
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->think((const char **)mTilemap, mMapWidth, mMapHeight, (CVisibleBotInfo **)mBots,
 						&mBulletList, &mWeaponList, &mVoiceList);
+	mVoiceList.clear();
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->performActions(&mBulletList, &mVoiceList);
 	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
