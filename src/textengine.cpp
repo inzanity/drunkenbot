@@ -21,15 +21,24 @@ void CTextEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 {
 	cout << "\033[1;1H";
 	char *sTemp;
+	char cTemp;
+	char cOld = 5;
 	sTemp = new char[aWidth];
 	sTemp[aWidth] = '\0';
 	for (int i = 0; i < aHeight; i++)
 	{
 		for (int j = 0; j < aWidth; j++)
 		{
-			sTemp[j] = mMapSymbols[aTilemap[i][j] & 15];
+			if (mActiveBot)
+				cTemp = mActiveBot->botAI()->mTilemap->getTile(j - mActiveBot->spawningXPos(), i - mActiveBot->spawningYPos());
+			else
+				cTemp = aTilemap[i][j];
+			if (cTemp >> 7 != cOld)
+				cout << "\033[" << (cTemp >> 7?"0m":"0;34m");;
+			cout << mMapSymbols[cTemp & 15];
+			cOld = cTemp >> 7;
 		}
-		cout << sTemp << endl;
+		cout << endl;
 	}
 	delete [] sTemp;
 }
@@ -39,5 +48,5 @@ void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 	int x, y;
 	x = (int)aGameObj->xPos();
 	y = (int)aGameObj->yPos();
-	printf("\033[%d;%dH%c", y, x, mBotSymbols[(aGameObj->type() >> 4) & 3]);
+	printf("\033[%d;%dH%c\n", y, x, mBotSymbols[(aGameObj->type() >> 4) & 3]);
 }
