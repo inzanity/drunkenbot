@@ -17,8 +17,8 @@
 
 3.1.4	Resources
 
-	- <b>Performing</b>: Your available resources are displayed in the top-right corner. When collecting resources from sources you can see the increasing resources immediately.
-	- <b>Implementation</b>: Amount of metal and chemicals are stored in variables and the overall and used amount of power is calculated from all the building objects and energy generator objects preferences.
+	- <b>Performing</b>: Your available resources are displayed in the top-right corner. When collecting resources from sources you can see the increasing resources immediately. The resource collectors must be connected to the command center via pipe or the resources won't be collected at all.
+	- <b>Implementation</b>: Amount of metal and chemicals are stored in variables and the overall and used amount of power is calculated from all the building objects and energy generator objects preferences. When a pipe object finishes building, it will check for adjacent pipes, store pointers to them and notify about itself, all the pipe objects will then upgrade their animations and "connect" to the other pieces a check will then be done to assure the connection from a command center to the resource collector. When a pipe is destroyed, it will tell it's neighbors and they will clear the appropriate pointers. The pipe graph will then be investigated, whether the resource collectors are still connected.
 
 3.1.5	Environmental occurrences
 
