@@ -1,9 +1,7 @@
 7.	Technologies
 
-7.1	Enabling technologies <i>TODO</i>
-Platform for the game can be any modern PC, with a 3D accelerator installed. Controlling of the mech is ideally done with a joystick, but at least keyboard and mouse are required for playing.
-[Describe the platform suitable or necessary for the game concept. Consider issues critical for the functionality of the game (e.g. minimum screen size, controls, network lag, etc). Describe additional required technologies like sensors or servers.]
+7.1	Enabling technologies
+Platform for the game can be any modern PC, with a 3D accelerator installed. Controlling of the mech is ideally done with a joystick, but at least keyboard and mouse are required for playing. If network-gaming is implemented, it will require a network connection with lag small enough to allow good gaming experience. Since it is a real-time game, major lag will cause big problems.
 
-7.2	Level editor <i>TODO</i>
+7.2	Level editor
 Level editor needs minimally to be able to define a heightfield for the landscape and starting locations. For storyline missions, there is also a need for scripting ability and action points. The scripting facility needs commands like attack, move, give units, win and lose, with the ability to attach these to action points and/or timers)
-[If the game requires the implementation of a level editor, describe the necessary features and details of its functionality.]
