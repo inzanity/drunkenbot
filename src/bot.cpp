@@ -59,13 +59,6 @@ void CBot::performActions(list<CWeaponInfo *> * /*aBulletList*/, list<TVector> *
 		mActionDelay = 1;
 }
 
-void CBot::chkCollision(const char ** /*aTilemap*/, CBotInfo ** /*aBots*/)
-{
-	// TODO
-	if (!mBotAI)
-		return;
-}
-
 void CBot::update(float aTimeFactor)
 {
 	if (!mBotAI)

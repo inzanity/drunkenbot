@@ -32,16 +32,18 @@ class CVisibleBotInfo : public CMovingGameObj
 public:
 	/** Default constructor */
 	CVisibleBotInfo();
+
 	/**
 	 * Copy constructor.
 	 * Used when giving info to bots, changes coordinates from
 	 * absolute to relative.
 	 *
-	 * @param aBotInfo The private info of the bot
-	 * @param aXPos Current X coordinate of the bot
-	 * @param aYPos Current Y coordinate of the bot
+	 * @param aBotInfo The private info of the bot.
+	 * @param aXPos X coordinate to count relative coordinates.
+	 * @param aYPos X coordinate to count relative coordinates.
+	 * @param aType Object type to check teams. See enemy().
 	 */
-	CVisibleBotInfo(CVisibleBotInfo *aBotInfo, float aXPos, float aYPos);
+	CVisibleBotInfo(CVisibleBotInfo *aBotInfo, float aXPos, float aYPos, int aType);
 
 	/** Destructor. */
 	virtual ~CVisibleBotInfo();
@@ -52,8 +54,8 @@ public:
 	 */
 	bool enemy();
 
-	/** Collision handling. @param aDamage Damage caused by collision. */
-	void handleCollision(int aDamage);
+private:
+	bool mEnemy;
 };
 
 /** Private class for general bot information. */
@@ -66,7 +68,7 @@ public:
 	/** Destructor. */
 	virtual ~CBotInfo();
 
-	/** Getter for current weapon */
+	/** Getter for current weapon. */
 	const CWeapon *weapon();
 
 	/**
@@ -82,6 +84,15 @@ public:
 	bool bunkered();
 
 protected:
+	/** Collision handling. @param aDamage Damage caused by collision. @return False if mHealth <= aDamage. */
+	bool handleCollision(int aDamage);
+
+	/** Getter for damage caused by this object in collisions. @return Caused damage. */
+	int getDamage();
+
+	/** Increase frag counter. */
+	void addFrag();
+
 	/** Current weapon. */
 	CWeapon *mWeapon;
 

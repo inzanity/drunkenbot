@@ -56,13 +56,6 @@ public:
 	void performActions(list<CWeaponInfo *> *aBulletList, list<TVector> *aVoices);
 
 	/**
-	 * Checks and handles collisions. See CMovingGameObj::chkCollision().
-	 * @param aTilemap Tilemap to detect collisions. Bots can collide with walls and obstacles.
-	 * @param aBots List of all bots.
-	 */
-	void chkCollision(const char **aTilemap, CBotInfo **aBots);
-
-	/**
 	 * Moves bot and prepares it for drawing.
 	 * @param aTimeFactor Elapsed time between 0 and 1.
 	 */

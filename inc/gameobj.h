@@ -83,7 +83,6 @@ public:
 	/** Getter for the velocity. */
 	float velocity();
 
-protected:
 	/**
 	 * Moves object according to its velocity and direction.
 	 * @param aTimeFactor Time interval to move object.
@@ -101,6 +100,7 @@ protected:
 	 */
 	void chkCollision(const char **aTilemap, CBotInfo **aBots, bool aCollisionWithObstacles);
 
+protected:
 	/**
 	 * Raycaster to scan visible tiles. Can be used to check collisions with walls.
 	 * @param aSrcTilemap Full tilemap to read tiles for scanning.
@@ -112,13 +112,13 @@ protected:
 	TVector scanTilemap(const char **aSrcTilemap, float aAngle, CTilemap *aDstTilemap);
 
 	/** Collision handling. @param aDamage Damage caused by collision. @return False if object (CBot) has died. */
-	virtual bool handleCollision(int aDamage) = 0;
+	virtual bool handleCollision(int aDamage);
 
 	/** Getter for damage caused by this object in collisions. @return Caused damage. */
-	virtual int getDamage() = 0;
+	virtual int getDamage();
 
 	/** Increase frag counter of the responsible CBot. */
-	virtual void addFrag() = 0;
+	virtual void addFrag();
 
 	/** Velocity of the game object. */
 	float mVelocity;
