@@ -130,7 +130,7 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 		}
 		if (time2 < 1.f)
 			if (!handleCollision(15))
-;//				changeFragNum(false);
+				changeFragNum(false);
 		if (mMovingTimeFactor > time2)
 			mMovingTimeFactor = time2;
 	}
