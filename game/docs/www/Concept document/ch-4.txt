@@ -1,6 +1,6 @@
 4.	Game characters
 
-4.1	Character design
+4.1	Character design <i>TODO</i>
 [Describe game characters properties: AI, traits, and behavior. What is the purpose of each character? In what ways can the player modify characters' properties?]
 
 4.1.1	Player characters
