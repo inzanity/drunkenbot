@@ -151,7 +151,7 @@ To complete single player mission, player has to accomplish mission objectives. 
 	- Destroy targets (buildings or mechs)
 	- Get to the target (area, building or mech)
 
-3.4.4	End conditions
+3.4.3	End conditions
 Victory can be achieved by accomplishing all the goals. In that case, game is ended instantly. Failing any goal will cause defeat. This will end the game in single player game, but in multiplayer game, if implemented, player is just dropped out of the game. In addition to victory and defeat, there is no scoring system.
 
 3.5	User interface
