@@ -7,7 +7,7 @@
 
 3.1.2	On-game messages
 
-	- <b>Performing</b>: Every important message in game is printed on the bottom-left corner of screen and stays there for a while.
+	- <b>Performing</b>: Every important message in game is printed on the bottom-left corner of screen and stays there for a while. Applies to FPS mode also.
 	- <b>Implementation</b>: There are certain events on game, which are important enough to be shown to player. These events send messages to In-Game Message system that prints correct information to screen.
 
 3.1.3	Map
@@ -30,9 +30,3 @@
 
 	- <b>Performing</b>: When the radar technology is developed, the mechs will get an on screen radar, that will scan the mechs surroundings. The radar will show any mechs in the vicinity, at first if they're in the direction of the radar "beam", and with more advanced technology they are detected if they're near enough.
 	- <b>Implementation</b>: If the mech has radar technology, it's distance and direction from other mechs are calculated. If they're close enough and at the direction of the radar (for the less advanced radar), they will be shown as dots on the radar.
-
-
-3.2.2	On-game messages
-
-	- <b>Performing</b>: The on-game messages will be shown, if the user does something important, if a enemy is spotted, or if player decides to write a message.
-	- <b>Implementation</b>: The message area can be sent messages it should show. The engine will send these, if it receives a message from player, or the game objects can send these, if they're under attack or have spotted an enemy.
