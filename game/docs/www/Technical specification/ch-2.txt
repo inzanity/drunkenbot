@@ -54,12 +54,12 @@
 2.2.1	Moving
 
 	- <b>Performing</b>: You can move the mech forward and backwards by pressing 'w' or 's' respectively, and turn left or right by pressing 'a' or 'd'. Moving forward will move the mech to the direction of it's feet (ie, not necessarily the same direction as the camera/upper body is looking at), and backwards to the opposite direction.
-	- <b>Implementation</b>: CDirectInput class tells that certain of these keys is pressed. The message is sen to the mech game object, and it will alter it's rotation and velocity and set its animation to reflect the movement.
+	- <b>Implementation</b>: CDirectInput class tells that certain of these keys is pressed. The message is sent to the mech game object, and it will alter it's rotation and velocity and set its animation to reflect the movement.
 
 2.2.2	Aiming
 
 	- <b>Performing</b>: Mech's upper torso can be controlled independently from the feet by using the mouse. The amount of this rotation is defined by the amount of "Turning upper body"-technology of the movement technology branch (see Concept document, 3.3.3.1).
-	- <b>Implementation</b>: CDirectInput class tells that mouse was moved and message is sen to the mech game object. The object will then turn the upper body according to the speed of the mouse, but with a maximum speed. The animation will be changed to reflect the new rotation of the upper body. The camera queries it's direction from the mech's upper body, so it will view what the mech sees.
+	- <b>Implementation</b>: CDirectInput class tells that mouse was moved and message is sent to the mech game object. The object will then turn the upper body according to the speed of the mouse, but with a maximum speed. The animation will be changed to reflect the new rotation of the upper body. The camera queries it's direction from the mech's upper body, so it will view what the mech sees.
 
 2.2.3	Shooting
 
