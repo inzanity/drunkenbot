@@ -33,7 +33,7 @@
 2.1.7	Using action queue to develop technology or build mechs
 
 	- <b>Performing</b>: Select a building you want to use to build or develop something. After selection the objects action menu shows all the building/development possibilities. Clicking one of them with left mouse button adds it to the objects action queue to be built/developed. Building/developement of an item can be cancelled by clicking it with left mouse button. Every command has also a shortcut key.
-	- <b>Implementation</b>: If 'selected' variable is not empty, CDirectInput class tells that left mouse button was pressed on top of action menus item and the action queue is not full, the item is added to the queue. If left mouse button is pressed over the item in queue a cancel message is sent to the item. The queue will be popped every time the previous item is completed, the resources are checked just in time. If resources are too few for queued item, it will be set pending, and it will wait until resources are available.
+	- <b>Implementation</b>: If 'selected' variable points to a building, left mouse button was pressed (CDirectInput) on top of the action menu item and the action queue is not full, the item is added to the queue. If left mouse button is pressed over the item in queue a cancel message is sent to the item. The queue will be popped every time the previous item is completed, the resources are checked just in time. If resources are too few for queued item, it will be set pending, and it will wait until resources are available (fixed interval for checking).
 
 2.1.8	Mech actions
 
