@@ -17,8 +17,8 @@ my $ch0 = 1;
 my $ch1 = 7;
 my ($toc, $menu) = generateToc($ch0, $ch1);
 my $allinone = readTxt(0);
-createPage("index", $allinone, $menu);
-createPage("toc", $toc, $menu);
+createPage("index", $allinone, $menu, -1);
+createPage("toc", $toc, $menu, 0);
 
 $toc =~ s/ch-[0-9].html//g;
 
@@ -27,14 +27,14 @@ $allinone .= $toc;
 for (; $ch0 <= $ch1; $ch0++) {
 	my $txt = readTxt($ch0);
 	$allinone .= $txt;
-	createPage("ch-$ch0", $txt, $menu);
+	createPage("ch-$ch0", $txt, $menu, $ch0);
 }
-createPage("allinone", $allinone, $menu);
+createPage("allinone", $allinone, $menu, -2);
 
 print "Done.\n";
 
 sub createPage {
-	my ($name, $content, $menu) = @_;
+	my ($name, $content, $menu, $ch) = @_;
 	my $rfh;
 	my $wfh;
 	open $rfh, "template.html";
@@ -51,6 +51,13 @@ sub createPage {
 			for my $ch (sort keys %$menu) {
 				print $wfh $1 . "<a href=\"ch-" . $ch . ".html\">" . $$menu{$ch} . "</a>\n";
 			}
+		} elsif (/^(\s*)<!-- Links go here -->/) {
+			print $wfh $1 . "<link rel=\"start\" href=\"index.html\">\n";
+			print $wfh $1 . "<link rel=\"toc\" href=\"toc.html\">\n";
+			print $wfh $1 . "<link rel=\"first\" href=\"ch-1.html\">\n";
+			print $wfh $1 . "<link rel=\"end\" href=\"ch-7.html\">\n";
+			print $wfh $1 . "<link rel=\"prev\" href=\"ch-" . ($ch - 1) . ".html\">\n" if ($ch > 1);
+			print $wfh $1 . "<link rel=\"next\" href=\"ch-" . ($ch + 1) . ".html\">\n" if ($ch < 7 && $ch >= 0);
 		} else {
 				
 			print $wfh $_;
