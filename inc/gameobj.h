@@ -26,9 +26,6 @@ public:
 	/** Destructor. */
 	virtual ~CGameObj();
 
-	/** Setter for the position of the object. @param aXPos X-coordinates. @param aYPos Y-coordinates. */
-	void setPos(float aXPos, float aYPos);
-
 	/** Getter for x-coordinates of the object. */
 	float xPos();
 	
@@ -39,20 +36,23 @@ public:
 	float radius();
 
 	/** Getter for the orientation of the object. */
-	float angle();
+	float direction();
 
 	/** Getter for the type of the object. @see mType. */
 	int type();
 
 protected:
+	/** Setter for the position of the object. @param aXPos X-coordinates. @param aYPos Y-coordinates. */
+	void setPos(float aXPos, float aYPos);
+
 	/** X-coordinates of the object. */
 	float mXPos;
 	/** Y-coordinates of the object. */
 	float mYPos;
 	/** Radius of the game object. */
 	float mRadius;
-	/** Orientation of the game object. With moving objects, angle is used as a moving direction. */
-	float mAngle;
+	/** Orientation of the game object. With moving objects, orientation is used as a moving direction. */
+	float mDirection;
 	/** Type of the game object. @todo Game object type specification. */
 	int mType;
 };
@@ -70,23 +70,30 @@ public:
 	/** Destructor. */
 	virtual ~CMovingGameObj();
 
-	/** Setter for the speed. */
-	void setSpeed(float aVelocity, float aAngle);
-
 	/** Getter for the velocity. */
 	float velocity();
+
+protected:
+	/**
+	 * Setter for the speed.
+	 * @param aVelocity Velocity of the object.
+	 * @aDirection Orientation and moving direction of the object.
+	 */
+	void setSpeed(float aVelocity, float aDirection);
 
 	/**
 	 * Moves object according to the speed. In a case of collision, both objects are stopped and
 	 * affected by the collision.
 	 * @param aTileMap Tilemap to detect collisions. Bots can collide with walls and obstacles,
-	 * while bullets can collade only with walls.
+	 *        while bullets can collade only with walls.
 	 * @param aBots List of all bots.
 	 * @return true if moving was succesful, false in a case of collision.
 	 */
-	bool move(char **aTileMap, CBotInfo *aBots);
+	bool move(char **aTileMap, CBotInfo **aBots);
 
-protected:
+	/** Collision handling.  */
+	virtual void handleCollision(int aType) = 0;
+
 	/** Velocity of the moving game object. Moving direction depends on the orientation of the object. */
 	float mVelocity;
 };
