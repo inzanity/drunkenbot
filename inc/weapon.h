@@ -29,6 +29,12 @@ public:
 	CWeapon(const CWeapon *aWeapon);
 
 	/**
+	 * Reduces amount of ammo if possible
+	 * @return True if ammo left, false if not.
+	 */
+	bool shoot();
+	
+	/**
 	 * Getter for bullet count.
 	 * @return Amount of bullets available.
 	 */
