@@ -17,7 +17,7 @@
  * Public interface for weapons.
  * When bots see a weapon, this is the info they get of it
  */
-class CWeaponInfo : public CGameObj, CWeapon
+class CWeaponInfo : public CGameObj, public CWeapon
 {
 public:
 	/**
