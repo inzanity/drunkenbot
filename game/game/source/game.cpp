@@ -5,7 +5,7 @@
 #include "../include/turret.h"
 #include "../include/dock.h"
 
-#pragma comment(lib, "winmm");
+#pragma comment(lib, "winmm")
 
 inline DWORD FtoDW(FLOAT f) {return *((DWORD*)&f);}
 
