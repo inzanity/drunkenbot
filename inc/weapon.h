@@ -29,6 +29,9 @@ public:
 	/** Copy constructor. */
 	CWeapon(const CWeapon *aWeapon);
 
+	/** Virtual destructor. */
+	virtual ~CWeapon();
+
 	/**
 	 * Reduces amount of ammo if possible
 	 * @return True if ammo left, false if not.
@@ -51,7 +54,7 @@ public:
 	 * Getter for type.
 	 * @return Type.
 	 */
-	int type() const;
+	int weaponType() const;
 
 	/**
 	 * Getter for bullet speed.
@@ -80,7 +83,7 @@ public:
 private:
 	int mReloadTime;
 	int mBulletCount;
-	int mType;
+	int mWeaponType;
 	float mBulletSpeed;
 	float mExplosionRadius;
 	float mExplosionSpeed;
