@@ -4,7 +4,7 @@
 #include "gameObj.h"
 
 enum TMechMessage{EMsgMechMove, EMsgMechTurnAround, EMsgMechLast};
-
+enum TMechOperationMode{EMechManualMode, EMechAutoAimMode, EMechAutoFireMode, EMechScoutMode, EMechAttackMode, EMechDefenceMode};
 class CMech : public CDrawable
 {
 public:
@@ -20,6 +20,8 @@ private:
 	MAnimation *mUpperBody;
 	D3DXQUATERNION mUBOrientation;
 	float mSize;
+	bool mFPSMode;
+	TMechOperationMode mOperationMode;
 };
 
 #endif // MECH_H

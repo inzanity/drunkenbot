@@ -21,10 +21,21 @@ void CFPSModeUI::handleInput()
 		game->mRTSModeUI->activate(mMech);
 		return;
 	}
-	if (!mCounter) return; /* Controlling requires 100% FPS mode */
+	CMech *ptr = (CMech *)mMech.ptr();
+	if (!mCounter || !ptr) return; /* Controlling requires 100% FPS mode */
 	if (directInput->checkMouseButton(0))
 	{
 	}
+	if (directInput->isPressed(MOVE_FORWARD))
+	{
+		D3DXMATRIX mat;
+		D3DXVECTOR4 out;
+		D3DXMatrixRotationQuaternion(&mat, ptr->orientation());
+		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, .002f), &mat);
+		ptr->setSpeed((const D3DXVECTOR3 *)&out);
+	}
+	else
+		ptr->setSpeed(&D3DXVECTOR3(0, 0, 0));
 }
 
 void CFPSModeUI::draw(uint32 aTime)
