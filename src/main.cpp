@@ -28,13 +28,14 @@ void signalh(int)
 int main(int argc, char **argv)
 {
 	gameRunning = true;
-	char rv;
 	signal(SIGINT, signalh);
 	ifstream map("res/map.txt");
 	ifstream weapons("res/weapons.txt");
 #ifdef SDL
+	char rv;
 	ifstream gfxopts("res/sdlgfx.txt");
 #endif
+	char **results = NULL;
 
 	srand(argc > 1?atoi(argv[1]):3);
 
@@ -51,12 +52,12 @@ int main(int argc, char **argv)
 	map.close();
 	weapons.close();
 
-	int i = 0;
+	int i = argc > 2 ? atoi(argv[2]) : 0;
 	int j = 0;
 
 	while (gameRunning & engine->loop())
 	{
-		engine->draw(1.f, i);
+		usleep(200000);
 #ifdef SDL
 		if (gameRunning)
 		{
@@ -65,12 +66,27 @@ int main(int argc, char **argv)
 			i = (i + (rv == 'n')) & 7;
 		}
 #endif
+		if (!(j = (j + 1 & 15)))
+		{
+			engine->draw(1.f, i);
+			results = engine->getResults(false, results);
+#ifndef SDL
+			for (int x = 0; results[x]; x++)
+				cout << "\033[" << x + 2 << ";55H" << results[x] << endl;
+#endif
+		}
 	}
 	delete gEngine;
-	char **results = engine->getResults(false);
+	results = engine->getResults(false, results);
 	if (results)
-		for (int i = 0; results[i]; i++)
+	{
+		for (i = 0; results[i]; i++)
+		{
 			cout << results[i] << endl;
+			delete [] results[i];
+		}
+	delete [] results;
+}
 	delete engine;
 	return 0;
 }
