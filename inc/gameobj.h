@@ -122,18 +122,24 @@ public:
 	/** Increase frag counter of the responsible CBot. @param aAddFrag True to increase, false to reduce counter. */
 	void changeFragNum(bool aAddFrag);
 
+	/** Update object according to its new state and position. @return True if object is alive. */
+	virtual bool update();
+
 protected:
 	/** Collision handling. @param aDamage Damage caused by collision. @return False if object (CBot) has died. */
-	virtual bool handleCollision(int aDamage);
+	virtual bool handleCollision(char aDamage);
 
 	/** Getter for damage caused by this object in collisions. @return Caused damage. */
-	virtual int getDamage() const;
+	virtual char getDamage() const;
 
 	/** Velocity of the game object. */
 	float mVelocity;
 
 	/** Moving direction of the game object. */
 	float mMovingDirection;
+
+	/** Flag to determine if collision is detected. */
+	bool mCollisionDetected;
 
 	/**
 	 * Find next edge from tilemap. <code>aPos + time * aSpeed</code> is always in the next tile.

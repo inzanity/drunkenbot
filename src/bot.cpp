@@ -41,6 +41,7 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 	} while (tile & 3 != 3);
 	mSpawningPos = mPos;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
+	mHealth = 100;
 }
 
 void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots, int aBotNum,
@@ -158,19 +159,18 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		mActionDelay = 1;
 }
 
-void CBot::update(float aTimeFactor)
+bool CBot::update()
 {
-	if (!mBotAI)
-		return;
-	move(aTimeFactor);
-	// TODO: Set mAnimationTimer.
+	CMovingGameObj::update();
+	if (mHealth <= 0)
+		return false;
+	return true;
 }
 
 const CBotAI *CBot::botAI() const
 {
 	return mBotAI;
 }
-
 
 void CBot::loadAI()
 {

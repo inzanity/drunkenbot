@@ -59,11 +59,8 @@ public:
 	 */
 	void performActions(list<CBulletInfo *> *aBulletList, list<TVector> *aVoices);
 
-	/**
-	 * Moves bot and prepares it for drawing.
-	 * @param aTimeFactor Elapsed time between 0 and 1.
-	 */
-	void update(float aTimeFactor);
+	/** Update bot according to its new state and position. @return True if bot is alive. */
+	bool update();
 
 	/** Getter for AI. May be used by CGraphicsEngine. @return Const pointer to the AI object. */
 	const CBotAI *botAI() const;

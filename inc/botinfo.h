@@ -104,7 +104,7 @@ protected:
 	bool handleCollision(char aDamage);
 
 	/** Getter for damage caused by this object in collisions. @return Caused damage. */
-	int getDamage() const;
+	char getDamage() const;
 
 	/** Current weapon. */
 	CWeapon *mWeapon;

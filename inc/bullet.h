@@ -73,6 +73,9 @@ public:
 	/** Checks if bullet is still alive and updates radius for explosions. @return True if bullet is alive. */
 	bool alive();
 
+	/** Update bullet according to its new state and position. @return True if bullet is alive. */
+	bool update();
+
 protected:
 	/**
 	 * Collision handling.
@@ -82,11 +85,10 @@ protected:
 	bool handleCollision(int aDamage);
 
 	/** Getter for damage caused in collision. */
-	int getDamage() const;
+	char getDamage() const;
 
 private:
 	CBotInfo *mShooter;
-	bool mAlive; 
 };
 
 #endif // BULLET_H

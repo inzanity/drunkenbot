@@ -28,7 +28,7 @@ int CVisibleBulletInfo::bulletType() const
 // CBulletInfo
 
 CBulletInfo::CBulletInfo(int aBulletType, float aXPos, float aYPos, float aDirection, float aVelocity, CBotInfo *aShooter) :
-						 CVisibleBulletInfo(aBulletType), mShooter(aShooter), mAlive(true)
+						 CVisibleBulletInfo(aBulletType), mShooter(aShooter)
 {
 	mPos.mX = aXPos;
 	mPos.mY = aYPos;
@@ -42,13 +42,10 @@ CBulletInfo::~CBulletInfo()
 
 bool CBulletInfo::handleCollision(int)
 {
-	mVelocity = .0001f;
-	if (mShooter->weapon()->explosionRadius() == 0)
-		mAlive = false;
 	return true;
 }
 
-int CBulletInfo::getDamage() const
+char CBulletInfo::getDamage() const
 {
 	return int(mShooter->weapon()->damage());
 }
@@ -58,15 +55,14 @@ void CBulletInfo::changeFragNum(bool aAddFrag)
 	mShooter->changeFragNum(aAddFrag);
 }
 
-bool CBulletInfo::alive()
+bool CBulletInfo::update()
 {
-	if (!mAlive)
-		return false;
-	if (mVelocity == .0001f)
+	CMovingGameObj::update();
+	if (mCollisionDetected)
 	{
 		mRadius += mShooter->weapon()->explosionSpeed();
-		if (mRadius >= mShooter->weapon()->explosionRadius())
-			mAlive = false;
+		if (mRadius > mShooter->weapon()->explosionRadius())
+			return false;
 	}
 	return true;
 }

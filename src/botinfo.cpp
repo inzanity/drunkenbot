@@ -77,7 +77,7 @@ bool CBotInfo::handleCollision(char aDamage)
 	return (mHealth < 0);
 }
 
-int CBotInfo::getDamage() const
+char CBotInfo::getDamage() const
 {
 	return 15;
 }

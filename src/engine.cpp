@@ -89,12 +89,15 @@ bool CGameEngine::loop()
 {
 	int i;
 	for (i = 0; i < mBotNum; i++)
+		if (!mBots[i]->update())
+			mBots[i]->spawn((const char **)mTilemap, mMapWidth, mMapHeight, (const CGameObj **)mBots);
+	for (i = 0; i < mBotNum; i++)
 		mBots[i]->think((const char **)mTilemap, mMapWidth, mMapHeight, (CVisibleBotInfo **)mBots, mBotNum,
 						&mBulletList, &mWeaponList, &mVoiceList);
 	for (i = 0; i < mBotNum; i++)
-		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)&mBots[i + 1], true);
-	for (i = 0; i < mBotNum; i++)
 		mBots[i]->performActions(&mBulletList, &mVoiceList);
+	for (i = 0; i < mBotNum; i++)
+		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)&mBots[i + 1], true);
 	return true;
 }
 
@@ -106,8 +109,8 @@ void CGameEngine::draw(float aTimeInterval, int aBotIndex)
 	mGfxEngine->drawTilemap(mTilemap, mMapWidth, mMapHeight);
 	for (int i = 0; i < mBotNum; i++)
 	{
+		mBots[i]->move(aTimeInterval);
 		mGfxEngine->drawGameObj(mBots[i]);
-		mBots[i]->update(aTimeInterval);
 	}
 }
 
