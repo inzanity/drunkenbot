@@ -39,6 +39,11 @@
             priceGas="250" priceMineral="500" shortcut="46">
             <requires>22</requires>
         </building>
+        <building animation="turret.x" buildingType="turret"
+            constructAnimation="turret.x" constructTime="0"
+            energyConsumption="10" hitpoints="25" id="26" name="Turret"
+            picture="turret_icon.bmp" priceGas="0" priceMineral="50"
+            shortcut="20" upperBodyAnimation="turretTop.x" weapon="31"/>
         <weapon accuracy="7" bullet="" explosiveDamage="0" id="31"
             mass="10" model="machineGun.x" name="Machine Gun"
             picture="machineGun_icon.bmp" piercingDamage="10"
@@ -49,7 +54,7 @@
             priceMineral="50" range="30" shortcut="3" type="continuous"/>
         <mech animation="mech.x" explosiveArmor="100" hitpoints="300"
             mass="150" piercingArmor="100" priceGas="500"
-            priceMineral="1000" speed="20"/>
+            priceMineral="1000" speed="20" upperBodyAnimation="mechTop.x"/>
         <upgrade id="41" name="Weapon" picture="upgrd_weapon.bmp"
             priceGas="100" priceMineral="100" shortcut="17"/>
         <upgrade id="42" name="Shield" picture="upgrd_shield.bmp"
