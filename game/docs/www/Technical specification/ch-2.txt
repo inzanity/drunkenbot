@@ -2,12 +2,12 @@
 2.1	RTS Functions
 2.1.1	Selecting an object
 
-	- <b>Performing</b>: Move mouse on top an object (etc. building or mech) and click left mouse button once.
+	- <b>Performing</b>: Move mouse on top of an object (etc. building or mech) and click left mouse button once.
 	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed and supplies the coordinates, which are used to determine if there is an object underneath to be selected. If there is, 'selected' variable is updated. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.2	Unselecting an object
 
-	- <b>Performing</b>: While an object is selected, move mouse cursor to empty place and click left mouse button once. Also pressing 'esc' on keyboard unselects object.
+	- <b>Performing</b>: While an object is selected, move mouse cursor to an empty place and click left mouse button once. Also pressing 'esc' on keyboard unselects object.
 	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed and supplies the coordinates, which are used to determine if there is an object underneath to be selected. If there isn't, 'selection' variable is cleared. Same happens if CDirectInput class supplies keyboard input 'esc'. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.3	Binding a selection
@@ -22,8 +22,8 @@
 
 2.1.5	Building a building
 
-	- <b>Performing</b>: Move mouse curson on top a building you want to build and press left button once or press the quick button on keyboard which refers to the building in question. Then move mouse cursor to the place you want to put the building and press left mouse button once. Then wait for the building to complete.
-	- <b>Implementation</b>: CDirectInput class tells that if left mouse button is pressed and gives the coordinates, which are used to determine if the cursor was on top of a building icon in action menu. If was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other objects inherited from CgameObj class and the coordinates are inside the 'energisized' region a building object is created on those coordinates. Selected items action queue, action menu and info screen is asked to update themselves.
+	- <b>Performing</b>: Move mouse curson on top of a building you want to build and press left button once or press the quick button on keyboard which refers to the building in question. Then move mouse cursor to the place you want to put the building and press left mouse button once. Then wait for the building to complete.
+	- <b>Implementation</b>: CDirectInput class tells that if left mouse button is pressed and gives the coordinates, which are used to determine if the cursor was on top of a building icon in action menu. If was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other objects inherited from CGameObj class and the coordinates are inside the 'energisized' region a building object is created on those coordinates. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.6	Cancelling building of a building
 
