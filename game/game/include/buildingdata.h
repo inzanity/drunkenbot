@@ -17,7 +17,7 @@ public:
 	 * @param aPrice Price of buildingtype.
 	 * @param aReqMask Bitmask defining the required technologies.
 	 */
-	CBuildingData(const MAnimation *aAnimation, const MAnimation *aConstructAnimation, int aHitpoints, int aPrice, int aReqMask);
+	CBuildingData(const MAnimation *aAnimation, const MAnimation *aConstructAnimation, int aHitpoints, int aPrice, int aTechnologyMask);
 	/**
 	 * Destructor.
 	 */
@@ -46,7 +46,9 @@ public:
 private:
 	char *mAnimation;
 	char *mConstructAnimation;
-	int mHistpoints;
+	int mHitpoints;
 	int mPrice;
 	int mTechnologyMask;
 };
+
+#endif // BUILDINGDATA_H
