@@ -1,25 +1,74 @@
-<?xml version="1.0"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-
-	<xsd:element name="race">
-		<xsd:attribute name="id" type="xs:integer"/>
-		<xsd:attribute name="name" type="xs:string"/>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:fg="http://www.FGolubov.com/XMLEditor" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+			
+	<xsd:element name="datafile">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element name="technology">
-					<xsd:attribute name="id" type="xs:integer" use="required"/>
-					<xsd:attribute name="name" type="xs:string" use="required"/>
-					<xsd:attribute name="requires" type="xs:integer" default="0"/>
-					<xsd:attribute name="price" type="xs:integer" use="required"/>
-				</xsd:element>
-				<xsd:element name="building">
-					<xsd:attribute name="id" type="xs:integer" use="required"/>
-					<xsd:attribute name="name" type="xs:string" use="required"/>
-					<xsd:attribute name="requires" type="xs:integer" default="0"/>
-					<xsd:attribute name="price" type="xs:integer" use="required"/>
-					<xsd:attribute name="hitpoints" type="xs:integer" use="required"/>
-					<xsd:attribute name="animation" type="xs:string" use="required"/>
-					<xsd:attribute name="constructAnimation" type="xs:string" use="required"/>
+				<xsd:element name="race" minOccurs="1" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="technology" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:attribute name="id" type="xsd:integer" use="required"/>
+									<xsd:attribute name="name" type="xsd:string" use="required"/>
+									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
+									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="picture" type="xsd:string" use="required"/>
+									<xsd:attribute name="animation" type="xsd:string" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="building" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:attribute name="id" type="xsd:integer" use="required"/>
+									<xsd:attribute name="name" type="xsd:string" use="required"/>
+									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
+									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="hitpoints" type="xsd:integer" use="required"/>
+									<xsd:attribute name="animation" type="xsd:string" use="required"/>
+									<xsd:attribute name="constructAnimation" type="xsd:string" use="required"/>
+									<xsd:attribute name="picture" type="xsd:string" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="weapon" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:attribute name="id" type="xsd:integer" use="required"/>
+									<xsd:attribute name="name" type="xsd:string" use="required"/>
+									<xsd:attribute name="model" type="xsd:string" use="required"/>
+									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
+									<xsd:attribute name="bullet" type="xsd:string" use="required"/>
+									<xsd:attribute name="picture" type="xsd:string" use="required"/>
+									<xsd:attribute name="range" type="xsd:integer" use="required"/>
+									<xsd:attribute name="type" type="xsd:integer" use="required"/>
+									<xsd:attribute name="piercingDamage" type="xsd:integer" use="required"/>
+									<xsd:attribute name="explosiveDamage" type="xsd:integer" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="mech" minOccurs="1" maxOccurs="1">
+								<xsd:complexType>
+									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="hitpoints" type="xsd:integer" use="required"/>
+									<xsd:attribute name="piercingArmor" type="xsd:integer" use="required"/>
+									<xsd:attribute name="explosiveArmor" type="xsd:integer" use="required"/>
+									<xsd:attribute name="speed" type="xsd:integer" use="required"/>
+									<xsd:attribute name="animation" type="xsd:string" use="required"/>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="upgrade" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="setValue" minOccurs="0" maxOccurs="unbounded">
+											<xsd:complexType>
+												<xsd:attribute name="variable" type="xsd:string" use="required"/>
+												<xsd:attribute name="value" type="xsd:string" use="required"/>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+						<xsd:attribute name="id" type="xsd:integer" use="required"/>
+						<xsd:attribute name="name" type="xsd:string" use="required"/>
+					</xsd:complexType>
 				</xsd:element>
 			</xsd:sequence>
 		</xsd:complexType>
