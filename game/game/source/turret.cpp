@@ -8,7 +8,6 @@ CBuilding(aObjPtr, (mTurret = new CBuildingData(CAnimationStorage::ptr()->getAni
 {
 	mTurretTop				= CAnimationStorage::ptr()->getAnimation("data/turretTop.x");
 	mTurretAngle			= 0.f;
-	mSize					= 1.5f;
 	mTargetReached			= false;
 
 	game->sendMessage(EMsgActivate, this, 0, 0, 0);
@@ -115,7 +114,6 @@ void CTurret::draw(uint32 aTimeFactor)
 	d3dObj->mMatrixStack->Push();
 
 	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
-	d3dObj->mMatrixStack->ScaleLocal(mSize, mSize, mSize);
 	d3dObj->mMatrixStack->RotateYawPitchRollLocal(mYAngle, mXAngle, 0);
 
 	mAnimTime += (uint32)(aTimeFactor * mAnimSpeed);

@@ -28,7 +28,6 @@ private:
 	MAnimation		*mTurretTop;
 	float			mTurretAngle, mTargetAngle;
 	time_t			mTime;
-	float			mSize;
 	bool			mTargetReached;
 };
 
