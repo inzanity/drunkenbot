@@ -47,7 +47,7 @@
 
 2.1.10	Changing into FPS mode
 
-	- <b>Performing</b>: First select a mech you want to control in first person perspective. Then you can press 'enter' or binded key for this mech from keyboard or double click it with left mouse button. Perspective moves to FPS instantaneously.
+	- <b>Performing</b>: First select a mech you want to control in first person perspective. Then you can press 'enter' or bound key for this mech from keyboard or double click it with left mouse button. Perspective moves to FPS instantaneously.
 	- <b>Implementation</b>: When CDirectInput class tells that left mouse button is double clicked or 'enter' or number is pressed, the message is sent to the selected object and it proceeds with changing perspective to FPS if everything is in order (selected object is mech etc.).
 
 2.2	FPS Functions
