@@ -1,4 +1,5 @@
-/** @file botinfo.h
+/**
+ * @file botinfo.h
  * Definition of bot info classes CVisibleBotInfo and CBotInfo.
  * This header specifies internal and external data structures for the
  * game objectish information of the robots.
@@ -17,8 +18,8 @@
  * Bot actions. Every action is a combination of these.
  * See CBotAI::checkAction() for detailed information about legal actions.
  */
-enum TBotAction {EActionNone = 0, EActionMove = 1, EActionShoot = 2,
-				 EActionBunker = 4, EActionPickWeapon = 8, EActionDropWeapon = 16};
+enum TBotAction {EActionNone = 0, EActionMove = 1, EActionTurn = 2, EActionShoot = 4,
+				 EActionBunker = 8, EActionPickWeapon = 16, EActionDropWeapon = 32};
 
 /**
  * Public class for general bot information.
