@@ -9,3 +9,9 @@ multiplayer on mainittu monessa kohtaa, pitäis tehdä selväks että se on jatkokeh
 tietokonevastustajan korkean tason strategical ai:sta pitäs kertoo jotain.. siitä tehään aika simppeli (jatkokehitysidea: parempi ai)
 size/weight jutut jäi säännöissä epäselviks (kokoa päivitetään, painoon vaikuttaa myös suojat ja aseet?)
 päätin että energiaa kerätään vaan 24h voimaloista tai yösähköstä. ei aurinkovoimaloita (mun mielestä vaan haittaa). onko ok?
+
+
+tehtävänjakoo vois parantaa:
+mulle vois laittaa (vaikka master coderin tilalle :) core engine architecture, ai programming, tools development
+jompi kumpi vois ottaa päävastuun level designista, ja yleinsä content creation (tech tree suunnittelu, ai scriptien kirjotus jne)
+usability on ihan hyvä olla jollain, mut ei ehkä mulla :)
