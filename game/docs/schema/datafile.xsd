@@ -114,6 +114,7 @@
 									<xsd:attribute name="shortcut" type="xsd:integer" use="required"/>
 									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
 									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="picture" type="xsd:string" use="required"/>
 								</xsd:complexType>
 							</xsd:element>
 						</xsd:sequence>
