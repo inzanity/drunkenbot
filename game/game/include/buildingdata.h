@@ -17,7 +17,7 @@ public:
 	 * @param aPrice Price of buildingtype.
 	 * @param aReqMask Bitmask defining the required technologies.
 	 */
-	CBuildingData(const MAnimation *aAnimation, const MAnimation *aConstructAnimation, int aHitpoints, int aPrice, int aTechnologyMask);
+	CBuildingData(MAnimation *aAnimation, MAnimation *aConstructAnimation, int aHitpoints, int aPrice, int aTechnologyMask);
 	/**
 	 * Destructor.
 	 */
@@ -25,11 +25,15 @@ public:
 	/**
 	 * Getter for the animation file path.
 	 */
-	const MAnimation *getAnimation() const;
+	MAnimation *getAnimation();
 	/**
 	 * Getter for the constructing animation file path.
 	 */
-	const MAnimation *getConstructAnimation() const;
+	MAnimation *getConstructAnimation();
+	/**
+	 * Getter for construction time.
+	 */
+	uint32 getConstructionTime() const;
 	/**
 	 * Getter for hitpoints.
 	 */
@@ -46,6 +50,7 @@ public:
 private:
 	MAnimation *mAnimation;
 	MAnimation *mConstructAnimation;
+	uint32 mConstructionTime;
 	int mHitpoints;
 	int mPrice;
 	int mTechnologyMask;

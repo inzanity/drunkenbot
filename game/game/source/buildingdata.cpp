@@ -1,24 +1,29 @@
 
 #include "../include/buildingdata.h"
 
-CBuildingData::CBuildingData(const MAnimation *aAnimation, const MAnimation *aConstructAnimation, int aHitpoints, int aPrice, int aTechnologyMask) :
+CBuildingData::CBuildingData(MAnimation *aAnimation, MAnimation *aConstructAnimation, int aHitpoints, int aPrice, int aTechnologyMask) :
 	mAnimation(aAnimation), mConstructAnimation(aConstructAnimation), mHitpoints(aHitpoints), mPrice(aPrice), mTechnologyMask(aTechnologyMask)
 {
 }
 
-~CBuildingData()
+CBuildingData::~CBuildingData()
 {
 	// AnimationStorage does the deleting, we don't need to.
 }
 
-const MAnimation *CBuildingData::getAnimation() const
+MAnimation *CBuildingData::getAnimation()
 {
 	return mAnimation;
 }
 
-const MAnimation *CBuildingData::getConstructAnimation() const
+MAnimation *CBuildingData::getConstructAnimation()
 {
 	return mConstructAnimation;
+}
+
+uint32 CBuildingData::getConstructionTime() const
+{
+	return mConstructionTime;
 }
 
 int CBuildingData::getHitpoints() const
