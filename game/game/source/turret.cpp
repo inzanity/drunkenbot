@@ -1,8 +1,7 @@
+#include <math.h>
 #include "../include/game.h"
 #include "../include/turret.h"
 #include "../include/animationStorage.h"
-
-#define	PI		atan2(0, -1)
 
 CTurret::CTurret(CGameObjPtr aObjPtr, bool aReady, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
 CBuilding(aObjPtr, (mTurret = new CBuildingData(CAnimationStorage::ptr()->getAnimation("data/turret.x"), CAnimationStorage::ptr()->getAnimation("data/turret.x"), 1, 1, 1)), aReady, aPos, aOrientation)
@@ -45,7 +44,7 @@ void CTurret::handleMessage(CMessage *aMsg)
 			temp.x	-= mPos.x; temp.y	-= mPos.y; temp.z	-= mPos.z;
 			if (sqrt((temp.x*temp.x)+(temp.y*temp.y)+(temp.z*temp.z)) < 10)
 			{
-				mTargetAngle	= (float)atan2(temp.z, temp.x) + PI;
+				mTargetAngle	= (float)atan2f(temp.z, temp.x) + D3DX_PI;
 				game->sendMessage(EMsgActivate, this, 0, 0, 0);
 				return;
 			}
@@ -69,17 +68,17 @@ void CTurret::update(uint32 aTimeFactor)
 
 	if (fabs(mTurretAngle - mTargetAngle) > accuracy)
 	{
-		if (mTargetAngle - mTurretAngle < PI && mTargetAngle > mTurretAngle)		// difference < pi
+		if (mTargetAngle - mTurretAngle < D3DX_PI && mTargetAngle > mTurretAngle)		// difference < pi
 		{
 			mTurretAngle += turnAccuracy;
-			if (mTurretAngle > 2*PI)
-				mTurretAngle -= 2*PI;
+			if (mTurretAngle > 2*D3DX_PI)
+				mTurretAngle -= 2*D3DX_PI;
 		}
 		else
 		{
 			mTurretAngle -= turnAccuracy;
 			if (mTurretAngle < 0)
-				mTurretAngle += 2*PI;
+				mTurretAngle += 2*D3DX_PI;
 		}
 		mTargetReached	= false;
 	}
