@@ -107,11 +107,11 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 			float foo;
 			float xSpeed2 = aBots[i]->velocity() * cos(aBots[i]->movingDirection());
 			float ySpeed2 = aBots[i]->velocity() * sin(aBots[i]->movingDirection());
-			float rooted = -sqr(mPos.mY - aBots[i]->yPos()) * sqr(xSpeed - xSpeed2) + 2 * (xSpeed - xSpeed2) * (ySpeed - ySpeed2) * (mPos.mX - aBots[i]->xPos()) * (mPos.mY - aBots[i]->yPos()) - sqr(mPos.mX - aBots[i]->xPos()) * sqr(ySpeed - ySpeed2) + (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2)) * sqr(mRadius + aBots[i]->radius());
+			float rooted = -sqr((mPos.mY - aBots[i]->yPos()) * (xSpeed - xSpeed2) - (mPos.mX - aBots[i]->xPos()) * (ySpeed - ySpeed2)) + (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2)) * sqr(mRadius + aBots[i]->radius());
 			if (rooted > 0)
 			{
 				float root = sqrt(rooted);
-				float plop = (ySpeed - ySpeed2) * (aBots[i]->yPos() - mPos.mY) + (xSpeed - xSpeed2) * (aBots[i]->xPos() - xSpeed);
+				float plop = (ySpeed - ySpeed2) * (aBots[i]->yPos() - mPos.mY) + (xSpeed - xSpeed2) * (aBots[i]->xPos() - mPos.mX);
 				float divider = 1 / (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2));
 				foo = time = (plop + root) * divider;
 				if (time > 0)
