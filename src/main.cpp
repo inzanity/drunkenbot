@@ -28,6 +28,7 @@ void signalh(int)
 int main(int argc, char **argv)
 {
 	gameRunning = true;
+	char rv;
 	signal(SIGINT, signalh);
 	ifstream map("res/map.txt");
 	ifstream weapons("res/weapons.txt");
@@ -55,13 +56,14 @@ int main(int argc, char **argv)
 
 	while (gameRunning & engine->loop())
 	{
-		engine->draw(1.f, 0);
-		usleep(50000);
-		if (!(j = (j + 1) & 0xff))
-			i = (i + 1) % 21;
+		engine->draw(1.f, i);
 #ifdef SDL
 		if (gameRunning)
-			gameRunning = gEngine->flip();
+		{
+			rv = gEngine->flip();
+			gameRunning = !(rv == 'q');
+			i = (i + (rv == 'n')) & 7;
+		}
 #endif
 	}
 	delete gEngine;

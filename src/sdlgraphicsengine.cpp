@@ -109,7 +109,7 @@ CSDLGraphicsEngine::CSDLGraphicsEngine(istream *aGfxInfo) :
 	mScreen = SDL_SetVideoMode(mWidth, mHeight, 0, SDL_HWSURFACE);
 
 	SDL_EnableUNICODE(1);
-	SDL_WM_SetCaption("Drunken Bot III - SDL", "dbot");
+	SDL_WM_SetCaption("- -=[ Drunken Bot III ]=- -", "dbot");
 
 	if (aGfxInfo)
 		*aGfxInfo >> filename;
@@ -210,7 +210,7 @@ void CSDLGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 	}
 }
 
-bool CSDLGraphicsEngine::flip()
+char CSDLGraphicsEngine::flip()
 {
 	SDL_Flip(mScreen);
 	SDL_Event event;
@@ -218,14 +218,13 @@ bool CSDLGraphicsEngine::flip()
 		switch (event.type)
 		{
 			case SDL_KEYDOWN:
-				if (event.key.keysym.unicode == 'q')
-					return false;
+				return event.key.keysym.unicode;
 				break;
 			case SDL_QUIT:
-				return false;
+				return 'q';
 				break;
 		}
-	return true;
+	return '\0';
 }
 /*
 bool CSDLGraphicsEngine::resize()
