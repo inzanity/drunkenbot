@@ -68,6 +68,10 @@ private:
 	CWeapon *mWeaponTypes;
 	CBot *mBots;
 	char **mTilemap;
+	int mBotNum;
+	int mWeaponNum;
+	int mMapWidth;
+	int mMapHeight;
 	int mFragLimit;
 	int mTeamNum;
 	char **mTeamNames;

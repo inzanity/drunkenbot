@@ -83,6 +83,9 @@ public:
 	/** Getter for bunkering mode. @return True if bot is bunkered. */
 	bool bunkered();
 
+	/** Getter for frag counter. @return Number of killed enemies. */
+	int fragNum();
+
 protected:
 	/** Collision handling. @param aDamage Damage caused by collision. @return False if mHealth <= aDamage. */
 	bool handleCollision(int aDamage);
@@ -104,6 +107,9 @@ protected:
 
 	/** Is the robot bunkered. */
 	bool mBunkered;
+
+private:
+	int fragNum;
 };
 
 #endif // BOTINFO_H
