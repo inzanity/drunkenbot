@@ -48,7 +48,6 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots,
 				 list<CBulletInfo *> *aBulletList, list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
 {
-	resetTimeFactor();
 	mBotAI->resetAction();
 	if (mBotAI->mData)
 		delete mBotAI->mData;
@@ -230,14 +229,15 @@ void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 	{
 		TVector pos = mPos;
 		TVector speed = {cos(angle), sin(angle)};
+		time = 0;
 		for (tile = aTilemap[(int)floorf(pos.mY)][(int)floorf(pos.mX)];
 			 (CTilemap::TTileType)(tile & 3) != CTilemap::ETileWall;
 			 tile = aTilemap[(int)floorf(pos.mY)][(int)floorf(pos.mX)])
 		{
 			mBotAI->mTilemap->setTile((int)(floorf(pos.mX) - mSpawningPos.mX), (int)(floorf(pos.mY) - mSpawningPos.mY), tile);
-			time = getNextEdge(pos, speed);
-			pos.mX += time * speed.mX;
-			pos.mY += time * speed.mY;
+			time += getNextEdge(pos, speed);
+			pos.mX = mPos.mX + time * speed.mX;
+			pos.mY = mPos.mY + time * speed.mY;
 		}
 		mBotAI->mTilemap->setTile((int)(floorf(pos.mX) - mSpawningPos.mX), (int)(floorf(pos.mY) - mSpawningPos.mY), tile);
 	}
