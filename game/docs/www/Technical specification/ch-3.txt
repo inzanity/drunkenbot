@@ -25,21 +25,14 @@
 	- <b>Performing</b>: Every now and then in the nights lightning strikes down from the sky creating damage to what ever it hits. Lightnings can be captured with lighning power station thus enabling certain area around the station to be safe from damage from lightnings.
 	- <b>Implementation</b>: When game time variable increases to match definion of night time, game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down creating damage to whatever object it hits (if object present).
 
-
-
-
-
 3.2	FPS-mode
 3.2.1	Radar
 
-	- <b>Performing</b>: 
-	- <b>Implementation</b>: 
+	- <b>Performing</b>: When the radar technology is developed, the mechs will get an on screen radar, that will scan the mechs surroundings. The radar will show any mechs in the vicinity, at first if they're in the direction of the radar "beam", and with more advanced technology they are detected if they're near enough.
+	- <b>Implementation</b>: If the mech has radar technology, it's distance and direction from other mechs are calculated. If they're close enough and at the direction of the radar (for the less advanced radar), they will be shown as dots on the radar.
+
 
 3.2.2	On-game messages
 
-	- <b>Performing</b>: 
-	- <b>Implementation</b>: 
-
-
-
-
+	- <b>Performing</b>: The on-game messages will be shown, if the user does something illegal, if a enemy is spotted, or if player decides to write a message.
+	- <b>Implementation</b>: The message area can be sent messages it should show. The engine will send these, if it receives a message from player, or the game objects can send these, if they're under attack or have spotted an enemy.
