@@ -39,7 +39,7 @@ Basicly all visible objects derives from CDrawable. However, it is possible to d
 The single most important game objects is CMech. It contains all mech data and behaviour. However some parts, like AI (see 1.5.2), are divided to separate classes. As mech animations are more complicated (different weapons, turning upper body, shooting, moving), it requires more animation data than common CDrawable object.
 
 1.2.4	CBuilding
-Buildings are noticeable part of the game. All RTS-mode functionality, like buildings, technologies, upgrades and resources are directly connected to the buildings. Buildings which are just part of the technology tree (see 1.4), but have no special purpose, are directly CBuilding instances. Extended classes has to be implemented for more complicated buildings, like command center, dock yard, power distribution system and defence building (turret).
+Buildings are noticeable part of the game. All RTS-mode functionality, like buildings, technologies, upgrades and resources are directly connected to the buildings. Buildings which are just part of the technology tree (see 1.4), but have no special purpose, are directly CBuilding instances. Extended classes have to be implemented for more complicated buildings, like command center, dock yard, power distribution system and defence building (turret).
 
 Distribution channels are special pipes for resource distribution. They can only be constructed next to the command center or each other. Unconnected channel block may look like a regular building, but adjacent channel blocks are connected with extra animation. Each channel block stores links to following blocks. This way continuous pipes from command center to resource occurrences can be detected.
 
@@ -48,7 +48,7 @@ Messages are used for communication between game objects. This enables general i
 
 Game objects are stored in special data structures. These are similar to linked lists, but are implemented using indices (to fixed size node array) instead of pointers. Using index and id of the receiver object, message can be delivered in constant time while still insuring the validity of the receiver. Index and id of the sender object are also included to the message to enable replying. 
 
-Message contains one integer to identify the message, two parameters and a time delay. Receiver is the message can be same as the sender, as it can be used for timing purposes. There is no support for multiple recipients or cancelling  queued (sended but not delivered) messages. When game is loaded or saved, whole message queue has to be included.
+Message contains one integer to identify the message, two parameters and a time delay. Receiver of the message can be same as the sender, as it can be used for timing purposes. There is no support for multiple recipients or cancelling  queued (sended but not delivered) messages. When game is loaded or saved, whole message queue has to be included.
 
 1.4	Technology tree
 Game contains several data classes for loading and storing information about weapons, buildings and technology tree. All technology tree related data is loaded from xml-file. Predefined schema files are used to make technology tree creation and manipulation easier (see 4.X). See concept document 3.3.2 and 3.3.4 for weapon and building data descriptions.
