@@ -1,3 +1,7 @@
 TEKIJÄ	PÄIVÄYS	H	AIKA
 
-Japa	15.9.	1	Suunnittelu
+Japa	15.9.	1	Desing
+Japa	21.9.	4	Tools
+Japa	22.9.	4	Tools
+Japa	23.9.	2	Desing
+Japa	23.9.	2	Tools
