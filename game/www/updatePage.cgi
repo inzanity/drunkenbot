@@ -9,27 +9,36 @@ print "Updating pages...\n";
 
 chdir("/home/inzane/public_html/www") || die;
 system("CVS_RSH=ssh /usr/bin/cvs update > /dev/null");
-chdir("docs");
-system("CVS_RSH=ssh /usr/bin/cvs update");
-chdir("..");
+chdir("docs/www");
+system("CVS_RSH=ssh /usr/bin/cvs update -dA");
+chdir("../..");
 
+for (<docs/www/*>) {
+	s/^docs\/www\///;
+	next if ($_ eq "CVS");
+	if (-d "docs/www/$_") {
+		mkdir $_ if (! -d $_);
+		my @files = sort <docs/www/$_/ch-*.txt>;
+		my $index = shift @files;
+		my ($toc, $menu) = generateToc(@files);
+		my $allinone = readTxt($index);
+		createPage("$_/index", $allinone, $menu, -1);
+		createPage("$_/tow", $toc, $menu, 0);
 
-my $ch0 = 1;
-my $ch1 = 8;
-my ($toc, $menu) = generateToc($ch0, $ch1);
-my $allinone = readTxt(0);
-createPage("index", $allinone, $menu, -1);
-createPage("toc", $toc, $menu, 0);
+		$allinone .= $toc;
 
-$allinone .= $toc;
+		for my $file (@files) {
+			my $txt = readTxt($file);
+			$file =~ s/^.*\/(ch-[0-9]+)\.txt$/$1/;
+			$allinone .= $txt;
+			createPage("$_/$file", $txt);
+		}
 
-for (; $ch0 <= $ch1; $ch0++) {
-	my $txt = readTxt($ch0);
-	$allinone .= $txt;
-	createPage("ch-$ch0", $txt, $menu, $ch0);
+		$allinone =~ s/ch-[0-9]+.html//g;
+		createPage("$_/allinone", $allinone);
+		print "Done $_.";
+	}
 }
-$allinone =~ s/ch-[0-9]+.html//g;
-createPage("allinone", $allinone, $menu, -2);
 
 print "Done.\n";
 
@@ -72,7 +81,7 @@ sub readTxt {
 	my $fh;
 	my $cont = "";
 	my $ullevel = 0;
-	open $fh, "docs/ch-$ch.txt";
+	open $fh, "$ch";
 	while (<$fh>) {
 		chomp;
 		chomp;
@@ -109,13 +118,14 @@ sub readTxt {
 }
 
 sub generateToc {
-	my ($ch0, $ch1) = @_;
+	my (@pages) = @_;
 	my $cont = "";
 	my $fh;
 	my $qlevel = 0;
 	my $menuobjs = {};
-	for (; $ch0 <= $ch1; $ch0++) {
-		open $fh, "docs/ch-$ch0.txt";
+	for (@pages) {
+		open $fh, "$_";
+		my $ch0 = s/^.*-([0-9]+)\.txt/$1/;
 		while (<$fh>) {
 			chomp;
 			chomp;
