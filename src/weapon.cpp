@@ -5,7 +5,7 @@
 
 using std::istream;
 
-CWeapon::CWeapon(istream *aStream) : mBulletCount(0), mBulletSpeed(0.f), mExplosionRadius(0.f), mExplosionSpeed(0.f), mDamage(0.f)
+CWeapon::CWeapon(istream *aStream) : mReloadTime(0), mBulletCount(0), mBulletSpeed(0.f), mExplosionRadius(0.f), mExplosionSpeed(0.f), mDamage(0.f)
 {
 	*aStream >> mBulletCount
 		>> mReloadTime
@@ -18,7 +18,7 @@ CWeapon::CWeapon(istream *aStream) : mBulletCount(0), mBulletSpeed(0.f), mExplos
 		mDamage /= ceilf(mExplosionRadius / mExplosionSpeed);
 }
 
-CWeapon::CWeapon(const CWeapon *aWeapon) : mBulletCount(aWeapon->mBulletCount), mBulletSpeed(aWeapon->mBulletSpeed), mExplosionRadius(aWeapon->mExplosionRadius), mExplosionSpeed(aWeapon->mExplosionSpeed), mDamage(aWeapon->mDamage), mReloadTime(aWeapon->mReloadTime)
+CWeapon::CWeapon(const CWeapon *aWeapon) : mReloadTime(aWeapon->mReloadTime), mBulletCount(aWeapon->mBulletCount), mBulletSpeed(aWeapon->mBulletSpeed), mExplosionRadius(aWeapon->mExplosionRadius), mExplosionSpeed(aWeapon->mExplosionSpeed), mDamage(aWeapon->mDamage)
 {
 }
 
