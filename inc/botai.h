@@ -19,8 +19,6 @@
 
 using std::list;
 
-#define PI 3.14159265358979
-
 /**
  * Base class for external AI class.
  * Bots are controlled using think() method once in every frame.
