@@ -9,13 +9,19 @@ using std::ifstream;
 
 #ifndef WIN32
 
+#include "../inc/textengine.h"
+
 
 int main()
 {
-	ifstream map("res/map.txt");
+	ifstream map("res/tmap.txt");
 	ifstream weapons("res/weapons.txt");
 
 	CGameEngine *engine = new CGameEngine(&weapons, &map);
+
+	IGraphicsEngine *gEngine = new CTextEngine();
+
+	engine->setGraphicsEngine(gEngine);
 
 	map.close();
 	weapons.close();
