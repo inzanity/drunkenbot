@@ -169,7 +169,7 @@ If the mech is selected, all actions and automatic operation modes are shown as 
 
 Every action in the game has a shortcut key. For example, pressing 's' when mech is selected will stop the mech. Items from the queue can be cancelled and removed by left clicking the item. Queue has a fixed length, and new actions can't be selected while queue is full. Player can change to the FPS mode by double clicking the mech, pressing enter when mech is selected or pressed binded number key of the selected mech (after selection).
 
-<p><a href="images/rts.jpg">kuva</a>a</p>
+<p><a href="docs/images/rts.jpg">kuva</a></p>
 
 3.5.1.2	FPS mode controls
 Controlling the mech requires both the mouse and the keyboard. Upper body can be turned using mouse. Pressing 'w' key moves the mech forwards, and 's' moves it backwards. Turning of the mech can be done with 'a' and 'd' keys. Left mouse button is used for shooting, right mouse button for changing weapon. There are shortcut keys for automatic operation modes, and for building the power distribution system. If scout, attack or defence automatic operation mode is selected, moving the mech manually returns it to autofire mode. Pressing esc or binded shortcut number returns the game to the RTS mode.
