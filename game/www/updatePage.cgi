@@ -8,22 +8,25 @@ print "Content-type: text/plain\n\n";
 print "Updating pages...\n";
 
 chdir("/home/inzane/public_html/www") || die;
-system("CVS_RSH=ssh /usr/bin/cvs update > /dev/null");
+system("CVS_RSH=ssh /usr/bin/cvs update -dA > /dev/null");
 chdir("docs/www");
 system("CVS_RSH=ssh /usr/bin/cvs update -dA");
 chdir("../..");
 
-for (<docs/www/*>) {
-	s/^docs\/www\///;
+my $main = "";
+
+for my $doc (<docs/www/*>) {
+	$doc =~ s/^docs\/www\///;
 	next if ($_ eq "CVS");
-	if (-d "docs/www/$_") {
-		mkdir $_ if (! -d $_);
-		my @files = sort <docs/www/$_/ch-*.txt>;
+	if (-d "docs/www/$doc") {
+		mkdir $_ if (! -d $doc);
+		system("ln -sf ../images/ \"$doc\"/images");
+		my @files = sort <"docs/www/$doc/ch-*.txt">;
 		my $index = shift @files;
 		my ($toc, $menu) = generateToc(@files);
 		my $allinone = readTxt($index);
-		createPage("$_/index", $allinone, $menu, -1);
-		createPage("$_/tow", $toc, $menu, 0);
+		createPage("$doc/index", $allinone, $menu, -1, "../");
+		createPage("$doc/toc", $toc, $menu, 0, "../");
 
 		$allinone .= $toc;
 
@@ -31,19 +34,23 @@ for (<docs/www/*>) {
 			my $txt = readTxt($file);
 			$file =~ s/^.*\/(ch-[0-9]+)\.txt$/$1/;
 			$allinone .= $txt;
-			createPage("$_/$file", $txt);
+			createPage("$doc/$file", $txt, $menu, 0, "../");
 		}
 
 		$allinone =~ s/ch-[0-9]+.html//g;
-		createPage("$_/allinone", $allinone);
-		print "Done $_.";
+		createPage("$doc/allinone", $allinone, $menu, -2, "../");
 	}
+	my $docn = $doc;
+	$docn =~ s/ /%20/g;
+	$main .= "<a href=\"$docn/\">$doc</a><br>\n";
 }
+
+createPage("index", $main, {}, -5, "");
 
 print "Done.\n";
 
 sub createPage {
-	my ($name, $content, $menu, $ch) = @_;
+	my ($name, $content, $menu, $ch, $imdir) = @_;
 	my $rfh;
 	my $wfh;
 	open $rfh, "template.html";
@@ -64,9 +71,15 @@ sub createPage {
 			print $wfh $1 . "<link rel=\"start\" href=\"index.html\">\n";
 			print $wfh $1 . "<link rel=\"toc\" href=\"toc.html\">\n";
 			print $wfh $1 . "<link rel=\"first\" href=\"ch-1.html\">\n";
-			print $wfh $1 . "<link rel=\"end\" href=\"ch-7.html\">\n";
+#			print $wfh $1 . "<link rel=\"end\" href=\"ch-7.html\">\n";
 			print $wfh $1 . "<link rel=\"prev\" href=\"ch-" . ($ch - 1) . ".html\">\n" if ($ch > 1);
 			print $wfh $1 . "<link rel=\"next\" href=\"ch-" . ($ch + 1) . ".html\">\n" if ($ch < 7 && $ch >= 0);
+		} elsif (/style.css/) {
+			s/style.css/${imdir}style.css/;
+			print $wfh $_;
+		} elsif (/"images/) {
+			s/"images/"${imdir}images/;
+			print $wfh $_;
 		} else {
 				
 			print $wfh $_;
