@@ -48,7 +48,7 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 			return;
 
 		for (mBotNum = 1; FindNextFile(handle, &findFileData); mBotNum++);
-		mBots = new CBot *[mBotNum];
+		mBots = new CBot *[mBotNum + 1];
 
 		handle = FindFirstFile("bots/*.dll", &findFileData);
 		for (i = 0; i < mBotNum; i++)
@@ -63,7 +63,7 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 		
 		mBotNum = scandir("bots/", &filelist, fileselector, NULL);
 
-		mBots = new CBot *[mBotNum];
+		mBots = new CBot *[mBotNum + 1];
 
 		for (i = 0; i < mBotNum; i++)
 		{
@@ -73,6 +73,7 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 		}
 		free(filelist);
 #endif
+		mBots[mBotNum] = NULL;
 	}
 	delete [] fileName;
 
@@ -91,7 +92,7 @@ bool CGameEngine::loop()
 		mBots[i]->think((const char **)mTilemap, mMapWidth, mMapHeight, (CVisibleBotInfo **)mBots, mBotNum,
 						&mBulletList, &mWeaponList, &mVoiceList);
 	for (i = 0; i < mBotNum; i++)
-		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)mBots, true);
+		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)&mBots[i + 1], true);
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->performActions(&mBulletList, &mVoiceList);
 	return true;
