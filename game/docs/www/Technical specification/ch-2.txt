@@ -89,7 +89,7 @@
 2.2.3	Shooting
 
 	- <b>Performing</b>: The primary weapon can be fired using the left mouse button.
-	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed. The mech object will then be queried for the direction and weapon type, and a new bullet object is created with initial velocity as specified by the mech and the weapon.
+	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed. The mech object will then be queried for the direction and weapon type, and a new bullet object is created with initial velocity as specified by the mech and the weapon. Weapons are inaccurate from the long distances.
 
 2.2.4	Changing a weapon
 
