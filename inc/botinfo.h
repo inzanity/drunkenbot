@@ -61,8 +61,8 @@ public:
 	virtual ~CBotInfo();
 
 	/**
-	 * Getter for the remaining time to reload weapon.
-	 * @return Turns left before done reloading.
+	 * Getter for the remaining time to finish current action.
+	 * @return Turns left before finished current action.
 	 */
 	char actionDelay();
 
@@ -70,9 +70,16 @@ public:
 	const CWeapon *weapon();
 
 protected:
+	/** Turns remaining before done current action. */
 	char mActionDelay;
+
+	/** Current weapon. */
 	CWeapon *mWeapon;
+
+	/** Current action. */
 	TBotAction mBotAction;
+
+	/** Is the robot bunkered. */
 	bool mBunkered;
 };
 
