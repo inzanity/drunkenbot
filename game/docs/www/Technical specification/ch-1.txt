@@ -21,7 +21,7 @@ CAnimCombination reads animation information from a text file. Number of animati
 Animation storage is used to load and access animations. This way each animation and texture will be loaded only once. It can be used to restore all animations, in case they are lost (see "Lost Devices" from DirectX SDK documentation).
 
 1.1.3	CParticleSystemLoader
-Particle systems are loaded from Lua files (see http://www.lua.org) using CParticleSystemLoader. File contains properties of the system, as well as script to initialize keyframes. See TODO ParticleEditor.
+Particle systems are loaded from Lua files (see 4.3) using CParticleSystemLoader. File contains properties of the system, as well as script to initialize keyframes. See <a href = "TODO">ParticleEditor</a>.
 
 1.2	Game objects
 All objects in the game are derived from CGameObj. Most of these objects are visible, but there is also invisible objects, like camera and pieces of AI. Practically all game session data is stored in game objects. Game can be saved and loaded by externalizing and internalizing game objects. Every object has an unique id number, and index to the data structure where it is stored. Objects must be accessed using id and index, not with pointers. This way invalid pointers to destroyed game objects can be avoided.
@@ -51,7 +51,7 @@ Game objects are stored in special data structures. These are similar to linked 
 Message contains one integer to identify the message, two parameters and a time delay. Receiver of the message can be same as the sender, as it can be used for timing purposes. There is no support for multiple recipients or cancelling queued (sended but not delivered) messages. When game is loaded or saved, whole message queue has to be included.
 
 1.4	Technology tree
-Game contains several data classes for loading and storing information about weapons, buildings and technology tree. All technology tree related data is loaded from xml-file. Predefined schema files are used to make technology tree creation and manipulation easier (see 4.X). See concept document 3.3.2 and 3.3.4 for weapon and building data descriptions.
+Game contains several data classes for loading and storing information about weapons, buildings and technology tree. All technology tree related data is loaded from xml-file. Predefined schema files are used to make technology tree creation and manipulation easier (see 4.6). See concept document 3.3.2 and 3.3.4 for weapon and building data descriptions.
 
 1.5	Artificial intelligence
 The game is heavily concentrated on artificial intelligence. It has to deal with all traditional RTS game problems. At the lowest level, path finding and unit behaviour has to be solved. At the highest level there are strategic AI, resource management and so on. Because of the FPS mode and special AI technology branch, there has to be also sufficient tactical AI.
@@ -75,12 +75,12 @@ Purpose of the strategic AI is to enable normal playing against computer players
 
 Building the base becomes very demanding task, because computer should be able to play with any race (technology tree). At some level, predefined build orders can be used. At the beginning AI should choose some target technology, and develop the required buildings and technologies. Primary attack is scheduled right after the target technology is developed.
 
-Fuzzy system is used to determine the best strategy (see 4.X). Rules are based on the gathered knowledge and the game state. For example, if enemy has an economic advantage and strong defence, expanding might be a good idea.
+Fuzzy system is used to determine the best strategy (see 4.2). Rules are based on the gathered knowledge and the game state. For example, if enemy has an economic advantage and strong defence, expanding might be a good idea.
 
 Scouting and small strokes are performed during the whole game. Multiple mechs are not used before tactical AI technology level. If resources are not available or can't be gathered, full attack strategy is used for the rest of the game.
 
 1.5.4	Scripting
-Several AI components are based on scripting language Lua. Lua is also used in scripted single player missions. Scripts for these components can be added from the level editor (see 4.X).
+Several AI components are based on scripting language Lua (see 4.2). Lua is also used in scripted single player missions. Scripts for these components can be added from the level editor (see 4.5).
 
 All scripts are able to send messages (see 1.3). Some of them are also activated only when a message has been received. More advanced script components may need an additional interface defined for special purposes.
 

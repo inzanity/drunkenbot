@@ -1,1 +1,20 @@
 4.	Tools
+4.1	Version control
+CVS (Concurrent Versions System) is used for version control. All documentation, source files, data/content files and project files are in cvs. Special tags are created for releases (before deadlines).
+
+4.2	Programming
+Microsoft Visual Studio 6.0 and .NET are used in developing and debugging. Programming language is c++, but ParticleEditor and level editor use graphical interfaces implemented in c#. Managed c++ wrapper is used to glue c# and c++ code together. Lua language (<a href="http://www.lua.org">http://www.lua.org</a>) is used for scripting.
+
+4.4	Graphics
+Blender ( <a href="http://www.blender.org">http://www.blender.org</a>) is used to create 3D models and animations. 2D graphics, like textures, are done using gimp (http://www.gimp.org). In-house particle editor is implemented to create particle effects.
+
+4.5	Level editor
+In-house level editor can be used to design maps. Height maps for the map can not be modified from the editor. 2D graphics software, Leveller (<a href="http://www.daylongraphics.com/products/leveller/">http://www.daylongraphics.com/products/leveller/</a>) or similar freeware software is used to create and manipulate height maps instead.
+
+For normal game mode, only map specific constants, starting locations and resources has to be specified. In scripted single player missions level editor can be used to define mission objectives and create objects and scripts. Storyline scripts are important part of the single player campaigne.
+
+4.6	Configuration
+Weapons, buildings and the technology tree (relationships) are fully configurable for each party. All required information is loaded from xml file. XAmple XML Editor (<a href="http://www.felixgolubov.com/XMLEditor/">http://www.felixgolubov.com/XMLEditor/</a>) is used to create schema files and create/configure technology tree.
+
+4.7	Documentation
+Documentation of the game is available from the <a href="http://humppa.mikas.net/~avalance/">web site</a>. All documents are text files, which makes web site maintenance easier. Class and package diagrams are designed using Dia (<a href="http://www.gnome.org/projects/dia/">http://www.gnome.org/projects/dia/</a>). Some classes are documented using javadoc style comments, but comprehensive class documentation will not be available.
