@@ -67,8 +67,8 @@ public:
 	/** Destructor. */
 	virtual ~CBulletInfo();
 
-	/** Increase frag counter of the shooter bot. */
-	void addFrag();
+	/** Increase frag counter. @param aAddFrag True to increase, false to reduce counter. */
+	void changeFragNum(bool aAddFrag);
 
 protected:
 	/**

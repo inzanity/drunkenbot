@@ -44,7 +44,7 @@ char CTilemap::getTile(const CGameObj *aGameObj) const
 
 CTilemap::TTileType CTilemap::type(char aTile) const
 {
-	return (TTileType(aTile & 0x7F));
+	return (TTileType(aTile & 3));
 }
 
 bool CTilemap::visible(char aTile) const

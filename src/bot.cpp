@@ -12,14 +12,32 @@ CBot::CBot(const char *aDllName, int aTeamNumber) : CBotInfo(aTeamNumber << 8), 
 
 void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects)
 {
+	loadAI();
+	int speed, armour, aiming, size;
+	mBotAI->init(speed, armour, aiming, size);
+	float sum = speed + armour + aiming + size;
+	if (speed >= 75 && speed <= 125 && armour >= 75 && armour <= 125 &&
+		aiming >= 75 && aiming <= 125 && size >= 75 && size <= 125 && sum == 400)
+	{
+		mSpeedFactor = speed * .01f;
+		mArmourFactor = armour * .01f;
+		mAimingFactor = aiming * .01f;
+		mRadius = 1.f - size * .005f;
+	}
+	else
+		mSpeedFactor = mArmourFactor = mAimingFactor = mRadius = 1.f;
+
+	int tile;
 	do {
 		mPos.mX = 1.f + rand() % (aWidth-2);
 		mPos.mY = 1.f + rand() % (aHeight-2);
-	} while ((aTilemap[int(mPos.mY)][int((mPos.mX))] & 3) != 3);
+		tile = aTilemap[int(mPos.mY - mRadius)][int((mPos.mX + mRadius))] |
+				   aTilemap[int(mPos.mY - mRadius)][int((mPos.mX - mRadius))] |
+				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX + mRadius))] |
+				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX - mRadius))];
+	} while (tile & 3 != 3);
 	mSpawningPos = mPos;
-	loadAI();
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
-	mRadius = 1.f;
 }
 
 void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots, int aBotNum,
@@ -35,7 +53,7 @@ void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo
 	if (!mBotAI)
 		return;
 	mBotAI->mTilemap->resetFogOfWar();
-	float dAngle = FOV / (2 * sqrt(aWidth * aWidth + aHeight * aHeight) * tan(FOV / 2.f));
+	float dAngle = KFov / (2 * sqrt(aWidth * aWidth + aHeight * aHeight) * tan(KFov / 2.f));
 	scanTilemap(aTilemap, dAngle);
 	for (int i = 0; aBots[i]; i++)
 	{
@@ -87,10 +105,12 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 	if (mBotAI->action() & EActionTurn)
 	{
 		if (mBotAI->turningDir() == CBotAI::ETurnLeft)
-			mOrientation += .1f * PI;
+			mOrientation += KTurnSpeed;
 		else if (mBotAI->turningDir() == CBotAI::ETurnRight)
-			mOrientation += 1.9f * PI;
-		if (mOrientation >= 2 * PI)
+			mOrientation -= KTurnSpeed;
+		if (mOrientation < 0)
+			mOrientation += 2 * PI;
+		else if (mOrientation >= 2 * PI)
 			mOrientation -= 2 * PI;
 	}
 	if (mBotAI->action() & EActionMove)
@@ -99,19 +119,19 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		{
 		case CBotAI::EMoveForward:
 			mMovingDirection = mOrientation;
-			mVelocity = .25f;
+			mVelocity = mSpeedFactor * KMoveSpeedForward;
 			break;
 		case CBotAI::EMoveBackwards:
 			mMovingDirection = mOrientation + PI;
-			mVelocity = .1f;
+			mVelocity = mSpeedFactor * KMoveSpeedBackwards;
 			break;
 		case CBotAI::EMoveLeft:
 			mMovingDirection = mOrientation + PI / 2.f;
-			mVelocity = .1f;
+			mVelocity = mSpeedFactor * KMoveSpeedBackwards;
 			break;
 		case CBotAI::EMoveRight:
 			mMovingDirection = mOrientation + 3 * PI / 2.f;
-			mVelocity = .1f;
+			mVelocity = mSpeedFactor * KMoveSpeedBackwards;
 			break;
 		}
 		if (mMovingDirection >= 2 * PI)
@@ -191,7 +211,7 @@ void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 {
 	float time;
 	char tile;
-	for (float angle = mOrientation - FOV / 2.f; angle < mOrientation + FOV / 2.f; angle += aDAngle)
+	for (float angle = mOrientation - KFov / 2.f; angle < mOrientation + KFov / 2.f; angle += aDAngle)
 	{
 		TVector pos = mPos;
 		TVector speed = {cos(angle), sin(angle)};

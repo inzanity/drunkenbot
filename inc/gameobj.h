@@ -119,8 +119,8 @@ public:
 	 */
 	bool chkCollision(const char **aTilemap, CBotInfo **aBots, bool aCollisionWithObstacles);
 
-	/** Increase frag counter of the responsible CBot. */
-	virtual void addFrag();
+	/** Increase frag counter of the responsible CBot. @param aAddFrag True to increase, false to reduce counter. */
+	void changeFragNum(bool aAddFrag);
 
 protected:
 	/** Collision handling. @param aDamage Damage caused by collision. @return False if object (CBot) has died. */

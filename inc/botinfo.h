@@ -90,12 +90,18 @@ public:
 	/** Getter for frag counter. @return Number of killed enemies. */
 	int fragNum();
 
-	/** Increase frag counter. */
-	void addFrag();
+	/** Increase frag counter. @param aAddFrag True to increase, false to reduce counter. */
+	void changeFragNum(bool aAddFrag);
+
+	/** Getter for remaing health. @return Remaining health percentage. */
+	char health() const;
+
+	/** Getter for speed factor. */
+	float speedFactor() const;
 
 protected:
 	/** Collision handling. @param aDamage Damage caused by collision. @return False if mHealth <= aDamage. */
-	bool handleCollision(int aDamage);
+	bool handleCollision(char aDamage);
 
 	/** Getter for damage caused by this object in collisions. @return Caused damage. */
 	int getDamage();
@@ -113,9 +119,18 @@ protected:
 	bool mBunkered;
 
 	/** Remainig health. */
-	int mHealth;
+	char mHealth;
 
-private:
+	/** Speed factor of the bot. */
+	float mSpeedFactor;
+
+	/** Armour factor of the bot. */
+	float mArmourFactor;
+
+	/** Aiming factor of the bot. */
+	float mAimingFactor;
+ 
+	/** Frag counter. See CMovingGameObj::chkCollision() for more information. */
 	int mFragNum;
 };
 

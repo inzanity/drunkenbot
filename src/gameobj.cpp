@@ -142,7 +142,7 @@ int CMovingGameObj::getDamage() const
 	return 0;
 }
 
-void CMovingGameObj::addFrag()
+void CMovingGameObj::changeFragNum(bool aAddFrag)
 {
 }
 

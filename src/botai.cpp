@@ -2,7 +2,7 @@
 
 #define KExclusiveActions (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon)
 
-CBotAI::CBotAI() : mTilemap(NULL), mData(0), mAction(EActionNone), mMovingDir(EMoveForward),
+CBotAI::CBotAI() : mTilemap(NULL), mData(NULL), mAction(EActionNone), mMovingDir(EMoveForward),
 				   mTurningDir(ETurnLeft), mShootingDir(0)
 {
 }
@@ -11,9 +11,9 @@ CBotAI::~CBotAI()
 {
 }
 
-void CBotAI::init(int &aSpeed, int &aArmour, int &aAiming)
+void CBotAI::init(int &aSpeed, int &aArmour, int &aAiming, int &aSize)
 {
-	aSpeed = aArmour = aAiming = 1;
+	aSpeed = aArmour = aAiming = aSize = 100;
 }
 
 void CBotAI::resetAction()
@@ -70,6 +70,11 @@ bool CBotAI::pickWeapon()
 bool CBotAI::dropWeapon()
 {
 	return setAction(EActionDropWeapon, KExclusiveActions);
+}
+
+void CBotAI::cancelAction(TBotAction aAction)
+{
+	mAction &= aAction ^ 0xffffffff;
 }
 
 int CBotAI::action() const

@@ -26,11 +26,19 @@ bool CVisibleBotInfo::enemy()
 
 // CBotInfo
 
-CBotInfo::CBotInfo(int aTeamInfo) : CVisibleBotInfo(aTeamInfo), mWeapon(NULL), mBotAction(EActionNone), mActionDelay(0), mBunkered(false), mHealth(0)
+CBotInfo::CBotInfo(int aTeamInfo) : CVisibleBotInfo(aTeamInfo), mWeapon(NULL), mBotAction(EActionNone),
+									mActionDelay(0), mBunkered(false), mHealth(0), mSpeedFactor(0),
+									mArmourFactor(0), mAimingFactor(0), mFragNum(0)
 {
 }
 
-CBotInfo::CBotInfo(CBotInfo *aBotInfo, float aXPos, float aYPos) : CVisibleBotInfo(aBotInfo, aXPos, aYPos, aBotInfo->type())
+CBotInfo::CBotInfo(CBotInfo *aBotInfo, float aXPos, float aYPos) : CVisibleBotInfo(aBotInfo, aXPos, aYPos, aBotInfo->type()),
+																   mWeapon(aBotInfo->mWeapon), mBunkered(aBotInfo->mBunkered),
+																   mHealth(aBotInfo->mHealth),
+																   mSpeedFactor(aBotInfo->mSpeedFactor),
+																   mArmourFactor(aBotInfo->mArmourFactor),
+																   mAimingFactor(aBotInfo->mAimingFactor),
+																   mFragNum(aBotInfo->mFragNum)
 {
 }
 
@@ -63,7 +71,7 @@ int CBotInfo::fragNum()
 	return mFragNum;
 }
 
-bool CBotInfo::handleCollision(int aDamage)
+bool CBotInfo::handleCollision(char aDamage)
 {
 	mHealth -= aDamage;
 	return (mHealth < 0);
@@ -74,7 +82,20 @@ int CBotInfo::getDamage()
 	return 0x69;
 }
 
-void CBotInfo::addFrag()
+void CBotInfo::changeFragNum(bool aAddFrag)
 {
-	mFragNum++;
+	if (aAddFrag)
+		mFragNum++;
+	else
+		mFragNum--;
+}
+
+char CBotInfo::health() const
+{
+	return mHealth;
+}
+
+float CBotInfo::speedFactor() const
+{
+	return mSpeedFactor;
 }

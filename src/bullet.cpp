@@ -50,7 +50,7 @@ int CBulletInfo::getDamage() const
 	return int(mShooter->weapon()->damage());
 }
 
-void CBulletInfo::addFrag()
+void CBulletInfo::changeFragNum(bool aAddFrag)
 {
-	mShooter->addFrag();
+	mShooter->changeFragNum(aAddFrag);
 }

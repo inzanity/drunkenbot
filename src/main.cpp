@@ -130,7 +130,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 			{
 				if(!gameEngine->loop())
 					break;
-				gameEngine->draw(1.f, 0);
+				gameEngine->draw(1.f, -1);
 				gfxEngine->flip();
 				if (++frameCounter >= 100)
 				{

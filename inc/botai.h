@@ -19,7 +19,10 @@
 
 using std::list;
 
-#define FOV		(PI / 2.f)
+#define KFov				(PI / 2.f)
+#define KMoveSpeedForward	(.25f)
+#define KMoveSpeedBackwards	(.1f)
+#define KTurnSpeed			(.1f * PI)
 
 /**
  * Base class for external AI class.
@@ -61,13 +64,15 @@ public:
 
 	/**
 	 * Initializing method to configure attributes of the bot.
-	 * Bot speed, armour and aiming can be adjusted with different power, from 50% up to 150%.
-	 * However, total power is scaled to be 300%. All attributes are 100% by default.
-	 * @param aSpeed Weight factor of the speed. Moving and turning speeds are both affected.
-	 * @param aArmour Weight factor of the armour.
-	 * @param aAiming Weight factor of the aiming. 
+	 * Bot speed, armour, aiming and size (smallness) can be adjusted with different factor, from 75% up to 125%.
+	 * However, total sum of factors must be 400%. All attributes are 100% by default.
+	 * @param aSpeed Weight factor of the speed percentage. Moving and turning speeds are both affected.
+	 * @param aArmour Weight factor of the armour percentage.
+	 * @param aAiming Weight factor of the aiming percentage. 
+	 * @param aSize Inverted weight factor of the size percentage. Note that smaller factor equals bigger bot.
+	 *              That is, real size factor is <code>200% - aSize</code>.
 	 */
-	virtual void init(int &aSpeed, int &aArmour, int &aAiming);
+	virtual void init(int &aSpeed, int &aArmour, int &aAiming, int &aSize);
 
 	/** Reset action to <code>EActionNone</code>. */
 	void resetAction();
@@ -123,6 +128,9 @@ public:
 	 * @return True if action was legal.
 	 */
 	bool dropWeapon();
+
+	/** Cancel action. @param aAction Action to be cancelled. */
+	void cancelAction(TBotAction aAction);
 
 	/** Getter for action. @return Action to be performed next. */
 	int action() const;
