@@ -173,8 +173,8 @@ Every action in the game has a shortcut key. For example, pressing 's' when mech
 Controlling the mech requires both the mouse and the keyboard. Upper body can be turned using mouse. Pressing 'w' key moves the mech forwards, and 's' moves it backwards. Turning of the mech can be done with 'a' and 'd' keys. Left mouse button is used for shooting, right mouse button for changing weapon. There are shortcut keys for automatic operation modes, and for building the power distribution system. If scout, attack or defence automatic operation mode is selected, moving the mech manually returns it to autofire mode. Pressing esc or binded shortcut number returns the game to the RTS mode.
 
 3.5.2	Interfaces
-<p><img src="images/rts.jpg"></p>
-<p><img src="images/fps.jpg"></p>
+<p><img src="images/rts.jpg" width=200></p>
+<p><img src="images/fps.jpg" width=200></p>
 
 3.5.3	Feedback
 Few lines of text can be shown on the screen. Following information or warnings can be displayed:
