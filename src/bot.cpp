@@ -68,11 +68,11 @@ void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo
 		}
 	}
 	for (weaIter = aWeaponList->begin(); weaIter != aWeaponList->end(); weaIter++)
-		if (!(aTilemap[int((*weaIter)->yPos())][int((*weaIter)->xPos())] & 0x80))
+		if (!(mBotAI->mTilemap->getTile(floorf((*weaIter)->xPos()) - mSpawningPos.mX, floorf((*weaIter)->yPos()) - mSpawningPos.mY) & KTileFowMask))
 			mBotAI->mWeapons.push_front(new CWeaponInfo(*weaIter, mSpawningPos.mX, mSpawningPos.mY));
 
 	for (bulIter = aBulletList->begin(); bulIter != aBulletList->end(); bulIter++)
-		if (!(aTilemap[int((*bulIter)->yPos())][int((*bulIter)->xPos())] & 0x80))
+		if (!(mBotAI->mTilemap->getTile(floorf((*bulIter)->xPos()) - mSpawningPos.mX, floorf((*bulIter)->yPos()) - mSpawningPos.mY) & KTileFowMask))
 			mBotAI->mBullets.push_front(new CMovingGameObj(*bulIter, mSpawningPos.mX, mSpawningPos.mY));
 
 	for (voiIter = aVoices->begin(); voiIter != aVoices->end(); voiIter++)
