@@ -56,7 +56,7 @@
 	- <b>Performing</b>: When autoaim technology is developed, mech can automatically aim the enemy. Autoaim doesn't change the orientation of the mech (or even the upper body), but just moves the crosshair within a fixed radius.
 	- <b>Implementation</b>: All enemy mechs in the area seen by the mech are checked. If angle from the manual firing direction to the mech is small enough, crosshair will instantly be moved. If more than one mechs are on sight, closest one (determined by the angle, not the distance) is selected. Current position and speed of the enemy mech are used to calculate correct aiming. Constant speed for enemy mech is assumed, and changing the speed may cause the autoaim to aim faulty. Correct aiming doesn't guarantee the hit from the long distances (see 2.2.3).
 
-3.2.4	Autofire
+3.2.5	Autofire
 
 	- <b>Performing</b>: Autofire operation mode is mostly used from the fps mode, but is available in the rts mode as well. It will simply open fire whenever autoaim (see 3.2.4) is succesful.
 	- <b>Implementation</b>: When autoaiming is succesfully performed, mech will be notified. If autofire mode is on, mech acts like with manual shooting (see 2.2.3). 
