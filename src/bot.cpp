@@ -39,7 +39,7 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX + mRadius))] &
 				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX - mRadius))];
 	} while (tile & 3 != CTilemap::ETileEmpty);
-				mSpawningPos = mPos;
+	mSpawningPos = mPos;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
 	mHealth = 100;
 	mWeapon = new CWeapon(aWeapon);
@@ -48,6 +48,7 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots,
 				 list<CBulletInfo *> *aBulletList, list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
 {
+	resetTimeFactor();
 	mBotAI->resetAction();
 	if (mBotAI->mData)
 		delete mBotAI->mData;
