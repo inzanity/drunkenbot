@@ -53,12 +53,27 @@ namespace ParticleLib
 	bool D3DObj::initWindowed()
 	{
 		bool res = mD3DObj->initWindowed();
+		LPDIRECT3DDEVICE9 device = mD3DObj->mD3DDevice;
 		D3DXMATRIX projectionMatrix;
 		ZeroMemory(&projectionMatrix, sizeof(projectionMatrix));
 		float screenAspect = (float)mD3DObj->width() / (float)mD3DObj->height();
 		float FOV = D3DX_PI / 4;
 		D3DXMatrixPerspectiveFovLH(&projectionMatrix, FOV, screenAspect, 1.0f, 150.0f);
-		mD3DObj->mD3DDevice->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
+		device->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
+
+		// Turn	on the zbuffer
+		device->SetRenderState(D3DRS_ZENABLE, TRUE);
+		// Turn	on ambient lighting	
+		device->SetRenderState(D3DRS_AMBIENT, 0xffffffff);
+
+		// General particle render states
+		device->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);
+		float f = 0.0f;
+		device->SetRenderState(D3DRS_POINTSCALE_A, *((DWORD*)&f));
+		f = 1.0f;
+		device->SetRenderState(D3DRS_POINTSCALE_B, *((DWORD*)&f));
+		device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+		device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 		return res;
 	}
 
