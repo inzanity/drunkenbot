@@ -96,7 +96,7 @@ bool CGameEngine::loop()
 		if (!(*bulIter)->update())
 		{
 			delete (*bulIter);
-			mBulletList.erase(bulIter++);
+			mBulletList.erase(bulIter--);
 		}
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->think((const char **)mTilemap, mMapWidth, mMapHeight, (CVisibleBotInfo **)mBots,
@@ -164,7 +164,7 @@ void CGameEngine::restart(istream *aMap)
 		lookup[cTemp] = iTemp;
 	}
 
-	mTilemap = new char*[mMapHeight];
+	mTilemap = new char*[mMapHeight + 1];
 
 	sTemp = new char[mMapWidth + 1];
 
