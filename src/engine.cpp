@@ -88,7 +88,8 @@ bool CGameEngine::loop()
 {
 	int i;
 	for (i = 0; i < mBotNum; i++)
-		mBots[i]->think((const char **)mTilemap, (CVisibleBotInfo **)mBots, mBotNum, &mBulletList, &mWeaponList, &mVoiceList);
+		mBots[i]->think((const char **)mTilemap, mMapWidth, mMapHeight, (CVisibleBotInfo **)mBots, mBotNum,
+						&mBulletList, &mWeaponList, &mVoiceList);
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)mBots, true);
 	for (i = 0; i < mBotNum; i++)
