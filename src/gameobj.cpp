@@ -118,8 +118,6 @@ float CMovingGameObj::getNextEdge(TVector aPos, TVector aSpeed)
 	if (dY == 0) dY = (aSpeed.mY < 0 ? -1.f : 1.f);
 
 	float xTime = dX / aSpeed.mX, yTime = dY / aSpeed.mY;
-	if (fabs(aSpeed.mX) != fabs(aSpeed.mY) && (xTime >= 1,41421 || yTime >= 1,41421))
-		int plop = 100;
 
 	return (xTime < yTime ? xTime : yTime) + mEpsilon;
 }
