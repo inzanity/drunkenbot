@@ -48,12 +48,29 @@ void CTextEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 {
 	int x, y;
-	char out;
+	int j;
+	char out = '\0';
 	x = (int)aGameObj->xPos();
 	y = (int)aGameObj->yPos();
+	if ((aGameObj->type() & 0xf) == EObjectExplosion)
+	{
+		for (int i = -int(aGameObj->radius()); i <= int(aGameObj->radius()); i++)
+		{
+			if (y + i < 0) continue;
+			j = abs(i) - int(aGameObj->radius());
+			printf("\033[%d;%dH", y + i + 1, (x + j > 0 ? x + j + 1 : 1));
+			for (; j < int(aGameObj->radius()) - abs(i) - 1; j++)
+			{
+				if (x + i + j < 0) continue;
+				cout << "*";
+			}
+			cout << endl;
+		}
+		return;
+	}
 	if ((aGameObj->type() & 0xf) == EObjectBot)
 		out = mBotSymbols[(aGameObj->type() >> 8) & 3];
-	else
+	else if ((aGameObj->type() & 0xf) == EObjectBullet)
 		out = mBulletSymbols[int((((const CMovingGameObj *)aGameObj)->movingDirection()) / PI * 4 + .5f) & 3];
 	if (mActiveBot)
 	{
