@@ -142,7 +142,7 @@ public:
 	bool chkCollision(const char **aTilemap, CBotInfo **aBots, bool aCollisionWithObstacles);
 
 	/** Increase frag counter of the responsible CBot. @param aAddFrag True to increase, false to reduce counter. */
-	void changeFragNum(bool aAddFrag);
+	virtual void changeFragNum(bool aAddFrag);
 
 	/** Update object according to its new state and position. @return True if object is alive. */
 	virtual bool update();
