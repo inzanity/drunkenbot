@@ -1,4 +1,18 @@
+#ifndef WIN32
+# include <cstdlib>
+# include <cstring>
+# include <dirent.h>
+#endif
 #include "../inc/engine.h"
+
+#ifndef WIN32
+int fileselector(const struct dirent *file)
+{
+	if (strncmp(".so", file->d_name + strlen(file->d_name) - 3, 3))
+		return 0;
+	return 1;
+}
+#endif
 
 CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) : 
 						 mGfxEngine(NULL), mWeaponTypes(NULL), mBots(NULL), mTilemap(NULL),
@@ -18,8 +32,8 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 	}
 	else
 	{
-#ifdef WIN32
 		char *fileName = new char[64];
+#ifdef WIN32
 		WIN32_FIND_DATA findFileData;
 		HANDLE handle = FindFirstFile("bots/*.dll", &findFileData);
 		if (handle == INVALID_HANDLE_VALUE)
@@ -36,8 +50,23 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 			FindNextFile(handle, &findFileData);
 		}
 #else
-		// TODO: purkka
+		struct dirent **filelist;
+		int count;
+		int i;
+		
+		mBotNum = scandir("bots/", &filelist, fileselector, NULL);
+
+		mBots = new CBot *[count];
+
+		for (i = 0; i < mBotNum; i++)
+		{
+			snprintf(fileName, 63, "bots/%s", filelist[i]->d_name);
+			mBots[i] = new CBot(fileName);
+			free(filelist[i]);
+		}
+		free(filelist);
 #endif
+		delete [] fileName;
 	}
 
 	restart(aMap);
@@ -114,7 +143,6 @@ void CGameEngine::restart(istream *aMap)
 		*aMap >> sTemp;
 		for (int j = 0; j < mMapWidth; j += 1)
 			mTilemap[i][j] = lookup[sTemp[j]];
-		mTilemap[mMapWidth] = '\0';
 	}
 
 	delete [] sTemp;
