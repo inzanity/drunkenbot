@@ -50,7 +50,3 @@
 
 	- <b>Performing</b>: When Machine Vision I technology is developed, all enemy mechs visible in fps mode are detected and highlighted with drawing a rectangle around them and showing the distance to them. With level 2 technology, the armour levels and weapon info are shown of the enemy mech. The level 2 info can also be seen in the RTS mode.
 	- <b>Implementation</b>: If machine vision technology is developed, all mechs in the area seen by the mech are then investigated. If they're in the looking direction of the mech, a rectangle calculated from their bounding box will then be drawn around the mech and a little text will tell the distance. When level II is developed, the enemy mechs are also polled for their armour and weaponry information and it will also be drawn (in a compact form) next to the mech. The text sizes are always drawn in the same size, independent of the distance, the rectangle will reflect the visible size of the mech.
-
-3.2.4	Tactical AI
-
-	- 
