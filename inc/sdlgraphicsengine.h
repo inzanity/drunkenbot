@@ -63,6 +63,7 @@ private:
 	SDL_Surface *mTiles;
 	SDL_Surface *mBots;
 	SDL_Surface *mBullets;
+	SDL_Surface *mWeapons;
 	SDL_Surface *mScreen;
 };
 
