@@ -8,6 +8,7 @@ print "Content-type: text/plain\n\n";
 print "Updating pages...\n";
 
 chdir("/home/inzane/public_html/www") || die;
+system("CVS_RSH=ssh /usr/bin/cvs update");
 chdir("docs");
 system("CVS_RSH=ssh /usr/bin/cvs update");
 chdir("..");
