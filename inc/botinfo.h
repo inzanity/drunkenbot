@@ -31,8 +31,8 @@ enum TBotAction {EActionNone = 0, EActionMove = 1, EActionTurn = 2, EActionShoot
 class CVisibleBotInfo : public CMovingGameObj
 {
 public:
-	/** Default constructor */
-	CVisibleBotInfo();
+	/** Default constructor. @param aTeamInfo Team info. */
+	CVisibleBotInfo(int aTeamInfo);
 
 	/**
 	 * Copy constructor.
@@ -63,8 +63,8 @@ private:
 class CBotInfo : public CVisibleBotInfo
 {
 public:
-	/** Default constructor. */
-	CBotInfo();
+	/** Default constructor. @param aTeamInfo Team info. */
+	CBotInfo(int aTeamInfo);
 
 	/** Destructor. */
 	virtual ~CBotInfo();

@@ -2,7 +2,7 @@
 
 #define KExclusiveActions (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon)
 
-CBotAI::CBotAI() : mTilemap(NULL), mAction(EActionNone), mMovingDir(EMoveForward),
+CBotAI::CBotAI() : mTilemap(NULL), mData(0), mAction(EActionNone), mMovingDir(EMoveForward),
 				   mTurningDir(ETurnLeft), mShootingDir(0)
 {
 }

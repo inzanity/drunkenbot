@@ -2,7 +2,7 @@
 
 // CVisibleBotInfo
 
-CVisibleBotInfo::CVisibleBotInfo() : CMovingGameObj(1), mEnemy(false)
+CVisibleBotInfo::CVisibleBotInfo(int aTeamInfo) : CMovingGameObj(aTeamInfo | 1), mEnemy(false)
 {
 }
 
@@ -26,7 +26,7 @@ bool CVisibleBotInfo::enemy()
 
 // CBotInfo
 
-CBotInfo::CBotInfo() : mWeapon(NULL), mBotAction(EActionNone), mActionDelay(0), mBunkered(false), mHealth(0)
+CBotInfo::CBotInfo(int aTeamInfo) : CVisibleBotInfo(aTeamInfo), mWeapon(NULL), mBotAction(EActionNone), mActionDelay(0), mBunkered(false), mHealth(0)
 {
 }
 

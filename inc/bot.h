@@ -29,8 +29,8 @@ using std::list;
 class CBot : public CBotInfo
 {
 public:
-	/** Constructor. @param aDllName Name of the .dll file to load CBotAI. */
-	CBot(const char *aDllName);
+	/** Constructor. @param aDllName Name of the .dll file to load CBotAI. @param aTeamNumber Team number. */
+	CBot(const char *aDllName, int aTeamNumber);
 
 	/**
 	 * Reloads AI from dll, creates and initializes new bot.
@@ -44,11 +44,12 @@ public:
 	 * Updates visible objects and bots actions using CBotAI.
 	 * @param aTilemap The whole tilemap.
 	 * @param aBots Array containing all bots.
+	 * @param aBotNum Number of bots.
 	 * @param aBulletList List of all bullets in the field.
 	 * @param aWeaponList List of all weapons in the field.
 	 * @param aVoices List of all voice sources.
 	 */
-	void think(const char **aTilemap, CVisibleBotInfo **aBots, list<CBulletInfo *> *aBulletList,
+	void think(const char **aTilemap, CVisibleBotInfo **aBots, int aBotNum, list<CBulletInfo *> *aBulletList,
 			   list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices);
 
 	/**

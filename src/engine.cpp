@@ -20,19 +20,27 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 						 mFragLimit(0), mTeamNum(0), mTeamNames(NULL), mFriendlyFire(true)
 {
 	int i;
+	int teamTemp;
 
 	*aWeapons >> mWeaponNum;
 	mWeaponTypes = new CWeapon*[mWeaponNum];
 	for (i = 0; i < mWeaponNum; i++)
 		mWeaponTypes[i] = new CWeapon(aWeapons);
+	char *fileName = new char[64];
 
 	if (aTeamInfo)
 	{
-		// ...
+		*aTeamInfo >> mBotNum;
+		mBots = new CBot *[mBotNum];
+		
+		for (i = 0; i < mBotNum; i++)
+		{
+			*aTeamInfo >> teamTemp >> fileName;
+			mBots[i] = new CBot(fileName, teamTemp);
+		}
 	}
 	else
 	{
-		char *fileName = new char[64];
 #ifdef WIN32
 		WIN32_FIND_DATA findFileData;
 		HANDLE handle = FindFirstFile("bots/*.dll", &findFileData);
@@ -43,7 +51,7 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 		mBots = new CBot *[mBotNum];
 
 		handle = FindFirstFile("bots/*.dll", &findFileData);
-		for (int i = 0; i < mBotNum; i++)
+		for (i = 0; i < mBotNum; i++)
 		{
 			sprintf(fileName, "bots/%s", findFileData.cFileName);
 			mBots[i] = new CBot(fileName);
@@ -60,13 +68,13 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 		for (i = 0; i < mBotNum; i++)
 		{
 			snprintf(fileName, 63, "bots/%s", filelist[i]->d_name);
-			mBots[i] = new CBot(fileName);
+			mBots[i] = new CBot(fileName, i);
 			free(filelist[i]);
 		}
 		free(filelist);
 #endif
-		delete [] fileName;
 	}
+	delete [] fileName;
 
 	restart(aMap);
 }
@@ -80,7 +88,7 @@ bool CGameEngine::loop()
 {
 	int i;
 	for (i = 0; i < mBotNum; i++)
-		mBots[i]->think((const char **)mTilemap, (CVisibleBotInfo **)mBots, &mBulletList, &mWeaponList, &mVoiceList);
+		mBots[i]->think((const char **)mTilemap, (CVisibleBotInfo **)mBots, mBotNum, &mBulletList, &mWeaponList, &mVoiceList);
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)mBots, true);
 	for (i = 0; i < mBotNum; i++)

@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include "../inc/bot.h"
 
-CBot::CBot(const char *aDllName) : mBotAI(NULL), mDllName(NULL), mDllHandle(NULL), mFrags(0)
+CBot::CBot(const char *aDllName, int aTeamNumber) : CBotInfo(aTeamNumber << 8), mBotAI(NULL), mDllName(NULL), mDllHandle(NULL), mFrags(0)
 {
 	mDllName = new char[strlen(aDllName) + 1];
 	strcpy(mDllName, aDllName);
@@ -16,13 +16,38 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 	mRadius = 1.f;
 }
 
-void CBot::think(const char **aTilemap, CVisibleBotInfo **aBots, list<CBulletInfo *> *aBulletList,
+void CBot::think(const char **aTilemap, CVisibleBotInfo **aBots, int aBotNum, list<CBulletInfo *> *aBulletList,
 				 list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
 {
+	list<CBulletInfo *>::iterator bulIter;
+	list<CWeaponInfo *>::iterator weaIter;
+	list<TVector>::iterator voiIter;
 	if (!mBotAI)
 		return;
-	// TODO: copy data and update visible objects
+	for (int i = 0; i < aBotNum; i++)
+		if (aBots[i]->type() != mType && aTilemap[int(floor(aBots[i]->yPos()))][int(floor(aBots[i]->yPos()))] & 0x80)
+			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mPos.mX, mPos.mY, mType));
+	for (weaIter = aWeaponList->begin(); weaIter != aWeaponList->end(); weaIter++)
+		if (aTilemap[int(floor((*weaIter)->yPos()))][int(floor((*weaIter)->xPos()))] & 0x80)
+			mBotAI->mWeapons.push_front(new CVisibleWeaponInfo(*weaIter, mPos.mX, mPos.mY));
+
+	for (bulIter = aBulletList->begin(); bulIter != aBulletList->end(); bulIter++)
+		if (aTilemap[int(floor((*bulIter)->yPos()))][int(floor((*bulIter)->xPos()))] & 0x80)
+			mBotAI->mBullets.push_front(new CVisibleBulletInfo(*bulIter, mPos.mX, mPos.mY));
+
+	for (voiIter = aVoices->begin(); voiIter != aVoices->end(); voiIter++)
+		if (aTilemap[int(floor((*voiIter).mY))][int(floor((*voiIter).mX))] & 0x80)
+			mBotAI->mSourcesOfNoise.push_front(atan2((*voiIter).mX - mBotAI->mData.xPos(), (*voiIter).mY - mBotAI->mData.yPos()));
+
 	mBotAI->think();
+
+	for (; !mBotAI->mBots.empty(); mBotAI->mBots.pop_back())
+		delete mBotAI->mBots.back();
+	for (; !mBotAI->mBullets.empty(); mBotAI->mBullets.pop_back())
+		delete mBotAI->mBullets.back();
+	for (; !mBotAI->mWeapons.empty(); mBotAI->mWeapons.pop_back())
+		delete mBotAI->mWeapons.back();
+	mBotAI->mSourcesOfNoise.clear();
 }
 
 void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVoices)

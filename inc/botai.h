@@ -151,7 +151,7 @@ public:
 	list<CVisibleBotInfo *> mBots;
 
 	/** List of all visible weapons. */
-	list<CVisibleWeaponInfo *> aWeapons;
+	list<CVisibleWeaponInfo *> mWeapons;
 
 	/** List of all visible bullets. Bullets are usually fast, but may be detected and dodged. */
 	list<CVisibleBulletInfo *> mBullets;
