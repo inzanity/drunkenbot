@@ -1,9 +1,9 @@
 /** @file engine.h
  * Definition of CGameEngine.
  * Engine is an interface between the game and the program entry point.
- * This way game remains platform independent. CGraphicsEngine must be
+ * This way game remains platform independent. IGraphicsEngine must be
  * implemented for used platform in order to draw game. However,
- * game can be runned without CGraphicsEngine for statistical purposes.
+ * game can be runned without IGraphicsEngine for statistical purposes.
  *
  * @author Japa
  * @version 1.0
@@ -39,7 +39,7 @@ public:
 	 * Setter for graphics engine.
 	 * @param aGraphicsEngine Graphics engine used to draw game. NULL to disables drawing.
 	 */
-	void setGraphicsEngine(CGraphicsEngine *aGraphicsEngine);
+	void setGraphicsEngine(IGraphicsEngine *aGraphicsEngine);
 
 	/** Game loop. @return False if game has ended. */
 	bool loop();
@@ -62,12 +62,12 @@ public:
 	void setFragLimit(int aFragLimit);
 
 private:
-	CGraphicsEngine *mGfxEngine;
+	IGraphicsEngine *mGfxEngine;
 	list<CBulletInfo *> mBulletList;
 	list<CWeaponInfo *> mWeaponList;
 	CWeapon *mWeaponTypes;
 	CBot *mBots;
-	char **mTileMap;
+	char **mTilemap;
 	int mFragLimit;
 	int mTeamNum;
 	char **mTeamNames;

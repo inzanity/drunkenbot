@@ -8,12 +8,14 @@
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
+#include "gameobj.h"
+
 /**
  * Class to store tilemap for CBotAI.
  * Coordinates are relative to bots spawning position.
  * <code>ETileUndetected</code> is returned from all getters in case of coordinate overflow.
  */
-class CTileMap
+class CTilemap
 {
 public:
 	/** Generalized tile types. */
@@ -24,7 +26,7 @@ public:
 	 * @param aWidth Width of the source tilemap.
 	 * @param aHeight Height of the source tilemap.
 	 */
-	CTileMap(int aWidth, int aHeight);
+	CTilemap(int aWidth, int aHeight);
 
 	/**
 	 * Setter for tiles.
@@ -67,7 +69,7 @@ public:
 	 */
 	bool visible(unsigned char aTile);
 private:
-	unsigned char **mTileMap;
+	unsigned char **mTilemap;
 	int mWidth, mHeight;
 };
 

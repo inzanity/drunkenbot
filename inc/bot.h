@@ -24,20 +24,20 @@ public:
 
 	/**
 	 * Reloads AI from dll, creates and initializes new bot.
-	 * @param aTileMap Tilemap for locating new bot.
+	 * @param aTilemap Tilemap for locating new bot.
 	 * @param aGameObjects Bot should not be located near these objects.
 	 */
-	void spawn(const char **aTileMap, const CGameObj *aGameObjects);
+	void spawn(const char **aTilemap, const CGameObj *aGameObjects);
 
 	/**
 	 * Updates visible objects and bots actions using CBotAI.
-	 * @param aTileMap The whole tilemap.
+	 * @param aTilemap The whole tilemap.
 	 * @param aBots Array containing all bots.
 	 * @param aBulletList List of all bullets in the field.
 	 * @param aWeaponList List of all weapons in the field.
 	 * @param aVoices List of all voice sources.
 	 */
-	void think(const char **aTileMap, CVisibleBotInfo *aBots, list<CBulletInfo *> *aBulletList,
+	void think(const char **aTilemap, CVisibleBotInfo *aBots, list<CBulletInfo *> *aBulletList,
 			   list<CWeaponInfo *> *aWeaponList, list<TPosition> *aVoices);
 
 	/**
@@ -49,10 +49,10 @@ public:
 
 	/**
 	 * Checks and handles collisions. See CMovingGameObj::chkCollision().
-	 * @param aTileMap Tilemap to detect collisions. Bots can collide with walls and obstacles.
+	 * @param aTilemap Tilemap to detect collisions. Bots can collide with walls and obstacles.
 	 * @param aBots List of all bots.
 	 */
-	void chkCollision(const char **aTileMap, CBotInfo **aBots);
+	void chkCollision(const char **aTilemap, CBotInfo **aBots);
 
 	/**
 	 * Moves bot and prepares it for drawing.

@@ -63,10 +63,10 @@ class CBulletInfo : public CVisibleBulletInfo
 
 	/**
 	 * Checks and handles collisions. See CMovingGameObj::chkCollision().
-	 * @param aTileMap Tilemap to detect collisions. Bullets can collide only with walls.
+	 * @param aTilemap Tilemap to detect collisions. Bullets can collide only with walls.
 	 * @param aBots List of all bots.
 	 */
-	void chkCollision(const char **aTileMap, CBotInfo **aBots);
+	void chkCollision(const char **aTilemap, CBotInfo **aBots);
 
 	/** Destructor. */
 	virtual ~CBulletInfo();

@@ -12,6 +12,7 @@
 #define GAMEOBJ_H
 
 class CBotInfo;
+class CTilemap;
 
 /** Struct for 2D coordinates. */
 struct TPosition
@@ -50,7 +51,7 @@ public:
 	/** Getter for the type of the object. @see mType. */
 	int type();
 
-	/** Getter for animation timer. May be used by CGraphicsEngine. */
+	/** Getter for animation timer. May be used by IGraphicsEngine. */
 	float animationTimer();
 
 protected:
@@ -93,22 +94,22 @@ protected:
 	 * Checks collisions and calculates time factor for moving.
 	 * Time factor is 1.0, if no collisions are detected. In a case of collision
 	 * both objects are handled using handleCollision().
-	 * @param aTileMap Tilemap to detect collisions.
+	 * @param aTilemap Tilemap to detect collisions.
 	 * @param aBots List of all bots.
 	 * @param aCollisionWithObstacles True to enable collisions with obstacles.
 	 *        Bots can collide with walls and obstacles, while bullets can collide only with walls.
 	 */
-	void chkCollision(const char **aTileMap, CBotInfo **aBots, bool aCollisionWithObstacles);
+	void chkCollision(const char **aTilemap, CBotInfo **aBots, bool aCollisionWithObstacles);
 
 	/**
 	 * Raycaster to scan visible tiles. Can be used to check collisions with walls.
-	 * @param aSrcTileMap Full tilemap to read tiles for scanning.
+	 * @param aSrcTilemap Full tilemap to read tiles for scanning.
 	 * @param aAngle Moving direction for casted ray.
-	 * @param aDstTileMap Tilemap to write visible tiles. NULL to disable vision scanning
+	 * @param aDstTilemap Tilemap to write visible tiles. NULL to disable vision scanning
 	 *		  (with collision detection).
 	 * @return Position of the detected collision.
 	 */
-	TPosition scanTileMap(const char **aSrcTileMap, float aAngle, CTileMap *aDstTileMap);
+	TPosition scanTilemap(const char **aSrcTilemap, float aAngle, CTilemap *aDstTilemap);
 
 	/** Collision handling.  */
 	virtual void handleCollision(int aType) = 0;

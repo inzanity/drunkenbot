@@ -116,7 +116,7 @@ public:
 	bool checkAction();
 
 	/** Map of the surrounding world. Bot is placed in the middle of the map (tile 0, 0). */
-	CTileMap *mTileMap;
+	CTilemap *mTilemap;
 
 	/** List of all visible bots. */
 	list<CVisibleBotInfo *> mBots;
