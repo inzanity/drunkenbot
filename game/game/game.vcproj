@@ -108,6 +108,9 @@
 				RelativePath="source\animation.cpp">
 			</File>
 			<File
+				RelativePath="source\animationStorage.cpp">
+			</File>
+			<File
 				RelativePath="source\camera.cpp">
 			</File>
 			<File
@@ -134,12 +137,18 @@
 			<File
 				RelativePath="source\skybox.cpp">
 			</File>
+			<File
+				RelativePath="source\texture.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
 				RelativePath="include\animation.h">
+			</File>
+			<File
+				RelativePath="include\animationStorage.h">
 			</File>
 			<File
 				RelativePath="include\camera.h">
@@ -170,6 +179,9 @@
 			</File>
 			<File
 				RelativePath="include\skybox.h">
+			</File>
+			<File
+				RelativePath="include\texture.h">
 			</File>
 		</Filter>
 		<Filter

@@ -1,5 +1,6 @@
 #include <windows.h>
 #include "../include/d3dUtil.h"
+#include "../include/animationStorage.h"
 #include "../include/game.h"
 
 #define		KScreenWidth	640
@@ -73,10 +74,12 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 		delete d3dObj;
 		return false;
 	}
+	CAnimationStorage *animationStorage = new CAnimationStorage();
 	CGame *game = new CGame();
 	if (!game->init())
 	{
 		delete game;
+		delete animationStorage;
 		delete d3dObj;
 		return false;
 	}
@@ -101,6 +104,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 		}
 	}
 	delete game;
+	delete animationStorage;
 	delete d3dObj;
     
 	UnregisterClass(KClassName,	aHInst);

@@ -20,7 +20,7 @@ public:
 	void draw(uint32 aTime);
 	uint32 getDuration();
 	void release();
-	void restore();
+	void restore(const char *aFileName);
 private:
 	int				mDuration;
 	int				mFVF;
@@ -41,7 +41,7 @@ private:
 	char			mColorNum;
 	char			mSizeNum;
 
-	LPDIRECT3DTEXTURE9		mTexture;
+	CTexture *		mTexture;
 	LPDIRECT3DVERTEXBUFFER9	mVertexBuffer;
 };
 

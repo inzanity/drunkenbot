@@ -1,8 +1,7 @@
 #include "stdafx.h"
 
 #include "../include/particleSystem.h"
-
-inline DWORD FtoDW(FLOAT f) {return *((DWORD*)&f);}
+#include "../include/animationStorage.h"
 
 #define COLOR_A(x)	((signed)(x >> 24))
 #define COLOR_R(x)	((signed)((x >> 16) & 0xFF))
@@ -42,8 +41,7 @@ CParticleSystem::CParticleSystem(int aParticles, int aDuration, char aPosNum, ch
 		mLife[i] = 0;
 		mStartingTime[i] = 0;
 	}
-	HRESULT res;
-	res = D3DXCreateTextureFromFile(d3dObj->mD3DDevice, aTexFile, &mTexture);
+	mTexture = CAnimationStorage::ptr()->getTexture(aTexFile);
 }
 
 CParticleSystem::~CParticleSystem()
@@ -93,9 +91,7 @@ void CParticleSystem::enableLooping(bool aLooping)
 
 void CParticleSystem::setTexture(const char *aTexFile)
 {
-	if (mTexture)
-		mTexture->Release();
-	D3DXCreateTextureFromFile(d3dObj->mD3DDevice, aTexFile, &mTexture);
+	mTexture = CAnimationStorage::ptr()->getTexture(aTexFile);
 }
 
 void CParticleSystem::setParticle(int aIndex, int aLife, int aStartingTime, const D3DXVECTOR3 *aPos, const D3DCOLOR *aColor, const float *aSize)
@@ -153,22 +149,15 @@ void CParticleSystem::draw(uint32 aTime)
 	LPDIRECT3DDEVICE9 device = d3dObj->mD3DDevice;
 
 	if (!mVertexBuffer)
-		d3dObj->mD3DDevice->CreateVertexBuffer(mVertexSize * mParticles,
-			D3DUSAGE_POINTS | D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
-			mFVF, D3DPOOL_DEFAULT, &mVertexBuffer, NULL);
+		restore(NULL);
 
 	// Set up point sprites
     device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-    device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	device->SetRenderState(D3DRS_POINTSPRITEENABLE, TRUE);
-	device->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);
-	device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
-	device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(1.0f));
 	if ((mFVF & D3DFVF_PSIZE) == false && mSize)
-	    device->SetRenderState(D3DRS_POINTSIZE, FtoDW(mSize[0][0]));
+	    device->SetRenderState(D3DRS_POINTSIZE, *((DWORD*)&mSize[0][0]));
 //    device->SetRenderState( D3DRS_POINTSIZE_MIN, FtoDW(1.0f) ); // Float value that specifies the minimum size of point primitives. Point primitives are clamped to this size during rendering. 
 	if ((mFVF & D3DFVF_DIFFUSE) == false && mColor)
 	{
@@ -219,9 +208,15 @@ void CParticleSystem::draw(uint32 aTime)
 
 	device->SetStreamSource(0, mVertexBuffer, 0, mVertexSize);
 	device->SetFVF(mFVF);
-	device->SetTexture(0, mTexture);
+	device->SetTexture(0, *mTexture);
 	// Render all our particles
 	HRESULT res = device->DrawPrimitive(D3DPT_POINTLIST, 0, mParticles);
+
+	// Restore render state
+    device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	device->SetRenderState(D3DRS_POINTSPRITEENABLE, FALSE);
 }
 
 uint32 CParticleSystem::getDuration()
@@ -232,13 +227,19 @@ uint32 CParticleSystem::getDuration()
 void CParticleSystem::release()
 {
 	if (mVertexBuffer)
+	{
 		mVertexBuffer->Release();
+		mVertexBuffer = NULL;
+	}
 	if (mTexture)
-		mTexture->Release();
+		mTexture->release();
 	// TODO: rest
 }
 
-void CParticleSystem::restore()
+void CParticleSystem::restore(const char *)
 {
-	// TODO
+	if (!mVertexBuffer)
+		d3dObj->mD3DDevice->CreateVertexBuffer(mVertexSize * mParticles,
+			D3DUSAGE_POINTS | D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC,
+			mFVF, D3DPOOL_DEFAULT, &mVertexBuffer, NULL);
 }

@@ -10,14 +10,14 @@ class CSkyBox
 public:
 				CSkyBox			();
 				~CSkyBox		();
-	void		setTexture		(TSkyBoxTexDir aDir, LPDIRECT3DTEXTURE9 aTex);
-	void		setTextures		(LPDIRECT3DTEXTURE9 *aTex);
+	void		setTexture		(TSkyBoxTexDir aDir, CTexture *aTex);
+	void		setTextures		(CTexture **aTex);
 	void		draw			();
 	void		restore			();
 	void		release			();
 private:
 	LPDIRECT3DVERTEXBUFFER9	mVB;
-	LPDIRECT3DTEXTURE9		mTex[6];
+	CTexture *	mTex[6];
 };
 
 #endif // SKYBOX_H

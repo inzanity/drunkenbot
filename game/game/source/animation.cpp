@@ -1,10 +1,10 @@
-#include "..\include\animation.h"
+#include "../include/animation.h"
+#include "../include/animationStorage.h"
 
 // CMeshAnimation
 
 CMeshAnimation::CMeshAnimation(CMeshAnimation *aAnim) : mMesh(NULL), mMaterial(NULL), mTexture(NULL)
 {
-	aAnim->restore();
 	mMesh = aAnim->mMesh;
 	mMaterial = aAnim->mMaterial;
 	mTexture = aAnim->mTexture;
@@ -24,8 +24,7 @@ void CMeshAnimation::draw(uint32 aTime)
 {
 	if (mMaterial)
 		d3dObj->mD3DDevice->SetMaterial(mMaterial);
-	if (mTexture)
-		d3dObj->mD3DDevice->SetTexture(0, mTexture);
+	d3dObj->mD3DDevice->SetTexture(0, mTexture ? *mTexture : NULL);
 	mMesh->DrawSubset(0);
 }
 
@@ -38,24 +37,11 @@ void CMeshAnimation::release()
 	}
 }
 
-void CMeshAnimation::restore()
+void CMeshAnimation::restore(const char *aFileName)
 {
-/*
-	if (!mMesh)
-	{
-		uint8 len = strlen(mFileName);
-		if (!stricmp((char	*)&mFileName[len-4], ".txt"))
-			readTxt();
-		else if	(!stricmp((char *)&mFileName[len-2], ".x"))
-			readX();
-	}
-	for (uint8 i = 0; i < mMaterialNum; i++)
-		mTexture[i]->restore();
-	mStored = 1;
-*/
 }
 
-void CMeshAnimation::setTexture(LPDIRECT3DTEXTURE9 aTexture)
+void CMeshAnimation::setTexture(CTexture *aTexture)
 {
 	mTexture = aTexture;
 }
@@ -92,7 +78,18 @@ void CMeshAnimation::readX(const char *aFileName)
 	mMaterial->Ambient = mMaterial->Diffuse;
 
 	// Create the texture
-	D3DXCreateTextureFromFile(d3dObj->mD3DDevice, d3dxMaterials[0].pTextureFilename, &mTexture);
+	if (d3dxMaterials[0].pTextureFilename)
+	{
+		int last = 0;
+		for (int i = 0; aFileName[i]; i++)
+			if (aFileName[i] == '/')
+				last = i;
+		char temp[256];
+		strncpy(temp, aFileName, last + 1);
+		temp[last + 1] = '\0';
+		strcat(temp, d3dxMaterials[0].pTextureFilename);
+		mTexture = CAnimationStorage::ptr()->getTexture(temp);
+	}
 
 	// Done	with the material buffer
 	pD3DXMtrlBuffer->Release();

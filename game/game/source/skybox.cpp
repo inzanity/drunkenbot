@@ -25,7 +25,7 @@ void CSkyBox::draw()
 
 	for(int i = 0; i < 6; i += 1)
 	{
-		d3dObj->mD3DDevice->SetTexture(0, mTex[i]);
+		d3dObj->mD3DDevice->SetTexture(0, *mTex[i]);
 		d3dObj->mD3DDevice->SetStreamSource(0, mVB, 0, 5 * sizeof(float));
 		d3dObj->mD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_TEX1);
 		d3dObj->mD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, i * 4, 2);
@@ -84,12 +84,12 @@ void CSkyBox::release()
 	}
 }
 
-void CSkyBox::setTexture(TSkyBoxTexDir aDir, LPDIRECT3DTEXTURE9 aTex)
+void CSkyBox::setTexture(TSkyBoxTexDir aDir, CTexture *aTex)
 {
 	mTex[(uint8)aDir] = aTex;
 }
 
-void CSkyBox::setTextures(LPDIRECT3DTEXTURE9 *aTex)
+void CSkyBox::setTextures(CTexture **aTex)
 {
 	for (uint8 i = 0; i < 6; i++)
 		mTex[i] = aTex[i];

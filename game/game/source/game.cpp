@@ -1,5 +1,7 @@
 #include "../include/game.h"
-#include "../include/particleSystemLoader.h"
+#include "../include/animationStorage.h"
+
+inline DWORD FtoDW(FLOAT f) {return *((DWORD*)&f);}
 
 CGame::CGame() : mBuildings(1000), mTime(0)
 {
@@ -21,10 +23,34 @@ bool CGame::init()
 	D3DXMatrixPerspectiveFovLH(&projectionMatrix, FOV, screenAspect, 1.0f, 150.0f);
 	device->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 
-	MAnimation *anim = CParticleSystemLoader::load("e:/programming/projects/game/tools/particleEditor/particleEffects/flame.lua");
-	CDrawable *building = new CDrawable(0, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(0, 0, 20), &D3DXQUATERNION());
-	mBuildings.add(building);
-	cam = new CCamera(1, 6969);
+	// Turn	on the zbuffer
+	device->SetRenderState(D3DRS_ZENABLE, TRUE);
+	// Turn	on ambient lighting	
+	device->SetRenderState(D3DRS_AMBIENT, 0xffffffff);
+
+	// General particle render states
+	device->SetRenderState(D3DRS_POINTSCALEENABLE, TRUE);
+	device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
+	device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(1.0f));
+    device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+    device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
+	D3DXQUATERNION quat;
+	MAnimation *anim;
+
+	anim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/flame.lua");
+	CDrawable *fire = new CDrawable(0, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(-5, 0, 20), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
+	mBuildings.add(fire);
+
+	anim = CAnimationStorage::ptr()->getAnimation("data/sphere.x");
+	CDrawable *tiger = new CDrawable(1, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(5, 0, 20), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
+	mBuildings.add(tiger);
+
+	anim = CAnimationStorage::ptr()->getAnimation("data/teapot.x");
+	CDrawable *ufo = new CDrawable(2, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(0, -5, 20), &D3DXQUATERNION());
+	mBuildings.add(ufo);
+
+	cam = new CCamera(3, 6969);
 	mTime = 0;
 
 	return true;
