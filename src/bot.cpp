@@ -99,6 +99,10 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		{
 			if (mBotAction == EActionBunker)
 				mBunkered = !mBunkered;
+			else if (mBotAction == EActionPickWeapon)
+				mWeapon = mWeapon; // TODO
+			else if (mBotAction == EActionDropWeapon)
+				mWeapon = mWeapon; // TODO
 			mBotAction = EActionNone;
 		}
 
@@ -142,21 +146,23 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 			mMovingDirection -= 2 * PI;
 	}
 	else
-	{
 		mVelocity = 0;
-	}
-	mBotAction = (TBotAction)(mBotAI->action() & (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon));
-	if (mBotAction == EActionShoot && mWeapon->shoot())
+
+	if (!mActionDelay)
 	{
-		aBulletList->push_back(new CBulletInfo(3, mPos.mX + (mRadius + 0.5f) * cos(mOrientation), mPos.mY + (mRadius + 0.5f) * sin(mOrientation), mOrientation + mBotAI->shootingDir(), mWeapon->bulletSpeed(), this));
-		mActionDelay = (char)mWeapon->reloadTime();
+		mBotAction = (TBotAction)(mBotAI->action() & (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon));
+		if (mBotAction == EActionShoot && mWeapon->shoot())
+		{
+			aBulletList->push_back(new CBulletInfo(3, mPos.mX + (mRadius + 0.5f) * cos(mOrientation), mPos.mY + (mRadius + 0.5f) * sin(mOrientation), mOrientation + mBotAI->shootingDir(), mWeapon->bulletSpeed(), this));
+			mActionDelay = (char)mWeapon->reloadTime();
+		}
+		else if (mBotAction == EActionBunker)
+			mActionDelay = 4;
+		else if (mBotAction == EActionPickWeapon)
+			mActionDelay = 2;
+		else if (mBotAction == EActionDropWeapon)
+			mActionDelay = 1;
 	}
-	else if (mBotAction == EActionBunker)
-		mActionDelay = 4;
-	else if (mBotAction == EActionPickWeapon)
-		mActionDelay = 2;
-	else if (mBotAction == EActionDropWeapon)
-		mActionDelay = 1;
 }
 
 bool CBot::update()
@@ -224,7 +230,6 @@ void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 		{
 			mBotAI->mTilemap->setTile((int)(floorf(pos.mX) - mSpawningPos.mX), (int)(floorf(pos.mY) - mSpawningPos.mY), tile);
 			time = getNextEdge(pos, speed);
-			float x = pos.mX + time * speed.mX, y = pos.mY + time * speed.mY;
 			pos.mX += time * speed.mX;
 			pos.mY += time * speed.mY;
 		}
