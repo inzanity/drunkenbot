@@ -1,10 +1,9 @@
 4.	Game characters
 
-4.1	Character design <i>TODO</i>
-[Describe game characters properties: AI, traits, and behavior. What is the purpose of each character? In what ways can the player modify characters' properties?]
+4.1	Character design
 
 4.1.1	Player characters
-There are no mechs for special purposes, all the mechs are basically the same, only differing in size and weaponry. The mechs can do nothing on their own at first, but with enabling technologies (see 3.3.3) they can be made to find their way using non-linear route, scout the unknown areas, attack or defence the base. With certain technology and mide, they can shoot enemy mechs on sight.
+There are no mechs for special purposes, all the mechs are basically the same, only differing in size and weaponry, which can be selected by the player. The mechs can do nothing on their own at first, but with enabling technologies (see 3.3.3) they can be made to find their way using non-linear route, scout the unknown areas, attack or defence the base. With certain technology and mide, they can shoot enemy mechs on sight.
 
 4.1.2	Nonplayer characters
 
