@@ -22,12 +22,18 @@ public:
 	void setUpperBodyAngle(float aAngleX, float aAngleY);
 	void setUpperBodyAngleXSpeed(float angle);
 	void setUpperBodyAngleYSpeed(float angle);
+	float maxUBAngleX();
+	float maxUBAngleY();
+	float maxUBAngleXSpeed();
+	float maxUBAngleYSpeed();
 private:
 	void addUpperBodyAngle(float aAngleX, float aAngleY);
 	MAnimation *mUpperBody;
 	D3DXVECTOR3 mUBPos;
 	float mUpperBodyAngleX, mUpperBodyAngleY; 
 	float mUpperBodyAngleXSpeed, mUpperBodyAngleYSpeed; 
+	float mMaxUpperBodyAngleX, mMaxUpperBodyAngleY; 
+	float mMaxUpperBodyAngleXSpeed, mMaxUpperBodyAngleYSpeed; 
 	float mRadarRange;
 	bool mRadarDelay;
 	float mSize;

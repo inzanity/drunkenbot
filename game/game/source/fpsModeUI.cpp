@@ -71,24 +71,15 @@ void CFPSModeUI::handleInput()
 		mech->setSpeed((const D3DXVECTOR3 *)&out);
 	}
 
-	if (mouseX < 200)
-	{
-		mech->setUpperBodyAngleXSpeed(-.08f);
-	}
-	else if (mouseX > d3dObj->width() - 200)
-	{
-		mech->setUpperBodyAngleXSpeed(.08f);
-	}
+	float maxXSpeed = mech->maxUBAngleXSpeed();
+	float maxYSpeed = mech->maxUBAngleYSpeed();
+
+	if (mouseX < 200) mech->setUpperBodyAngleXSpeed(-maxXSpeed);
+	else if (mouseX > d3dObj->width() - 200) mech->setUpperBodyAngleXSpeed(maxXSpeed);
 	else mech->setUpperBodyAngleXSpeed(.0f);
 
-	if (mouseY < 100)
-	{
-		mech->setUpperBodyAngleYSpeed(-.08f);
-	}
-	else if (mouseY > d3dObj->height() - 100)
-	{
-		mech->setUpperBodyAngleYSpeed(.08f);
-	}
+	if (mouseY < 100) mech->setUpperBodyAngleYSpeed(-maxYSpeed);
+	else if (mouseY > d3dObj->height() - 100) mech->setUpperBodyAngleYSpeed(maxYSpeed);
 	else mech->setUpperBodyAngleYSpeed(.0f);
 }
 

@@ -82,13 +82,17 @@ bool CGame::init()
 	CMech *mech			= new CMech(getNewGameObjectPtr(ETypeMech), &D3DXVECTOR3(5, mHeightMap->height(5, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 0, 0));
 	mMechs.add(mech);
 
-	CTurret *turret1	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
-	mBuildings.add(turret1);
-	CTurret *turret2	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 20), 20), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
-	mBuildings.add(turret2);
+	CTurret *turret	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
+	mBuildings.add(turret);
+	turret = new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 20), 20), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
+	mBuildings.add(turret);
+	turret = new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(40, mHeightMap->height(40, 40), 40), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
+	mBuildings.add(turret);
+	turret	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 50), 50), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
+	mBuildings.add(turret);
 
-	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(15, mHeightMap->height(15, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
-//	mBuildings.add(dock1);
+	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(35, mHeightMap->height(35, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
+	mBuildings.add(dock1);
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
 

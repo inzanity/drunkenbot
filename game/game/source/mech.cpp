@@ -8,7 +8,9 @@ CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION 
 	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/mech.x"), 1.f, aPos, aOrientation),
 	mUpperBody(CAnimationStorage::ptr()->getAnimation("data/mechTop.x")), mUpperBodyAngleX(0),
 	mUpperBodyAngleY(0), mUpperBodyAngleXSpeed(0), mUpperBodyAngleYSpeed(0), mFPSMode(false),
-	mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true)
+	mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true),
+	mMaxUpperBodyAngleX(.5f), mMaxUpperBodyAngleY(.5f),
+	mMaxUpperBodyAngleXSpeed(0.08f), mMaxUpperBodyAngleYSpeed(0.08f)
 {
 	const TBox *box = mAnimation->getBoundingBox();
 	mUBPos = D3DXVECTOR3(0, box->mMax.y, 0);
@@ -98,6 +100,11 @@ void CMech::addUpperBodyAngle(float aAngleX, float aAngleY)
 {
 	mUpperBodyAngleX += aAngleX;
 	mUpperBodyAngleY += aAngleY;
+
+	if(mUpperBodyAngleX > mMaxUpperBodyAngleX) mUpperBodyAngleX = mMaxUpperBodyAngleX;
+	if(mUpperBodyAngleY > mMaxUpperBodyAngleY) mUpperBodyAngleY = mMaxUpperBodyAngleY;
+	if(mUpperBodyAngleX < -mMaxUpperBodyAngleX) mUpperBodyAngleX = -mMaxUpperBodyAngleX;
+	if(mUpperBodyAngleY < -mMaxUpperBodyAngleY) mUpperBodyAngleY = -mMaxUpperBodyAngleY;
 }
 
 void CMech::setUpperBodyAngleXSpeed(float angle) 
@@ -109,6 +116,27 @@ void CMech::setUpperBodyAngleYSpeed(float angle)
 {
 	mUpperBodyAngleYSpeed = angle;
 }
+
+float CMech::maxUBAngleX()
+{
+	return mMaxUpperBodyAngleX;
+}
+
+float CMech::maxUBAngleY()
+{
+	return mMaxUpperBodyAngleY;
+}
+
+float CMech::maxUBAngleXSpeed()
+{
+	return mMaxUpperBodyAngleXSpeed;
+}
+
+float CMech::maxUBAngleYSpeed()
+{
+	return mMaxUpperBodyAngleYSpeed;
+}
+
 
 void CMech::draw(uint32 aTimeFactor)
 {
