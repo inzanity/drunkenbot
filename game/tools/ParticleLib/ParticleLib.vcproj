@@ -61,7 +61,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				PreprocessorDefinitions="WIN32;NDEBUG;PARTICLE_LIB"
 				MinimalRebuild="FALSE"
 				UsePrecompiledHeader="3"
 				WarningLevel="3"/>
@@ -69,6 +69,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="../lua/lib/lua.lib ../lua/lib/lualib.lib"
 				OutputFile="$(OutDir)/ParticleLib.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"/>
@@ -122,6 +123,9 @@
 			<File
 				RelativePath="..\..\game\source\particleSystemLoader.cpp">
 			</File>
+			<File
+				RelativePath="..\..\game\source\texture.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -140,6 +144,9 @@
 			</File>
 			<File
 				RelativePath="..\..\game\include\particleSystemLoader.h">
+			</File>
+			<File
+				RelativePath="..\..\game\include\texture.h">
 			</File>
 		</Filter>
 		<Filter
