@@ -115,9 +115,41 @@ void MColliding::checkCollision(MColliding *aObj, uint32 aTimeFactor)
 		 obj1.mMin.y < obj2.mMax.y && obj1.mMin.y > obj2.mMin.y &&
 		 obj1.mMin.z < obj2.mMax.z && obj1.mMin.z > obj2.mMin.z) ||
 
-		 (obj1.mMax.x < obj2.mMax.x && obj1.mMax.x > obj2.mMin.x &&
-		 obj1.mMax.y < obj2.mMax.y && obj1.mMax.y > obj2.mMin.y &&
-		 obj1.mMax.z < obj2.mMax.z && obj1.mMax.z > obj2.mMin.z))
+		 (obj1.mMin.x < obj2.mMax.x && obj1.mMin.x > obj2.mMin.x &&
+		 obj1.mMin.y < obj2.mMax.y && obj1.mMin.y > obj2.mMin.y &&
+		 obj1.mMin.z < obj2.mMax.z && obj1.mMin.z > obj2.mMin.z) ||
+		 
+		 (obj2.mMax.x < obj1.mMax.x && obj2.mMax.x > obj1.mMin.x &&
+		 obj2.mMax.y < obj1.mMax.y && obj2.mMax.y > obj1.mMin.y &&
+		 obj2.mMax.z < obj1.mMax.z && obj2.mMax.z > obj1.mMin.z) ||
+
+		 (obj2.mMin.x < obj1.mMax.x && obj2.mMin.x > obj1.mMin.x &&
+		 obj2.mMax.y < obj1.mMax.y && obj2.mMax.y > obj1.mMin.y &&
+		 obj2.mMax.z < obj1.mMax.z && obj2.mMax.z > obj1.mMin.z) ||
+
+		 (obj2.mMax.x < obj1.mMax.x && obj2.mMax.x > obj1.mMin.x &&
+		 obj2.mMin.y < obj1.mMax.y && obj2.mMin.y > obj1.mMin.y &&
+		 obj2.mMax.z < obj1.mMax.z && obj2.mMax.z > obj1.mMin.z) ||
+
+		 (obj2.mMax.x < obj1.mMax.x && obj2.mMax.x > obj1.mMin.x &&
+		 obj2.mMax.y < obj1.mMax.y && obj2.mMax.y > obj1.mMin.y &&
+		 obj2.mMin.z < obj1.mMax.z && obj2.mMin.z > obj1.mMin.z) ||
+
+		 (obj2.mMin.x < obj1.mMax.x && obj2.mMin.x > obj1.mMin.x &&
+		 obj2.mMin.y < obj1.mMax.y && obj2.mMin.y > obj1.mMin.y &&
+		 obj2.mMax.z < obj1.mMax.z && obj2.mMax.z > obj1.mMin.z) ||
+
+		 (obj2.mMin.x < obj1.mMax.x && obj2.mMin.x > obj1.mMin.x &&
+		 obj2.mMax.y < obj1.mMax.y && obj2.mMax.y > obj1.mMin.y &&
+		 obj2.mMin.z < obj1.mMax.z && obj2.mMin.z > obj1.mMin.z) ||
+
+		 (obj2.mMax.x < obj1.mMax.x && obj2.mMax.x > obj1.mMin.x &&
+		 obj2.mMin.y < obj1.mMax.y && obj2.mMin.y > obj1.mMin.y &&
+		 obj2.mMin.z < obj1.mMax.z && obj2.mMin.z > obj1.mMin.z) ||
+
+		 (obj2.mMin.x < obj1.mMax.x && obj2.mMin.x > obj1.mMin.x &&
+		 obj2.mMin.y < obj1.mMax.y && obj2.mMin.y > obj1.mMin.y &&
+		 obj2.mMin.z < obj1.mMax.z && obj2.mMin.z > obj1.mMin.z))
 	{
 		handleCollision(aObj);
 		aObj->handleCollision(this);

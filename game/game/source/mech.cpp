@@ -40,6 +40,13 @@ void CMech::handleCollision(const MGameObj *aObj)
 	setSpeed(&D3DXVECTOR3(0, 0, 0));
 }
 
+void CMech::checkMapCollision(uint32 aTimeFactor)
+{
+	D3DXVECTOR3 dest = (mSpeed * aTimeFactor + mPos);
+	if(	dest.y + 0.05f/*+ maxrise*/< game->mHeightMap->height(dest.x, dest.z)) 
+		handleCollision(NULL);
+}
+
 void CMech::handleMessage(CMessage *aMsg)
 {
 	switch (aMsg->mMsg)

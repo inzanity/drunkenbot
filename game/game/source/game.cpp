@@ -102,8 +102,8 @@ bool CGame::init()
 	turret	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 50), 50), 0, 1);
 	mBuildings.add(turret);
 
-//	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(35, mHeightMap->height(35, 10), 10), 0, 1);
-//	mBuildings.add(dock1);
+	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(35, mHeightMap->height(35, 10), 10), 0, 1);
+	mBuildings.add(dock1);
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
 
@@ -176,6 +176,7 @@ bool CGame::loop()
 			mMechs.mTable[i].mObj->checkCollision(mMechs.mTable[j].mObj, 10);
 		for (j = mBuildings.first(); j != mBuildings.end(); j = mBuildings.mTable[j].mNext)
 			mMechs.mTable[i].mObj->checkCollision(mBuildings.mTable[j].mObj, 10);
+		mMechs.mTable[i].mObj->checkMapCollision(10);
 	}
 
 	for (i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)

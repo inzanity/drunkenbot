@@ -20,6 +20,7 @@ public:
 	D3DXVECTOR3 getEyePos() const;
 	float radarRange() const;
 	bool radarDelay() const;
+	void checkMapCollision(uint32 aTimeFactor);
 	void upperBodyAngle(float *aAngleX, float *aAngleY);
 	void setUpperBodyAngle(float aAngleX, float aAngleY);
 	void setUpperBodyAngleXSpeed(float angle);
