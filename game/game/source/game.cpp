@@ -48,7 +48,6 @@ bool CGame::init()
 	anim = CAnimationStorage::ptr()->getAnimation("data/bones_move.x");
 	CDrawable *ufo = new CDrawable(2, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(0, -1.5f, 5), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(ufo);
-
 	cam = new CCamera(3, 6969);
 	mTime = 0;
 

@@ -107,7 +107,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 			DispatchMessage(&msg);
 		}
 		controllers->ReadState();
-		if (controllers->testi())
+		if (controllers->checkKey(MOVE_UP))
 			game->testi();
 	}
 	delete game;

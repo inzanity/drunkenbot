@@ -8,8 +8,16 @@
 
 CDirectInput::CDirectInput()
 {
-	for (int i = 0; i < sizeof(mKeyboardState); i++)
-		mKeyboardState[i] = 0;
+	for (int i = 0; i < KEYBOARD_SIZE; i++)
+	{
+		mKeyboardTable.keyboardState[i]	= KEY_UP;
+		mKeyboardTable.keyboardCheck[i]	= KEY_UP;
+		mBoundKeys[i]					= KEY_UP;
+	}
+	mBoundKeys[MOVE_LEFT]	= DIK_A;
+	mBoundKeys[MOVE_RIGHT]	= DIK_D;
+	mBoundKeys[MOVE_UP]		= DIK_W;
+	mBoundKeys[MOVE_DOWN]	= DIK_S;
 
 	if (FAILED(DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, 
 									IID_IDirectInput8, (void**)&mDI, NULL)))
@@ -54,37 +62,90 @@ void CDirectInput::Activate()
 
 void CDirectInput::ReadState()
 {
-	if (mKeyboard == NULL)
-		return;
-
-	// TODO: Buffered input-read
-
-	// Get the input's device state, and update mKeyboardState
-	ZeroMemory(mKeyboardState, sizeof(mKeyboardState));
-	if (FAILED(mKeyboard->GetDeviceState(sizeof(mKeyboardState), mKeyboardState)))
+	if (mKeyboard != NULL)
 	{
-		// If input is lost then acquire and keep trying 
-		while(mKeyboard->Acquire() == DIERR_INPUTLOST);
-		return;
+		// TODO: Buffered input-read
+
+		BYTE tempKeyboardState[KEYBOARD_SIZE];
+		for (int i = 0; i < KEYBOARD_SIZE; i++)
+			tempKeyboardState[i] = mKeyboardTable.keyboardState[i];
+
+		// Get the input's device state, and update mKeyboardState
+		ZeroMemory(mKeyboardTable.keyboardState, KEYBOARD_SIZE);
+		if (!FAILED(mKeyboard->GetDeviceState(KEYBOARD_SIZE, mKeyboardTable.keyboardState)))
+		{
+			for (i = 0; i < KEYBOARD_SIZE; i++)
+				if (tempKeyboardState[i] == KEY_UP && mKeyboardTable.keyboardState[i] == KEY_DOWN)
+					mKeyboardTable.keyboardCheck[i] = KEY_DOWN;
+		}
+		else
+		{
+			// If input is lost then acquire and keep trying 
+			while(mKeyboard->Acquire() == DIERR_INPUTLOST);
+			return;
+		}
 	}
 
-	if (mMouse == NULL)
-		return;
-
-    ZeroMemory(&mMouseState, sizeof(mMouseState));
-	if (FAILED(mMouse->GetDeviceState(sizeof(DIMOUSESTATE2), &mMouseState)))
+	if (mMouse != NULL)
 	{
-		// If input is lost then acquire and keep trying 
-		while(mMouse->Acquire() == DIERR_INPUTLOST);
-		return;
+		// Get the input's device state, and update mMouseState
+		ZeroMemory(&mMouseState, sizeof(mMouseState));
+		if (FAILED(mMouse->GetDeviceState(sizeof(DIMOUSESTATE2), &mMouseState)))
+		{
+			// If input is lost then acquire and keep trying 
+			while(mMouse->Acquire() == DIERR_INPUTLOST);
+			return;
+		}
 	}
 }
 
-bool CDirectInput::testi()
+bool CDirectInput::isPressed(GameAction aAction)
 {
-	if (mKeyboardState[30] == 0x80)
+	int temp = getKey(aAction);
+	if (temp == UNDEFINED)
+		return false;
+
+	if (mKeyboardTable.keyboardState[temp] == KEY_DOWN)
 		return true;
 	else return false;
+}
+
+bool CDirectInput::checkKey(GameAction aAction)
+{
+	int temp = getKey(aAction);
+	if (temp == UNDEFINED)
+		return false;
+
+	if (mKeyboardTable.keyboardCheck[temp] == KEY_DOWN)
+	{
+		mKeyboardTable.keyboardCheck[temp] = KEY_UP;
+		return true;
+	}
+	else return false;
+}
+
+void CDirectInput::bindKey(GameAction aAction, int aKey)
+{
+	for (int i = 0; i < KEYBOARD_SIZE; i++)
+		if (mBoundKeys[i] == aKey)
+			mBoundKeys[i] = UNDEFINED;
+
+	mBoundKeys[aAction] = aKey;
+}
+
+int CDirectInput::getKey(GameAction aAction)
+{
+/*
+	if (aAction == MOVE_LEFT)
+		return DIK_A;
+	if (aAction == MOVE_RIGHT)
+		return DIK_A;
+	if (aAction == MOVE_DOWN)
+		return DIK_A;
+	if (aAction == MOVE_UP)
+		return DIK_A;
+*/
+	return mBoundKeys[aAction];
 }
 
 void CDirectInput::FreeDirectInput()

@@ -8,4 +8,10 @@ typedef short			int16;
 typedef unsigned char	uint8;
 typedef char			int8;
 
+
+enum GameAction
+{
+	UNDEFINED, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, MOVE_DOWN
+};
+
 #endif // DEF_H
