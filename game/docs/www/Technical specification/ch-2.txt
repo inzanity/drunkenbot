@@ -35,45 +35,42 @@
 	- <b>Performing</b>: Select a building you want to use to build or develop something. After selection the objects action menu shows all the building/development possibilities. Clicking one of them with left mouse button adds it to the objects action queue to be built/developed. Building/developement of an item can be cancelled by clicking it with left mouse button. Every command has also a shortcut key.
 	- <b>Implementation</b>: If 'selected' variable is not empty, CDirectInput class tells that left mouse button was pressed on top of action menus item and the action queue is not full, the item is added to the queue. If left mouse button is pressed over the item in queue a cancel message is sent to the item. The queue will be popped every time the previous item is completed, the resources are checked just in time. If resources are too few for queued item, it will be set pending, and it will wait until resources are available.
 
-2.1.8	Changing mech's mode
-
-	- <b>Performing</b>: When mech is selected you can change mechs mode from action menu with left mouse button.
-	- <b>Implementation</b>: CDirectInput class tells that left mouse button is pressed on top of one of the buttons in action menu and a message of that button is sent to the selected game object and if it's mech it changes it's mode accordingly.
-
-2.1.9	Mech actions
+2.1.8	Mech actions
 
 	- <b>Performing</b>: You can command the mech by selecting an action from the action menu or using proper shortcut key from keyboard. Some actions are actually action groups, and the action is selected from the submenu. Actions (excluding stop) can be cancelled from the submenu, right clicking on the terrain or pressing esc. Destination for most of the actions has to be given by left clicking on the terrain. With 'shift' pressed down you can combine actions which are then performed in the order they were given. Queued actions can be cancelled by left clicing from the action queue.
 	- <b>Implementation</b>: CDirectInput and action menu classes are used to detect given orders. Submenu is displayed instead of the main action menu when needed. Every submenu contains Cancel action, which returns to the main action menu. If shift was not pressed, 'do action' message is sent to the selected game object and it's action queue cleared. If shift button is pressed down the actions are added to the action queue in given order and object performs them in FIFO order. 
 
-2.1.9.1	Moving actions
+2.1.8.1	Moving actions
 
 	- <b>Performing</b>: Mech has three different moving commands -- move, stop and patrol. Destination is required for move and patrol commands. Queuing action after patrol is not possible and results to instant performing.
 	- <b>Implementation</b>: Command and destination is passed to the selected mech by using message system. Current position has to be stored for patrolling. If path finding technology has been developed, A* algorithm is used for navigation (see 1.5.1). Otherwise direct route is used. If no path is available, action is cancelled. As stop command doesn't require destination and has no subactions, it doesn't have sub action menu and is performed instantly.
 
-2.1.9.2 Building power distribution system
+2.1.8.2 Building power distribution system
 
 	- <b>Performing</b>: Building power distribution system is like building any other building (see 2.1.5). Only requirements are resources and clear terrain. Mech can not be controlled while building. Action can be performed from the fps mode with shortcut key, in which case current mech location is used for building.
 	- <b>Implementation</b>: First part of the building is simalar to moving command (see 2.1.9.1). If mech fails to get to the location, action is cancelled. Second part is similar to building a normal building (see 2.1.5), but special animation is played for the mech. After building is completed (or cancelled), mech returns to normal state.
 	
-2.1.9.3	Changing weapons and modes
+2.1.8.3	Changing weapons and modes
+
 	- <b>Performing</b>: Different weapons and operating modes can be selected from submenus.
 	- <b>Implementation</b>: Submenu is displayed after selecting "Select weapon" or "Change mode" action group. At this point, command can be cancelled. After selecting the real action (weapon or mode), message is sent to the mech and action is performed instantly.
 
-2.1.9.4	Attacking actions
+2.1.8.4	Attacking actions
+
 	- <b>Performing</b>: Attack action depends on the available technology and the selected weapon. EMP shockwave can be launched instantly, byt destination coordinates are required for other weapons. With landmines, mech has to travel to the selected location before burrowing the mine. Othervice mech starts to shoot the target. If autoaim technology is available, moving target can be attacked as long as it is on sight. Without autoaim fixed destination coordinates are used.
 	- <b>Implementation</b>: Bullet creation and damage model is identical to the fps mode shooting (see 2.2.3). Attacking will continue until target is destroyed (requires machine vision), or new command is given.
 
-2.1.10	Changing into FPS mode
+2.1.9	Changing into FPS mode
 
 	- <b>Performing</b>: First select a mech you want to control in first person perspective. Then you can press 'enter' or bound key for this mech from keyboard or double click it with left mouse button. Perspective moves to FPS instantaneously.
 	- <b>Implementation</b>: When CDirectInput class tells that left mouse button is double clicked or 'enter' or number is pressed, the message is sent to the selected object and it proceeds with changing perspective to FPS if everything is in order (selected object is mech etc.).
 
-2.1.11	Exploring the Map
+2.1.10	Exploring the Map
 
 	- <b>Performing</b>: A mech can see only to a certain distance, and so can a building. Totally unseen areas are covered in black, and the map needs to be explored with a mech. After a location has been seen once, it will be visible within a fog. Only buildings (as the were at the time they were seen) and the level are seen under the fog. There is also a tecnology called Map Scanner that allows the player to see the whole map as fogged (instead of black).
 	- <b>Implementation</b>: A array will contain information of visible and seen locations. The values in the array will be updated every round, so that visible or foggy areas become foggy. Then all players objects that have visual capabilities will update information about what they see. Info about seen buildings will be preserved when they're inside the fog, and their state will be updated when they're seen again. If the "Map Scanner"-technology is developed, the seen flag will be set for the whole array.
 
-2.1.12	Upgrading mechs
+2.1.11	Upgrading mechs
 
 	- <b>Performing</b>: When a mech is in a build platform, the platform is selected and there are upgrades available, the upgrades will be in the action menu. Clicking these will queue the action. The mech may not be moved out of the platform, or the upgrade is cancelled. New technologies will be available to the mechs only thorough upgrades.
 	- <b>Implementation</b>: When a mech arrives at a build platform, the platform will be sent a message, and it will store a pointer to the mech object. When a platform is selected, it checks, if the pointer is set. Then it polls available upgrades, and upgrades already done, and tells the action menu to display the available options. When a item in the action menu are clicked, the action is added to the action queue. The queue will be popped when the platform is not doing anything. When a action is popped from the queue, it will check and reserve (or wait for) needed resources, and check that the right mech is at the platform. After that a message will be sent to the platform and the mech to set their status and animations. If the mech is moved, the upgrade will be cancelled, and the resources freed. After the action's duration counter finshises, the mech is sent a message and it's date upgrade to reflect the upgrade.
