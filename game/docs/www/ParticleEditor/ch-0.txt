@@ -1,2 +1,2 @@
-Particle Editor developed for Avalance: Battle over Platonia game.<br />
-<a href="images/ParticleEditor.zip" "In the Face Particle Editor v. 1.0">
+Particle Editor developed for Avalance: Battle over Platonia game.
+<a href="images/ParticleEditor.zip">In the Face Particle Editor v. 1.0</a>
