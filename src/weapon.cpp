@@ -7,6 +7,7 @@ using std::istream;
 CWeapon::CWeapon(istream *aStream) : mBulletCount(0), mBulletSpeed(0.f), mExplosionRadius(0.f), mExplosionSpeed(0.f), mDamage(0.f)
 {
 	*aStream >> mBulletCount
+		>> mReloadTime
 		>> mBulletSpeed
 		>> mExplosionRadius
 		>> mExplosionSpeed
