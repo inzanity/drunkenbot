@@ -11,7 +11,7 @@ typedef char			int8;
 
 enum GameAction
 {
-	UNDEFINED, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, MOVE_DOWN
+	UNDEFINED, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, MOVE_DOWN, WRITE_TEXT
 };
 
 #endif // DEF_H

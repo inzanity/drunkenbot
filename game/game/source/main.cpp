@@ -3,7 +3,6 @@
 #include "../include/animationStorage.h"
 #include "../include/game.h"
 #include "../include/directInput.h"
-#include "../include/messageBox.h"
 
 #define		KScreenWidth	640
 #define		KScreenHeight	480
@@ -89,9 +88,6 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 	CDirectInput *controllers = new CDirectInput();
 	controllers->Activate();
 
-	CMessageBox *messageBox = new CMessageBox(d3dObj->mD3DDevice, 10, 10, 200, 200, 5);
-	string foo = "testi";
-	messageBox->addMessage(&foo);
 
 	// Enter the message loop
 	ZeroMemory(&msg, sizeof(msg));
@@ -111,7 +107,6 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		messageBox->draw(d3dObj->mD3DDevice);
 	}
 	delete game;
 	delete animationStorage;

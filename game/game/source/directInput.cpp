@@ -20,6 +20,8 @@ CDirectInput::CDirectInput()
 	mBoundKeys[MOVE_RIGHT]	= DIK_D;
 	mBoundKeys[MOVE_UP]		= DIK_W;
 	mBoundKeys[MOVE_DOWN]	= DIK_S;
+	mBoundKeys[WRITE_TEXT]	= DIK_T;
+
 
 	if (FAILED(DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, 
 									IID_IDirectInput8, (void**)&mDI, NULL)))

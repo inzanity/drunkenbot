@@ -79,7 +79,7 @@ bool CGame::init()
 	CDrawable *ufo = new CDrawable(2, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(5, mHeightMap->height(5, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(ufo);
 
-	mMessageBox = new CMessageBox(d3dObj->mD3DDevice, 0, 0, 200, 200, 10);
+	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
 
 	mTime = 0;
 
@@ -108,7 +108,13 @@ bool CGame::loop()
 
 	for (uint16 i = mBuildings.first(); i != mBuildings.end(); i = mBuildings.mTable[i].mNext)
 		mBuildings.mTable[i].mObj->draw(10);
-	mMessageBox->draw(device);
+
+	if (directInput->checkKey(WRITE_TEXT))
+	{
+		string foo = "Write:";
+		mMessageBox->addMessage(&foo, 5);
+	}
+	mMessageBox->draw();
 
 	device->EndScene();
 	d3dObj->flip();
