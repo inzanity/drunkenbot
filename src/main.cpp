@@ -57,7 +57,8 @@ int main(int argc, char **argv)
 
 	while (gameRunning & engine->loop())
 	{
-		usleep(200000);
+		engine->draw(1.f, i);
+		usleep(20000);
 #ifdef SDL
 		if (gameRunning)
 		{
@@ -68,7 +69,6 @@ int main(int argc, char **argv)
 #endif
 		if (!(j = (j + 1 & 15)))
 		{
-			engine->draw(1.f, i);
 			results = engine->getResults(false, results);
 #ifndef SDL
 			for (int x = 0; results[x]; x++)
