@@ -30,6 +30,10 @@ CBotInfo::CBotInfo(int aTeamInfo) : CVisibleBotInfo(aTeamInfo), mWeapon(NULL), m
 {
 }
 
+CBotInfo::CBotInfo(CBotInfo *aBotInfo, float aXPos, float aYPos) : CVisibleBotInfo(aBotInfo, aXPos, aYPos, aBotInfo->type())
+{
+}
+
 CBotInfo::~CBotInfo()
 {
 }
