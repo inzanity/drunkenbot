@@ -1,1 +1,11 @@
 Gif- ja sxw-filuja on tekstimuotosena cvs:ssä -- laita santtu uusiks binarynä
+
+schema-fileen
+	hinnat, energian kulutus
+	requires: erikseen mitä rakennuksia/techejä/uppeja vaatii -- lista, merkkijono (pilkuilla eroteltu) vai flagi-ratkasu?
+	technology: id rakennukseen mistä devataan
+	building: tyyppi (normaali, sähkönkeruu, putki, turret), jos turret niin aseen id
+	mech: saattaa tarvita koordinaatteja tai jotain infoo (silmien paikka, aseitten paikat).. mietitään nää myöhemmin
+muuten näyttää hyvältä, pientä viilausta voi aina tehä sit ku saadaan noita juttuja koodattua
+
+
