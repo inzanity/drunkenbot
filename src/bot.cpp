@@ -34,12 +34,12 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 	do {
 		mPos.mX = 1 + rand() % (aWidth-2);
 		mPos.mY = 1 + rand() % (aHeight-2);
-		tile = aTilemap[int(mPos.mY - mRadius)][int((mPos.mX + mRadius))] |
-				   aTilemap[int(mPos.mY - mRadius)][int((mPos.mX - mRadius))] |
-				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX + mRadius))] |
+		tile = aTilemap[int(mPos.mY - mRadius)][int((mPos.mX + mRadius))] &
+				   aTilemap[int(mPos.mY - mRadius)][int((mPos.mX - mRadius))] &
+				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX + mRadius))] &
 				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX - mRadius))];
-	} while (tile & 3 != 3);
-	mSpawningPos = mPos;
+	} while (tile & 3 != CTilemap::ETileEmpty);
+				mSpawningPos = mPos;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
 	mHealth = 100;
 	mWeapon = new CWeapon(aWeapon);
