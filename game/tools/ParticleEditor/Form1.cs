@@ -42,7 +42,7 @@ namespace ParticleEditor
 		private int time = 0;
 		private float xRot, yRot, dist;
 		private bool[] buttonPressed = new bool[6];
-		private bool play = true;
+		private bool play = false;
 		private String homeDir = Directory.GetCurrentDirectory();
 		private int width, height;
 
@@ -87,12 +87,18 @@ namespace ParticleEditor
 		private System.Windows.Forms.NumericUpDown numericUpDownSizes;
 		private System.Windows.Forms.NumericUpDown numericUpDownColors;
 		private System.Windows.Forms.NumericUpDown numericUpDownCoordinates;
-		private System.Windows.Forms.CheckBox checkBox1;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Button buttonPlay;
 		private System.Windows.Forms.TrackBar trackBarSpeed;
+		private System.Windows.Forms.MenuItem menuItem1;
+		private System.Windows.Forms.NumericUpDown numericUpDownDuration;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.CheckBox checkBoxReplay;
+		private System.Windows.Forms.MenuItem menuItemCommands;
+		private System.Windows.Forms.MenuItem menuItemLua;
+		private System.Windows.Forms.MenuItem menuItemAbout;
 		private System.ComponentModel.IContainer components;
 
 		public Form1()
@@ -145,6 +151,10 @@ namespace ParticleEditor
 			this.menuItemSave = new System.Windows.Forms.MenuItem();
 			this.menuItemSaveAs = new System.Windows.Forms.MenuItem();
 			this.menuItemExit = new System.Windows.Forms.MenuItem();
+			this.menuItem1 = new System.Windows.Forms.MenuItem();
+			this.menuItemCommands = new System.Windows.Forms.MenuItem();
+			this.menuItemLua = new System.Windows.Forms.MenuItem();
+			this.menuItemAbout = new System.Windows.Forms.MenuItem();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.timer1 = new System.Timers.Timer();
 			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -156,6 +166,8 @@ namespace ParticleEditor
 			this.buttonFar = new System.Windows.Forms.Button();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.numericUpDownDuration = new System.Windows.Forms.NumericUpDown();
 			this.label5 = new System.Windows.Forms.Label();
 			this.checkBoxLooping = new System.Windows.Forms.CheckBox();
 			this.pictureBoxTexture = new System.Windows.Forms.PictureBox();
@@ -171,7 +183,7 @@ namespace ParticleEditor
 			this.label8 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
+			this.checkBoxReplay = new System.Windows.Forms.CheckBox();
 			this.buttonPlay = new System.Windows.Forms.Button();
 			this.trackBarSpeed = new System.Windows.Forms.TrackBar();
 			this.buttonReload = new System.Windows.Forms.Button();
@@ -187,6 +199,7 @@ namespace ParticleEditor
 			((System.ComponentModel.ISupportInitialize)(this.timer1)).BeginInit();
 			this.panel2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownParticles)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSizes)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownColors)).BeginInit();
@@ -220,7 +233,8 @@ namespace ParticleEditor
 			// mainMenu1
 			// 
 			this.mainMenu1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.menuItemFile});
+																					  this.menuItemFile,
+																					  this.menuItem1});
 			// 
 			// menuItemFile
 			// 
@@ -265,6 +279,34 @@ namespace ParticleEditor
 			this.menuItemExit.Index = 4;
 			this.menuItemExit.Text = "E&xit";
 			this.menuItemExit.Click += new System.EventHandler(this.menuItemExit_Click);
+			// 
+			// menuItem1
+			// 
+			this.menuItem1.Index = 1;
+			this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.menuItemCommands,
+																					  this.menuItemLua,
+																					  this.menuItemAbout});
+			this.menuItem1.Text = "&Help";
+			// 
+			// menuItemCommands
+			// 
+			this.menuItemCommands.Index = 0;
+			this.menuItemCommands.Shortcut = System.Windows.Forms.Shortcut.F1;
+			this.menuItemCommands.Text = "&Commands";
+			this.menuItemCommands.Click += new System.EventHandler(this.menuItemHelp_Click);
+			// 
+			// menuItemLua
+			// 
+			this.menuItemLua.Index = 1;
+			this.menuItemLua.Text = "&Lua 5.0";
+			this.menuItemLua.Click += new System.EventHandler(this.menuItemHelp_Click);
+			// 
+			// menuItemAbout
+			// 
+			this.menuItemAbout.Index = 2;
+			this.menuItemAbout.Text = "&About";
+			this.menuItemAbout.Click += new System.EventHandler(this.menuItemHelp_Click);
 			// 
 			// textBox1
 			// 
@@ -399,6 +441,8 @@ namespace ParticleEditor
 			// 
 			this.groupBox2.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
 			this.groupBox2.Controls.AddRange(new System.Windows.Forms.Control[] {
+																					this.label9,
+																					this.numericUpDownDuration,
 																					this.label5,
 																					this.checkBoxLooping,
 																					this.pictureBoxTexture,
@@ -412,14 +456,39 @@ namespace ParticleEditor
 																					this.numericUpDownCoordinates});
 			this.groupBox2.Location = new System.Drawing.Point(447, 5);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(140, 241);
+			this.groupBox2.Size = new System.Drawing.Size(140, 254);
 			this.groupBox2.TabIndex = 11;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Properties";
 			// 
+			// label9
+			// 
+			this.label9.Location = new System.Drawing.Point(24, 128);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(48, 16);
+			this.label9.TabIndex = 12;
+			this.label9.Text = "Duration";
+			// 
+			// numericUpDownDuration
+			// 
+			this.numericUpDownDuration.Location = new System.Drawing.Point(80, 128);
+			this.numericUpDownDuration.Maximum = new System.Decimal(new int[] {
+																				  10000,
+																				  0,
+																				  0,
+																				  0});
+			this.numericUpDownDuration.Name = "numericUpDownDuration";
+			this.numericUpDownDuration.Size = new System.Drawing.Size(52, 20);
+			this.numericUpDownDuration.TabIndex = 11;
+			this.numericUpDownDuration.Value = new System.Decimal(new int[] {
+																				2000,
+																				0,
+																				0,
+																				0});
+			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(13, 165);
+			this.label5.Location = new System.Drawing.Point(16, 184);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(43, 18);
 			this.label5.TabIndex = 10;
@@ -427,7 +496,7 @@ namespace ParticleEditor
 			// 
 			// checkBoxLooping
 			// 
-			this.checkBoxLooping.Location = new System.Drawing.Point(60, 136);
+			this.checkBoxLooping.Location = new System.Drawing.Point(68, 152);
 			this.checkBoxLooping.Name = "checkBoxLooping";
 			this.checkBoxLooping.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.checkBoxLooping.Size = new System.Drawing.Size(64, 24);
@@ -440,7 +509,7 @@ namespace ParticleEditor
 			// 
 			this.pictureBoxTexture.BackColor = System.Drawing.SystemColors.Control;
 			this.pictureBoxTexture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.pictureBoxTexture.Location = new System.Drawing.Point(65, 166);
+			this.pictureBoxTexture.Location = new System.Drawing.Point(68, 184);
 			this.pictureBoxTexture.Name = "pictureBoxTexture";
 			this.pictureBoxTexture.Size = new System.Drawing.Size(64, 64);
 			this.pictureBoxTexture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -450,7 +519,7 @@ namespace ParticleEditor
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(27, 28);
+			this.label4.Location = new System.Drawing.Point(24, 20);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(51, 17);
 			this.label4.TabIndex = 7;
@@ -458,14 +527,14 @@ namespace ParticleEditor
 			// 
 			// numericUpDownParticles
 			// 
-			this.numericUpDownParticles.Location = new System.Drawing.Point(83, 24);
+			this.numericUpDownParticles.Location = new System.Drawing.Point(80, 16);
 			this.numericUpDownParticles.Maximum = new System.Decimal(new int[] {
-																				   1000,
+																				   10000,
 																				   0,
 																				   0,
 																				   0});
 			this.numericUpDownParticles.Name = "numericUpDownParticles";
-			this.numericUpDownParticles.Size = new System.Drawing.Size(46, 20);
+			this.numericUpDownParticles.Size = new System.Drawing.Size(52, 20);
 			this.numericUpDownParticles.TabIndex = 6;
 			this.numericUpDownParticles.Value = new System.Decimal(new int[] {
 																				 100,
@@ -476,7 +545,7 @@ namespace ParticleEditor
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(39, 108);
+			this.label3.Location = new System.Drawing.Point(36, 100);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(38, 17);
 			this.label3.TabIndex = 5;
@@ -484,9 +553,9 @@ namespace ParticleEditor
 			// 
 			// numericUpDownSizes
 			// 
-			this.numericUpDownSizes.Location = new System.Drawing.Point(82, 108);
+			this.numericUpDownSizes.Location = new System.Drawing.Point(80, 100);
 			this.numericUpDownSizes.Name = "numericUpDownSizes";
-			this.numericUpDownSizes.Size = new System.Drawing.Size(47, 20);
+			this.numericUpDownSizes.Size = new System.Drawing.Size(52, 20);
 			this.numericUpDownSizes.TabIndex = 4;
 			this.numericUpDownSizes.Value = new System.Decimal(new int[] {
 																			 1,
@@ -497,17 +566,17 @@ namespace ParticleEditor
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(36, 80);
+			this.label2.Location = new System.Drawing.Point(36, 72);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(41, 21);
+			this.label2.Size = new System.Drawing.Size(40, 21);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Colors";
 			// 
 			// numericUpDownColors
 			// 
-			this.numericUpDownColors.Location = new System.Drawing.Point(82, 80);
+			this.numericUpDownColors.Location = new System.Drawing.Point(80, 72);
 			this.numericUpDownColors.Name = "numericUpDownColors";
-			this.numericUpDownColors.Size = new System.Drawing.Size(47, 20);
+			this.numericUpDownColors.Size = new System.Drawing.Size(52, 20);
 			this.numericUpDownColors.TabIndex = 2;
 			this.numericUpDownColors.Value = new System.Decimal(new int[] {
 																			  1,
@@ -518,7 +587,7 @@ namespace ParticleEditor
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 56);
+			this.label1.Location = new System.Drawing.Point(8, 48);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(68, 18);
 			this.label1.TabIndex = 1;
@@ -526,9 +595,9 @@ namespace ParticleEditor
 			// 
 			// numericUpDownCoordinates
 			// 
-			this.numericUpDownCoordinates.Location = new System.Drawing.Point(81, 52);
+			this.numericUpDownCoordinates.Location = new System.Drawing.Point(80, 44);
 			this.numericUpDownCoordinates.Name = "numericUpDownCoordinates";
-			this.numericUpDownCoordinates.Size = new System.Drawing.Size(48, 20);
+			this.numericUpDownCoordinates.Size = new System.Drawing.Size(52, 20);
 			this.numericUpDownCoordinates.TabIndex = 0;
 			this.numericUpDownCoordinates.Value = new System.Decimal(new int[] {
 																				   2,
@@ -544,7 +613,7 @@ namespace ParticleEditor
 																					this.label8,
 																					this.label7,
 																					this.label6,
-																					this.checkBox1,
+																					this.checkBoxReplay,
 																					this.buttonPlay,
 																					this.trackBarSpeed,
 																					this.buttonReload,
@@ -584,20 +653,20 @@ namespace ParticleEditor
 			this.label6.TabIndex = 13;
 			this.label6.Text = "Speed";
 			// 
-			// checkBox1
+			// checkBoxReplay
 			// 
-			this.checkBox1.Checked = true;
-			this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBox1.Location = new System.Drawing.Point(48, 244);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(60, 16);
-			this.checkBox1.TabIndex = 12;
-			this.checkBox1.Text = "Replay";
+			this.checkBoxReplay.Checked = true;
+			this.checkBoxReplay.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxReplay.Location = new System.Drawing.Point(48, 244);
+			this.checkBoxReplay.Name = "checkBoxReplay";
+			this.checkBoxReplay.Size = new System.Drawing.Size(60, 16);
+			this.checkBoxReplay.TabIndex = 12;
+			this.checkBoxReplay.Text = "Replay";
 			// 
 			// buttonPlay
 			// 
 			this.buttonPlay.Image = ((System.Drawing.Bitmap)(resources.GetObject("buttonPlay.Image")));
-			this.buttonPlay.ImageIndex = 7;
+			this.buttonPlay.ImageIndex = 6;
 			this.buttonPlay.ImageList = this.imageList1;
 			this.buttonPlay.Location = new System.Drawing.Point(12, 240);
 			this.buttonPlay.Name = "buttonPlay";
@@ -629,16 +698,16 @@ namespace ParticleEditor
 																					this.textBoxColorRGB,
 																					this.buttonColor,
 																					this.textBoxColorInt});
-			this.groupBox3.Location = new System.Drawing.Point(447, 251);
+			this.groupBox3.Location = new System.Drawing.Point(447, 261);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(140, 81);
+			this.groupBox3.Size = new System.Drawing.Size(140, 71);
 			this.groupBox3.TabIndex = 13;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Colors";
 			// 
 			// textBoxColorRGB
 			// 
-			this.textBoxColorRGB.Location = new System.Drawing.Point(12, 19);
+			this.textBoxColorRGB.Location = new System.Drawing.Point(12, 20);
 			this.textBoxColorRGB.Name = "textBoxColorRGB";
 			this.textBoxColorRGB.ReadOnly = true;
 			this.textBoxColorRGB.Size = new System.Drawing.Size(76, 20);
@@ -647,7 +716,7 @@ namespace ParticleEditor
 			// 
 			// buttonColor
 			// 
-			this.buttonColor.Location = new System.Drawing.Point(102, 31);
+			this.buttonColor.Location = new System.Drawing.Point(102, 32);
 			this.buttonColor.Name = "buttonColor";
 			this.buttonColor.Size = new System.Drawing.Size(24, 24);
 			this.buttonColor.TabIndex = 10;
@@ -655,7 +724,7 @@ namespace ParticleEditor
 			// 
 			// textBoxColorInt
 			// 
-			this.textBoxColorInt.Location = new System.Drawing.Point(12, 50);
+			this.textBoxColorInt.Location = new System.Drawing.Point(12, 44);
 			this.textBoxColorInt.Name = "textBoxColorInt";
 			this.textBoxColorInt.ReadOnly = true;
 			this.textBoxColorInt.Size = new System.Drawing.Size(76, 20);
@@ -699,6 +768,7 @@ namespace ParticleEditor
 																		  this.splitter1,
 																		  this.statusBar1,
 																		  this.panel2});
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Menu = this.mainMenu1;
 			this.MinimumSize = new System.Drawing.Size(480, 400);
 			this.Name = "Form1";
@@ -707,6 +777,7 @@ namespace ParticleEditor
 			((System.ComponentModel.ISupportInitialize)(this.timer1)).EndInit();
 			this.panel2.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownDuration)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownParticles)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownSizes)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownColors)).EndInit();
@@ -730,8 +801,10 @@ namespace ParticleEditor
 
 		private void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			if (particleSystem == null)
+			if (particleSystem == null || !play)
 				return;
+			if (!checkBoxReplay.Checked && time >= numericUpDownDuration.Value)
+				buttonPlay_Click(null, null);
 			if (buttonPressed[0])
 				yRot += ROT_CHANGE;
 			if (buttonPressed[1])
@@ -746,9 +819,11 @@ namespace ParticleEditor
 				dist += DIST_CHANGE;
 			d3dObj.setTransform(xRot, yRot, dist);
 			d3dObj.beginScene();
-			particleSystem.draw(time);
 			if (play)
+			{
+				particleSystem.draw(time);
 				time += 2 * trackBarSpeed.Value * Convert.ToInt32(timer1.Interval) / trackBarSpeed.Maximum;
+			}
 			d3dObj.endScene();
 		}
 
@@ -825,6 +900,10 @@ namespace ParticleEditor
 			file.WriteLine(numericUpDownColors.Value);
 			file.Write("Options.Sizes = ");
 			file.WriteLine(numericUpDownSizes.Value);
+			file.Write("Options.Duration = ");
+			file.WriteLine(numericUpDownDuration.Value);
+			file.Write("Options.Looping = ");
+			file.WriteLine(checkBoxLooping.Checked.ToString().ToLower());
 			file.Write("Options.Texture = \"");
 			int i;
 			for (i = 0; i < saveFileDialogPS.FileName.Length && i < openFileDialogTex.FileName.Length; i++)
@@ -834,8 +913,6 @@ namespace ParticleEditor
 				if (saveFileDialogPS.FileName[j] == '\\')
 					file.Write("../");
 			file.WriteLine(openFileDialogTex.FileName.Substring(i, openFileDialogTex.FileName.Length - i).Replace('\\', '/') + "\"");
-			file.Write("Options.Looping = ");
-			file.WriteLine(checkBoxLooping.Checked.ToString().ToLower());
 			file.WriteLine("initParticleSystem(Options)");
 			file.Write(textBox1.Text);
 			file.Close();
@@ -867,17 +944,22 @@ namespace ParticleEditor
 			numericUpDownColors.Value = Convert.ToInt32(file.ReadLine());
 			file.Read(temp, 0, "Options.Sizes = ".Length);
 			numericUpDownSizes.Value = Convert.ToInt32(file.ReadLine());
+			file.Read(temp, 0, "Options.Duration = ".Length);
+			numericUpDownDuration.Value = Convert.ToInt32(file.ReadLine());
+			file.Read(temp, 0, "Options.Looping = ".Length);
+			checkBoxLooping.Checked = Convert.ToBoolean(file.ReadLine());
 			file.Read(temp, 0, "Options.Texture = ".Length);
 			String dir = Path.GetDirectoryName(openFileDialogPS.FileName);
 			String texture = file.ReadLine();
 			openFileDialogTex.FileName = Path.GetFullPath(dir + '/' + texture.Substring(1, texture.Length - 2));
-			file.Read(temp, 0, "Options.Looping = ".Length);
-			checkBoxLooping.Checked = Convert.ToBoolean(file.ReadLine());
 			file.ReadLine();
 			textBox1.Text = file.ReadToEnd();
 			file.Close();
 			fileStream.Close();
 			statusBar1.Text = "Particle system loaded";
+			particleSystem = null;
+			if (play)
+				buttonPlay_Click(null, null);
 			saveFileDialogPS.FileName = openFileDialogPS.FileName;
 			Text = "Particle Editor - " + Path.GetFileName(saveFileDialogPS.FileName);
 			Dirty = false;
@@ -893,6 +975,9 @@ namespace ParticleEditor
 			if (sender != null)
 				if (!discardChanges())
 					return;
+			particleSystem = null;
+			if (play)
+				buttonPlay_Click(null, null);
 			numericUpDownParticles.Value = 100;
 			numericUpDownCoordinates.Value = 2;
 			numericUpDownColors.Value = 1;
@@ -900,7 +985,6 @@ namespace ParticleEditor
 			checkBoxLooping.Checked = true;
 			openFileDialogTex.FileName = Path.GetFullPath(homeDir + "/../../particles/32x32_default.bmp");
 			pictureBoxTexture.Image = Image.FromFile(openFileDialogTex.FileName);
-//			particleSystem = new ParticleLib.ParticleSystem(100, 2, 1, 1, openFileDialogTex.FileName);
 			textBox1.Text = "";
 			xRot = yRot = 0;
 			dist = 20;
@@ -955,10 +1039,6 @@ namespace ParticleEditor
 					int line = Convert.ToInt32(error.Substring(0, error.IndexOf(':')));
 					error = "Line " + (line - 8) + error.Substring(error.IndexOf(':'));
 				}
-/*				String error = ae.Message.Substring(ae.Message.IndexOf(':') + 1);
-				int line = Convert.ToInt32(error.Substring(0, error.IndexOf(':')));
-				statusBar1.Text = "Line " + (line - 8) + error.Substring(error.IndexOf(':'));
-*/
 				statusBar1.Text = error;
 			}
 			saveFileDialogPS.FileName = temp;
@@ -971,11 +1051,14 @@ namespace ParticleEditor
 			{
 				buttonPlay.ImageIndex = 6;
 				play = false;
+				time = 0;
 			}
 			else
 			{
 				buttonPlay.ImageIndex = 7;
 				play = true;
+				if (particleSystem == null)
+					buttonReload_Click(null, null);
 			}
 		}
 
@@ -986,6 +1069,16 @@ namespace ParticleEditor
 				panel1.BackColor = colorDialog1.Color;
 				d3dObj.setBGColor((uint)((0xFF << 24) | colorDialog1.Color.ToArgb()));
 			}
+		}
+
+		private void menuItemHelp_Click(object sender, System.EventArgs e)
+		{
+			if (sender == menuItemAbout)
+				new About().ShowDialog(this);
+			else if (sender == menuItemLua)
+				System.Diagnostics.Process.Start("http://www.lua.org/manual/5.0/");
+			else if (sender == menuItemCommands)
+				new Help().ShowDialog(this);
 		}
 	}
 }

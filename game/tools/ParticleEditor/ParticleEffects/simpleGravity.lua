@@ -3,8 +3,9 @@ Options.Particles = 200
 Options.Coordinates = 3
 Options.Colors = 3
 Options.Sizes = 1
-Options.Texture = "../particles/32x32_default.bmp"
+Options.Duration = 5000
 Options.Looping = true
+Options.Texture = "../particles/32x32_default.bmp"
 initParticleSystem(Options)
 height = 8
 width = 3.5

@@ -102,6 +102,16 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "About.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "About.resx"
+                    DependentUpon = "About.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "App.ico"
                     BuildAction = "Content"
                 />
@@ -118,6 +128,16 @@
                 <File
                     RelPath = "Form1.resx"
                     DependentUpon = "Form1.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Help.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Help.resx"
+                    DependentUpon = "Help.cs"
                     BuildAction = "EmbeddedResource"
                 />
             </Include>
