@@ -6,6 +6,7 @@
 #include "camera.h"
 #include "message.h"
 #include "heightMap.h"
+//#include "pathFinder.h"
 #include "messageBox.h"
 #include "gameui.h"
 #include "building.h"
@@ -36,6 +37,7 @@ public:
 	CIndexList<CMech> mMechs;
 private:
 	list<MGameObj *> mDestroyList;
+//	CPathFinder *mPathFinder;
 	CMessageList mMsgList;
 	CCamera *mCam;
 	CMessageBox *mMessageBox;

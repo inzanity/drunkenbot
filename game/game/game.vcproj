@@ -176,6 +176,9 @@
 				RelativePath=".\source\particleSystemLoader.cpp">
 			</File>
 			<File
+				RelativePath=".\source\pathFinder.cpp">
+			</File>
+			<File
 				RelativePath=".\source\skybox.cpp">
 			</File>
 			<File
@@ -250,6 +253,9 @@
 			</File>
 			<File
 				RelativePath=".\include\particleSystemLoader.h">
+			</File>
+			<File
+				RelativePath=".\include\pathFinder.h">
 			</File>
 			<File
 				RelativePath=".\include\skybox.h">

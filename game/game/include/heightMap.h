@@ -15,10 +15,13 @@ public:
 	CHeightMap(const char *aFileName);
 	~CHeightMap();
 	void draw(uint32 aTime);
-	uint32 getDuration();
 	void release();
 	void restore(const char *aFileName);
-	float height(float aX, float aY);
+	float height(float aX, float aZ) const;
+	int horizontalSize() const;
+	int verticalSize() const;
+	D3DXVECTOR3 mouseCoords(int aMouseX, int aMouseY);
+	LPD3DXMESH mesh();
 private:
 	int mHMapSize, mVMapSize;
 	float **mHeightMap;

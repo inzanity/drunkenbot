@@ -13,6 +13,7 @@
 #define	KEY_UP				0x00
 #define KEYBOARD_SIZE		256
 
+enum MouseState{MOUSE_BUTTON_UP, MOUSE_BUTTON_DOWN, MOUSE_BUTTON_CHECKED};
 
 #include <windows.h>
 #include <dinput.h>
@@ -50,6 +51,8 @@ public:
 	int						getMouseX		();
 	// returns y mouse coordinate
 	int						getMouseY		();
+	// checks if mouse button is down and flags it checked
+	bool					checkMouseButton(int aIndex);
 
 
 	// binds a key to an action
@@ -65,6 +68,7 @@ private:
 	LPDIRECTINPUTDEVICE8	mKeyboard;	// The keyboard device 
 	LPDIRECTINPUTDEVICE8	mMouse;		// The mouse device     
 	KeyboardTable			mKeyboardTable;
+	MouseState				mMouseButtonTable[3];
 	DIMOUSESTATE2			mMouseState;
 	int						mMouseX, mMouseY;
 	int						mBoundKeys[KEYBOARD_SIZE];

@@ -3,6 +3,11 @@
 
 #include "texture.h"
 
+/**
+ * Struct for bounding boxes.
+ */
+struct TBox{D3DXVECTOR3 mMin, mMax;};
+
 class CMeshHierarchy : public ID3DXAllocateHierarchy
 {
 public:

@@ -76,11 +76,6 @@ void CHeightMap::draw(uint32 aTime)
 	mMesh->DrawSubset(0);
 }
 
-uint32 CHeightMap::getDuration()
-{
-	return 0;
-}
-
 void CHeightMap::release()
 {
 	mMesh->Release();
@@ -144,24 +139,85 @@ void CHeightMap::restore(const char *)
 			}
 		mesh->UnlockIndexBuffer();
 	}
-	D3DXComputeNormals(mesh, NULL);
 	DWORD *adjacency = new DWORD[3 * mesh->GetNumFaces()];
 	mesh->GenerateAdjacency(0.f, adjacency);
+	D3DXComputeNormals(mesh, adjacency);
 	float *vertexWeights = new float[mNumVertices];
 	for (int i = 0; i < mVMapSize; i++)
 		for (int j = 0; j < mHMapSize; j++)
 			vertexWeights[i * mHMapSize + j] = (i == 0 || i == mVMapSize - 1 || j == 0 || j == mHMapSize - 1 ? 1000.f : 1.f);
 	D3DXSimplifyMesh(mesh, adjacency, NULL, vertexWeights, mNumVertices / 10, D3DXMESHSIMP_VERTEX, &mMesh);
+//	mMesh = mesh;
 	mesh->Release();
 	delete [] adjacency;
 	delete [] vertexWeights;
 }
 
-float CHeightMap::height(float aX, float aY)
+float CHeightMap::height(float aX, float aZ) const
 {
+	if (aX < 0) aX = 0;
+	if (aX >= mHMapSize - 1) aX = mHMapSize - 1.01f;
+	if (aZ < 0) aZ = 0;
+	if (aZ >= mVMapSize - 1) aZ = mVMapSize - 1.01f;
 	float sX  = aX - (int)aX;
-	float sY  = aY - (int)aY;
-	float val1 = (1.f - sX) * mHeightMap[(int)aY][(int)aX] + sX * mHeightMap[(int)aY][(int)aX + 1];
-	float val2 = (1.f - sX) * mHeightMap[(int)aY + 1][(int)aX] + sX * mHeightMap[(int)aY + 1][(int)aX + 1];
+	float sY  = aZ - (int)aZ;
+	float val1 = (1.f - sX) * mHeightMap[(int)aZ][(int)aX] + sX * mHeightMap[(int)aZ][(int)aX + 1];
+	float val2 = (1.f - sX) * mHeightMap[(int)aZ + 1][(int)aX] + sX * mHeightMap[(int)aZ + 1][(int)aX + 1];
 	return ((1.f - sY) * val1 + sY * val2);
+}
+
+D3DXVECTOR3 CHeightMap::mouseCoords(int aMouseX, int aMouseY)
+{
+	D3DXMATRIX matProj;
+	d3dObj->mD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+	// Compute the vector of the pick ray in screen space
+	D3DXVECTOR3 v;
+	v.x =  ((2.0f * aMouseX ) / d3dObj->width() - 1) / matProj._11;
+	v.y = -((2.0f * aMouseY ) / d3dObj->height() - 1) / matProj._22;
+	v.z =  1.0f;
+
+	// Get the inverse view matrix
+	D3DXMATRIX matView, m;
+	d3dObj->mD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+	D3DXMatrixInverse(&m, NULL, &matView);
+
+	// Transform the screen space pick ray into 3D space
+	D3DXVECTOR3 dir, pos;
+	dir.x  = v.x*m._11 + v.y*m._21 + v.z*m._31;
+	dir.y  = v.x*m._12 + v.y*m._22 + v.z*m._32;
+	dir.z  = v.x*m._13 + v.y*m._23 + v.z*m._33;
+	pos.x = m._41;
+	pos.y = m._42;
+	pos.z = m._43;
+	if (dir.x == 0 && dir.z == 0)
+		return D3DXVECTOR3(pos.x, height(pos.x, pos.z), pos.z);
+	if ((pos.x < 0 && dir.x > 0) || (pos.x >= mHMapSize && dir.x < 0))
+		pos += dir * ((pos.x < 0 ? 0 : mHMapSize) - pos.x) / dir.x;
+	if ((pos.z < 0 && dir.z > 0) || (pos.z >= mVMapSize && dir.z < 0))
+		pos += dir * ((pos.z < 0 ? 0 : mVMapSize) - pos.z) / dir.z;
+	float s = 1.f / max(abs(dir.x), abs(dir.z));
+	while (pos.y > height(pos.x, pos.z))
+	{
+		pos += dir * s;
+		if (pos.x < 0 || pos.x > mHMapSize || pos.z < 0 || pos.z > mVMapSize)
+			return D3DXVECTOR3(pos.x, height(pos.x, pos.z), pos.z);
+	}
+	pos -= dir * ((pos.y - height(pos.x, pos.z)) / dir.y);
+	return D3DXVECTOR3(pos.x, height(pos.x, pos.z), pos.z);
+}
+
+LPD3DXMESH CHeightMap::mesh()
+{
+	return mMesh;
+}
+
+int CHeightMap::horizontalSize() const
+{
+	return mHMapSize;
+}
+
+int CHeightMap::verticalSize() const
+{
+	return mVMapSize;
 }

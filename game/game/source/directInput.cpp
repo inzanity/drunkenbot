@@ -11,12 +11,15 @@ CDirectInput *directInput = NULL;
 
 CDirectInput::CDirectInput()
 {
-	for (int i = 0; i < KEYBOARD_SIZE; i++)
+	int i;
+	for (i = 0; i < KEYBOARD_SIZE; i++)
 	{
 		mKeyboardTable.keyboardState[i]	= KEY_UP;
 		mKeyboardTable.keyboardCheck[i]	= KEY_UP;
 		mBoundKeys[i]					= KEY_UP;
 	}
+	for (i = 0; i < 3; i++)
+		mMouseButtonTable[i] = MOUSE_BUTTON_UP;
 	mBoundKeys[MOVE_LEFT]	= DIK_A;
 	mBoundKeys[MOVE_RIGHT]	= DIK_D;
 	mBoundKeys[MOVE_UP]		= DIK_W;
@@ -115,6 +118,9 @@ void CDirectInput::ReadState()
 			while(mMouse->Acquire() == DIERR_INPUTLOST);
 			return;
 		}
+		for (int i = 0; i < 3; i++)
+			if (mMouseState.rgbButtons[i] == 0 || mMouseButtonTable[i] == MOUSE_BUTTON_UP)
+				mMouseButtonTable[i] = mMouseState.rgbButtons[i] != 0 ? MOUSE_BUTTON_DOWN : MOUSE_BUTTON_UP;
 		mMouseX += mMouseState.lX;
 		mMouseY += mMouseState.lY;
 		if (mMouseX < 0) mMouseX = 0;
@@ -162,6 +168,16 @@ int CDirectInput::getMouseX()
 int CDirectInput::getMouseY()
 {
 	return mMouseY;
+}
+
+bool CDirectInput::checkMouseButton(int aIndex)
+{
+	if (mMouseButtonTable[aIndex] == MOUSE_BUTTON_DOWN)
+	{
+		mMouseButtonTable[aIndex] = MOUSE_BUTTON_CHECKED;
+		return true;
+	}
+	return false;
 }
 
 void CDirectInput::bindKey(GameAction aAction, int aKey)

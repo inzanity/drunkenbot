@@ -195,10 +195,10 @@ void CDrawable::update(uint32 aTimeFactor)
 
 float CDrawable::radiusSqr() const
 {
-	return 0.f;
+	return mAnimation->getRadiusSqr();
 }
 
-TBox *CDrawable::getCollisionRect() const
+const TBox *CDrawable::boundingBox() const
 {
-	return NULL;
+	return mAnimation->getBoundingBox();
 }

@@ -28,8 +28,7 @@ CParticleSystem::CParticleSystem(int aParticles, int aDuration, char aPosNum, ch
 	mParticles(aParticles), mPosNum(aPosNum), mColorNum(aColorNum), mSizeNum(aSizeNum),
 	mPos(NULL), mColor(NULL), mSize(NULL), mLife(NULL),
 	mTexture(NULL), mVertexBuffer(NULL),
-	mDefaultColor(false), mDefaultSize(false)
-
+	mDefaultColor(false), mDefaultSize(false), mRadiusSqr(0)
 {
 	mPos = new D3DXVECTOR3 *[mParticles];
 	mLife = new int[mParticles];
@@ -133,6 +132,17 @@ void CParticleSystem::setParticle(int aIndex, int aLife, int aStartingTime, cons
 		}
 	}
 
+	for (i = 0; i < mPosNum; i++)
+	{
+		if (aPos[i].x > mBoundingBox.mMax.x) mBoundingBox.mMax.x = aPos[i].x;
+		if (aPos[i].y > mBoundingBox.mMax.y) mBoundingBox.mMax.y = aPos[i].y;
+		if (aPos[i].z > mBoundingBox.mMax.z) mBoundingBox.mMax.z = aPos[i].z;
+		if (aPos[i].x < mBoundingBox.mMin.x) mBoundingBox.mMin.x = aPos[i].x;
+		if (aPos[i].y < mBoundingBox.mMin.y) mBoundingBox.mMin.y = aPos[i].y;
+		if (aPos[i].z < mBoundingBox.mMin.z) mBoundingBox.mMin.z = aPos[i].z;
+		float l = D3DXVec3LengthSq(&aPos[i]);
+		if (l > mRadiusSqr) mRadiusSqr = l;
+	}
 	if (mPosNum > 2)
 	{
 		for (i = 0; i < mPosNum; i++)
@@ -234,9 +244,19 @@ void CParticleSystem::draw(uint32 aTime)
 	device->SetRenderState(D3DRS_POINTSCALEENABLE, FALSE);
 }
 
-uint32 CParticleSystem::getDuration()
+uint32 CParticleSystem::getDuration() const
 {
 	return mDuration;
+}
+
+const TBox *CParticleSystem::getBoundingBox() const
+{
+	return &mBoundingBox;
+}
+
+float CParticleSystem::getRadiusSqr() const
+{
+	return mRadiusSqr;
 }
 
 void CParticleSystem::release()

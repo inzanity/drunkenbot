@@ -16,11 +16,13 @@
 class MAnimation
 {
 public:
-	virtual			~MAnimation	() {}
-	virtual	void	draw		(uint32	aTime)			= 0;
-	virtual uint32	getDuration	()						= 0;
-	virtual void	release		()						= 0;
-	virtual void	restore		(const char *aFileName)	= 0;
+	virtual ~MAnimation() {}
+	virtual	void draw(uint32 aTime) = 0;
+	virtual uint32 getDuration() const {return 0;}
+	virtual const TBox *getBoundingBox() const {return NULL;}
+	virtual float getRadiusSqr() const {return 0.f;}
+	virtual void release() = 0;
+	virtual void restore(const char *aFileName) = 0;
 };
 
 class CMeshAnimation : public MAnimation
@@ -29,7 +31,9 @@ public:
 	CMeshAnimation(const char *aFileName);
 	virtual ~CMeshAnimation();
 	void draw(uint32 aTime);
-	uint32 getDuration();
+	uint32 getDuration() const;
+	const TBox *getBoundingBox() const;
+	float getRadiusSqr() const;
 	void release();
 	void restore(const char *aFileName);
 private:
@@ -38,6 +42,7 @@ private:
 	void updateFrameMatrices(const D3DXFRAME *aFrameBase, const D3DXMATRIX *aParentMatrix);
 	HRESULT loadXFile(const char *aFileName);
 	void setupBoneMatrices(CFrame *aFrame, LPD3DXMATRIX aParentMatrix);
+	void updateBoundingData(LPD3DXMESH aMesh, const D3DXMATRIX *aTransform);
 private:
 	LPD3DXFRAME mFrameRoot;
 	LPD3DXANIMATIONCONTROLLER mAnimController;
@@ -47,6 +52,10 @@ private:
 	// For skinning
 	D3DXMATRIX *mBoneMatrices;
 	uint32 mMaxBones;
+
+	bool mUpdateBoundingData;
+	TBox mBoundingBox;
+	float mRadiusSqr;
 };
 
 /*

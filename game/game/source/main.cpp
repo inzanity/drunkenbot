@@ -4,8 +4,8 @@
 #include "../include/game.h"
 #include "../include/directInput.h"
 
-#define		KScreenWidth	640
-#define		KScreenHeight	480
+#define		KScreenWidth	1024
+#define		KScreenHeight	768
 
 const char	KClassName[]	= "Avalance";
 const char	KWindowName[]	= "Avalance: Battle over Platonia";

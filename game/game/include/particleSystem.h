@@ -17,7 +17,9 @@ public:
 	void setParticle(int aIndex, int aLife, int aStartingTime, const D3DXVECTOR3 *aPos, const D3DCOLOR *aColor, const float *aSize);
 
 	void draw(uint32 aTime);
-	uint32 getDuration();
+	uint32 getDuration() const;
+	const TBox *getBoundingBox() const;
+	float getRadiusSqr() const;
 	void release();
 	void restore(const char *aFileName);
 private:
@@ -42,6 +44,8 @@ private:
 
 	CTexture *		mTexture;
 	LPDIRECT3DVERTEXBUFFER9	mVertexBuffer;
+	TBox mBoundingBox;
+	float mRadiusSqr;
 };
 
 #endif // PARTICLE_SYSTEM_H

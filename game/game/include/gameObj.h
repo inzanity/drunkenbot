@@ -22,10 +22,6 @@ using std::istream;
 using std::ostream;
 
 class CMessage;
-/**
- * Struct for collision boxes.
- */
-struct TBox{D3DXVECTOR3 v1, v2;};
 
 /**
  * Secure pointer class for game objects.
@@ -103,8 +99,8 @@ public:
 	virtual const D3DXVECTOR3 *pos() const = 0;
 	/** Get squared radius for collision checks. @return Radius ^ 2. */
 	virtual float radiusSqr() const = 0;
-	/** Get transformed collision boxes for better collision checks. @return Collision boxes. */
-	virtual TBox *getCollisionRect() const = 0;
+	/** Get bounding box for collision checks. @return Collision box. */
+	virtual const TBox *boundingBox() const = 0;
 };
 
 /**
@@ -174,11 +170,11 @@ public:
 	 */
 	virtual float radiusSqr() const;
 	/**
-	 * Get transformed collision boxes for better collision checks.
+	 * Get collision boxes for collision checks.
 	 * Dimensions of the current animation are used by default. @see MColliding
-	 * @return Collision boxes
+	 * @return Collision box
 	 */
-	virtual TBox *getCollisionRect() const;
+	virtual const TBox *boundingBox() const;
 protected:
 	uint32			mAnimTime;
 	float			mAnimSpeed;

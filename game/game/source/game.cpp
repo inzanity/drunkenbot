@@ -1,7 +1,6 @@
 #include "../include/game.h"
 #include "../include/animationStorage.h"
 #include "../include/directInput.h"
-#include "../include/mech.h"
 #include "../include/turret.h"
 #include "../include/dock.h"
 
@@ -25,14 +24,6 @@ CGame::~CGame()
 bool CGame::init()
 {
 	LPDIRECT3DDEVICE9 device = d3dObj->mD3DDevice;
-	// Set the projection matrix
-	D3DXMATRIX projectionMatrix;
-	ZeroMemory(&projectionMatrix, sizeof(projectionMatrix));
-	float screenAspect=(float)d3dObj->width() / (float)d3dObj->height();
-	float fov = D3DX_PI / 4;
-	D3DXMatrixPerspectiveFovLH(&projectionMatrix, fov, screenAspect, 1.0f, 150.0f);
-	device->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
-
 	// Turn	on the zbuffer
 	device->SetRenderState(D3DRS_ZENABLE, TRUE);
 	// Turn	on ambient lighting	
@@ -63,16 +54,24 @@ bool CGame::init()
     device->SetLight(0, &light);
     device->LightEnable(0, TRUE);
 
+	mHeightMap = new CHeightMap("data/map.bmp");
 	mGameUI = new CGameUI();
+
+	// Set the projection matrix
+	D3DXMATRIX projectionMatrix;
+	float screenAspect=(float)d3dObj->width() / (float)d3dObj->height();
+	float fov = D3DX_PI / 4;
+	D3DXMatrixPerspectiveFovLH(&projectionMatrix, fov, screenAspect, 1.0f, 150.0f);
+	device->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 
 	D3DXQUATERNION quat;
 	MAnimation *anim;
 
-//	mCam = new CCamera(3, 6969, &D3DXVECTOR3(32, 70, -15), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
-//	mCam = new CCamera(3, 6969, &D3DXVECTOR3(32, 25, -5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
-	mCam = new CCamera(getNewGameObjectPtr(ETypeCamera), 10, 54, -2, 39, &D3DXVECTOR3(10, 20, 0), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
+//	mCam = new CCamera(getNewGameObjectPtr(ETypeCamera), 10, 54, -10, 39, &D3DXVECTOR3(32, 50, -15), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
+//	mCam = new CCamera(getNewGameObjectPtr(ETypeCamera), 10, 54, -2, 39, &D3DXVECTOR3(32, 25, -5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
+	mCam = new CCamera(getNewGameObjectPtr(ETypeCamera), 10, 54, -4, 39, &D3DXVECTOR3(10, 20, 0), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
 
-	mHeightMap			= new CHeightMap("data/map.bmp");
+//	mPathFinder			= new CPathFinder(mHeightMap->mesh());
 
 	anim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/flame_small.lua");
 	CDrawable *fire		= new CDrawable(getNewGameObjectPtr(ETypeBuilding), anim, 1.f, &D3DXVECTOR3(2, mHeightMap->height(2, 6), 6), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
@@ -98,6 +97,7 @@ bool CGame::init()
 
 bool CGame::loop()
 {
+	int i;
 	LPDIRECT3DDEVICE9 device = d3dObj->mD3DDevice;
 	mTime += 10; // TODO: Real timing system
 	device->Clear(0,0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
@@ -112,12 +112,46 @@ bool CGame::loop()
 	if (up != 0 || right != 0)
 		mCam->scroll(right, up);
 
+	const DIMOUSESTATE2 *mouse = directInput->getMouseState();
+
 	// Draw everything
 	mCam->transform(10);
 	device->BeginScene();
-	mHeightMap->draw(0);
 
-	for (uint16 i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
+//	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	mHeightMap->draw(0);
+//	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+	mGameUI->handleInput();
+/*	if (directInput->checkMouseButton(0))
+	{
+		static int find = 0;
+		static D3DXVECTOR3 start;
+		D3DXVECTOR3 v = mHeightMap->mouseCoords(directInput->getMouseX(), directInput->getMouseY());
+		char temp[64];
+		sprintf(temp, "%f, %f, %f", v.x, v.y, v.z);
+		mMessageBox->addMessage(temp, mTime + 200*10);
+		if (find == 0)
+		{
+			start = v;
+			uint16 ind = mPathFinder->getIndex(&v);
+			mPathFinder->drawTriangle(ind, D3DCOLOR_XRGB(255, 0, 0));
+			find = 1;
+		}
+		else
+		{
+			find = 0;
+			mPathFinder->findPath(&start, &v);
+		}
+	}
+*/
+//	mPathFinder->drawPath();
+/*
+	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	mHeightMap->draw(0);
+	device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+*/
+	for (i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
 		mMechs.mTable[i].mObj->update(10);
 
 	for (i = mBuildings.first(); i != mBuildings.end(); i = mBuildings.mTable[i].mNext)
@@ -139,16 +173,18 @@ bool CGame::loop()
 		else
 			mCam->setRTSMode();
 	}
-	mGameUI->draw();
+	mGameUI->draw(mTime);
 	if (mShowFPS)
 		mShowFPS++;
 	if (mShowFPS > 20)
 	{
 		DWORD time = timeGetTime() - mPrevTime;
 		mPrevTime = timeGetTime();
-		char temp[32];
+		char temp[64];
 		sprintf(temp, "FPS: %f", 20000.f / time);
 		mMessageBox->addMessage(temp, mTime + 20*10);
+//		sprintf(temp, "mouse1: %d, mouse2: %d, mouse3: %d", (int)mouse->rgbButtons[0], (int)mouse->rgbButtons[1], (int)mouse->rgbButtons[2]);
+//		mMessageBox->addMessage(temp, mTime + 20*10);
 		mShowFPS = 1;
 	}
 	mMessageBox->draw(mTime);

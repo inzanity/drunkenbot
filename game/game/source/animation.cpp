@@ -5,9 +5,11 @@
 
 CMeshAnimation::CMeshAnimation(const char *aFileName) :
 	mFrameRoot(NULL), mAnimController(NULL), mCurrentTrack(0), mPrevTime(0),
-	mBoneMatrices(NULL), mMaxBones(0)
+	mBoneMatrices(NULL), mMaxBones(0), mUpdateBoundingData(true), mRadiusSqr(0)
 {
-	loadXFile(aFileName);
+	mBoundingBox.mMin = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
+	mBoundingBox.mMax = D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	restore(aFileName);
 }
 
 CMeshAnimation::~CMeshAnimation()
@@ -55,14 +57,27 @@ void CMeshAnimation::release()
 void CMeshAnimation::restore(const char *aFileName)
 {
 	loadXFile(aFileName);
+	d3dObj->mMatrixStack->LoadIdentity();
+	draw(0);
+	mUpdateBoundingData = false;
 }
 
-uint32 CMeshAnimation::getDuration()
+uint32 CMeshAnimation::getDuration() const
 {
 	LPD3DXANIMATIONSET set;
 	mAnimController->GetTrackAnimationSet(0, &set);
 	double period = set->GetPeriod();
 	return (uint32)(period * 1000.f);
+}
+
+const TBox *CMeshAnimation::getBoundingBox() const
+{
+	return &mBoundingBox;
+}
+
+float CMeshAnimation::getRadiusSqr() const
+{
+	return mRadiusSqr;
 }
 
 void CMeshAnimation::drawFrame(LPD3DXFRAME aFrame)
@@ -110,25 +125,30 @@ void CMeshAnimation::drawMeshContainer(LPD3DXMESHCONTAINER aMeshContainerBase, L
 		// Unlock the meshes vertex buffers
 		meshContainer->mSkinnedMesh->UnlockVertexBuffer();
 		meshContainer->MeshData.pMesh->UnlockVertexBuffer();
-		// Draw all subsets
-		for (i = 0; i < meshContainer->mNumAttributeGroups; i++)
-        {
-			int id = meshContainer->mAttributeTable[i].AttribId;
-            device->SetMaterial(&(meshContainer->pMaterials[id].MatD3D));
-			device->SetTexture(0, meshContainer->mTextures[id] ? *meshContainer->mTextures[id] : NULL);
-            meshContainer->mSkinnedMesh->DrawSubset(id);
-        }
+		if (mUpdateBoundingData)
+			updateBoundingData(meshContainer->MeshData.pMesh, NULL);
+		else
+			for (i = 0; i < meshContainer->mNumAttributeGroups; i++) // Draw all subsets
+			{
+				int id = meshContainer->mAttributeTable[i].AttribId;
+				device->SetMaterial(&(meshContainer->pMaterials[id].MatD3D));
+				device->SetTexture(0, meshContainer->mTextures[id] ? *meshContainer->mTextures[id] : NULL);
+				meshContainer->mSkinnedMesh->DrawSubset(id);
+			}
 	}
 	else // Basic mesh
 	{
 		device->SetTransform(D3DTS_VIEW, &frame->mCombinedTransformationMatrix);
-		// Draw all subsets
-		for (i = 0; i < meshContainer->NumMaterials; i++)
-		{
-			device->SetMaterial(&meshContainer->pMaterials[i].MatD3D);
-			device->SetTexture(0, meshContainer->mTextures[i] ? *meshContainer->mTextures[i] : NULL);
-			meshContainer->MeshData.pMesh->DrawSubset(i);
-		}
+
+		if (mUpdateBoundingData)
+			updateBoundingData(meshContainer->MeshData.pMesh, &frame->mCombinedTransformationMatrix);
+		else
+			for (i = 0; i < meshContainer->NumMaterials; i++) // Draw all subsets
+			{
+				device->SetMaterial(&meshContainer->pMaterials[i].MatD3D);
+				device->SetTexture(0, meshContainer->mTextures[i] ? *meshContainer->mTextures[i] : NULL);
+				meshContainer->MeshData.pMesh->DrawSubset(i);
+			}
 	}
 }
 
@@ -216,4 +236,34 @@ void CMeshAnimation::setupBoneMatrices(CFrame *aFrame, LPD3DXMATRIX aParentMatri
 	if (aFrame->pFrameFirstChild)
 		setupBoneMatrices((CFrame *)aFrame->pFrameFirstChild,
 			&aFrame->mCombinedTransformationMatrix);
+}
+
+void CMeshAnimation::updateBoundingData(LPD3DXMESH aMesh, const D3DXMATRIX *aTransform)
+{
+	BYTE *ptr;
+	D3DXVECTOR3 min, max;
+	aMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&ptr);
+	DWORD vertices = aMesh->GetNumVertices();
+	DWORD stride = aMesh->GetNumBytesPerVertex();
+//	D3DXComputeBoundingBox((const D3DXVECTOR3 *)ptr, vertices, stride, &min, &max);
+	for (int i = 0; i < vertices; i++)
+	{
+		const D3DXVECTOR3 *p = (const D3DXVECTOR3 *)&ptr[i*stride];
+		if (aTransform)
+		{
+			D3DXVECTOR4 pTransformed;
+			D3DXVec3Transform(&pTransformed, p, aTransform);
+			p = (const D3DXVECTOR3 *)&pTransformed;
+		}
+
+		float lenSqr = D3DXVec3LengthSq(p);
+		if (lenSqr > mRadiusSqr) mRadiusSqr = lenSqr;
+		if (p->x < mBoundingBox.mMin.x) mBoundingBox.mMin.x = p->x;
+		if (p->y < mBoundingBox.mMin.y) mBoundingBox.mMin.y = p->y;
+		if (p->z < mBoundingBox.mMin.z) mBoundingBox.mMin.z = p->z;
+		if (p->x > mBoundingBox.mMax.x) mBoundingBox.mMax.x = p->x;
+		if (p->y > mBoundingBox.mMax.y) mBoundingBox.mMax.y = p->y;
+		if (p->z > mBoundingBox.mMax.z) mBoundingBox.mMax.z = p->z;
+	}
+	aMesh->UnlockVertexBuffer();
 }
