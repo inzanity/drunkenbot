@@ -25,6 +25,11 @@ bool CWeapon::shoot()
 	return true;
 }
 
+int CWeapon::reloadTime()
+{
+	return mReloadTime;
+}
+
 int CWeapon::bulletCount()
 {
 	return mBulletCount;
