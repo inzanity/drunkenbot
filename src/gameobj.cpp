@@ -1,5 +1,11 @@
 #include <math.h>
 #include "../inc/gameobj.h"
+#include "../inc/botinfo.h"
+
+float sqr(float aNum)
+{
+	return aNum * aNum;
+}
 
 // CGameObj
 
@@ -91,7 +97,37 @@ void CMovingGameObj::move(float aTimeFactor)
 
 bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, bool aCollisionWithObstacles)
 {
-	mMovingTimeFactor = 1.f;
+	float time = 5.f, minTime = 1.f, xSpeed = mVelocity * cos(mMovingDirection);
+	float ySpeed = mVelocity * sin(mMovingDirection);
+
+	for (int i = 0; aBots[i]; i++)
+	{
+		if (sqr(aBots[i]->mPos.mX - mPos.mX) + sqr(aBots[i]->mPos.mY - mPos.mY) < sqr(mVelocity + aBots[i]->mVelocity + mRadius + aBots[i]->mRadius))
+		{
+			float foo;
+			float xSpeed2 = aBots[i]->velocity() * cos(aBots[i]->movingDirection());
+			float ySpeed2 = aBots[i]->velocity() * sin(aBots[i]->movingDirection());
+			float rooted = -sqr(mPos.mY - aBots[i]->mPos.mY) * sqr(xSpeed - xSpeed2) + 2 * (xSpeed - xSpeed2) * (ySpeed - ySpeed2) * (mPos.mX - aBots[i]->mPos.mX) * (mPos.mY - aBots[i]->mPos.mY) - sqr(mPos.mX - aBots[i]->mPos.mX) * sqr(ySpeed - ySpeed2) + (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2)) * sqr(mRadius + aBots[i]->mRadius);
+			if (rooted > 0)
+			{
+				float root = sqrt(rooted);
+				float plop = (ySpeed2 - ySpeed) * (aBots[i]->mPos.mY - mPos.mY) + (xSpeed2 - xSpeed) * (aBots[i]->mPos.mX - xSpeed);
+				float divider = 1 / (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2));
+				foo = time = (plop + root) * divider;
+				if (time > 0)
+				{
+					time = (plop - root) * divider;
+					if (time < foo) foo = time;
+					if (foo < minTime) minTime = time;
+					if (foo < 1.f)
+					{	
+//						aBots[i]->handleCollision(5);
+					}
+				}
+			}
+		}
+	}
+	mMovingTimeFactor = minTime;
 	return true;
 }
 
