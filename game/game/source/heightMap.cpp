@@ -92,6 +92,7 @@ void CHeightMap::restore(const char *)
 {
 	if (mMesh)
 		return;
+	LPD3DXMESH mesh;
 	mTexture = CAnimationStorage::ptr()->getTexture("data/conc04.jpg");
 	memset(&mMaterial, 0, sizeof(mMaterial));
 	mMaterial.Ambient.a = 1.f;
@@ -105,11 +106,11 @@ void CHeightMap::restore(const char *)
 
 	mNumVertices = mVMapSize * mHMapSize;
 	mNumTriangles = (mVMapSize - 1) * (mHMapSize - 1) * 2;
-	D3DXCreateMeshFVF(mNumTriangles, mNumVertices, D3DPOOL_DEFAULT, D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1, d3dObj->mD3DDevice, &mMesh);
+	D3DXCreateMeshFVF(mNumTriangles, mNumVertices, D3DPOOL_DEFAULT, D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1, d3dObj->mD3DDevice, &mesh);
 
 	{
 		float *ptr = NULL;
-		mMesh->LockVertexBuffer(0, (void **)&ptr);
+		mesh->LockVertexBuffer(0, (void **)&ptr);
 		for (int i = 0; i < mVMapSize; i++)
 			for (int j = 0; j < mHMapSize; j++)
 			{
@@ -123,12 +124,12 @@ void CHeightMap::restore(const char *)
 				ptr[k + 7] = i / 10.f;
 				ptr[k + 8] = j / 10.f;
 			}
-		mMesh->UnlockVertexBuffer();
+		mesh->UnlockVertexBuffer();
 	}
 
 	{
 		short *ptr = NULL;
-		mMesh->LockIndexBuffer(0, (void **)&ptr);
+		mesh->LockIndexBuffer(0, (void **)&ptr);
 		for (int i = 0; i < mVMapSize - 1; i++)
 			for (int j = 0; j < mHMapSize - 1; j++)
 			{
@@ -141,9 +142,19 @@ void CHeightMap::restore(const char *)
 				ptr[l + 4] = k + mHMapSize;
 				ptr[l + 5] = k + mHMapSize + 1;
 			}
-		mMesh->UnlockIndexBuffer();
+		mesh->UnlockIndexBuffer();
 	}
-	D3DXComputeNormals(mMesh, NULL);
+	D3DXComputeNormals(mesh, NULL);
+	DWORD *adjacency = new DWORD[3 * mesh->GetNumFaces()];
+	mesh->GenerateAdjacency(0.f, adjacency);
+	float *vertexWeights = new float[mNumVertices];
+	for (int i = 0; i < mVMapSize; i++)
+		for (int j = 0; j < mHMapSize; j++)
+			vertexWeights[i * mHMapSize + j] = (i == 0 || i == mVMapSize - 1 || j == 0 || j == mHMapSize - 1 ? 1000.f : 1.f);
+	D3DXSimplifyMesh(mesh, adjacency, NULL, vertexWeights, mNumVertices / 10, D3DXMESHSIMP_VERTEX, &mMesh);
+	mesh->Release();
+	delete [] adjacency;
+	delete [] vertexWeights;
 }
 
 float CHeightMap::height(float aX, float aY)
