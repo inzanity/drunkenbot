@@ -3,6 +3,6 @@
 In the Face entertainment is proud to present [[GAME TITLE HERE]], the world-renovating innovation, which will change the game industry forever. The combination of RTS and FPS, two very popular game genres, can lead to nothing but success. With the story that would sell millions as a novel, graphics that make the sun look dim and playability on a level too high to be described, the game will make other game companies look small and fragile. And since the music makes the London Symphony Orchestra sound like 3-year-old going-to-be-a-big-violinist-some-days, the game has no drawbacks whatsoever.
 
 In the Face makes this possible with it's three members, who have intelligence and abilities like sheep don't. The crew members are:
-	Jarmo "Japa" Kauko (Project leader, Master coder, Usability expert)
-	Antero "Anza" Salonen (Music composer, Senior coder, Usability expert, Graphics expert)
-	Santtu "inz" Lakkala (Web Monkey, Coder Slave)
+	- Jarmo "Japa" Kauko (Project leader, Master coder, Usability expert)
+	- Antero "Anza" Salonen (Music composer, Senior coder, Usability expert, Graphics expert)
+	- Santtu "inz" Lakkala (Web Monkey, Coder Slave)
