@@ -107,6 +107,10 @@ SOURCE=.\source\d3dUtil.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\source\directInput.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\source\game.cpp
 # End Source File
 # Begin Source File
@@ -164,6 +168,10 @@ SOURCE=.\include\d3dUtil.h
 # Begin Source File
 
 SOURCE=.\include\def.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\directInput.h
 # End Source File
 # Begin Source File
 
