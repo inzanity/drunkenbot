@@ -2,4 +2,7 @@
 3.1.X - Upgrading mechs. Kun esim joku ase on kehitetty, niin mechit pit‰‰ viel‰ yks kerrallaan upgradettaa. Onko just rakennetulla mechill‰ muuten upgradet, vai pit‰‰kˆ nekin p‰ivitt‰‰?
 3.1.X - Strategic AI
 3.2.X - Tactical AI
-
+2.1.9.1, .2 Mech action types
+3.1.4 Putken ehjyys, ker‰ytyminen
+2.1.x Exploring the map
+2.1.5, 2.1.7 Needed resources
