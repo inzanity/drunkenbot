@@ -19,3 +19,4 @@ Anza	30.9.	4	Design
 Japa	6.10.	6	Tools
 Japa	12.10.	1	Programming
 Japa	18.10.	3	Programming
+Japa	20.10.	3	Programming
