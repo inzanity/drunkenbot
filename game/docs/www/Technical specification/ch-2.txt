@@ -23,11 +23,11 @@
 2.1.5	Building a building
 
 *	Performing: Move mouse curson on top a building you want to build and press left button once or press the quick button on keyboard which refers to the building in question. Then move mouse cursor to the place you want to put the building and press left mouse button once. Then wait for the building to complete.
-*	Implementation: CDirectInput class tells that if left mouse button is pressed and gives the coordinates, which are used to determine if the cursor was on top of a building-icon in action list. If was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other CGameObj-variables and the coordinates are inside the 'energisized' region a building of CGameObj class is created on those coordinates.
+*	Implementation: CDirectInput class tells that if left mouse button is pressed and gives the coordinates, which are used to determine if the cursor was on top of a building-icon in action menu. If was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other CGameObj-variables and the coordinates are inside the 'energisized' region a building of CGameObj class is created on those coordinates.
 
 2.1.6	Cancelling building of a building
 
-*	Performing: 
+*	Performing: First select the building you wish to cancel with mouse. Then press the cancel button from action menu or press 'esc' from keyboard.
 *	Implementation:
 
 2.1.7	Using action queue to develop technology and build mechs
