@@ -1,0 +1,1 @@
+Gif- ja sxw-filuja on tekstimuotosena cvs:ssä -- laita santtu uusiks binarynä
