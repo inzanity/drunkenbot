@@ -10,11 +10,21 @@ using std::ifstream;
 
 #ifndef WIN32
 #include <unistd.h>
+#include <signal.h>
 
 #include "../inc/textengine.h"
 
+bool gameRunning;
+
+void signalh(int)
+{
+	gameRunning = false;
+}
+
 int main(int argc, char **argv)
 {
+	gameRunning = true;
+	signal(SIGINT, signalh);
 	ifstream map("res/tmap.txt");
 	ifstream weapons("res/weapons.txt");
 
@@ -29,15 +39,18 @@ int main(int argc, char **argv)
 	map.close();
 	weapons.close();
 
-	while (engine->loop())
+	while (gameRunning & engine->loop())
 	{
 		engine->draw(1.f, 0);
 		usleep(100000);
 	}
+	delete gEngine;
 	char **results = engine->getResults(false);
-	for (int i = 0; results[i]; i++)
-		cout << results[i] << endl;
-	return 1;
+	if (results)
+		for (int i = 0; results[i]; i++)
+			cout << results[i] << endl;
+	delete engine;
+	return 0;
 }
 
 
