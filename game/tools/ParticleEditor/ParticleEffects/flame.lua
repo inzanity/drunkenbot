@@ -19,8 +19,8 @@ for i = 1, Options.Particles do
 	pos[3] = {x = math.random(-width, width)/4, y = height, z = math.random(-width, width)/4}
 	setParticle(i, life, i / Options.Particles * life, pos)
 end
+-- Last one should be rgba(255, 0, 0, 0) after blending is correct
 colors = {rgb(255, 255, 0), rgb(255, 128, 0), rgb(255, 128, 0), rgb(255, 0, 0), rgb(0, 0, 0)}
-rgba(0, 0, 255, 0) after blending is correct
 setDefaultColor(colors)
 sizes = {.2, .3, .1}
 setDefaultSize(sizes)
