@@ -23,7 +23,7 @@
 3.1.5	Environmental occurrences
 
 	- <b>Performing</b>: Day and night changes is real time. In day time sunlight provides all the light needed. At nights mechs and bases have additional lights to enable seeing in the darkness. Every now and then at nights lightning strikes down from the sky. Lightnings can be captured with lightning power station thus creating additional energy.
-	- <b>Implementation</b>: When game time variable increases to match definition of night time, game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down randomly.
+	- <b>Implementation</b>: When game time variable increases to match definition of night time, the brightness of the general light source is changed linearly to very low level to indicate darkness. At the same time game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down randomly. When lightning power station is present, the amount of lightnings hitting the station is larger than in normal conditions (no station). With every lightning an amount of energy is added to resources (see 3.1.4).
 
 3.1.6	Tactical AI
 
