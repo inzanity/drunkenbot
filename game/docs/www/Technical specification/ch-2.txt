@@ -45,7 +45,7 @@
 	- <b>Performing</b>: Mech has three different moving commands -- move, stop and patrol. Destination is required for move and patrol commands. Queuing action after patrol is not possible and results to instant performing.
 	- <b>Implementation</b>: Command and destination is passed to the selected mech by using message system. Current position has to be stored for patrolling. If path finding technology has been developed, A* algorithm is used for navigation (see 1.5.1). Otherwise direct route is used. If no path is available, action is cancelled. As stop command doesn't require destination and has no subactions, it doesn't have sub action menu and is performed instantly.
 
-2.1.8.2 Building power distribution system
+2.1.8.2	Building power distribution system
 
 	- <b>Performing</b>: Building power distribution system is like building any other building (see 2.1.5). Only requirements are resources and clear terrain. Mech can not be controlled while building. Action can be performed from the fps mode with shortcut key, in which case current mech location is used for building.
 	- <b>Implementation</b>: First part of the building is simalar to moving command (see 2.1.8.1). If mech fails to get to the location, action is cancelled. Second part is similar to building a normal building (see 2.1.5), but special animation is played for the mech. After building is completed (or cancelled), mech returns to normal state.
