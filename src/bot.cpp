@@ -39,9 +39,12 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 				   aTilemap[int(mPos.mY + mRadius)][int(mPos.mX + mRadius)] &
 				   aTilemap[int(mPos.mY + mRadius)][int(mPos.mX - mRadius)];
 	} while ((tile & KTileTypeMask) != CTilemap::ETileEmpty);
+	mMovingDirection = mOrientation = 2 * PI * rand() / float(RAND_MAX);
 	mSpawningPos = mPos;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
 	mHealth = 100;
+	if (mWeapon)
+		delete mWeapon;
 	mWeapon = new CWeapon(aWeapon);
 }
 
