@@ -1,4 +1,8 @@
-#include <windows.h>
+#ifdef WIN32
+# include <windows.h>
+#else
+# include <dlfcn.h>
+#endif
 #include <cstring>
 #include <cstdlib>
 #include "../inc/bot.h"
@@ -94,6 +98,16 @@ void CBot::loadAI()
 	}
 //	else
 //		cout<<"No library found.\n";
+#else
+	if (mDllHandle)
+		dlclose(mDllHandle);
+	mDllHandle = dlopen(mDllName, RTLD_LAZY);
+	if (mDllHandle)
+	{
+		TBotAIGetter getter = (TBotAIGetter)dlsym(mDllHandle, "getBotAI");
+		if (getter)
+			mBotAI = getter();
+	}
 #endif
 	// TODO: #ifdef _PURKKA_
 }
