@@ -6,6 +6,9 @@
 All drawing is done using animation classes. The game doesn't contain any dynamic animations, that is, there is no interaction between animations and the environment. For example, particle effects will not be affected by the wind, and no holes are generated to the terrain from explosions. Therefore animation interface remains very simple, and animations are independent from the other components.
 
 1.1.1	Animation classes
+<img src="images/animations.png" alt="Animation classes">
+<small>Animation classes</small>
+
 All animation classes derives from IAnimation, which defines the interface for drawing, restoring and releasing animation. It also defines getters for duration and bounding box of the animation. There are two basic animation classes, CMeshAnimation and CParticleSystem. CAnimCombination class can be used to combinate multiple animations. Special animations are used for sky box and height map (see 1.2.1).
 
 CMeshAnimation contains animation loaded from Microsoft .x file. It can be non-animated mesh or skinned mesh. However, only one skinning animation can be played at the time.
@@ -21,22 +24,26 @@ Animation storage is used to load and access animations. This way each animation
 Particle systems are loaded from Lua files (see http://www.lua.org) using CParticleSystemLoader. File contains properties of the system, as well as script to initialize keyframes. See TODO ParticleEditor.
 
 1.2	Game objects
+All objects in the game are derived from CGameObj. Most of these objects are visible, but there is also invisible objects, like camera and pieces of AI. Practically all game session data is stored in game objects. Game can be saved and loaded by externalizing and internalizing game objects. Every object has an unique id number, and index to the data structure where it is stored. Objects must be accessed using id and index, not with pointers. This way invalid pointers to destroyed game objects can be avoided. Messages are used for communication between objects (see 1.3). 
+
+<img src="images/gameobjects.png" alt="Game objects">
+<small>Game objects</small>
 
 1.2.1	Collision detection
+IColliding is interface for all objects that can collide with height map (see 1.5.1) or each other. Collision detection has two phases. First distance between objects is compared to the radius of both objects. After that bounding boxes are used for more accurate detection. Every object may have several bounding boxes.
 
 1.2.2	Drawable objects
+Basicly all visible objects derives from CDrawable. However, it is possible to draw other kinds of objects if necessary. CDrawable is base class of most of the game objects, and it contains all basic components like position, movement, and animation data. Drawable objects are updated and drawed every frame using these values.
 
 1.2.3	CMech
+The single most important game objects is CMech. It contains all mech data and behaviour. However some parts, like AI (see 1.5.2), are divided to separate classes. As mech animations are more complicated (different weapons, turning upper body, shooting, moving), it requires more animation data than common CDrawable object.
 
 1.2.4	CBuilding
+CBuilding 
 
 1.3	Message system
 
-1.3.1	Storing game objects
-
-1.3.2	Messages
-
-1.4	Data storagers
+1.4	Technology tree
 
 1.5	Artificial intelligence
 
@@ -46,12 +53,8 @@ Particle systems are loaded from Lua files (see http://www.lua.org) using CParti
 
 1.5.3	Strategic AI
 
-1.5.4	Terrain analysis
-
 1.5.5	Scripting
 
-1.6	Utility classes
+1.6	Main package
 
-1.7	Other components
-
-1.7.1	User interface
+1.7	Utility classes
