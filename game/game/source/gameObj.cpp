@@ -3,13 +3,14 @@
 
 // CGameObjPtr
 
-CGameObjPtr::CGameObjPtr() : mIndex(KNullIndex), mId(0)
+CGameObjPtr::CGameObjPtr() : mIndex(KNullIndex), mId(0xFFFF)
 {
 }
 
 CGameObjPtr::CGameObjPtr(uint16 aId, uint16 aIndex) : mIndex(aIndex), mId(aId)
 {
 }
+
 
 void CGameObjPtr::setPtr(uint16 aId, uint16 aIndex)
 {
@@ -40,7 +41,7 @@ uint16 CGameObjPtr::id() const
 
 // MGameObj
 
-MGameObj::MGameObj(uint16 aId, uint16 aIndex) : mIndex(aIndex), mId(aId)
+MGameObj::MGameObj(CGameObjPtr aObjPtr) : mObjectPtr(aObjPtr)
 {
 }
 
@@ -56,14 +57,9 @@ void MGameObj::externalize(ostream &aStream)
 {
 }
 
-uint16 MGameObj::index() const
+CGameObjPtr MGameObj::objectPtr()
 {
-	return mIndex;
-}
-
-uint16 MGameObj::id() const
-{
-	return mId;
+	return mObjectPtr;
 }
 
 // MColliding
@@ -78,14 +74,14 @@ void MColliding::checkCollision(MColliding *aObj)
 
 // CDrawable
 
-CDrawable::CDrawable(uint16 aId, uint16 aIndex, MAnimation *aAnim,
+CDrawable::CDrawable(CGameObjPtr aObjPtr, MAnimation *aAnim,
 					 float aAnimSpeed, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
-	MGameObj(aId, aIndex), mPos(*aPos), mSpeed(0, 0, 0), mOrientation(*aOrientation), mRotSpeed(0, 0, 0, 1)
+	MGameObj(aObjPtr), mPos(*aPos), mSpeed(0, 0, 0), mOrientation(*aOrientation), mRotSpeed(0, 0, 0, 1)
 {
 	setAnimation(aAnim, aAnimSpeed);
 }
 
-CDrawable::CDrawable(uint16 aId, uint16 aIndex) : MGameObj(aId, aIndex)
+CDrawable::CDrawable(CGameObjPtr aObjPtr) : MGameObj(aObjPtr)
 {
 }
 
@@ -185,7 +181,16 @@ const D3DXQUATERNION *CDrawable::rotSpeed() const
 void CDrawable::update(uint32 aTimeFactor)
 {
 	mPos += mSpeed * (float)aTimeFactor;
-	mOrientation *= mRotSpeed * (float)aTimeFactor;
+	if (!D3DXQuaternionIsIdentity(&mRotSpeed))
+	{
+		D3DXVECTOR3 vec;
+		float angle;
+		D3DXQuaternionToAxisAngle(&mRotSpeed, &vec, &angle);
+		angle *= aTimeFactor;
+		D3DXQUATERNION temp;
+		D3DXQuaternionRotationAxis(&temp, &vec, angle);
+		mOrientation *= temp;
+	}
 }
 
 float CDrawable::radiusSqr() const

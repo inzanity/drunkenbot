@@ -20,11 +20,11 @@ class CIndexList
 public:
 						CIndexList			(uint16 aMaxSize);
 	virtual				~CIndexList			();
-	inline	uint16		size				();
-	inline	uint16		maxSize				();
-	inline	uint16		first				();
-	inline	uint16		firstEmpty			();
-	inline	uint16		end					();
+	inline	uint16		size				() const;
+	inline	uint16		maxSize				() const;
+	inline	uint16		first				() const;
+	inline	uint16		firstEmpty			() const;
+	inline	uint16		end					() const;
 			T *			object				(uint16 aIndex);
 			void		add					(T *aObj);
 			void		remove				(uint16 aIndex);

@@ -10,12 +10,12 @@ CHeightMap::CHeightMap(int aHMapSize, int aVMapSize) :
 	mNumVertices(0), mNumTriangles(0)
 {
 	int i, j;
-	mHeightMap = new int *[mVMapSize];
+	mHeightMap = new float *[mVMapSize];
 	for (i = 0; i < mVMapSize; i++)
 	{
-		mHeightMap[i] = new int[mHMapSize];
+		mHeightMap[i] = new float[mHMapSize];
 		for (j = 0; j < mHMapSize; j++)
-			mHeightMap[i][j] = rand() % 5 * mMaxHeight / 5;
+			mHeightMap[i][j] = rand() % 50 / 10.f;
 	}
 	mColors = new D3DCOLOR[mColorNum];
 	mColors[0] = D3DCOLOR_XRGB(150, 150, 150);
@@ -36,14 +36,14 @@ CHeightMap::CHeightMap(const char *aFileName) :
 	tex->LockRect(0, &rect, NULL, D3DLOCK_READONLY);
 	int i, j;
 	mHMapSize = info.Width; mVMapSize = info.Height;
-	mHeightMap = new int *[mVMapSize];
+	mHeightMap = new float *[mVMapSize];
 	for (i = 0; i < mVMapSize; i++)
 	{
-		mHeightMap[i] = new int[mHMapSize];
+		mHeightMap[i] = new float[mHMapSize];
 		for (j = 0; j < mHMapSize; j++)
 		{
 			int *ptr = (int *)((BYTE *)rect.pBits + ((mVMapSize - i - 1) * rect.Pitch)) + j;
-			mHeightMap[i][j] = *ptr;
+			mHeightMap[i][j] = *ptr / (float)mMaxHeight * mHeight;
 		}
 	}
 	tex->UnlockRect(0);
@@ -115,9 +115,9 @@ void CHeightMap::restore(const char *)
 			{
 				int k = (i * mHMapSize + j) * 9;
 				ptr[k + 0] = (float)j;
-				ptr[k + 1] = mHeightMap[i][j] / (float)mMaxHeight * mHeight;
+				ptr[k + 1] = mHeightMap[i][j];
 				ptr[k + 2] = (float)i;
-				float s = mHeightMap[i][j] / (float)mMaxHeight * (mColorNum - 1);
+				float s = mHeightMap[i][j] / mHeight * (mColorNum - 1);
 				((D3DCOLOR *)ptr)[k + 6] =
 					mColorNum == 1 ? mColors[0] : lerp(mColors[(int)s], mColors[(int)s + 1], s - (int)s);
 				ptr[k + 7] = i / 10.f;
@@ -150,7 +150,7 @@ float CHeightMap::height(float aX, float aY)
 {
 	float sX  = aX - (int)aX;
 	float sY  = aY - (int)aY;
-	float val1 = sX * mHeightMap[(int)aY][(int)aX] + (1.f - sX) * mHeightMap[(int)aY][(int)aX + 1];
-	float val2 = sX * mHeightMap[(int)aY + 1][(int)aX] + (1.f - sX) * mHeightMap[(int)aY + 1][(int)aX + 1];
-	return (sY * val1 + (1.f - sY) * val2) / (float)mMaxHeight * mHeight;
+	float val1 = (1.f - sX) * mHeightMap[(int)aY][(int)aX] + sX * mHeightMap[(int)aY][(int)aX + 1];
+	float val2 = (1.f - sX) * mHeightMap[(int)aY + 1][(int)aX] + sX * mHeightMap[(int)aY + 1][(int)aX + 1];
+	return ((1.f - sY) * val1 + sY * val2);
 }

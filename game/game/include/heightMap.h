@@ -21,7 +21,7 @@ public:
 	float height(float aX, float aY);
 private:
 	int mHMapSize, mVMapSize;
-	int **mHeightMap;
+	float **mHeightMap;
 	float mHeight;
 	int mMaxHeight;
 	int mColorNum;

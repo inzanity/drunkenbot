@@ -1,4 +1,5 @@
 #include "../include/directInput.h"
+#include "../include/d3dUtil.h"
 
 #pragma comment(lib, "dinput8")
 #pragma comment(lib, "dxguid")
@@ -20,6 +21,16 @@ CDirectInput::CDirectInput()
 	mBoundKeys[MOVE_RIGHT]	= DIK_D;
 	mBoundKeys[MOVE_UP]		= DIK_W;
 	mBoundKeys[MOVE_DOWN]	= DIK_S;
+	mBoundKeys[KEY_1]		= DIK_1;
+	mBoundKeys[KEY_2]		= DIK_2;
+	mBoundKeys[KEY_3]		= DIK_3;
+	mBoundKeys[KEY_4]		= DIK_4;
+	mBoundKeys[KEY_5]		= DIK_5;
+	mBoundKeys[KEY_6]		= DIK_6;
+	mBoundKeys[KEY_7]		= DIK_7;
+	mBoundKeys[KEY_8]		= DIK_8;
+	mBoundKeys[KEY_9]		= DIK_9;
+	mBoundKeys[KEY_0]		= DIK_0;
 	mBoundKeys[WRITE_TEXT]	= DIK_T;
 
 
@@ -38,6 +49,8 @@ CDirectInput::CDirectInput()
 		FreeDirectInput();
     if (FAILED(mMouse->SetDataFormat(&c_dfDIMouse2)))
 		FreeDirectInput();
+	mMouseX = d3dObj->width() / 2;
+	mMouseY = d3dObj->height() / 2;
 
 /*
 	// set buffered input
@@ -102,6 +115,12 @@ void CDirectInput::ReadState()
 			while(mMouse->Acquire() == DIERR_INPUTLOST);
 			return;
 		}
+		mMouseX += mMouseState.lX;
+		mMouseY += mMouseState.lY;
+		if (mMouseX < 0) mMouseX = 0;
+		if (mMouseX > d3dObj->width()) mMouseX = d3dObj->width();
+		if (mMouseY < 0) mMouseY = 0;
+		if (mMouseY > d3dObj->height()) mMouseY = d3dObj->height();
 	}
 }
 
@@ -133,6 +152,16 @@ bool CDirectInput::checkKey(GameAction aAction)
 const DIMOUSESTATE2* CDirectInput::getMouseState()
 {
 	return &mMouseState;
+}
+
+int CDirectInput::getMouseX()
+{
+	return mMouseX;
+}
+
+int CDirectInput::getMouseY()
+{
+	return mMouseY;
 }
 
 void CDirectInput::bindKey(GameAction aAction, int aKey)

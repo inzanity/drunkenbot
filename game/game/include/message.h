@@ -10,11 +10,10 @@ using namespace std;
 class CMessage
 {
 public:
-	CMessage(uint16 aMsg, uint16 aSenderId, uint16 aReceiverId, uint16 aSender,
-			uint16 aReceiver, uint32 aParam1, uint32 aParam2, uint32 aTime);
+	CMessage(uint16 aMsg, CGameObjPtr aSender, CGameObjPtr aReceiver,
+		uint32 aParam1, uint32 aParam2, uint32 aTime);
 	uint16	mMsg;
-	uint16	mSenderId, mReceiverId;
-	uint16	mSender, mReceiver;
+	CGameObjPtr	mSender, mReceiver;
 	uint32	mParam1, mParam2;
 	uint32	mTime;
 };
@@ -25,7 +24,7 @@ public:
 				CMessageList	();
 	virtual		~CMessageList	();
 	void		add				(CMessage *aMsg);
-	void		sendMessages	(double aTime, CIndexList<MGameObj> *aObjList);
+	void		sendMessages	(uint32 aTime);
 private:
 	list<CMessage *>	mList;
 };

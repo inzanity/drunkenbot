@@ -20,9 +20,9 @@ LRESULT FAR PASCAL	windowProc(HWND	aHWnd, UINT	aMsg, WPARAM aWParam, LPARAM aLPa
 		active = (BOOL)aWParam;
 		break;
 
-//	case WM_SETCURSOR:
-//		SetCursor(NULL);
-//		break;
+	case WM_SETCURSOR:
+		SetCursor(NULL);
+		break;
 
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -70,7 +70,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 		return false;
 
 	CD3DObj *d3dObj = new CD3DObj(hWnd);
-//	if (!d3dObj->initFullScreen(800, 600))
+//	if (!d3dObj->initFullScreen(1280, 1024))
 	if (!d3dObj->initWindowed())
 	{
 		delete d3dObj;

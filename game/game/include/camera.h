@@ -8,24 +8,27 @@ enum TGameMode{EModeFPS, EModeRTS};
 class CCamera : public MGameObj
 {
 public:
-					CCamera			(uint16 aId, uint16 aIndex, float aHMin, float aHMax, float aVMin, float aVMax, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation);
+					CCamera			(CGameObjPtr aObjPtr, float aHMin, float aHMax, float aVMin, float aVMax, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation);
 					CCamera			(istream &aStream);
 	virtual			~CCamera		();
 	virtual void	externalize		(ostream &aStream);
 	virtual void	handleMessage	(CMessage *aMsg);
-	virtual void	transform		();
+	virtual void	transform		(uint32 aTimeFactor);
 	void			setRTSMode		();
 	void			setFPSMode		(CGameObjPtr aFPSTargetObj);
-	void			setPos			(D3DXVECTOR3 *aPos);
-	void			setPos			(D3DXVECTOR2 *aPos);
+	void			setPos			(const D3DXVECTOR3 *aPos);
+	void			setPos			(const D3DXVECTOR2 *aPos);
+	void			setDest			(uint32 aTime, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation);
 	void			scroll			(float aRight, float aUp);
+	CGameObjPtr		targetObj		() const;
+	TGameMode		gameMode		() const;
 protected:
 	TGameMode		mMode;
 
 	D3DXVECTOR3		mPos, mSpeed;
-	D3DXQUATERNION	mOrientation, mRotSpeed;
+	D3DXQUATERNION	mOrientation;//, mRotSpeed;
 
-	float			mTimeToDest;
+	uint32			mTimeToDest;
 	D3DXVECTOR3		mDestPos;
 	D3DXQUATERNION	mDestOrientation;
 

@@ -28,20 +28,43 @@ class CMessage;
 struct TBox{D3DXVECTOR3 v1, v2;};
 
 /**
- * General GameObject interface.
+ * Secure pointer class for game objects.
  * Every GameObject has an unique id number, and index in used data structure.
  * GameObjects are stored using indices instead of pointers to avoid accessing
  * deleted/moved objects. @see MIndexList
+ */
+class CGameObjPtr
+{
+public:
+	/** Constructor for NULL pointer. */
+	CGameObjPtr();
+	/** Constructor. @param aID Unique id @param aIndex Index */
+	CGameObjPtr(uint16 aId, uint16 aIndex);
+	/** Setter for the pointer. @param aID Unique id @param aIndex Index */
+	void setPtr(uint16 aId, uint16 aIndex);
+	/** Set pointer to NULL. */
+	void setPtrToNULL();
+	/** Getter for MGameObj ponter. @return Pointer to the valid MGameObj, or NULL if object */
+	class MGameObj *ptr();
+	/**	Getter for index. @return Index, where this object is stored */
+	uint16 index() const;
+	/**	Getter for id. @return Objects unique id */
+	uint16 id() const;
+private:
+	uint16 mIndex, mId;
+};
+
+/**
+ * General GameObject interface.
  */
 class MGameObj
 {
 public:
 	/**
 	 * Constructor with id and index.
-	 * @param aId Unique id for the object
-	 * @param aIndex Index in used data structure
+	 * @param aObjPtr Object pointer containing id and index for the object
 	 */
-	MGameObj(uint16 aId, uint16 aIndex);
+	MGameObj(CGameObjPtr aObjPtr);
 	/**	Constructor to read object from the stream. @param aStream Stream to read object from */
 	MGameObj(istream &aStream);
 	virtual ~MGameObj();
@@ -51,10 +74,8 @@ public:
 	 * @param aStream Destination Stream to write data
 	 */
 	virtual void externalize(ostream &aStream);
-	/**	Getter for index. @return Index, where this object is stored */
-	uint16 index() const;
-	/**	Getter for id. @return Objects unique id */
-	uint16 id() const;
+	/**	Getter for object pointer. @return Secure pointer for this game object */
+	CGameObjPtr objectPtr();
 	/**
 	 * Message handler.
 	 * Messages are used with AI and interaction between objects instead of polling.
@@ -62,7 +83,7 @@ public:
 	 */
 	virtual void handleMessage(CMessage *aMsg) = 0;
 protected:
-	uint16 mIndex, mId;
+	CGameObjPtr mObjectPtr;
 };
 
 /**
@@ -96,16 +117,15 @@ class CDrawable : public MGameObj, public MColliding
 public:
 	/**
 	 * Constructor with all required parameters. @see MGameObj
-	 * @param aId Id of the object
-	 * @param aIndex Index of the object
+	 * @param aObjPtr Object pointer containing id and index for the object
 	 * @param aAnim Animation for drawing. Null Animation disables drawing
 	 * @param aPos Initial position of the object
 	 * @param aRos Initial rotation angle of the object
 	 */
-	CDrawable(uint16 aId, uint16 aIndex, MAnimation *aAnim,
+	CDrawable(CGameObjPtr aObjPtr, MAnimation *aAnim,
 			  float aAnimSpeed, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation);
 	/**	Basic constructor with id and index. @see MGameObj */
-	CDrawable(uint16 aId, uint16 aIndex);
+	CDrawable(CGameObjPtr aObjPtr);
 	/**	Constructor to read object from the stream. @see MGameObj */
 	CDrawable(istream &aStream);
 	virtual ~CDrawable();
@@ -165,28 +185,6 @@ protected:
 	MAnimation *	mAnimation;
 	D3DXVECTOR3		mPos, mSpeed;
 	D3DXQUATERNION	mOrientation, mRotSpeed;
-};
-
-/** Secure pointer class for game objects. */
-class CGameObjPtr
-{
-public:
-	/** Constructor for NULL pointer. */
-	CGameObjPtr();
-	/** Constructor. @param aID Unique id @param aIndex Index */
-	CGameObjPtr(uint16 aId, uint16 aIndex);
-	/** Setter for the pointer. @param aID Unique id @param aIndex Index */
-	void setPtr(uint16 aId, uint16 aIndex);
-	/** Set pointer to NULL. */
-	void setPtrToNULL();
-	/** Getter for MGameObj ponter. @return Pointer to the valid MGameObj, or NULL if object */
-	MGameObj *ptr();
-	/**	Getter for index. @return Index, where this object is stored */
-	uint16 index() const;
-	/**	Getter for id. @return Objects unique id */
-	uint16 id() const;
-private:
-	uint16 mIndex, mId;
 };
 
 #endif // GAMEOBJ_H

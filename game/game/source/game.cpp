@@ -1,12 +1,13 @@
 #include "../include/game.h"
 #include "../include/animationStorage.h"
 #include "../include/directInput.h"
+#include "../include/mech.h"
 
 inline DWORD FtoDW(FLOAT f) {return *((DWORD*)&f);}
 
 CGame *game = NULL;
 
-CGame::CGame() : mBuildings(256), mTime(0)
+CGame::CGame() : mBuildings(64), mMechs(32), mTime(0), mNewId(0)
 {
 	game = this;
 }
@@ -58,26 +59,27 @@ bool CGame::init()
     device->SetLight(0, &light);
     device->LightEnable(0, TRUE);
 
+	mGameUI = new CGameUI();
+
 	D3DXQUATERNION quat;
 	MAnimation *anim;
 
-//	cam = new CCamera(3, 6969, &D3DXVECTOR3(32, 70, -15), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
-//	cam = new CCamera(3, 6969, &D3DXVECTOR3(32, 25, -5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
-	cam = new CCamera(3, 6969, 10, 54, -2, 39, &D3DXVECTOR3(10, 20, 0), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
+//	mCam = new CCamera(3, 6969, &D3DXVECTOR3(32, 70, -15), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
+//	mCam = new CCamera(3, 6969, &D3DXVECTOR3(32, 25, -5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
+	mCam = new CCamera(getNewGameObjectPtr(ETypeCamera), 10, 54, -2, 39, &D3DXVECTOR3(10, 20, 0), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 3.14f/3.f, 0));
 
 	mHeightMap = new CHeightMap("data/map.bmp");
 
 	anim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/flame_small.lua");
-	CDrawable *fire = new CDrawable(0, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(2, mHeightMap->height(2, 6), 6), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
+	CDrawable *fire = new CDrawable(getNewGameObjectPtr(ETypeBuilding), anim, 1.f, &D3DXVECTOR3(2, mHeightMap->height(2, 6), 6), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(fire);
 
 	anim = CAnimationStorage::ptr()->getAnimation("data/tiger.x");
-	CDrawable *tiger = new CDrawable(1, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(8, mHeightMap->height(8, 8) + .7f, 8), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
+	CDrawable *tiger = new CDrawable(getNewGameObjectPtr(ETypeBuilding), anim, 1.f, &D3DXVECTOR3(8, mHeightMap->height(8, 8) + .7f, 8), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(tiger);
 
-	anim = CAnimationStorage::ptr()->getAnimation("data/bones_move.x");
-	CDrawable *ufo = new CDrawable(2, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(5, mHeightMap->height(5, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
-	mBuildings.add(ufo);
+	CMech *mech = new CMech(getNewGameObjectPtr(ETypeMech), &D3DXVECTOR3(5, mHeightMap->height(5, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 0, 0));
+	mMechs.add(mech);
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
 
@@ -92,28 +94,44 @@ bool CGame::loop()
 	mTime += 30; // TODO: Real timing system
 	device->Clear(0,0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
 
-//	mMsgList.sendMessages(mTime, &mObjList);
+	mMsgList.sendMessages(mTime);
 	chkDestroyList();
 
 	directInput->ReadState();
-	float up = (float)(directInput->isPressed(MOVE_UP) - directInput->isPressed(MOVE_DOWN)) * 0.4f;
-	float right = (float)(directInput->isPressed(MOVE_RIGHT) - directInput->isPressed(MOVE_LEFT)) * 0.4f;
+	float up = (float)(directInput->isPressed(MOVE_UP) - directInput->isPressed(MOVE_DOWN)) * 0.04f;
+	float right = (float)(directInput->isPressed(MOVE_RIGHT) - directInput->isPressed(MOVE_LEFT)) * 0.04f;
+	D3DXQUATERNION quat;
 	if (up != 0 || right != 0)
-		cam->scroll(right, up);
+		mCam->scroll(right, up);
 
 	// Draw everything
-	cam->transform();
+	mCam->transform(10);
 	device->BeginScene();
 	mHeightMap->draw(0);
 
+	for (uint16 i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
+		mMechs.mTable[i].mObj->update(10);
+
 	for (uint16 i = mBuildings.first(); i != mBuildings.end(); i = mBuildings.mTable[i].mNext)
 		mBuildings.mTable[i].mObj->draw(10);
+	MGameObj *fpsTarget = mCam->targetObj().ptr();
+	for (uint16 i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
+		if (mMechs.mTable[i].mObj != fpsTarget)
+			mMechs.mTable[i].mObj->draw(10);
 
 	if (directInput->checkKey(WRITE_TEXT))
 	{
 		string foo = "Write:";
 		mMessageBox->addMessage(&foo, 10);
 	}
+	if (directInput->checkKey(KEY_1))
+	{
+		if (mCam->gameMode() == EModeRTS)
+			mCam->setFPSMode(mMechs.mTable[mMechs.first()].mObj->objectPtr());
+		else
+			mCam->setRTSMode();
+	}
+	mGameUI->draw();
 	mMessageBox->draw();
 
 	device->EndScene();
@@ -127,17 +145,16 @@ void CGame::sendMessage(CMessage *aMsg)
 	mMsgList.add(aMsg);
 }
 
-void CGame::sendMessage(uint16 aMsg, uint16 aSenderId, uint16 aReceiverId,
-						uint16 aSender, uint16 aReceiver,
+void CGame::sendMessage(uint16 aMsg, CGameObjPtr aSender, CGameObjPtr aReceiver,
 						uint32 aParam1, uint32 aParam2, uint32 aTime)
 {
-	mMsgList.add(new CMessage(aMsg, aSenderId, aReceiverId, aSender, aReceiver, aParam1, aParam2, mTime + aTime));
+	mMsgList.add(new CMessage(aMsg, aSender, aReceiver, aParam1, aParam2, mTime + aTime));
 }
 
 void CGame::sendMessage(uint16 aMsg, MGameObj *aObj, uint32 aParam1, uint32 aParam2, uint32 aTime)
 {
-	mMsgList.add(new CMessage(aMsg, aObj->id(), aObj->id(), aObj->index(),
-		aObj->index(), aParam1, aParam2, mTime + aTime));
+	mMsgList.add(new CMessage(aMsg, aObj->objectPtr(), aObj->objectPtr(),
+		aParam1, aParam2, mTime + aTime));
 }
 
 void CGame::destroyObj(MGameObj *aObj)
@@ -156,13 +173,29 @@ void CGame::chkDestroyList()
 	}
 }
 
+CGameObjPtr CGame::getNewGameObjectPtr(TObjectType aObjType)
+{
+	uint16 index = 0;
+	if (aObjType == ETypeBuilding)
+		index = mBuildings.firstEmpty();
+	else if (aObjType == ETypeMech)
+		index = mMechs.firstEmpty();
+	return CGameObjPtr(mNewId++, uint16(index | (aObjType << 12)));
+}
+
 MGameObj *CGame::getGameObj(uint16 aIndex, uint16 aId)
 {
+	if (aIndex == KNullIndex)
+		return NULL;
 	MGameObj *obj;
-	int list = aIndex >> 12;
-	if (list == 0)
+	int objType = aIndex >> 12;
+	if (objType == ETypeBuilding)
 		obj = mBuildings.object(aIndex & 0xFFF);
-	if (obj && obj->id() == aId)
+	else if (objType == ETypeMech)
+		obj = mMechs.object(aIndex & 0xFFF);
+	else if (objType == ETypeCamera)
+		obj = mCam;
+	if (obj && obj->objectPtr().id() == aId)
 		return obj;
 	return NULL;
 }

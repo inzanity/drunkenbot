@@ -9,10 +9,9 @@
 #define	DIRECTINPUT_H
 
 #define DIRECTINPUT_VERSION 0x0800
-#define	KEYBOARD_SIZE		256
 #define	KEY_DOWN			0x80
 #define	KEY_UP				0x00
-
+#define KEYBOARD_SIZE		256
 
 
 #include <windows.h>
@@ -45,8 +44,12 @@ public:
 	// checks if action key pressed down and flags it checked
 	bool					checkKey		(GameAction aAction);
 
-	// returns mouse-coordinates
+	// returns mouse state
 	const DIMOUSESTATE2*	getMouseState	();
+	// returns x mouse coordinate
+	int						getMouseX		();
+	// returns y mouse coordinate
+	int						getMouseY		();
 
 
 	// binds a key to an action
@@ -63,6 +66,7 @@ private:
 	LPDIRECTINPUTDEVICE8	mMouse;		// The mouse device     
 	KeyboardTable			mKeyboardTable;
 	DIMOUSESTATE2			mMouseState;
+	int						mMouseX, mMouseY;
 	int						mBoundKeys[KEYBOARD_SIZE];
 };
 

@@ -14,31 +14,31 @@ CIndexList<T>::~CIndexList()
 }
 
 template <class T>
-inline uint16 CIndexList<T>::size()
+inline uint16 CIndexList<T>::size() const
 {
 	return mSize;
 }
 
 template <class T>
-inline uint16 CIndexList<T>::maxSize()
+inline uint16 CIndexList<T>::maxSize() const
 {
 	return mMaxSize;
 }
 
 template <class T>
-inline uint16 CIndexList<T>::first()
+inline uint16 CIndexList<T>::first() const
 {
 	return mFirst;
 }
 
 template <class T>
-inline uint16 CIndexList<T>::firstEmpty()
+inline uint16 CIndexList<T>::firstEmpty() const
 {
 	return mFirstEmpty;
 }
 
 template <class T>
-inline uint16 CIndexList<T>::end()
+inline uint16 CIndexList<T>::end() const
 {
 	return mFirstEmpty;
 }
