@@ -1,5 +1,7 @@
 chapter 8 dokkariin
 kuvat interface-kohdassa ei n‰y (kuvia ei varmaan kopioida oikeeseen paikkaan?)
+3.6.1 Multiplayer experience, kirjotin vaan yhen rivin :)
+poistetaan 3.7 Levels (ei haluta varmaan m‰‰r‰t‰ viel‰). tai sit kirjotetaan muutama lause yleisell‰ tasolla..?
 kirjotusvirheet!!
 design history (palautettava versio on 1.0, ja muutokset kirjataan vasta siit‰ eteenp‰in)
 controls kappaleeseen maininta, ett‰ n‰pp‰imet default asetuksia, ja t‰ysin conffattavissa (jos niin halutaan)
