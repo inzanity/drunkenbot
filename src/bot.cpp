@@ -177,19 +177,20 @@ float CBot::spawningYPos() const
 void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 {
 	float time;
+	char tile;
 	for (float angle = mOrientation - FOV / 2.f; angle < mOrientation + FOV / 2.f; angle += aDAngle)
 	{
 		TVector pos = mPos;
 		TVector speed = {cos(angle), sin(angle)};
-		for (char tile = aTilemap[(int)pos.mY][(int)pos.mX];
+		for (tile = aTilemap[(int)pos.mY][(int)pos.mX];
 			 (CTilemap::TTileType)(tile & 3) != CTilemap::ETileWall;
 			 tile = aTilemap[(int)pos.mY][(int)pos.mX])
 		{
-			mBotAI->mTilemap->setTile(pos.mX - mSpawningPos.mX - 1, pos.mY - mSpawningPos.mY - 1, tile);
+			mBotAI->mTilemap->setTile(int(pos.mX - mSpawningPos.mX - 1), int(pos.mY - mSpawningPos.mY - 1), tile);
 			time = getNextEdge(pos, speed);
 			pos.mX += time * speed.mX;
 			pos.mY += time * speed.mY;
 		}
-		mBotAI->mTilemap->setTile(pos.mX - mSpawningPos.mX - 1, pos.mY - mSpawningPos.mY - 1, tile);
+		mBotAI->mTilemap->setTile(int(pos.mX - mSpawningPos.mX - 1), int(pos.mY - mSpawningPos.mY - 1), tile);
 	}
 }
