@@ -15,3 +15,10 @@ For input the robot uses a radar cabable of scanning an sector of 90 degrees wit
 The radar can scan areas behind an obstacle, while unveiling it's existence, but not thorough walls.
 Besides the radar, the robot has multiple sound sensors that are used with an accurate timer to get
 the direction to the source of the sound.
+
+With a robotic arm the robot can aim within an 40 degree span and can be used to launch a weapon.
+It can be controlled simultaneously with the servo motors used for movement, but while moving shooting
+is not as accurate as while standing still. The accurancy can be further improved with a bunker mode,
+which stabilises the arm and shields the essentials 25% better. Switching between bunker mode and movement
+mode takes 4 rounds. The arm can also pick up a weapon found lying somewhere, requiring 2 rounds of
+staying still.
