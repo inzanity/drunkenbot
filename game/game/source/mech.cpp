@@ -5,7 +5,7 @@
 #define GRAVITY 0.05f
 
 CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
-	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/teppo.x"), 1.f, aPos, aOrientation)
+	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/bones_move.x"), 1.f, aPos, aOrientation)
 {
 	D3DXQuaternionRotationYawPitchRoll(&mOrientation, 0.5f, 0, 0);
 	game->sendMessage(EMsgMechMove, this, 0, 0, 0);
