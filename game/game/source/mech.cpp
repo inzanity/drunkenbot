@@ -19,7 +19,16 @@ CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, float aXAngle, float 
 	mUBPos = D3DXVECTOR3(0, box->mMax.y, 0);
 
 //	game->sendMessage(EMsgMechMove, this, 0, 0, 0);
+	const TBox *b1 = mAnimation->getBoundingBox();
+	const TBox *b2 = mUpperBody->getBoundingBox();
 	mSize = 2;
+	mBoundingBox.mMin.x = min(b1->mMin.x, b2->mMin.x);
+	mBoundingBox.mMin.y = min(b1->mMin.y, b2->mMin.y);
+	mBoundingBox.mMin.z = min(b1->mMin.z, b2->mMin.z);
+	mBoundingBox.mMax.x = max(b1->mMax.x, b2->mMax.x);
+	mBoundingBox.mMax.y = max(b1->mMax.y, b2->mMax.y);
+	mBoundingBox.mMax.z = max(b1->mMax.z, b2->mMax.z);
+	mRadius = max(mAnimation->getRadiusSqr(), mUpperBody->getRadiusSqr());
 }
 
 CMech::CMech(istream &aStream) :
@@ -198,4 +207,14 @@ void CMech::draw(uint32 aTimeFactor)
 	if (mUpperBody)
 		mUpperBody->draw(mAnimTime);
 	d3dObj->mMatrixStack->Pop();
+}
+
+float CMech::radiusSqr() const
+{
+	return mRadius;
+}
+
+const TBox *CMech::boundingBox() const
+{
+	return &mBoundingBox;
 }

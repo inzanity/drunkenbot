@@ -31,6 +31,8 @@ public:
 	float maxSpeed();
 	float maxUBAngleXSpeed();
 	float maxUBAngleYSpeed();
+	float radiusSqr() const;
+	const TBox *boundingBox() const;
 private:
 	void addUpperBodyAngle(float aAngleX, float aAngleY);
 	MAnimation *mUpperBody;
@@ -47,6 +49,8 @@ private:
 	TMechOperationMode mOperationMode;
 	D3DXVECTOR3 mDestPos;
 	bool mMoveToDest;
+	float mRadius;
+	TBox mBoundingBox;
 };
 
 #endif // MECH_H
