@@ -11,7 +11,13 @@ class CPlayer
 public:
 	CPlayer(CBuildingData **aBuildings, int aNumBuildings);
 	CBuildingData *getBuildingData(int aIndex) const;
+	CTechnologyData *getTechnologyData(int aIndex) const;
+	CWeaponData *getWeaponData(int aIndex) const;
+	CUpgradeData *getUpgradeData(int aIndex) const;
 	int numBuildings() const;
+	int numTechnologies() const;
+	int numWeapons() const;
+	int numUpgrades() const;
 	int minerals() const;
 	void setMinerals(int aMinerals);
 private:

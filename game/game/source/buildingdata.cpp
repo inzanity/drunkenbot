@@ -190,9 +190,9 @@ uint32 CBuildingData::getNumRequires() const
 	return mNumRequires;
 }
 
-uint32 *CBuildingData::getTechnologies() const
+uint32 CBuildingData::getTechnology(int aInd) const
 {
-	return mTechnologies;
+	return mTechnologies[aInd];
 }
 
 uint32 CBuildingData::getNumTechnologies() const

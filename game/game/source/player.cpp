@@ -22,7 +22,7 @@ CPlayer::CPlayer(CBuildingData **aBuildings, int aNumBuildings) :
 	mNumTechs = 1;
 	mTechs = new CTechnologyData *[mNumTechs];
 	mTechs[0] = new CTechnologyData();
-	mTechs[0]->setPicture(CAnimationStorage::ptr()->getTexture("data/images/technology1_icon.bmp"));
+	mTechs[0]->setPicture(CAnimationStorage::ptr()->getTexture("data/images/tech1_icon.bmp"));
 
 	mNumWeapons = 1;
 	mWeapons = new CWeaponData *[mNumWeapons];
@@ -46,9 +46,45 @@ CBuildingData *CPlayer::getBuildingData(int aIndex) const
 	return NULL;
 }
 
+CTechnologyData *CPlayer::getTechnologyData(int aIndex) const
+{
+	if (aIndex >= 0 && aIndex < mNumTechs)
+		return mTechs[aIndex];
+	return NULL;
+}
+
+CWeaponData *CPlayer::getWeaponData(int aIndex) const
+{
+	if (aIndex >= 0 && aIndex < mNumWeapons)
+		return mWeapons[aIndex];
+	return NULL;
+}
+
+CUpgradeData *CPlayer::getUpgradeData(int aIndex) const
+{
+	if (aIndex >= 0 && aIndex < mNumUpgrades)
+		return mUpgrades[aIndex];
+	return NULL;
+}
+
 int CPlayer::numBuildings() const
 {
 	return mNumBuildings;
+}
+
+int CPlayer::numTechnologies() const
+{
+	return mNumTechs;
+}
+
+int CPlayer::numWeapons() const
+{
+	return mNumWeapons;
+}
+
+int CPlayer::numUpgrades() const
+{
+	return mNumUpgrades;
 }
 
 int CPlayer::minerals() const

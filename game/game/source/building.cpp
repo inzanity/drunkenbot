@@ -38,3 +38,7 @@ void CBuilding::handleMessage(CMessage *aMsg)
 	}
 }
 
+const CBuildingData *CBuilding::buildingData() const
+{
+	return mBuildingData;
+}

@@ -93,7 +93,7 @@ bool CGame::init()
 	mech = new CMech(getNewGameObjectPtr(ETypeMech), &D3DXVECTOR3(35, mHeightMap->height(35, 5), 5), 0, 0);
 	mMechs.add(mech);
 
-/*	CTurret *turret	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 10), 10), 0, 1);
+	CTurret *turret	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 10), 10), 0, 1);
 	mBuildings.add(turret);
 	turret = new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 20), 20), 0, 1);
 	mBuildings.add(turret);
@@ -101,8 +101,8 @@ bool CGame::init()
 	mBuildings.add(turret);
 	turret	= new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 50), 50), 0, 1);
 	mBuildings.add(turret);
-*/
-	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(35, mHeightMap->height(35, 10), 10), 0, 1);
+
+	CDock *dock1		= new CDock(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(35, mHeightMap->height(35, 10), 10), 0, 0);
 	mBuildings.add(dock1);
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);

@@ -15,6 +15,7 @@ public:
 	virtual ~CBuilding();
 	virtual void externalize(ostream &aStream);
 	virtual void handleMessage(CMessage *aMsg);
+	const CBuildingData *buildingData() const;
 protected:
 	CBuildingData *mBuildingData;
 	int mHitpoints;

@@ -65,7 +65,7 @@ public:
 	std::string getName() const;
 	uint32 *getRequires() const;
 	uint32 getNumRequires() const;
-	uint32 *getTechnologies() const;
+	uint32 getTechnology(int aInd) const;
 	uint32 getNumTechnologies() const;
 	uint32 getHitpoints() const;
 	uint32 getPriceMineral() const;

@@ -35,6 +35,7 @@ private:
 	int mMenuPos;
 	MenuItem mSelectedMenuItem;
 	int mSelectedMenuItemIndex;
+	int mButtonPressedTimer;
 };
 
 #endif // RTSMODEUI_H

@@ -126,6 +126,36 @@ void CTurret::draw(uint32 aTimeFactor)
 	d3dObj->mMatrixStack->Push();
 
 	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
+	TBox bb = *mAnimation->getBoundingBox();
+	float vb[5*4];
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	d3dObj->mD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
+	d3dObj->mD3DDevice->SetTransform(D3DTS_VIEW, d3dObj->mMatrixStack->GetTop());
+	vb[0] = bb.mMax.x; vb[1] = bb.mMin.y; vb[2] = bb.mMax.z;
+	((D3DCOLOR *)vb)[3] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[4] = bb.mMin.x; vb[5] = bb.mMin.y; vb[6] = bb.mMax.z;
+	((D3DCOLOR *)vb)[7] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[8] = bb.mMin.x; vb[9] = bb.mMin.y; vb[10] = bb.mMin.z;
+	((D3DCOLOR *)vb)[11] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[12] = bb.mMax.x; vb[13] = bb.mMin.y; vb[14] = bb.mMin.z;
+	((D3DCOLOR *)vb)[15] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[16] = bb.mMax.x; vb[17] = bb.mMin.y; vb[18] = bb.mMax.z;
+	((D3DCOLOR *)vb)[19] = D3DCOLOR_XRGB(255, 0, 0);
+	d3dObj->mD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vb, 4 * sizeof(float));
+	vb[0] = bb.mMax.x; vb[1] = bb.mMax.y; vb[2] = bb.mMax.z;
+	((D3DCOLOR *)vb)[3] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[4] = bb.mMin.x; vb[5] = bb.mMax.y; vb[6] = bb.mMax.z;
+	((D3DCOLOR *)vb)[7] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[8] = bb.mMin.x; vb[9] = bb.mMax.y; vb[10] = bb.mMin.z;
+	((D3DCOLOR *)vb)[11] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[12] = bb.mMax.x; vb[13] = bb.mMax.y; vb[14] = bb.mMin.z;
+	((D3DCOLOR *)vb)[15] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[16] = bb.mMax.x; vb[17] = bb.mMax.y; vb[18] = bb.mMax.z;
+	((D3DCOLOR *)vb)[19] = D3DCOLOR_XRGB(255, 0, 0);
+	d3dObj->mD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vb, 4 * sizeof(float));
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	d3dObj->mMatrixStack->RotateYawPitchRollLocal(mYAngle, mXAngle, 0);
 
 	mAnimTime += (uint32)(aTimeFactor * mAnimSpeed);

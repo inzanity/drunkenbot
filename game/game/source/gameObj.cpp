@@ -207,6 +207,36 @@ void CDrawable::draw(uint32 aTimeFactor)
 	d3dObj->mMatrixStack->Push();
 
 	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
+	TBox mBoundingBox = *mAnimation->getBoundingBox();
+	float vb[5*4];
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	d3dObj->mD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
+	d3dObj->mD3DDevice->SetTransform(D3DTS_VIEW, d3dObj->mMatrixStack->GetTop());
+	vb[0] = mBoundingBox.mMax.x; vb[1] = mBoundingBox.mMin.y; vb[2] = mBoundingBox.mMax.z;
+	((D3DCOLOR *)vb)[3] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[4] = mBoundingBox.mMin.x; vb[5] = mBoundingBox.mMin.y; vb[6] = mBoundingBox.mMax.z;
+	((D3DCOLOR *)vb)[7] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[8] = mBoundingBox.mMin.x; vb[9] = mBoundingBox.mMin.y; vb[10] = mBoundingBox.mMin.z;
+	((D3DCOLOR *)vb)[11] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[12] = mBoundingBox.mMax.x; vb[13] = mBoundingBox.mMin.y; vb[14] = mBoundingBox.mMin.z;
+	((D3DCOLOR *)vb)[15] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[16] = mBoundingBox.mMax.x; vb[17] = mBoundingBox.mMin.y; vb[18] = mBoundingBox.mMax.z;
+	((D3DCOLOR *)vb)[19] = D3DCOLOR_XRGB(255, 0, 0);
+	d3dObj->mD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vb, 4 * sizeof(float));
+	vb[0] = mBoundingBox.mMax.x; vb[1] = mBoundingBox.mMax.y; vb[2] = mBoundingBox.mMax.z;
+	((D3DCOLOR *)vb)[3] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[4] = mBoundingBox.mMin.x; vb[5] = mBoundingBox.mMax.y; vb[6] = mBoundingBox.mMax.z;
+	((D3DCOLOR *)vb)[7] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[8] = mBoundingBox.mMin.x; vb[9] = mBoundingBox.mMax.y; vb[10] = mBoundingBox.mMin.z;
+	((D3DCOLOR *)vb)[11] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[12] = mBoundingBox.mMax.x; vb[13] = mBoundingBox.mMax.y; vb[14] = mBoundingBox.mMin.z;
+	((D3DCOLOR *)vb)[15] = D3DCOLOR_XRGB(255, 0, 0);
+	vb[16] = mBoundingBox.mMax.x; vb[17] = mBoundingBox.mMax.y; vb[18] = mBoundingBox.mMax.z;
+	((D3DCOLOR *)vb)[19] = D3DCOLOR_XRGB(255, 0, 0);
+	d3dObj->mD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vb, 4 * sizeof(float));
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	d3dObj->mMatrixStack->RotateYawPitchRollLocal(mYAngle, mXAngle, 0);
 
 	mAnimTime += (uint32)(aTimeFactor * mAnimSpeed);

@@ -170,7 +170,7 @@ void CRTSModeUI::draw(uint32 aTime)
 		d3dObj->mMatrixStack->TranslateLocal(p->x, p->y+.1f, p->z);
 		const TBox *box = selected->boundingBox();
 //		float r = sqrt(selected->radiusSqr());
-		float r = .5f + sqrt(max(box->mMax.x*box->mMax.x + box->mMax.z*box->mMax.z, box->mMin.x*box->mMin.x + box->mMin.z*box->mMin.z));
+		float r = sqrt(max(box->mMax.x*box->mMax.x + box->mMax.z*box->mMax.z, box->mMin.x*box->mMin.x + box->mMin.z*box->mMin.z) / mSelectedAnim->getRadiusSqr());
 //		float r = fabs(box->mMin.z);
 		d3dObj->mMatrixStack->ScaleLocal(r, r, r);
 		mSelectedAnim->draw(aTime);
@@ -197,6 +197,19 @@ void CRTSModeUI::draw(uint32 aTime)
 			mSprite->Draw(*mCancelTexture, NULL, NULL, &pos, color);
 		else if (selectedMech)
 			mSprite->Draw(*mMechCommandTextures[ind], NULL, NULL, &pos, color);
+		else if (selectedBuilding)
+		{
+			const CBuildingData *bd = selectedBuilding->buildingData();
+			if (bd->getBuildingType() == DOCKYARD)
+			{
+				if (ind < mPlayer->numWeapons())
+					mSprite->Draw(*mPlayer->getWeaponData(ind)->getPicture(), NULL, NULL, &pos, color);
+				else
+					mSprite->Draw(*mPlayer->getUpgradeData(ind - mPlayer->numWeapons())->getPicture(), NULL, NULL, &pos, color);
+			}
+			else
+				mSprite->Draw(*mPlayer->getTechnologyData(bd->getTechnology(ind))->getPicture(), NULL, NULL, &pos, color);
+		}
 		else if (!selected)
 			mSprite->Draw(*mPlayer->getBuildingData(ind)->getPicture(), NULL, NULL, &pos, color);
 	}
@@ -242,6 +255,14 @@ int CRTSModeUI::getNumMenuItems()
 			return 0;
 		else
 			return ENumMechCommands;
+	}
+	else if (selectedBuilding)
+	{
+		const CBuildingData *bd = selectedBuilding->buildingData();
+		if (bd->getBuildingType() == DOCKYARD)
+			return (mPlayer->numWeapons() + mPlayer->numUpgrades());
+		else
+			return bd->getNumTechnologies();
 	}
 	return 0;
 }
