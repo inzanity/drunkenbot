@@ -181,7 +181,7 @@ void CSDLGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 
 void CSDLGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 {
-	if (mActiveBot && mActiveBot->botAI()->mTilemap->getTile(int(aGameObj->xPos()) - mActiveBot->spawningXPos(), int(aGameObj->yPos()) - mActiveBot->spawningYPos()) && KTileFowMask)
+	if (mActiveBot && mActiveBot->botAI()->mTilemap->getTile(int(aGameObj->xPos()) - mActiveBot->spawningXPos(), int(aGameObj->yPos()) - mActiveBot->spawningYPos()) & KTileFowMask)
 		return;
 	int type = (aGameObj->type() & KObjectTypeMask) >> KObjectTypeShift;
 	int index = (aGameObj->type() & KObjectIndexMask) >> KObjectIndexShift;
@@ -204,6 +204,9 @@ void CSDLGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 		rect.y = dir * mSrcTileHeight;
 		rect.w = mSrcTileWidth;
 		rect.h = mSrcTileHeight;
+		SDL_ScaleBlit(mBots, &rect, mScreen, &rect2);
+		rect.x = index * mSrcTileWidth;
+		rect.y = 8 * mSrcTileHeight;
 		SDL_ScaleBlit(mBots, &rect, mScreen, &rect2);
 	}
 	else if (type == CGameObj::EObjectBullet || type == CGameObj::EObjectExplosion)
