@@ -44,13 +44,13 @@ void CFPSModeUI::handleInput()
 	if (directInput->isPressed(MOVE_LEFT))
 	{
 		D3DXQUATERNION rotation;
-		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), -.0005f);
+		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), -.05f);
 		mech->setRotSpeed((const D3DXQUATERNION *)&rotation);
 	}
 	else if (directInput->isPressed(MOVE_RIGHT))
 	{
 		D3DXQUATERNION rotation;
-		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), .0005f);
+		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), .05f);
 		mech->setRotSpeed((const D3DXQUATERNION *)&rotation);
 	}
 
@@ -73,21 +73,21 @@ void CFPSModeUI::handleInput()
 
 	if (mouseX < 200)
 	{
-		mech->setUpperBodyAngleXSpeed(-.0005f);
+		mech->setUpperBodyAngleXSpeed(-.08f);
 	}
 	else if (mouseX > d3dObj->width() - 200)
 	{
-		mech->setUpperBodyAngleXSpeed(.0005f);
+		mech->setUpperBodyAngleXSpeed(.08f);
 	}
 	else mech->setUpperBodyAngleXSpeed(.0f);
 
 	if (mouseY < 100)
 	{
-		mech->setUpperBodyAngleYSpeed(-.0005f);
+		mech->setUpperBodyAngleYSpeed(-.08f);
 	}
 	else if (mouseY > d3dObj->height() - 100)
 	{
-		mech->setUpperBodyAngleYSpeed(.0005f);
+		mech->setUpperBodyAngleYSpeed(.08f);
 	}
 	else mech->setUpperBodyAngleYSpeed(.0f);
 }

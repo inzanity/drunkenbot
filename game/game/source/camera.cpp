@@ -79,15 +79,21 @@ void CCamera::transform(uint32 aTimeFactor)
 				setRTSMode(); // Mech not available, move back to RTS-mode
 			else
 			{
-				mPos = ptr->getEyePos();
-				mOrientation = *ptr->orientation();
 				float x, y;
-				D3DXQUATERNION rotation;
 				ptr->upperBodyAngle(&x, &y);
-				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(1, 0, 0), y);
-				mOrientation *= rotation;
-				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), x);
-				mOrientation *= rotation;
+
+				D3DXQUATERNION rotationx, rotationy;
+				D3DXQuaternionRotationAxis(&rotationy, &D3DXVECTOR3(1, 0, 0), y);
+				D3DXQuaternionRotationAxis(&rotationx, &D3DXVECTOR3(0, 1, 0), x);
+
+//				mOrientation = *ptr->orientation();
+				mOrientation = rotationy;
+//				mOrientation = rotationx;
+//				mOrientation *= rotationy;
+				mOrientation *= rotationx;
+				mOrientation *= *ptr->orientation();
+
+				mPos = ptr->getEyePos();
 			}
 	}
 	// Update using current speed

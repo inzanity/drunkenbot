@@ -181,14 +181,14 @@ const D3DXQUATERNION *CDrawable::rotSpeed() const
 void CDrawable::update(uint32 aTimeFactor)
 {
 	mPos += mSpeed * (float)aTimeFactor;
-	if (!D3DXQuaternionIsIdentity(&mRotSpeed))
+//	if (!D3DXQuaternionIsIdentity(&mRotSpeed))
 	{
 		D3DXVECTOR3 vec;
 		float angle = 0;
 		D3DXQUATERNION unitQuaternion;
 		D3DXQuaternionNormalize(&unitQuaternion, &mRotSpeed);
 		D3DXQuaternionToAxisAngle(&unitQuaternion, &vec, &angle);
-		angle *= aTimeFactor;
+		angle *= aTimeFactor / 100.f;
 		D3DXQUATERNION temp;
 		D3DXQuaternionRotationAxis(&temp, &vec, angle);
 		mOrientation *= temp;

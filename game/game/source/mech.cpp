@@ -55,7 +55,7 @@ void CMech::handleMessage(CMessage *aMsg)
 void CMech::update(uint32 aTimeFactor)
 {
 	CDrawable::update(aTimeFactor);
-	addUpperBodyAngle(aTimeFactor * mUpperBodyAngleXSpeed, aTimeFactor * mUpperBodyAngleYSpeed);
+	addUpperBodyAngle(aTimeFactor * mUpperBodyAngleXSpeed / 100.f, aTimeFactor * mUpperBodyAngleYSpeed / 100.f);
 	float h = game->mHeightMap->height(mPos.x, mPos.z);
 	if (mPos.y > h + GRAVITY)
 		mPos.y -= GRAVITY;
