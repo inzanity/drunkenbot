@@ -23,17 +23,17 @@
 2.1.5	Building a building
 
 	- <b>Performing</b>: Move mouse curson on top of a building you want to build and press left button once or press the quick button on keyboard which refers to the building in question. Then move mouse cursor to the place you want to put the building and press left mouse button once. Then wait for the building to complete.
-	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed and gives the coordinates, which are used to determine if the cursor was on top of a building icon in action menu. If it was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other objects or heightmap and the coordinates are inside the 'energisized' region a building object is created to those coordinates. Selected items action queue, action menu and info screen is asked to update themselves.
+	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed and gives the coordinates, which are used to determine if the cursor was on top of a building icon in action menu. If it was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other objects or heightmap and the coordinates are inside the 'energisized' region a building object is created to those coordinates. Available resources will be checked, if they're too few, a sound is played with a on-game message shown and building is cancelled. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.6	Cancelling building of a building
 
 	- <b>Performing</b>: First select the building you wish to cancel with mouse. Then press the cancel button from action menu or press 'esc' from keyboard.
 	- <b>Implementation</b>: 'selected' variable points to a game object. When CDirectInput class tells that left mouse button was pressed on top of a cancel button in action menu or 'esc' was pressed on keyboard a 'cancel' command is sent to selected game object. Because the object is being built, the cancel command cancels the building process. Action queue, action menu and info screen is asked to update themselves.
 
-2.1.7	Using action queue to develop technology and build mechs
+2.1.7	Using action queue to develop technology
 
 	- <b>Performing</b>: Select a building you want to use to build or develop something. After selection the objects action menu shows all the building/development possibilities. Clicking one of them with left mouse button adds it to the objects action queue to be built/developed. Building/developement of an item can be cancelled by clicking it with left mouse button. Every command has also a shortcut key.
-	- <b>Implementation</b>: If 'selected' variable is not empty, CDirectInput class tells that left mouse button was pressed on top of action menus item and the action queue is not full, the item is added to the queue. If left mouse button is pressed over the item in queue a cancel message is sent to the item.
+	- <b>Implementation</b>: If 'selected' variable is not empty, CDirectInput class tells that left mouse button was pressed on top of action menus item and the action queue is not full, the item is added to the queue. If left mouse button is pressed over the item in queue a cancel message is sent to the item. The queue will be popped every time the previous item is completed, the resources are checked just in time. If resources are too few for queued item, it will be set pending, and it will wait until resources are available.
 
 2.1.8	Changing mech's mode
 
