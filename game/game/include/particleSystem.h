@@ -1,13 +1,13 @@
 #ifndef PARTICLE_SYSTEM_H
 #define PARTICLE_SYSTEM_H
 
-#include "d3dUtil.h"
+#include "animation.h"
 
-class CParticleSystem
+class CParticleSystem : public MAnimation
 {
 private:
 public:
-	CParticleSystem(int aParticles, char aPosNum, char aColorNum, char aSizeNum, const char *aTexFile);
+	CParticleSystem(int aParticles, int aDuration, char aPosNum, char aColorNum, char aSizeNum, const char *aTexFile);
 	~CParticleSystem();
 
 	void setDefaultColor(const D3DCOLOR *aColor);
@@ -15,10 +15,14 @@ public:
 	void enableLooping(bool aLooping);
 	void setTexture(const char *aTexFile);
 
-	void setParticle(int aIndex, int aLife, const D3DXVECTOR3 *aPos, const D3DCOLOR *aColor, const float *aSize);
+	void setParticle(int aIndex, int aLife, int aStartingTime, const D3DXVECTOR3 *aPos, const D3DCOLOR *aColor, const float *aSize);
 
-	void draw(int aTime);
+	void draw(uint32 aTime);
+	uint32 getDuration();
+	void release();
+	void restore();
 private:
+	int				mDuration;
 	int				mFVF;
 	int				mVertexSize;
 	int				mParticles;
@@ -28,6 +32,7 @@ private:
 	D3DCOLOR **		mColor;
 	float **		mSize;
 	int *			mLife;
+	int *			mStartingTime;
 
 	bool			mDefaultColor;
 	bool			mDefaultSize;

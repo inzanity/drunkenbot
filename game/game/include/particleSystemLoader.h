@@ -18,7 +18,7 @@ private:
 	static int getNumberFromTable(lua_State *aState, int aLuaType, const char *aKey, const char *aFunc);
 	static int initParticleSystem(lua_State *aState);
 	static int setParticle(lua_State *aState);
-	static int frand(lua_State *aState);
+	static int rgba(lua_State *aState);
 	static int rgb(lua_State *aState);
 	static int setDefaultColor(lua_State *aState);
 	static int setDefaultSize(lua_State *aState);
@@ -26,6 +26,7 @@ private:
 	static CParticleSystem *mParticleSystem;
 	static const char *mFileName;
 	static char *mErrorMsg;
+	static int mPosNum, mColorNum, mSizeNum;
 //	static int mCoordinates, mColors, mSizes;
 };
 
