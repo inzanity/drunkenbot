@@ -6,15 +6,17 @@
 
 using namespace std;
 
-CTextEngine::CTextEngine() : mMapSymbols(NULL), mBotSymbols(NULL)
+CTextEngine::CTextEngine() : mMapSymbols(NULL), mBotSymbols(NULL), mBulletSymbols(NULL)
 {
 	mMapSymbols = " #o. $u, Ms' %n` ";
 	mBotSymbols = "@0&P";
-	cout << "\033[2J\033[1;1H";
+	mBulletSymbols = "-\\|/";
+	cout << "\033[2J\033[?25l" << endl;
 }
 
 CTextEngine::~CTextEngine()
 {
+	cout << "\033[?25h\033[2J" << endl << "\033[1;1H";
 }
 
 void CTextEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
@@ -34,7 +36,7 @@ void CTextEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 			else
 				cTemp = aTilemap[i][j];
 			if (cTemp >> 7 != cOld)
-				cout << "\033[" << (cTemp >> 7?"0m":"0;34m");;
+				cout << "\033[" << (cTemp >> 7?"0;34m":"0m");;
 			cout << mMapSymbols[cTemp & 15];
 			cOld = cTemp >> 7;
 		}
@@ -46,13 +48,18 @@ void CTextEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 {
 	int x, y;
+	char out;
 	x = (int)aGameObj->xPos();
 	y = (int)aGameObj->yPos();
+	if ((aGameObj->type() & 0xf) == EObjectBot)
+		out = mBotSymbols[(aGameObj->type() >> 8) & 3];
+	else
+		out = mBulletSymbols[int((((const CMovingGameObj *)aGameObj)->movingDirection()) / PI * 4 + .5f) & 3];
 	if (mActiveBot)
 	{
 		if (!(mActiveBot->botAI()->mTilemap->getTile(x - mActiveBot->spawningXPos(), y - mActiveBot->spawningYPos()) >> 7))
-			printf("\033[%d;%dH%c\n", y + 1, x + 1, mBotSymbols[(aGameObj->type() >> 4) & 3]);
+			printf("\033[%d;%dH\033[1;36m%c\n", y + 1, x + 1, out);
 	}
 	else
-		printf("\033[%d;%dH%c\n", y + 1, x + 1, mBotSymbols[(aGameObj->type() >> 4) & 3]);
+		printf("\033[%d;%dH\033[1;36m%c\n", y + 1, x + 1, out);
 }
