@@ -12,10 +12,10 @@ The characters of the game walk around in the world. They can be moved either by
 6.4	Scale
 The world is rather limited, about 2 by 2 kilometres wide.
 
-6.5 Physics
+6.5	Physics
 Physics in the game are rather simple, there is no flying or jumping. Bigger objects move slower, and objects of certain size cannot be made to get down a steep drop.
 
-6.6 Time
+6.6	Time
 The game takes place in distant future, on a different planet, where days are shorter than on the Earth.
 
 6.7	Society/culture
