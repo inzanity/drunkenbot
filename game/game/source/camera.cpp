@@ -55,6 +55,13 @@ void CCamera::transform(uint32 aTimeFactor)
 			{
 				mDestPos = ptr->getEyePos();
 				mDestOrientation = *ptr->orientation();
+				float x, y;
+				D3DXQUATERNION rotation;
+				ptr->upperBodyAngle(&x, &y);
+				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(1, 0, 0), y);
+				mDestOrientation *= rotation;
+				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), x);
+				mDestOrientation *= rotation;
 			}
 		}
 		if (aTimeFactor >= mTimeToDest)
@@ -74,6 +81,13 @@ void CCamera::transform(uint32 aTimeFactor)
 			{
 				mPos = ptr->getEyePos();
 				mOrientation = *ptr->orientation();
+				float x, y;
+				D3DXQUATERNION rotation;
+				ptr->upperBodyAngle(&x, &y);
+				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(1, 0, 0), y);
+				mOrientation *= rotation;
+				D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), x);
+				mOrientation *= rotation;
 			}
 	}
 	// Update using current speed

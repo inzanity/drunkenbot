@@ -41,18 +41,17 @@ void CFPSModeUI::handleInput()
 		mech->setRotSpeed(&D3DXQUATERNION(0, 0, 0, 1));
 	}
 
-	if (directInput->isPressed(MOVE_FORWARD))
+	if (directInput->isPressed(MOVE_LEFT))
 	{
-		if (mouseY < 200)
-		{
-			D3DXQUATERNION quaternion(-.001f, 0, 0, 1);
-			mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
-		}
-		else if (mouseY > d3dObj->height() - 200)
-		{
-			D3DXQUATERNION quaternion(1, 0, 0, 0.001f);
-			mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
-		}
+		D3DXQUATERNION rotation;
+		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), -.0005f);
+		mech->setRotSpeed((const D3DXQUATERNION *)&rotation);
+	}
+	else if (directInput->isPressed(MOVE_RIGHT))
+	{
+		D3DXQUATERNION rotation;
+		D3DXQuaternionRotationAxis(&rotation, &D3DXVECTOR3(0, 1, 0), .0005f);
+		mech->setRotSpeed((const D3DXQUATERNION *)&rotation);
 	}
 
 	if (directInput->isPressed(MOVE_UP))
@@ -71,16 +70,26 @@ void CFPSModeUI::handleInput()
 		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, -.005f), &mat);
 		mech->setSpeed((const D3DXVECTOR3 *)&out);
 	}
+
 	if (mouseX < 200)
 	{
-		D3DXQUATERNION quaternion(0, -.001f, 0, 1);
-		mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
+		mech->setUpperBodyAngleXSpeed(-.0005f);
 	}
 	else if (mouseX > d3dObj->width() - 200)
 	{
-		D3DXQUATERNION quaternion(0, .001f, 0, 1);
-		mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
+		mech->setUpperBodyAngleXSpeed(.0005f);
 	}
+	else mech->setUpperBodyAngleXSpeed(.0f);
+
+	if (mouseY < 100)
+	{
+		mech->setUpperBodyAngleYSpeed(-.0005f);
+	}
+	else if (mouseY > d3dObj->height() - 100)
+	{
+		mech->setUpperBodyAngleYSpeed(.0005f);
+	}
+	else mech->setUpperBodyAngleYSpeed(.0f);
 }
 
 void CFPSModeUI::draw(uint32 aTime)
@@ -107,7 +116,7 @@ void CFPSModeUI::draw(uint32 aTime)
 	d3dObj->mMatrixStack->Push();
 	D3DXMATRIX *identityMatrix = d3dObj->mMatrixStack->GetTop();
 	D3DXMatrixIdentity(identityMatrix);
-	d3dObj->mMatrixStack->Translate(0.55, -0.35, 1.5);
+	d3dObj->mMatrixStack->Translate(0.55f, -0.35f, 1.5f);
 	d3dObj->mMatrixStack->RotateAxisLocal(&D3DXVECTOR3(1, 0, 0), 3.1415f/2.0f);
 	mRadarAnim->draw(aTime);
 	d3dObj->mMatrixStack->Pop();
@@ -116,7 +125,7 @@ void CFPSModeUI::draw(uint32 aTime)
 	identityMatrix = d3dObj->mMatrixStack->GetTop();
 	D3DXMatrixIdentity(identityMatrix);
 	d3dObj->mMatrixStack->RotateAxis(&D3DXVECTOR3(vec.x, vec.z, vec.y), angle);
-	d3dObj->mMatrixStack->Translate(0.55, -0.35, 1.5);
+	d3dObj->mMatrixStack->Translate(0.55f, -0.35f, 1.5f);
 	if (vec.y < 0) angle = 2 * D3DX_PI - angle;
 	float radarRange2 = mech->radarRange() * mech->radarRange();
 	float scale = sqrt(mRadarAnim->getRadiusSqr()) / mech->radarRange();

@@ -6,8 +6,9 @@
 
 CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
 	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/mech.x"), 1.f, aPos, aOrientation),
-	mUpperBody(CAnimationStorage::ptr()->getAnimation("data/mechTop.x")), mUBOrientation(0, 0, 0, 1),
-	mFPSMode(false), mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true)
+	mUpperBody(CAnimationStorage::ptr()->getAnimation("data/mechTop.x")), mUpperBodyAngleX(0),
+	mUpperBodyAngleY(0), mUpperBodyAngleXSpeed(0), mUpperBodyAngleYSpeed(0), mFPSMode(false),
+	mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true)
 {
 	const TBox *box = mAnimation->getBoundingBox();
 	mUBPos = D3DXVECTOR3(0, box->mMax.y, 0);
@@ -54,6 +55,7 @@ void CMech::handleMessage(CMessage *aMsg)
 void CMech::update(uint32 aTimeFactor)
 {
 	CDrawable::update(aTimeFactor);
+	addUpperBodyAngle(aTimeFactor * mUpperBodyAngleXSpeed, aTimeFactor * mUpperBodyAngleYSpeed);
 	float h = game->mHeightMap->height(mPos.x, mPos.z);
 	if (mPos.y > h + GRAVITY)
 		mPos.y -= GRAVITY;
@@ -80,6 +82,34 @@ bool CMech::radarDelay() const
 	return mRadarDelay;
 }
 
+void CMech::upperBodyAngle(float *aAngleX, float *aAngleY)
+{
+	if(aAngleX != NULL)	*aAngleX = mUpperBodyAngleX;
+	if(aAngleX != NULL)	*aAngleY = mUpperBodyAngleY;
+}
+
+void CMech::setUpperBodyAngle(float aAngleX, float aAngleY)
+{
+	mUpperBodyAngleX = aAngleX;
+	mUpperBodyAngleY = aAngleY;
+}
+
+void CMech::addUpperBodyAngle(float aAngleX, float aAngleY)
+{
+	mUpperBodyAngleX += aAngleX;
+	mUpperBodyAngleY += aAngleY;
+}
+
+void CMech::setUpperBodyAngleXSpeed(float angle) 
+{
+	mUpperBodyAngleXSpeed = angle;
+}
+
+void CMech::setUpperBodyAngleYSpeed(float angle) 
+{
+	mUpperBodyAngleYSpeed = angle;
+}
+
 void CMech::draw(uint32 aTimeFactor)
 {
 	d3dObj->mMatrixStack->Push();
@@ -94,8 +124,8 @@ void CMech::draw(uint32 aTimeFactor)
 	if (mAnimation)
 		mAnimation->draw(mAnimTime);
 	d3dObj->mMatrixStack->TranslateLocal(mUBPos.x, mUBPos.y, mUBPos.z);
-	D3DXQuaternionToAxisAngle(&mUBOrientation, &vec, &angle);
-	d3dObj->mMatrixStack->RotateAxisLocal(&vec, angle);
+	d3dObj->mMatrixStack->RotateAxisLocal(&D3DXVECTOR3(0, 1, 0), mUpperBodyAngleX);
+	d3dObj->mMatrixStack->RotateAxisLocal(&D3DXVECTOR3(1, 0, 0), mUpperBodyAngleY);
 	if (mUpperBody)
 		mUpperBody->draw(mAnimTime);
 	d3dObj->mMatrixStack->Pop();

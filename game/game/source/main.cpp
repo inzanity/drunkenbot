@@ -59,7 +59,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 	}
 
 	// Create window
-	hWnd = CreateWindow(KClassName,	KWindowName, WS_OVERLAPPEDWINDOW ^ WS_SIZEBOX ^ WS_MAXIMIZEBOX, CW_USEDEFAULT, CW_USEDEFAULT, KScreenWidth, KScreenHeight, NULL, NULL, aHInst, NULL);
+	hWnd = CreateWindow(KClassName,	KWindowName, WS_OVERLAPPEDWINDOW ^ WS_SIZEBOX ^ WS_MAXIMIZEBOX, 10, 10, KScreenWidth, KScreenHeight, NULL, NULL, aHInst, NULL);
 //	hWnd = CreateWindow(KClassName,	KWindowName, WS_POPUP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), NULL, NULL, aHInst, NULL);
 	if (hWnd)
 	{

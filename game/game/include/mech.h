@@ -18,10 +18,16 @@ public:
 	D3DXVECTOR3 getEyePos() const;
 	float radarRange() const;
 	bool radarDelay() const;
+	void upperBodyAngle(float *aAngleX, float *aAngleY);
+	void setUpperBodyAngle(float aAngleX, float aAngleY);
+	void setUpperBodyAngleXSpeed(float angle);
+	void setUpperBodyAngleYSpeed(float angle);
 private:
+	void addUpperBodyAngle(float aAngleX, float aAngleY);
 	MAnimation *mUpperBody;
 	D3DXVECTOR3 mUBPos;
-	D3DXQUATERNION mUBOrientation;
+	float mUpperBodyAngleX, mUpperBodyAngleY; 
+	float mUpperBodyAngleXSpeed, mUpperBodyAngleYSpeed; 
 	float mRadarRange;
 	bool mRadarDelay;
 	float mSize;
