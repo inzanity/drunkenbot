@@ -84,6 +84,13 @@ int CBotAI::action() const
 
 bool CBotAI::checkAction() const
 {
+	if ((mData->actionDelay() && mAction > EActionTurn) ||
+		(mData->bunkered() && (mAction & EActionMove)))
+		return false;
+	int action = mAction & KExclusiveActions;
+	if (action != 0 && action != EActionShoot && action != EActionBunker &&
+		action != EActionPickWeapon && action != EActionDropWeapon)
+		return false;
 	return true;
 }
 
