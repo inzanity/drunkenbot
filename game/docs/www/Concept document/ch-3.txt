@@ -44,7 +44,7 @@ Mech has following automatic operation modes (enabled by AI technologies, see 3.
 	- Defence mode
 
 3.3.2	Buildings and technology tree
-Game contains one set of buildings and technologies for player to use. However, different sets are used for enemies in single player game. These sets is called technology trees. Technology tree consists of buildings, and dependence relationships between buildings and technologies. Because technology trees are fully configurable by tools (see 7.1), and has to be balanced by tweaking, they are not defined in this document. However, there is several buildings and relationships common to all technology trees. Each building is defined by following properties:
+Game contains one set of buildings and technologies for player to use. However, different sets are used for enemies in single player game. These sets is called technology trees. Technology tree consists of buildings, and dependence relationships between buildings and technologies. Because technology trees are fully configurable by tools (see 7.1), and has to be balanced by tweaking, they are not defined in this document. However, there are several buildings and relationships common to all technology trees. Each building is defined by following properties:
 	- Cost in metals
 	- Cost in chemicals
 	- Power consumption
@@ -161,21 +161,20 @@ Victory can be achieved by accomplishing all the goals. In that case, game is en
 3.5.1	Controls
 
 3.5.1.1	RTS mode controls
-In RTS mode, everything can be done using the mouse. Screen is scrolled by moving cursor to the side of the screen or with arrow keys. One building or mech can be selected at the time by left clickin it, and it can be unselected by left clicking empty map or pressing esc. Shortcut can be binded to selected object by pressing ctrl + number key. Pressing binded number key will select that object later. If nothing is selected, all buildings are shown as a list of buttons in the Action box (see 3.5.2.2). Pushing the button will make the mouse cursor look like the building, and the building can be started by selecting (left clicking) an empty location for it. Building action can be cancelled by right clicking anywhere or pressing esc. If building is already started, it can be cancelled by selecting the building and left clicking "Cancel" button from the action menu or pressing esc.
+In RTS mode, everything can be done using the mouse. Screen is scrolled by moving cursor to the side of the screen or with arrow keys. One building or mech can be selected at the time by left clickin it, and it can be unselected by left clicking empty map or pressing esc. Shortcut can be binded to selected object by pressing ctrl + number key. Pressing binded number key will select that object later. If nothing is selected, all buildings are shown as a list of buttons in the Action list (see 3.5.2.2). Pushing the button will make the mouse cursor look like the building, and the building can be started by selecting (left clicking) an empty location for it. Building action can be cancelled by right clicking anywhere or pressing esc. If building is already started, it can be cancelled by selecting the building and left clicking "Cancel" button from the action menu or pressing esc.
 
-If building is selected, all technologies and upgrades from that building are shown as a list of buttons in the Action box. Buttons are disabled, if the technology or upgrade is not available. When button is left clicked, item is added to the queue (see 3.5.2.3). If upgrade can be done several times (armour, speed, upper body turning and size upgrades, see 3.3.3), pushing the button again adds another upgrade to the queue.
+If building is selected, all technologies and upgrades from that building are shown as a list of buttons in the Action list. Buttons are disabled, if the technology or upgrade is not available. When button is left clicked, item is added to the queue (see 3.5.2.3). If upgrade can be done several times (armour, speed, upper body turning and size upgrades, see 3.3.3), pushing the button again adds another upgrade to the queue.
 
-If the mech is selected, all actions and automatic operation modes are shown as a list of buttons in Action box. After selecting move, patrol, attack or building the power distribution system, destination of the action has to be selected by left clicking on the map. These actions can be cancelled by right clicking anywhere, or pressing esc. If shift key is being pressed while selecting the action, action will be appended to the queue. Otherwise selected action will be the only action in the queue. Patrol is an exception to this rule, anything appended to the queue will remove patrol from it (as it lasts "forever").
+If the mech is selected, all actions and automatic operation modes are shown as a list of buttons in Action list. After selecting move, patrol, attack or building the power distribution system, destination of the action has to be selected by left clicking on the map. These actions can be cancelled by right clicking anywhere, or pressing esc. If shift key is being pressed while selecting the action, action will be appended to the queue. Otherwise selected action will be the only action in the queue. Patrol is an exception to this rule, anything appended to the queue will remove patrol from it (as it lasts "forever").
 
 Every action in the game has a shortcut key. For example, pressing 's' when mech is selected will stop the mech. Items from the queue can be cancelled and removed by left clicking the item. Queue has a fixed length, and new actions can't be selected while queue is full. Player can change to the FPS mode by double clicking the mech, pressing enter when mech is selected or pressed binded number key of the selected mech (after selection).
-
-<p><a href="docs/images/rts.jpg">kuva</a></p>
 
 3.5.1.2	FPS mode controls
 Controlling the mech requires both the mouse and the keyboard. Upper body can be turned using mouse. Pressing 'w' key moves the mech forwards, and 's' moves it backwards. Turning of the mech can be done with 'a' and 'd' keys. Left mouse button is used for shooting, right mouse button for changing weapon. There are shortcut keys for automatic operation modes, and for building the power distribution system. If scout, attack or defence automatic operation mode is selected, moving the mech manually returns it to autofire mode. Pressing esc or binded shortcut number returns the game to the RTS mode.
 
 3.5.2	Interfaces
-[Create wireframes for every interface the artists will need to create. Along with each wireframe should be a description of how it functions. Detail out the various stages for each interface.]
+<p><img src="docs/images/rts.jpg"></p>
+<p><img src="docs/images/fps.jpg"></p>
 
 3.5.3	Feedback
 Few lines of text can be shown on the screen. Following information or warnings can be displayed:
