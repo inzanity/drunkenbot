@@ -1,5 +1,4 @@
-2.1.9 - Vois olla yleisemmin mech actions.
-2.1.9 / 2.2.3 Shooting Dama mallista vois kertoo jotain
+2.2.3 Shooting Dama mallista vois kertoo jotain
 3.1.X - Upgrading mechs. Kun esim joku ase on kehitetty, niin mechit pitää vielä yks kerrallaan upgradettaa. Onko just rakennetulla mechillä muuten upgradet, vai pitääkö nekin päivittää?
 3.1.4 - Resurssejen kerääntyminen on myös toiminnallisuutta.
 3.1.5 - Yön ja päivän vaihtelusta enemmän. Salamat ei tee damaa.
