@@ -92,6 +92,21 @@ bool CGameEngine::loop()
 	for (i = 0; i < mBotNum; i++)
 		if (!mBots[i]->update())
 			mBots[i]->spawn((const char **)mTilemap, mMapWidth, mMapHeight, (const CGameObj **)mBots, (const CWeapon *)mWeaponTypes[0]);
+	while (mWeaponList.size() < (unsigned int)mWeaponNum - 1)
+	{
+		float x, y;
+		char tile;
+		do {
+			x = 1 + rand() % (mMapWidth-2);
+			y = 1 + rand() % (mMapHeight-2);
+			tile = mTilemap[int(y - .5f)][int(x + .5f)] &
+				mTilemap[int(y - .5f)][int(x - .5f)] &
+				mTilemap[int(y + .5f)][int(x + .5f)] &
+				mTilemap[int(y + .5f)][int(x - .5f)];
+		} while ((tile & KTileTypeMask) != CTilemap::ETileEmpty);
+		mWeaponList.push_back(new CWeaponInfo(mWeaponTypes[rand() % (mWeaponNum - 1) + 1], x, y));
+	}
+
 	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
 		if (!(*bulIter)->update())
 		{
@@ -103,7 +118,7 @@ bool CGameEngine::loop()
 						&mBulletList, &mWeaponList, &mVoiceList);
 	mVoiceList.clear();
 	for (i = 0; i < mBotNum; i++)
-		mBots[i]->performActions(&mBulletList, &mVoiceList);
+		mBots[i]->performActions(&mBulletList, &mVoiceList, &mWeaponList, (const CWeapon *)mWeaponTypes[0]);
 	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
 		(*bulIter)->chkCollision((const char **)mTilemap, (CBotInfo **)mBots, false);
 	for (i = 0; i < mBotNum; i++)
@@ -114,6 +129,7 @@ bool CGameEngine::loop()
 void CGameEngine::draw(float aTimeInterval, int aBotIndex)
 {
 	std::list<CBulletInfo *>::iterator bulIter;
+	std::list<CWeaponInfo *>::iterator weaIter;
 	if (!mGfxEngine)
 		return;
 	mGfxEngine->setActiveBot(aBotIndex >= 0 && aBotIndex < mBotNum ? mBots[aBotIndex] : NULL);
@@ -121,8 +137,10 @@ void CGameEngine::draw(float aTimeInterval, int aBotIndex)
 	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
 	{
 		(*bulIter)->move(aTimeInterval);
-		mGfxEngine->drawGameObj((*bulIter));
+		mGfxEngine->drawGameObj(*bulIter);
 	}
+	for (weaIter = mWeaponList.begin(); weaIter != mWeaponList.end(); weaIter++)
+		mGfxEngine->drawGameObj(*weaIter);
 	for (int i = 0; i < mBotNum; i++)
 	{
 		mBots[i]->move(aTimeInterval);
