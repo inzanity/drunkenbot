@@ -78,7 +78,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ../tools/lua/lib/lua.lib ../tools/lua/lib/lualib.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib ../tools/lua/lib/lua.lib ../tools/lua/lib/lualib.lib /nologo /subsystem:windows /debug /machine:I386 /nodefaultlib:"libcd.lib" /pdbtype:sept
 
 !ENDIF 
 
@@ -92,6 +92,10 @@ LINK32=link.exe
 # Begin Source File
 
 SOURCE=.\source\animation.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\source\animationStorage.cpp
 # End Source File
 # Begin Source File
 
@@ -129,6 +133,14 @@ SOURCE=.\source\particleSystemLoader.cpp
 
 SOURCE=.\source\skybox.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\source\stdafx.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\source\texture.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -136,6 +148,10 @@ SOURCE=.\source\skybox.cpp
 # Begin Source File
 
 SOURCE=.\include\animation.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\animationStorage.h
 # End Source File
 # Begin Source File
 
@@ -163,10 +179,6 @@ SOURCE=.\include\indexList.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\source\indexList.inl
-# End Source File
-# Begin Source File
-
 SOURCE=.\include\message.h
 # End Source File
 # Begin Source File
@@ -181,10 +193,10 @@ SOURCE=.\include\particleSystemLoader.h
 
 SOURCE=.\include\skybox.h
 # End Source File
-# End Group
-# Begin Group "Resource Files"
+# Begin Source File
 
-# PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+SOURCE=.\include\texture.h
+# End Source File
 # End Group
 # End Target
 # End Project
