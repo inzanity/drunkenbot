@@ -41,7 +41,7 @@ namespace ParticleEditor
 		private float xRot, yRot, dist;
 		private bool[] buttonPressed = new bool[6];
 		private bool play = false;
-		private String homeDir = Directory.GetCurrentDirectory();
+		private String homeDir = Application.StartupPath;
 		private int width, height;
 
 		private System.Windows.Forms.StatusBar statusBar1;
