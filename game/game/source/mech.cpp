@@ -29,8 +29,8 @@ CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, float aXAngle, float 
 	mBoundingBox.mMax.y = max(b1->mMax.y, b2->mMax.y);
 	mBoundingBox.mMax.z = max(b1->mMax.z, b2->mMax.z);
 
-	mBoundingBox.mMin.x = mBoundingBox.mMin.z = (mBoundingBox.mMin.x + mBoundingBox.mMin.z / 2.0f);
-	mBoundingBox.mMax.x = mBoundingBox.mMax.z = (mBoundingBox.mMax.x + mBoundingBox.mMax.z / 2.0f);
+	mBoundingBox.mMin.x = mBoundingBox.mMin.z = (mBoundingBox.mMin.x + mBoundingBox.mMin.z) / 2.0f;
+	mBoundingBox.mMax.x = mBoundingBox.mMax.z = (mBoundingBox.mMax.x + mBoundingBox.mMax.z) / 2.0f;
 	
 	mRadius = max(mAnimation->getRadiusSqr(), mUpperBody->getRadiusSqr());
 }
@@ -61,11 +61,18 @@ void CMech::checkMapCollision(uint32 aTimeFactor)
 	D3DXVECTOR3 dest = (mSpeed * aTimeFactor + mPos);
 	dest.y += box->mMin.y;
 
-	if(	  (dest.y + maxRise< game->mHeightMap->height(dest.x, dest.z))
-		||(dest.y + maxRise< game->mHeightMap->height(dest.x + box->mMax.x, dest.z + box->mMax.z))
-		||(dest.y + maxRise< game->mHeightMap->height(dest.x + box->mMin.x, dest.z + box->mMin.z))
-		||(dest.y + maxRise< game->mHeightMap->height(dest.x + box->mMin.x, dest.z + box->mMax.z))
-		||(dest.y + maxRise< game->mHeightMap->height(dest.x + box->mMax.x, dest.z + box->mMin.z))
+	if(   (dest.y + maxRise < game->mHeightMap->height(dest.x + box->mMax.x, dest.z + box->mMax.z))
+		||(dest.y + maxRise < game->mHeightMap->height(dest.x + box->mMin.x, dest.z + box->mMin.z))
+		||(dest.y + maxRise < game->mHeightMap->height(dest.x + box->mMin.x, dest.z + box->mMax.z))
+		||(dest.y + maxRise < game->mHeightMap->height(dest.x + box->mMax.x, dest.z + box->mMin.z))
+		) 
+		handleCollision(NULL);
+
+	float maxFall = 1.0f;
+	if(   (dest.y - maxFall > game->mHeightMap->height(dest.x + box->mMax.x, dest.z + box->mMax.z))
+		||(dest.y - maxFall > game->mHeightMap->height(dest.x + box->mMin.x, dest.z + box->mMin.z))
+		||(dest.y - maxFall > game->mHeightMap->height(dest.x + box->mMin.x, dest.z + box->mMax.z))
+		||(dest.y - maxFall > game->mHeightMap->height(dest.x + box->mMax.x, dest.z + box->mMin.z))
 		) 
 		handleCollision(NULL);
 }

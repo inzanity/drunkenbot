@@ -81,13 +81,34 @@ void MColliding::checkCollision(MColliding *aObj, uint32 aTimeFactor)
 	TBox obj1 = *boundingBox();
 	TBox obj2 = *aObj->boundingBox();
 
-	obj1.mMax += *speed() * aTimeFactor + *pos();
+	float width1, height1, length1;
+	float width2, height2, length2;
+
+	height1 = fabs(obj1.mMin.y - obj1.mMax.y);
+	height2 = fabs(obj2.mMin.y - obj2.mMax.y);
+
+	width1 = fabs(obj1.mMin.x - obj1.mMax.x);
+	width2 = fabs(obj2.mMin.x - obj2.mMax.x);
+
+	length1 = fabs(obj1.mMin.z - obj1.mMax.z);
+	length2 = fabs(obj2.mMin.z - obj2.mMax.z);
+
+	D3DXVECTOR3 pos1 = D3DXVECTOR3((obj1.mMax.x - width1) / 2, (obj1.mMax.y - height1) / 2, (obj1.mMax.z - length1) / 2); 
+	D3DXVECTOR3 pos2 = D3DXVECTOR3((obj2.mMax.x - width2) / 2, (obj2.mMax.y - height2) / 2, (obj2.mMax.z - length1) / 2); 
+
+	pos1 += *speed() * aTimeFactor + *pos();
+	pos2 += *aObj->speed() * aTimeFactor + *aObj->pos();
+
+/*	obj1.mMax += *speed() * aTimeFactor + *pos();
 	obj1.mMin += *speed() * aTimeFactor + *pos();
 	obj2.mMax += *aObj->speed() * aTimeFactor + *aObj->pos();
 	obj2.mMin += *aObj->speed() * aTimeFactor + *aObj->pos();
+*/
+	if (fabs(pos1.x - pos2.x) < (width1+width2)/2 && fabs(pos1.y - pos2.y) < (height1+height2)/2 &&
+		fabs(pos1.z - pos2.z) < (length1+length2)/2 )
+		handleCollision(NULL);
 
-
-	if ((obj1.mMax.x < obj2.mMax.x && obj1.mMax.x > obj2.mMin.x &&
+/*	if ((obj1.mMax.x < obj2.mMax.x && obj1.mMax.x > obj2.mMin.x &&
 		 obj1.mMax.y < obj2.mMax.y && obj1.mMax.y > obj2.mMin.y &&
 		 obj1.mMax.z < obj2.mMax.z && obj1.mMax.z > obj2.mMin.z) ||
 
@@ -153,7 +174,7 @@ void MColliding::checkCollision(MColliding *aObj, uint32 aTimeFactor)
 	{
 		handleCollision(aObj);
 		aObj->handleCollision(this);
-	}
+	}*/
 }
 
 // CDrawable
