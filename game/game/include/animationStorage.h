@@ -6,8 +6,7 @@
 #include <map>
 #include <string>
 
-using std::map;
-using std::string;
+using namespace std;
 
 class CAnimationStorage
 {
