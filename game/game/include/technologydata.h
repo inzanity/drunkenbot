@@ -12,11 +12,12 @@ public:
 
 	void setRequires(std::vector<uint32> &aRequires);
 	void setId(uint32 aId);
-	void setName(std::string aName);
+	void setName(const char *aName);
 	void setPriceMineral(uint32 aPriceMineral);
 	void setPriceGas(uint32 aPriceGas);
 	void setDevelopTime(uint32 aDevelopTime);
 	void setPicture(CTexture *aPicture);
+	void setShortcut(int aShortcut);
 
 	uint32 *getRequires() const;
 	uint32 getNumRequires() const;
@@ -26,6 +27,7 @@ public:
 	uint32 getPriceGas() const;
 	uint32 getDevelopTime() const;
 	CTexture *getPicture() const;
+	int getShortcut() const;
 
 private:
 	uint32 *mRequires;
@@ -36,6 +38,7 @@ private:
 	uint32 mPriceGas;
 	uint32 mDevelopTime;
 	CTexture *mPicture;
+	int mShortcut;
 };
 
 #endif /* TECHNOLOGYDATA_H */

@@ -27,6 +27,7 @@ public:
 	uint32 getPiercingDamage() const;
 	uint32 getExplosiveDamage() const;
 	uint32 getAccuracy() const;
+	int getShortcut() const;
 
 	void setRequires(std::vector<uint32> &aRequires);
 	void setId(uint32 aId);
@@ -43,6 +44,7 @@ public:
 	void setPiercingDamage(uint32 aPiercingDamage);
 	void setExplosiveDamage(uint32 aExplosiveDamage);
 	void setAccuracy(uint32 aAccuracy);
+	void setShortcut(int aShortcut);
 
 private:
 	uint32 *mRequires;
@@ -61,6 +63,7 @@ private:
 	uint32 mPiercingDamage;
 	uint32 mExplosiveDamage;
 	uint32 mAccuracy;
+	int mShortcut;
 };
 
 #endif /* WEAPONDATA_H */

@@ -34,7 +34,8 @@ public:
 				  uint32 aEnergyConsumption,
 				  enum BuildingType aBuildingType,
 				  uint32 aWeapon,
-				  CTexture *aPicture);
+				  CTexture *aPicture,
+				  int aShortcut);
 	/**
 	 * Destructor.
 	 */
@@ -56,6 +57,7 @@ public:
 	void setWeapon(uint32 aWeapon);
 	void setPicture(CTexture *aPicture);
 	void setTechnologies(const std::vector<uint32> &aTechnologies);
+	void setShortcut(int aShortcut);
 
 	uint32 getId() const;
 	MAnimation *getAnimation() const;
@@ -76,8 +78,8 @@ public:
 	enum BuildingType getBuildingType() const;
 	uint32 getWeapon() const;
 	CTexture *getPicture() const;
+	int getShortcut() const;
 
-	void dumpData() const;
 private:
 	uint32 mId;
 	MAnimation *mAnimation;
@@ -99,6 +101,7 @@ private:
 	enum BuildingType mBuildingType;
 	uint32 mWeapon;
 	CTexture *mPicture;
+	int mShortcut;
 };
 
 #endif // BUILDINGDATA_H

@@ -9,6 +9,7 @@
 class CPlayer
 {
 public:
+	CPlayer(const char *aDataFile);
 	CPlayer(CBuildingData **aBuildings, int aNumBuildings);
 	CBuildingData *getBuildingData(int aIndex) const;
 	CTechnologyData *getTechnologyData(int aIndex) const;
@@ -20,6 +21,11 @@ public:
 	int numUpgrades() const;
 	int minerals() const;
 	void setMinerals(int aMinerals);
+
+	void setBuildingData(std::vector<CBuildingData *> &aBuildingData);
+	void setTechnologyData(std::vector<CTechnologyData *> &aTechnologyData);
+	void setWeaponData(std::vector<CWeaponData *> &aWeaponData);
+	void setUpgradeData(std::vector<CUpgradeData *> &aUpgradeData);
 private:
 	CBuildingData **mBuildings;
 	int mNumBuildings;
