@@ -1,1 +1,14 @@
 3.	Non-interactive functionality
+3.1	RTS-mode
+3.1.1	Attacking enemies or neutrals
+3.1.2	
+
+
+
+
+3.2	FPS-mode
+3.2.1	Radar
+3.2.2	
+
+
+
