@@ -39,6 +39,12 @@ public:
 	 */
 	enum TBotMovingDir {EMoveForward, EMoveBackwards, EMoveLeft, EMoveRight};
 
+	/**
+	 * Bot turning directions. There are only two possible directions. No combinations are allowed.
+	 * @see turn().
+	 */
+	enum TBotTurningDir {ETurnLeft, ETurnRight};
+
 	/** Default constructor. */
 	CBotAI();
 
@@ -73,6 +79,14 @@ public:
 	void move(TBotMovingDir aDir);
 
 	/**
+	 * Turn bot to the given direction.
+	 * If <code>EActionBunker</code>, <code>EActionPickWeapon</code> or <code>EActionDropWeapon</code> is defined,
+	 * it will be cancelled.
+	 * @param aDir Turning direction. If direction is invalid, no action is performed.
+	 */
+	void turn(TBotTurningDir aDir);
+
+	/**
 	 * Shoot to the given direction with the current weapon.
 	 * If <code>EActionBunker</code>, <code>EActionPickWeapon</code> or <code>EActionDropWeapon</code> is defined,
 	 * it will be cancelled. Moving at the same time will decrease precision.
@@ -96,7 +110,7 @@ public:
 	void pickWeapon();
 
 	/**
-	 * Drop a weapon. Action duration 2 rounds.
+	 * Drop a weapon. Action duration 1 round.
 	 * If <code>EActionShoot</code>, <code>EActionBunker</code> or <code>EActionPickWeapon</code> is defined,
 	 * it will be cancelled. Dropped weapon disappears permanently, and it can not be picked up again.
 	 */
@@ -136,6 +150,7 @@ public:
 private:
 	int mAction;
 	TBotMovingDir mMovingDir;
+	TBotMovingDir mTurningDir;
 	float mShootingDir;
 };
 
