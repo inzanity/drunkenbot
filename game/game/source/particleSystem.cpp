@@ -4,8 +4,26 @@
 
 inline DWORD FtoDW(FLOAT f) {return *((DWORD*)&f);}
 
-CParticleSystem::CParticleSystem(int aParticles, char aPosNum, char aColorNum, char aSizeNum, const char *aTexFile) :
-	mFVF(D3DFVF_XYZ), mVertexSize(3 * sizeof(float)),
+#define COLOR_A(x)	((signed)(x >> 24))
+#define COLOR_R(x)	((signed)((x >> 16) & 0xFF))
+#define COLOR_G(x)	((signed)((x >> 8) & 0xFF))
+#define COLOR_B(x)	((signed)(x & 0xFF))
+
+inline float lerp(float x, float y, float s)
+{
+	return (x + (y - x) * s);
+}
+inline D3DCOLOR lerp(D3DCOLOR x, D3DCOLOR y, float s)
+{
+	return D3DCOLOR_ARGB(	(D3DCOLOR)(COLOR_A(x) + (COLOR_A(y) - COLOR_A(x)) * s),
+							(D3DCOLOR)(COLOR_R(x) + (COLOR_R(y) - COLOR_R(x)) * s),
+							(D3DCOLOR)(COLOR_G(x) + (COLOR_G(y) - COLOR_G(x)) * s),
+							(D3DCOLOR)(COLOR_B(x) + (COLOR_B(y) - COLOR_B(x)) * s));
+}
+
+
+CParticleSystem::CParticleSystem(int aParticles, int aDuration, char aPosNum, char aColorNum, char aSizeNum, const char *aTexFile) :
+	mFVF(D3DFVF_XYZ), mVertexSize(3 * sizeof(float)), mDuration(aDuration),
 	mParticles(aParticles), mPosNum(aPosNum), mColorNum(aColorNum), mSizeNum(aSizeNum),
 	mPos(NULL), mColor(NULL), mSize(NULL), mLife(NULL),
 	mTexture(NULL), mVertexBuffer(NULL),
@@ -14,23 +32,23 @@ CParticleSystem::CParticleSystem(int aParticles, char aPosNum, char aColorNum, c
 {
 	mPos = new D3DXVECTOR3 *[mParticles];
 	mLife = new int[mParticles];
+	mStartingTime = new int[mParticles];
+	int posNum = (mPosNum <= 2 ? mPosNum : mPosNum + 2);
 	for (int i = 0; i < mParticles; i++)
 	{
-		mPos[i]= new D3DXVECTOR3[mPosNum];
+		mPos[i]= new D3DXVECTOR3[posNum];
+		for (int j = 0; j < posNum; j++)
+			mPos[i][j] = D3DXVECTOR3(0, 0, 0);
 		mLife[i] = 0;
+		mStartingTime[i] = 0;
 	}
 	HRESULT res;
 	res = D3DXCreateTextureFromFile(d3dObj->mD3DDevice, aTexFile, &mTexture);
-	if (FAILED(res))
-		res = res; // todo
 }
 
 CParticleSystem::~CParticleSystem()
 {
-	if (mVertexBuffer)
-		mVertexBuffer->Release();
-	if (mTexture)
-		mTexture->Release();
+	release();
 }
 
 
@@ -80,16 +98,20 @@ void CParticleSystem::setTexture(const char *aTexFile)
 	D3DXCreateTextureFromFile(d3dObj->mD3DDevice, aTexFile, &mTexture);
 }
 
-void CParticleSystem::setParticle(int aIndex, int aLife, const D3DXVECTOR3 *aPos, const D3DCOLOR *aColor, const float *aSize)
+void CParticleSystem::setParticle(int aIndex, int aLife, int aStartingTime, const D3DXVECTOR3 *aPos, const D3DCOLOR *aColor, const float *aSize)
 {
-	int i;
+	int i, j;
 	if (!mColor && aColor && !mDefaultColor)
 	{
 		mFVF |= D3DFVF_DIFFUSE;
 		mVertexSize += sizeof(float);
 		mColor = new D3DCOLOR *[mParticles];
 		for (i = 0; i < mParticles; i++)
+		{
 			mColor[i] = new D3DCOLOR[mColorNum];
+			for (j = 0; j < mColorNum; j++)
+				mColor[i][j] = RGB(255, 255, 255);
+		}
 	}
 	if (!mSize && aSize && !mDefaultSize)
 	{
@@ -97,12 +119,26 @@ void CParticleSystem::setParticle(int aIndex, int aLife, const D3DXVECTOR3 *aPos
 		mVertexSize += sizeof(float);
 		mSize = new float *[mParticles];
 		for (i = 0; i < mParticles; i++)
+		{
 			mSize[i] = new float[mSizeNum];
+			for (j = 0; j < mSizeNum; j++)
+				mSize[i][j] = .1f;
+		}
 	}
 
-	for (i = 0; i < mPosNum; i++)
-		mPos[aIndex][i] = aPos[i];
+	if (mPosNum > 2)
+	{
+		for (i = 0; i < mPosNum; i++)
+			mPos[aIndex][i + 1] = aPos[i];
+		D3DXVec3Add(&mPos[aIndex][0], &aPos[0], D3DXVec3Subtract(&mPos[aIndex][0], &aPos[0], &aPos[1]));
+		D3DXVec3Add(&mPos[aIndex][mPosNum+1], &aPos[mPosNum-1], D3DXVec3Subtract(&mPos[aIndex][mPosNum+1], &aPos[mPosNum-1], &aPos[mPosNum-2]));
+	}
+	else
+		for (i = 0; i < mPosNum; i++)
+			mPos[aIndex][i] = aPos[i];
+
 	mLife[aIndex] = aLife;
+	mStartingTime[aIndex] = aStartingTime;
 
 	if (aColor)
 		for (i = 0; i < mColorNum; i++)
@@ -112,7 +148,7 @@ void CParticleSystem::setParticle(int aIndex, int aLife, const D3DXVECTOR3 *aPos
 			mSize[aIndex][i] = aSize[i];
 }
 
-void CParticleSystem::draw(int aTime)
+void CParticleSystem::draw(uint32 aTime)
 {
 	LPDIRECT3DDEVICE9 device = d3dObj->mD3DDevice;
 
@@ -123,6 +159,7 @@ void CParticleSystem::draw(int aTime)
 
 	// Set up point sprites
     device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
     device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
@@ -144,15 +181,39 @@ void CParticleSystem::draw(int aTime)
 	int j = 0;
 	for (int i = 0; i < mParticles; i++)
 	{
-		if (mLife[i] <= 0) continue;
-		int time = (mLooping ? aTime % mLife[i] : aTime);
-		float s = mPosNum * time / (float)mLife[i];
-		D3DXVec3Lerp((D3DXVECTOR3 *)&ptr[j], &mPos[i][(int)s], &mPos[i][(int)s + 1], s - (int)s);
+		int t = aTime + mStartingTime[i];
+		if (mLife[i] <= 0 || (!mLooping && t >= mLife[i])) continue;
+		int time = (mLooping ? t % mLife[i] : t);
+		float s = (mPosNum - 1) * time / (float)mLife[i];
+		int is = (int)s;
+		if (mPosNum == 2)
+			D3DXVec3Lerp((D3DXVECTOR3 *)&ptr[j], &mPos[i][is], &mPos[i][is + 1], s - is);
+		else if (mPosNum > 2)
+			D3DXVec3CatmullRom((D3DXVECTOR3 *)&ptr[j], &mPos[i][is], &mPos[i][is + 1], &mPos[i][is + 2], &mPos[i][is + 3], s - is);
+		else
+			memcpy(&ptr[j], mPos[i][0], 3 * sizeof(float));
 		j += 3;
 		if (mFVF & D3DFVF_PSIZE)
-			ptr[j++] = mDefaultSize ? mSize[0][0] : mSize[i][0];
+		{
+			s = (mSizeNum - 1) * time / (float)mLife[i];
+			is = (int)s;
+			if (mDefaultSize)
+				ptr[j] = lerp(mSize[0][is], mSize[0][is + 1], s - is);
+			else
+				ptr[j] = mSizeNum == 1 ? mSize[i][0] : lerp(mSize[i][is], mSize[i][is + 1], s - is);
+			j++;
+		}
 		if (mFVF & D3DFVF_DIFFUSE)
-			((D3DCOLOR *)ptr)[j++] = mDefaultColor ? mColor[0][0] : mColor[i][0];
+		{
+			s = (mColorNum - 1) * time / (float)mLife[i];
+			is = (int)s;
+			if (mDefaultColor) // TODO mDefaultColor && mColorNum == 1 should not be per-vertex
+				((D3DCOLOR *)ptr)[j] = mColorNum == 1 ? mColor[0][0] : lerp(mColor[0][is], mColor[0][is + 1], s - is);
+			else
+				((D3DCOLOR *)ptr)[j] = mColorNum == 1 ? mColor[i][0] : lerp(mColor[i][is], mColor[i][is + 1], s - is);
+
+			j++;
+		}
 	}
 	mVertexBuffer->Unlock();
 
@@ -161,6 +222,23 @@ void CParticleSystem::draw(int aTime)
 	device->SetTexture(0, mTexture);
 	// Render all our particles
 	HRESULT res = device->DrawPrimitive(D3DPT_POINTLIST, 0, mParticles);
-	if (FAILED(res))
-		int teppo = 4 * 3;
+}
+
+uint32 CParticleSystem::getDuration()
+{
+	return mDuration;
+}
+
+void CParticleSystem::release()
+{
+	if (mVertexBuffer)
+		mVertexBuffer->Release();
+	if (mTexture)
+		mTexture->Release();
+	// TODO: rest
+}
+
+void CParticleSystem::restore()
+{
+	// TODO
 }

@@ -1,19 +1,13 @@
 #include "../include/game.h"
 #include "../include/particleSystemLoader.h"
 
-float frand(float min, float max)
-{
-	return min + rand() / (float)RAND_MAX * (max - min);
-}
-
-CGame::CGame() : mPs(NULL), mTime(0)
+CGame::CGame() : mBuildings(1000), mTime(0)
 {
 }
 
 CGame::~CGame()
 {
-	if (mPs)
-		delete mPs;
+	mBuildings.removeAndDestroyAll();
 }
 
 bool CGame::init()
@@ -27,20 +21,11 @@ bool CGame::init()
 	D3DXMatrixPerspectiveFovLH(&projectionMatrix, FOV, screenAspect, 1.0f, 150.0f);
 	device->SetTransform(D3DTS_PROJECTION, &projectionMatrix);
 
-	D3DXMATRIX viewMatrix;
-	D3DXMatrixLookAtLH(&viewMatrix, &D3DXVECTOR3(0.0f, 0.0f, -70.0f), &D3DXVECTOR3(0.0f, 0.0f, 0.0f), &D3DXVECTOR3(0.0f,1.0f,0.0f));
-	device->SetTransform(D3DTS_VIEW, &viewMatrix);
-
-	mPs = CParticleSystemLoader::load("e:\\programming\\projects\\game\\tools\\particleEditor\\particleEffects\\simple.lua");
-/*	mPs = new CParticleSystem(100, 2, 1, 1, "particle.bmp");
-	for (int i = 0; i < 100; i++)
-	{
-		D3DXVECTOR3 pos[2] = {D3DXVECTOR3(0.f, 0.f, 0.f), D3DXVECTOR3(frand(-20.f, 20.f), frand(-20.f, 20.f), frand(-20.f, 20.f))};
-		D3DCOLOR color = D3DCOLOR_XRGB(10, 10, 200);//D3DCOLOR_XRGB(rand()%0xFF, rand()%0xFF, rand()%0xFF);
-		float size = frand(.1f, .5f);
-		mPs->setParticle(i, 1000, pos, &color, NULL);
-	}
-*/	mTime = 0;
+	MAnimation *anim = CParticleSystemLoader::load("e:/programming/projects/game/tools/particleEditor/particleEffects/flame.lua");
+	CDrawable *building = new CDrawable(0, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(0, 0, 20), &D3DXQUATERNION());
+	mBuildings.add(building);
+	cam = new CCamera(1, 6969);
+	mTime = 0;
 
 	return true;
 }
@@ -48,11 +33,55 @@ bool CGame::init()
 bool CGame::loop()
 {
 	LPDIRECT3DDEVICE9 device = d3dObj->mD3DDevice;
-	mTime++;
+	mTime += 30; // TODO: Real timing system
 	device->Clear(0,0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0,0,0), 1.0f, 0);
+
+//	mMsgList.sendMessages(mTime, &mObjList);
+	chkDestroyList();
+
+	// Draw everything
+	cam->transform();
 	device->BeginScene();
-	mPs->draw(mTime * 10);
+
+	for (uint16 i = mBuildings.first(); i != mBuildings.end(); i = mBuildings.mTable[i].mNext)
+		mBuildings.mTable[i].mObj->draw(10);
+
 	device->EndScene();
 	d3dObj->flip();
 	return true;
+}
+
+void CGame::sendMessage(CMessage *aMsg)
+{
+	aMsg->mTime += mTime;
+	mMsgList.add(aMsg);
+}
+
+void CGame::sendMessage(uint16 aMsg, uint16 aSenderId, uint16 aReceiverId,
+						uint16 aSender, uint16 aReceiver,
+						uint32 aParam1, uint32 aParam2, uint32 aTime)
+{
+	mMsgList.add(new CMessage(aMsg, aSenderId, aReceiverId, aSender, aReceiver, aParam1, aParam2, mTime + aTime));
+}
+
+void CGame::sendMessage(uint16 aMsg, MGameObj *aObj, uint32 aParam1, uint32 aParam2, uint32 aTime)
+{
+	mMsgList.add(new CMessage(aMsg, aObj->id(), aObj->id(), aObj->index(),
+		aObj->index(), aParam1, aParam2, mTime + aTime));
+}
+
+void CGame::destroyObj(MGameObj *aObj)
+{
+	mDestroyList.push_back(aObj);
+}
+
+void CGame::chkDestroyList()
+{
+	list<MGameObj *>::iterator iter;
+	while (!mDestroyList.empty())
+	{
+//		objectList()->remove(iter->m_object->index());
+		delete mDestroyList.back();
+		mDestroyList.pop_back();
+	}
 }

@@ -14,10 +14,14 @@ struct lua_State {};
 char *CParticleSystemLoader::mErrorMsg = NULL;
 CParticleSystem *CParticleSystemLoader::mParticleSystem = NULL;
 const char *CParticleSystemLoader::mFileName = NULL;
+int CParticleSystemLoader::mPosNum = 0;
+int CParticleSystemLoader::mColorNum = 0;
+int CParticleSystemLoader::mSizeNum = 0;
 
 CParticleSystem *CParticleSystemLoader::load(const char *aFileName)
 {
 	mFileName = aFileName;
+	mPosNum = mColorNum = mSizeNum = 0;
 	int status;
 	lua_State* state = lua_open();
 
@@ -42,10 +46,10 @@ CParticleSystem *CParticleSystemLoader::load(const char *aFileName)
 	}
 	lua_register(state, "initParticleSystem", initParticleSystem);
 	lua_register(state, "setParticle", setParticle);
-	lua_register(state, "frand", frand);
-	lua_register(state, "rgb", rgb);
 	lua_register(state, "setDefaultColor", setDefaultColor);
 	lua_register(state, "setDefaultSize", setDefaultSize);
+	lua_register(state, "rgb", rgb);
+	lua_register(state, "rgba", rgba);
 
 	status = luaL_loadfile(state, aFileName);
 
@@ -157,9 +161,10 @@ int CParticleSystemLoader::initParticleSystem(lua_State *aState)
 	checkType(aState, -1, LUA_TTABLE, "initParticleSystem");
 
 	int particles = getNumberFromTable(aState, LUA_TNUMBER, "Particles", "initParticleSystem");
-	int coords = getNumberFromTable(aState, LUA_TNUMBER, "Coordinates", "initParticleSystem");
-	int colors = getNumberFromTable(aState, LUA_TNUMBER, "Colors", "initParticleSystem");
-	int sizes = getNumberFromTable(aState, LUA_TNUMBER, "Sizes", "initParticleSystem");
+	mPosNum = getNumberFromTable(aState, LUA_TNUMBER, "Coordinates", "initParticleSystem");
+	mColorNum = getNumberFromTable(aState, LUA_TNUMBER, "Colors", "initParticleSystem");
+	mSizeNum = getNumberFromTable(aState, LUA_TNUMBER, "Sizes", "initParticleSystem");
+	int duration = getNumberFromTable(aState, LUA_TNUMBER, "Duration", "initParticleSystem");
 	bool looping = getNumberFromTable(aState, LUA_TBOOLEAN, "Looping", "initParticleSystem") != 0;
 	lua_pushstring(aState, "Texture");
 	lua_rawget(aState, -2);
@@ -174,44 +179,61 @@ int CParticleSystemLoader::initParticleSystem(lua_State *aState)
 	strncpy(temp, mFileName, last + 1);
 	temp[last + 1] = '\0';
 	strcat(temp, texture);
-	mParticleSystem = new CParticleSystem(particles, coords, colors, sizes, temp);
-//	std::cout<<"particles: "<<particles<<", coords: "<<coords<<", colors: "<<colors<<", sizes: "<<sizes<<", looping: "<<looping<<", texture: "<<texture<<std::endl;
+	mParticleSystem = new CParticleSystem(particles, duration, mPosNum, mColorNum, mSizeNum, temp);
 	lua_pop(aState, 2);
 	return 0;
 }
 
 int CParticleSystemLoader::setParticle(lua_State *aState)
 {
-	checkType(aState, -3, LUA_TNUMBER, "setParticle");
-	int index = (int)lua_tonumber(aState, -3) - 1;
-	checkType(aState, -2, LUA_TNUMBER, "setParticle");
-	int life = (int)lua_tonumber(aState, -2);
+	for (int i = 1; i <= 3; i++)
+		checkType(aState, i, LUA_TNUMBER, "setParticle");
+	int index = (int)lua_tonumber(aState, 1) - 1;
+	int life = (int)lua_tonumber(aState, 2);
+	int startingTime = (int)lua_tonumber(aState, 3);
 	D3DXVECTOR3 *pos = NULL;
-	int num = getPosArray(aState, -1, "setParticle", pos);
-//	std::cout<<"found " << num << "*3 positions"<<std::endl;
-	lua_pop(aState, 3);
+	int posNum = getPosArray(aState, 4, "setParticle", pos);
+	D3DCOLOR *color = NULL;
+	int colorNum = 0;
+	if (lua_gettop(aState) >= 5)
+		colorNum = getColorArray(aState, 5, "setParticle", color);
+	float *size = NULL;
+	int sizeNum = 0;
+	if (lua_gettop(aState) >= 6)
+		sizeNum = getFloatArray(aState, 6, "setParticle", size);
+	lua_pop(aState, size ? 6 : color ? 5 : 4);
+	if (posNum != mPosNum || (color && colorNum != mColorNum) || (size && sizeNum != mSizeNum))
+	{
+		lua_pushstring(aState, "setParticle: Invalid array length");
+		lua_error(aState);
+	}
 	// TODO: colors, sizes, check for size of each array
-	mParticleSystem->setParticle(index, life, pos, NULL, NULL);
+	mParticleSystem->setParticle(index, life, startingTime, pos, color, size);
 	return 0;
 }
 
-int CParticleSystemLoader::frand(lua_State *aState)
+int CParticleSystemLoader::rgba(lua_State *aState)
 {
-	lua_pushnumber(aState, 2.f * rand() / (RAND_MAX + 1.f) - 1.f);
+	for (int i = -4; i < 0; i++)
+		checkType(aState, i, LUA_TNUMBER, "rgba");
+	unsigned char r = (unsigned char)lua_tonumber(aState, -4);
+	unsigned char g = (unsigned char)lua_tonumber(aState, -3);
+	unsigned char b = (unsigned char)lua_tonumber(aState, -2);
+	unsigned char a = (unsigned char)lua_tonumber(aState, -1);
+	lua_pop(aState, 4);
+	lua_pushnumber(aState, (a << 24) | (r << 16) | (g << 8) | b);
 	return 1;
 }
 
 int CParticleSystemLoader::rgb(lua_State *aState)
 {
-	checkType(aState, -3, LUA_TNUMBER, "rgb");
-	checkType(aState, -2, LUA_TNUMBER, "rgb");
-	checkType(aState, -1, LUA_TNUMBER, "rgb");
+	for (int i = -3; i < 0; i++)
+		checkType(aState, i, LUA_TNUMBER, "rgb");
 	unsigned char r = (unsigned char)lua_tonumber(aState, -3);
 	unsigned char g = (unsigned char)lua_tonumber(aState, -2);
 	unsigned char b = (unsigned char)lua_tonumber(aState, -1);
 	lua_pop(aState, 3);
-	lua_pushnumber(aState, (r << 16) | (g << 8) | b);
-//	std::cout<<"r: "<<(int)r<<" g: "<<(int)g<<" b: "<<(int)b<<std::endl;
+	lua_pushnumber(aState, (0xFF << 24) | (r << 16) | (g << 8) | b);
 	return 1;
 }
 
@@ -219,8 +241,13 @@ int CParticleSystemLoader::setDefaultColor(lua_State *aState)
 {
 	D3DCOLOR *color = NULL;
 	int num = getColorArray(aState, -1, "setDefaultColor", color);
-//	std::cout<<"found "<<num<<" colors"<<std::endl;
 	mParticleSystem->setDefaultColor(color);
+	if (num != mColorNum)
+	{
+		lua_pushstring(aState, "setDefaultColor: Invalid array length");
+		lua_error(aState);
+	}
+	lua_pop(aState, 1);
 	return 0;
 }
 
@@ -228,7 +255,12 @@ int CParticleSystemLoader::setDefaultSize(lua_State *aState)
 {
 	float *size = NULL;
 	int num = getFloatArray(aState, -1, "setDefaultSize", size);
-//	std::cout<<"found "<<num<<" sizes"<<std::endl;
 	mParticleSystem->setDefaultSize(size);
+	if (num != mSizeNum)
+	{
+		lua_pushstring(aState, "setDefaultSize: Invalid array length");
+		lua_error(aState);
+	}
+	lua_pop(aState, 1);
 	return 0;
 }
