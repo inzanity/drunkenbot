@@ -128,10 +128,10 @@ void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 		rect.bottom = rect.top + mSrcTileHeight;
 		mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
 	}
-	else if (type == EObjectBullet)
-	{
+	else if (type == EObjectBullet || type == EObjectExplosion)
+							{
 		rect.left = index * mSrcTileWidth;
-		rect.top = dir * mSrcTileHeight;
+		rect.top = (type == EObjectExplosion ? 8 : dir) * mSrcTileHeight;
 		rect.right = rect.left + mSrcTileWidth;
 		rect.bottom = rect.top + mSrcTileHeight;
 		mBack->blit(mBullets, rect, CRect(x1, y1, x2, y2));

@@ -107,7 +107,7 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		}
 
 	if (!mBotAI->checkAction() ||
-		(mActionDelay && mBotAI->action() > EActionMove) ||
+		(mActionDelay && mBotAI->action() > EActionTurn) ||
 		(mBunkered && (mBotAI->action() & EActionMove)))
 		mBotAI->resetAction();
 	if (mBotAI->action() & EActionTurn)
@@ -153,7 +153,10 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		mBotAction = (TBotAction)(mBotAI->action() & (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon));
 		if (mBotAction == EActionShoot && mWeapon->shoot())
 		{
-			aBulletList->push_back(new CBulletInfo(3, mPos.mX + (mRadius + 0.5f) * cos(mOrientation), mPos.mY + (mRadius + 0.5f) * sin(mOrientation), mOrientation + mBotAI->shootingDir(), mWeapon->bulletSpeed(), this));
+			aBulletList->push_back(new CBulletInfo(/*(mWeapon->type() >> 8) & 0xF*/0,
+												   mPos.mX + (mRadius + 0.5f) * cos(mOrientation),
+												   mPos.mY + (mRadius + 0.5f) * sin(mOrientation),
+												   mOrientation + mBotAI->shootingDir(), mWeapon->bulletSpeed(), this));
 			mActionDelay = (char)mWeapon->reloadTime();
 		}
 		else if (mBotAction == EActionBunker)

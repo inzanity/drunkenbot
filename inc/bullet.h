@@ -82,7 +82,7 @@ protected:
 	 * @param aDamage Damage caused by collision.
 	 * @return False if object has died (never for bullets).
 	 */
-	bool handleCollision(int aDamage);
+	bool handleCollision(char aDamage);
 
 	/** Getter for damage caused in collision. */
 	char getDamage() const;

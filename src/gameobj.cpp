@@ -122,8 +122,6 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 				tile = aTilemap[(int)pos.mY][(int)pos.mX] & 3;
 				if (tile == CTilemap::ETileWall || (aCollisionWithObstacles && tile == CTilemap::ETileObstacle))
 					break;
-				if ((mType & 3) == EObjectBullet && pos.mY >= 48.f)
-					int plop = 3;
 				time = getNextEdge(pos, speed);
 			}
 			if (mMovingTimeFactor > totalTime)

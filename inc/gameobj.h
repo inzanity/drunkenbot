@@ -18,7 +18,7 @@
 class CBotInfo;
 class CTilemap;
 
-enum TObjectType{EObjectBot, EObjectWeapon, EObjectBullet};
+enum TObjectType{EObjectBot, EObjectWeapon, EObjectBullet, EObjectExplosion};
 
 /** Struct for 2D coordinates. */
 struct TVector

@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 
 #include "../inc/weapon.h"
@@ -12,6 +13,9 @@ CWeapon::CWeapon(istream *aStream) : mBulletCount(0), mBulletSpeed(0.f), mExplos
 		>> mExplosionRadius
 		>> mExplosionSpeed
 		>> mDamage;
+	if (mExplosionSpeed <= 0) mExplosionRadius = 0;
+	if (mExplosionRadius > 0)
+		mDamage /= ceilf(mExplosionRadius / mExplosionSpeed);
 }
 
 CWeapon::CWeapon(const CWeapon *aWeapon) : mBulletCount(aWeapon->mBulletCount), mBulletSpeed(aWeapon->mBulletSpeed), mExplosionRadius(aWeapon->mExplosionRadius), mExplosionSpeed(aWeapon->mExplosionSpeed), mDamage(aWeapon->mDamage), mReloadTime(aWeapon->mReloadTime)

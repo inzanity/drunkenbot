@@ -3,7 +3,8 @@
 
 // CVisibleBulletInfo
 
-CVisibleBulletInfo::CVisibleBulletInfo(int aBulletType) : CMovingGameObj(EObjectBullet), mBulletType(aBulletType)
+CVisibleBulletInfo::CVisibleBulletInfo(int aBulletType) : CMovingGameObj(EObjectBullet | (aBulletType << 8)), 
+														  mBulletType(aBulletType)
 {
 }
 
@@ -41,8 +42,13 @@ CBulletInfo::~CBulletInfo()
 {
 }
 
-bool CBulletInfo::handleCollision(int)
+bool CBulletInfo::handleCollision(char)
 {
+	if (mShooter->weapon()->explosionRadius() > 0)
+	{
+		mType &= EObjectBullet ^ 0xffffffff;
+		mType |= EObjectExplosion;
+	}
 	return true;
 }
 
@@ -59,11 +65,12 @@ void CBulletInfo::changeFragNum(bool aAddFrag)
 bool CBulletInfo::update()
 {
 	CMovingGameObj::update();
-	if (mCollisionDetected)
+	if ((mType & 0xF) == EObjectExplosion)
 	{
-		mRadius += mShooter->weapon()->explosionSpeed();
-		if (mRadius > mShooter->weapon()->explosionRadius())
+		if (mRadius >= mShooter->weapon()->explosionRadius())
 			return false;
+		mRadius += mShooter->weapon()->explosionSpeed();
+		return true;
 	}
-	return true;
+	return (!mCollisionDetected);
 }
