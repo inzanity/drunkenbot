@@ -35,6 +35,13 @@ CDirectInput::CDirectInput()
 	mBoundKeys[KEY_8]		= DIK_8;
 	mBoundKeys[KEY_9]		= DIK_9;
 	mBoundKeys[KEY_0]		= DIK_0;
+	mBoundKeys[MECH_MOVE]	= DIK_M;
+	mBoundKeys[MECH_ATTACK]	= DIK_A;
+	mBoundKeys[MECH_PATROL]	= DIK_P;
+	mBoundKeys[MECH_STOP]	= DIK_S;
+	mBoundKeys[MECH_CHANGE_WEAPON]	= DIK_W;
+	mBoundKeys[MECH_CHANGE_MODE]	= DIK_M;
+	mBoundKeys[MECH_BUILD_PDS]		= DIK_B;
 	mBoundKeys[WRITE_TEXT]	= DIK_T;
 
 

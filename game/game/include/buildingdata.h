@@ -20,6 +20,7 @@ class CBuildingData
 public:
 	CBuildingData();
 	CBuildingData(MAnimation *aAnimation,
+				  MAnimation *aUpperBodyAnimation,
 				  MAnimation *aConstructAnimation,
 				  uint32 aConstructionTime,
 				  char *aName,
@@ -40,6 +41,7 @@ public:
 	~CBuildingData();
 	void setId(int aId);
 	void setAnimation(MAnimation *aAnimation);
+	void setUpperBodyAnimation(MAnimation *aUpperBodyAnimation);
 	void setConstructAnimation(MAnimation *aConstructAnimation);
 	void setConstructionTime(uint32 aConstructionTime);
 	void setName(char *aName);
@@ -57,6 +59,7 @@ public:
 
 	uint32 getId() const;
 	MAnimation *getAnimation() const;
+	MAnimation *getUpperBodyAnimation() const;
 	MAnimation *getConstructAnimation() const;
 	uint32 getConstructionTime() const;
 	std::string getName() const;
@@ -78,6 +81,7 @@ public:
 private:
 	uint32 mId;
 	MAnimation *mAnimation;
+	MAnimation *mUpperBodyAnimation;
 	MAnimation *mConstructAnimation;
 	uint32 mConstructionTime;
 

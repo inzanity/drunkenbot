@@ -9,6 +9,7 @@ class CTurret : public CBuilding
 {
 public:
 	CTurret(CGameObjPtr aObjPtr, bool aReady, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle);
+	CTurret(CGameObjPtr aObjPtr, CBuildingData *aBuildingData, bool aReady, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle);
 	CTurret(istream &aStream);
 	virtual			~CTurret();
 
@@ -24,8 +25,6 @@ public:
 	void			draw(uint32 aTimeFactor);
 
 private:
-	CBuildingData	*mTurret;
-	MAnimation		*mTurretTop;
 	float			mTurretAngle, mTargetAngle;
 	time_t			mTime;
 	bool			mTargetReached;

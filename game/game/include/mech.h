@@ -3,7 +3,7 @@
 
 #include "gameObj.h"
 
-enum TMechMessage{EMsgMechMove, EMsgMechPatrol, EMsgMechAttack, EMsgMechStop, EMsgMechLast};
+enum TMechMessage{EMsgMechMove, EMsgMechPatrol, EMsgMechAttack, EMsgMechStop, ENumMechCommands, EMsgMechLast};
 enum TMechOperationMode{EMechManualMode, EMechAutoAimMode, EMechAutoFireMode, EMechScoutMode, EMechAttackMode, EMechDefenceMode};
 
 class CMech : public CDrawable

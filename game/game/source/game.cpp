@@ -124,11 +124,6 @@ bool CGame::loop()
 	chkDestroyList();
 
 	directInput->ReadState();
-	float up = (float)(directInput->isPressed(MOVE_UP) - directInput->isPressed(MOVE_DOWN)) * 0.04f;
-	float right = (float)(directInput->isPressed(MOVE_RIGHT) - directInput->isPressed(MOVE_LEFT)) * 0.04f;
-	D3DXQUATERNION quat;
-	if (up != 0 || right != 0)
-		mCam->scroll(right, up);
 
 	const DIMOUSESTATE2 *mouse = directInput->getMouseState();
 

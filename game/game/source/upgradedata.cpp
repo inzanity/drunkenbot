@@ -35,6 +35,11 @@ uint32 CUpgradeData::getPriceGas()
 	return mPriceGas;
 }
 
+CTexture *CUpgradeData::getPicture()
+{
+	return mPicture;
+}
+
 void CUpgradeData::setSetValues(std::vector<CUpgradeData::CSetValue *> &aSetValues)
 {
 	mNumSetValues = (uint32)aSetValues.size();
@@ -57,4 +62,9 @@ void CUpgradeData::setPriceMineral(uint32 aPriceMineral)
 void CUpgradeData::setPriceGas(uint32 aPriceGas)
 {
 	mPriceGas = aPriceGas;
+}
+
+void CUpgradeData::setPicture(CTexture *aPicture)
+{
+	mPicture = aPicture;
 }

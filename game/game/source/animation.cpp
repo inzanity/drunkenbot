@@ -65,6 +65,8 @@ void CMeshAnimation::restore(const char *aFileName)
 uint32 CMeshAnimation::getDuration() const
 {
 	LPD3DXANIMATIONSET set;
+	if (!mAnimController)
+		return 0;
 	mAnimController->GetTrackAnimationSet(0, &set);
 	double period = set->GetPeriod();
 	return (uint32)(period * 1000.f);

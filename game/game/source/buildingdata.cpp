@@ -1,6 +1,7 @@
 #include "../include/buildingdata.h"
 
 CBuildingData::CBuildingData(MAnimation *aAnimation,
+							 MAnimation *aUpperBodyAnimation,
 							 MAnimation *aConstructAnimation,
 							 uint32 aConstructionTime,
 							 char *aName,
@@ -16,6 +17,7 @@ CBuildingData::CBuildingData(MAnimation *aAnimation,
 							 uint32 aWeapon,
 							 CTexture *aPicture) : 
 								    mAnimation(aAnimation),
+									mUpperBodyAnimation(aUpperBodyAnimation),
 									mConstructAnimation(aConstructAnimation),
 									mConstructionTime(aConstructionTime),
 									mName(aName),
@@ -65,6 +67,10 @@ void CBuildingData::setId(int aId)
 void CBuildingData::setAnimation(MAnimation *aAnimation)
 {
 	mAnimation = aAnimation;
+}
+void CBuildingData::setUpperBodyAnimation(MAnimation *aUpperBodyAnimation)
+{
+	mUpperBodyAnimation = aUpperBodyAnimation;
 }
 void CBuildingData::setConstructAnimation(MAnimation *aConstructAnimation)
 {
@@ -151,6 +157,11 @@ uint32 CBuildingData::getId() const
 MAnimation *CBuildingData::getAnimation() const
 {
 	return mAnimation;
+}
+
+MAnimation *CBuildingData::getUpperBodyAnimation() const
+{
+	return mUpperBodyAnimation;
 }
 
 MAnimation *CBuildingData::getConstructAnimation() const

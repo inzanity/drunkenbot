@@ -4,9 +4,19 @@
 #include "../include/animationStorage.h"
 
 CTurret::CTurret(CGameObjPtr aObjPtr, bool aReady, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle) :
-CBuilding(aObjPtr, (mTurret = new CBuildingData(CAnimationStorage::ptr()->getAnimation("data/turret.x"), CAnimationStorage::ptr()->getAnimation("data/turret.x"), 1, "Foobar", NULL, 0, 1, 1, 1, 1, 1, 1, TURRET, 1, NULL)), aReady, aPos, aXAngle, aYAngle)
+	CBuilding(aObjPtr, new CBuildingData(CAnimationStorage::ptr()->getAnimation("data/turret.x"), CAnimationStorage::ptr()->getAnimation("data/turretTop.x"), CAnimationStorage::ptr()->getAnimation("data/turret.x"), 1, "Foobar", NULL, 0, 1, 1, 1, 1, 1, 1, TURRET, 1, NULL), aReady, aPos, aXAngle, aYAngle)
 {
-	mTurretTop				= CAnimationStorage::ptr()->getAnimation("data/turretTop.x");
+	mTurretAngle			= 0.f;
+	mTargetReached			= false;
+
+	game->sendMessage(EMsgActivate, this, 0, 0, 0);
+
+	time(&(mTime));
+}
+
+CTurret::CTurret(CGameObjPtr aObjPtr, CBuildingData *aBuildingData, bool aReady, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle) :
+	CBuilding(aObjPtr, aBuildingData, aReady, aPos, aXAngle, aYAngle)
+{
 	mTurretAngle			= 0.f;
 	mTargetReached			= false;
 
@@ -48,6 +58,8 @@ void CTurret::handleMessage(CMessage *aMsg)
 			}
 		}
 		// if mechs not found
+	default:
+		CBuilding::handleMessage(aMsg);
 	}
 }
 
@@ -122,8 +134,8 @@ void CTurret::draw(uint32 aTimeFactor)
 
 	d3dObj->mMatrixStack->TranslateLocal(0, 0.2f, 0);
 	d3dObj->mMatrixStack->RotateYawPitchRollLocal(-mTurretAngle, 0, 0);
-	if (mTurretTop)
-		mTurretTop->draw(mAnimTime);
+	if (mBuildingData->getUpperBodyAnimation())
+		mBuildingData->getUpperBodyAnimation()->draw(mAnimTime);
 
 	d3dObj->mMatrixStack->Pop();
 }

@@ -4,9 +4,9 @@
 #include "gameUI.h"
 #include "texture.h"
 #include "player.h"
+#include "mech.h"
 
 enum MenuItem{ITEM_NONE, ITEM_BUILDING, ITEM_MOVE, ITEM_PATROL, ITEM_ATTACK, ITEM_STOP, ITEM_SELECT_WEAPON, ITEM_SELECT_MODE};
-enum MechCommands{MECH_MOVE, MECH_PATROL, MECH_ATTACK, MECH_STOP, NUM_MECH_COMMANDS};
 
 class CRTSModeUI : public MGameUI
 {
@@ -28,7 +28,7 @@ private:
 	ID3DXSprite *mSprite;
 	CTexture *mMouseCursor;
 	CTexture *mMenuTexture;
-	CTexture *mMechCommandTextures[NUM_MECH_COMMANDS];
+	CTexture *mMechCommandTextures[ENumMechCommands];
 	CTexture *mCancelTexture;
 	IDirect3DTexture9 *mMinimapTexture;
 	int mQueuePos;

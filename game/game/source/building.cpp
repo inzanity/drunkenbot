@@ -1,5 +1,5 @@
 #include "../include/building.h"
-#include "../include/message.h"
+#include "../include/game.h"
 
 CBuilding::CBuilding(CGameObjPtr aObjPtr, CBuildingData *aBuildingData, bool aReady,
 					 const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle) :
@@ -12,6 +12,7 @@ CBuilding::CBuilding(CGameObjPtr aObjPtr, CBuildingData *aBuildingData, bool aRe
 	{
 		MAnimation *anim = mBuildingData->getConstructAnimation();
 		setAnimation(anim, anim->getDuration() / (float)mBuildingData->getConstructionTime());
+		game->sendMessage(EMsgBuildingReady, this, 0, 0, mBuildingData->getConstructionTime());
 	}
 }
 

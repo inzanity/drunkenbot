@@ -2,6 +2,8 @@
 #include "../include/directInput.h"
 #include "../include/animationStorage.h"
 #include "../include/game.h"
+#include "../include/turret.h"
+#include "../include/dock.h"
 
 CRTSModeUI::CRTSModeUI(const CPlayer *aPlayer) :
 	mPlayer(aPlayer), mActive(false), mCounter(0), mSprite(NULL), mMouseCursor(NULL), mQueuePos(0),
@@ -12,10 +14,10 @@ CRTSModeUI::CRTSModeUI(const CPlayer *aPlayer) :
 	mMouseCursor = CAnimationStorage::ptr()->getTexture("data/cursor.png");
 	mMenuTexture = CAnimationStorage::ptr()->getTexture("data/rts.bmp");
 	mSelectedAnim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/selection.lua");
-	mMechCommandTextures[MECH_MOVE] = CAnimationStorage::ptr()->getTexture("data/images/move_button.bmp");
-	mMechCommandTextures[MECH_PATROL] = CAnimationStorage::ptr()->getTexture("data/images/patrol_button.bmp");
-	mMechCommandTextures[MECH_ATTACK] = CAnimationStorage::ptr()->getTexture("data/images/attack_button.bmp");
-	mMechCommandTextures[MECH_STOP] = CAnimationStorage::ptr()->getTexture("data/images/stop_button.bmp");
+	mMechCommandTextures[0] = CAnimationStorage::ptr()->getTexture("data/images/move_button.bmp");
+	mMechCommandTextures[1] = CAnimationStorage::ptr()->getTexture("data/images/patrol_button.bmp");
+	mMechCommandTextures[2] = CAnimationStorage::ptr()->getTexture("data/images/attack_button.bmp");
+	mMechCommandTextures[3] = CAnimationStorage::ptr()->getTexture("data/images/stop_button.bmp");
 	mCancelTexture = CAnimationStorage::ptr()->getTexture("data/images/cancel_button.bmp");
 	mSelected.setPtrToNULL();
 	D3DXCreateTexture(device, 128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &mMinimapTexture);
@@ -76,7 +78,7 @@ void CRTSModeUI::handleInput()
 					{
 						if (selectedMech)
 						{
-							if (ind < NUM_MECH_COMMANDS)
+							if (ind < ENumMechCommands)
 								mSelectedMenuItem = (MenuItem)(ITEM_MOVE + ind);
 						}
 						else if (selectedBuilding)
@@ -128,8 +130,26 @@ void CRTSModeUI::handleInput()
 			}
 			else if (mSelectedMenuItem >= ITEM_MOVE && mSelectedMenuItem <= ITEM_STOP)
 				game->sendMessage(EMsgMechMove + mSelectedMenuItem - ITEM_MOVE, selectedMech, *(int *)&m.x, *(int *)&m.z);
+			else if (mSelectedMenuItem == ITEM_BUILDING)
+			{
+				CBuildingData *bd = mPlayer->getBuildingData(mSelectedMenuItemIndex);
+				if (bd->getBuildingType() == GENERAL)
+					game->mBuildings.add(new CBuilding(game->getNewGameObjectPtr(ETypeBuilding), bd, false, &m, 0, 0));
+				else if (bd->getBuildingType() == TURRET)
+					game->mBuildings.add(new CTurret(game->getNewGameObjectPtr(ETypeBuilding), bd, false, &m, 0, 0));
+				else if (bd->getBuildingType() == DOCKYARD)
+					game->mBuildings.add(new CDock(game->getNewGameObjectPtr(ETypeBuilding), bd, false, &m, 0, 0));
+			}
+			mSelectedMenuItem = ITEM_NONE;
 		}
 	}
+	float up = 0, right = 0;
+	if (mouseX < 20) right = -0.04f;
+	else if (mouseX > d3dObj->width() - 20) right = 0.04f;
+	if (mouseY < 20) up = 0.04f;
+	else if (mouseY > d3dObj->height() - 20) up = -0.04f;
+	if (up != 0 || right != 0)
+		game->mCam->scroll(right, up);
 }
 
 void CRTSModeUI::draw(uint32 aTime)
@@ -162,12 +182,12 @@ void CRTSModeUI::draw(uint32 aTime)
 	D3DXMatrixTranslation(&matrix2, w, 0.f, 0.f);
 	matrix *= matrix2;
 	mSprite->SetTransform(&matrix);
-	mSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+	mSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	mSprite->Draw(*mMenuTexture, NULL, NULL, &D3DXVECTOR3(0, 0, 0), color);
 	mSprite->End();
 	D3DXMatrixIdentity(&matrix);
 	mSprite->SetTransform(&matrix);
-	mSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+	mSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	int num = getNumMenuItems();
 	for (int i = 0; i < num && i < 10; i++)
 	{
@@ -179,10 +199,6 @@ void CRTSModeUI::draw(uint32 aTime)
 			mSprite->Draw(*mMechCommandTextures[ind], NULL, NULL, &pos, color);
 		else if (!selected)
 			mSprite->Draw(*mPlayer->getBuildingData(ind)->getPicture(), NULL, NULL, &pos, color);
-		if (mSelectedMenuItem == ITEM_STOP && ind == 3 /*TODO*/)
-		{
-			mSelectedMenuItem = ITEM_NONE;
-		}
 	}
 	mSprite->Draw(mMinimapTexture, NULL, NULL, &D3DXVECTOR3(w + 10.f, 46.f, 0.f), color);
 //	if (mSelectedMenuItem != ITEM_BUILDING)
@@ -194,7 +210,10 @@ void CRTSModeUI::draw(uint32 aTime)
 		D3DXVECTOR3 m = game->mHeightMap->mouseCoords(directInput->getMouseX(), directInput->getMouseY());
 		d3dObj->mMatrixStack->Push();
 		d3dObj->mMatrixStack->TranslateLocal(m.x, m.y, m.z);
-		mPlayer->getBuildingData(mSelectedMenuItemIndex)->getAnimation()->draw(aTime);
+		const CBuildingData *bd = mPlayer->getBuildingData(mSelectedMenuItemIndex);
+		bd->getAnimation()->draw(aTime);
+		if (bd->getUpperBodyAnimation())
+			bd->getUpperBodyAnimation()->draw(aTime);
 		d3dObj->mMatrixStack->Pop();
 	}
 }
@@ -222,7 +241,7 @@ int CRTSModeUI::getNumMenuItems()
 		else if (mSelectedMenuItem == ITEM_SELECT_MODE)
 			return 0;
 		else
-			return NUM_MECH_COMMANDS;
+			return ENumMechCommands;
 	}
 	return 0;
 }
