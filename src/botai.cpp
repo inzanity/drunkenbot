@@ -100,7 +100,7 @@ float CBotAI::shootingDir()
 bool CBotAI::setAction(TBotAction aAction, int aExclusiveActions)
 {
 	int old = mAction;
-	mAction &= !aExclusiveActions;
+	mAction &= aExclusiveActions ^ 0xffffffff;
 	mAction |= aAction;
 	if (checkAction())
 		return true;
