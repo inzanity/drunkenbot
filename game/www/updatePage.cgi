@@ -15,7 +15,7 @@ chdir("..");
 
 
 my $ch0 = 1;
-my $ch1 = 7;
+my $ch1 = 8;
 my ($toc, $menu) = generateToc($ch0, $ch1);
 my $allinone = readTxt(0);
 createPage("index", $allinone, $menu, -1);
