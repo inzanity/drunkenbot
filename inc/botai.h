@@ -135,6 +135,15 @@ public:
 	 */
 	bool checkAction() const;
 
+	/** Getter for moving direction. */
+	TBotMovingDir movingDir();
+
+	/** Getter for turning direction. */
+	TBotTurningDir turningDir();
+
+	/** Getter for shooting direction. */
+	float shootingDir();
+
 	/** Map of the surrounding world. Bot is placed in the middle of the map (tile 0, 0). */
 	CTilemap *mTilemap;
 

@@ -63,8 +63,9 @@ public:
 
 private:
 	IGraphicsEngine *mGfxEngine;
-	list<CBulletInfo *> mBulletList;
 	list<CWeaponInfo *> mWeaponList;
+	list<CBulletInfo *> mBulletList;
+	list<TVector> mVoiceList;
 	CWeapon **mWeaponTypes;
 	CBot **mBots;
 	char **mTilemap;

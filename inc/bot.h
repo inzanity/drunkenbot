@@ -48,7 +48,7 @@ public:
 	 * @param aWeaponList List of all weapons in the field.
 	 * @param aVoices List of all voice sources.
 	 */
-	void think(const char **aTilemap, CVisibleBotInfo *aBots, list<CBulletInfo *> *aBulletList,
+	void think(const char **aTilemap, CVisibleBotInfo **aBots, list<CBulletInfo *> *aBulletList,
 			   list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices);
 
 	/**
@@ -56,7 +56,7 @@ public:
 	 * @param aBulletList List to add new bullets in case of <code>EActionShoot</code>.
 	 * @param aVoices List to add new sound sources in case of <code>EActionShoot</code>.
 	 */
-	void performActions(list<CWeaponInfo *> *aBulletList, list<TVector> *aVoices);
+	void performActions(list<CBulletInfo *> *aBulletList, list<TVector> *aVoices);
 
 	/**
 	 * Moves bot and prepares it for drawing.

@@ -82,6 +82,21 @@ bool CBotAI::checkAction() const
 	return true;
 }
 
+CBotAI::TBotMovingDir CBotAI::movingDir()
+{
+	return mMovingDir;
+}
+
+CBotAI::TBotTurningDir CBotAI::turningDir()
+{
+	return mTurningDir;
+}
+
+float CBotAI::shootingDir()
+{
+	return mShootingDir;
+}
+
 bool CBotAI::setAction(TBotAction aAction, int aExclusiveActions)
 {
 	int old = mAction;

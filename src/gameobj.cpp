@@ -91,6 +91,7 @@ void CMovingGameObj::move(float aTimeFactor)
 
 bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, bool aCollisionWithObstacles)
 {
+	mMovingTimeFactor = 1.f;
 	return true;
 }
 

@@ -16,8 +16,8 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 	mRadius = 1.f;
 }
 
-void CBot::think(const char ** aTilemap, CVisibleBotInfo * aBots, list<CBulletInfo *> * aBulletList,
-				 list<CWeaponInfo *> * aWeaponList, list<TVector> * aVoices)
+void CBot::think(const char **aTilemap, CVisibleBotInfo **aBots, list<CBulletInfo *> *aBulletList,
+				 list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
 {
 	if (!mBotAI)
 		return;
@@ -25,7 +25,7 @@ void CBot::think(const char ** aTilemap, CVisibleBotInfo * aBots, list<CBulletIn
 	mBotAI->think();
 }
 
-void CBot::performActions(list<CWeaponInfo *> * aBulletList, list<TVector> * aVoices)
+void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVoices)
 {
 	if (!mBotAI)
 		return;
@@ -41,6 +41,39 @@ void CBot::performActions(list<CWeaponInfo *> * aBulletList, list<TVector> * aVo
 		(mActionDelay && mBotAI->action() > EActionMove) ||
 		(mBunkered && (mBotAI->action() & EActionMove)))
 		mBotAI->resetAction();
+	if (mBotAI->action() & EActionTurn)
+	{
+		if (mBotAI->turningDir() == CBotAI::ETurnLeft)
+			mOrientation += .1f * PI;
+		else if (mBotAI->turningDir() == CBotAI::ETurnRight)
+			mOrientation += 1.9f * PI;
+		if (mOrientation >= 2 * PI)
+			mOrientation -= 2 * PI;
+	}
+	if (mBotAI->action() & EActionMove)
+	{
+		switch (mBotAI->movingDir())
+		{
+		case CBotAI::EMoveForward:
+			mMovingDirection = mOrientation;
+			mVelocity = .25f;
+			break;
+		case CBotAI::EMoveBackwards:
+			mMovingDirection = mOrientation + PI;
+			mVelocity = .1f;
+			break;
+		case CBotAI::EMoveLeft:
+			mMovingDirection = mOrientation + PI / 2.f;
+			mVelocity = .1f;
+			break;
+		case CBotAI::EMoveRight:
+			mMovingDirection = mOrientation + 3 * PI / 2.f;
+			mVelocity = .1f;
+			break;
+		}
+		if (mMovingDirection >= 2 * PI)
+			mMovingDirection -= 2 * PI;
+	}
 	mBotAction = (TBotAction)(mBotAI->action() & (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon));
 	if (mBotAction == EActionShoot && mWeapon->shoot())
 	{

@@ -51,11 +51,20 @@ void CGameEngine::setGraphicsEngine(IGraphicsEngine *aGraphicsEngine)
 bool CGameEngine::loop()
 {
 	int i;
+	for (i = 0; i < mBotNum; i++)
+		mBots[i]->think((const char **)mTilemap, (CVisibleBotInfo **)mBots, &mBulletList, &mWeaponList, &mVoiceList);
+	for (i = 0; i < mBotNum; i++)
+		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)mBots, true);
+	for (i = 0; i < mBotNum; i++)
+		mBots[i]->performActions(&mBulletList, &mVoiceList);
 	if (mGfxEngine)
 	{
 		mGfxEngine->drawTilemap(mTilemap, mMapWidth, mMapHeight);
 		for (i = 0; i < mBotNum; i++)
+		{
 			mGfxEngine->drawGameObj(mBots[i]);
+			mBots[i]->update(1.f);
+		}
 	}
 	return true;
 }
