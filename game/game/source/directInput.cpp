@@ -1,5 +1,8 @@
 #include "../include/directInput.h"
 
+#pragma comment(lib, "dinput8")
+#pragma comment(lib, "dxguid")
+
 #define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=NULL; } }
 #define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p)=NULL; } }
 
