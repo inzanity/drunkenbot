@@ -185,7 +185,7 @@ char CMovingGameObj::getDamage() const
 	return 0;
 }
 
-void CMovingGameObj::changeFragNum(bool aAddFrag)
+void CMovingGameObj::changeFragNum(bool)
 {
 }
 
