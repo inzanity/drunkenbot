@@ -1,5 +1,8 @@
 #include <cmath>
+#include <list>
 #include "test.h"
+
+using namespace std;
 
 float ff(float foo)
 {
@@ -31,10 +34,19 @@ CTestAI::~CTestAI()
 
 void CTestAI::think()
 {
-	float angle;
+	float angle = 100000.f;
+	float plop;
+	CVisibleBotInfo *target;
+	list<CVisibleBotInfo *>::iterator i;
+	for (i = mBots.begin(); i != mBots.end(); i++)
+		if ((plop = sqr((*i)->yPos() - mData->yPos()) + sqr((*i)->xPos() - mData->xPos())) < angle)
+		{
+			angle = plop;
+			target = *i;
+		}
 	if (mBots.size())
 	{
-		angle = ff(atan2((*mBots.begin())->yPos() - mData->yPos(), (*mBots.begin())->xPos() - mData->xPos()) - mData->orientation());
+		angle = ff(atan2(target->yPos() - mData->yPos(), target->xPos() - mData->xPos()) - mData->orientation());
 		if (fabs(angle) > PI / 20 && action() == EActionNone)
 		{
 			if  (angle < 0)
@@ -43,7 +55,7 @@ void CTestAI::think()
 				turn(ETurnLeft);
 		}
 		else
-			if (sqr((*mBots.begin())->yPos() - mData->yPos()) + sqr((*mBots.begin())->xPos() - mData->xPos()) < 49)
+			if (sqr(target->yPos() - mData->yPos()) + sqr(target->xPos() - mData->xPos()) < 49)
 				shoot(angle);
 		move(EMoveForward);
 	}
