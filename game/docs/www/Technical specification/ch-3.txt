@@ -25,10 +25,10 @@
 	- <b>Performing</b>: Day and night changes is real time. In day time sunlight provides all the light needed. At nights mechs and bases have additional lights to enable seeing in the darkness. Every now and then at nights lightning strikes down from the sky. Lightnings can be captured with lightning power station thus creating additional energy.
 	- <b>Implementation</b>: When game time variable increases to match definition of night time, game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down randomly.
 
-3.1.6	Strategical AI
+3.1.6	Strategic AI
 
-	- <b>Performing</b>: The computer opponent in the game will try to beat the player using pre-scripted strategical AI. Different strategical actions may be triggered by timers or players actions.
-	- <b>Implementation</b>: Functions in the script may be assigned to certain messages (player seen, player in certain location, timer, etc) in the game. The strategical AI can use the advanced tactical AI actions like autoaim even before it has developed them, but only to single mech at a time.
+	- <b>Performing</b>: The computer opponent in the game will try to beat the player using partly pre-scripted strategic AI. Different strategic actions may be triggered by timers or players actions.
+	- <b>Implementation</b>: Multilayered AI is implemented using fuzzy logic, simple terrain analysis, pre-scripted build orders and message based state machines (see 1.5.3). The strategic AI can use the advanced tactical AI actions like autoaim even before it has developed them, but only to single mech at a time.
 
 3.2	FPS-mode
 3.2.1	Radar
