@@ -6,3 +6,5 @@ In the Face makes this possible with it's three members, who have intelligence a
 	- Jarmo "Japa" Kauko (Project leader, Master coder, Usability expert)
 	- Antero "Anza" Salonen (Music composer, Senior coder, Usability expert, Graphics expert)
 	- Santtu "inz" Lakkala (Networking specialist, Web Monkey, Coder Slave)
+
+View whole site in a single <a href="allinone.html">html file</a>.
