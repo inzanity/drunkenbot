@@ -43,14 +43,14 @@ void CGameEngine::restart(istream *aMap)
 	int ltSize, iTemp;
 	char *lookup, cTemp;
 	char *sTemp;
-	char **result;
 	int i;
 
 	if (mTilemap)
 	{
 		for (i = 0; i < mMapHeight; i++)
-			delete(result[i]);
-		delete result;
+			delete mTilemap[i];
+		delete [] mTilemap;
+		mTilemap = NULL;
 	}
 
 	*aMap >> mMapHeight >> mMapWidth >> ltSize;
@@ -63,21 +63,21 @@ void CGameEngine::restart(istream *aMap)
 		lookup[cTemp] = iTemp;
 	}
 
-	result = new char*[mMapHeight];
+	mTilemap = new char*[mMapHeight];
 
 	sTemp = new char[mMapWidth + 1];
 
 	for (i = 0; i < mMapHeight; i += 1)
 	{
-		result[i] = new char[mMapWidth];
+		mTilemap[i] = new char[mMapWidth];
 		*aMap >> sTemp;
 		for (int j = 0; j < mMapWidth; j += 1)
-			result[i][j] = lookup[sTemp[j]];
-		result[mMapWidth] = '\0';
+			mTilemap[i][j] = lookup[sTemp[j]];
+		mTilemap[mMapWidth] = '\0';
 	}
 
-	delete sTemp;
-	delete lookup;
+	delete [] sTemp;
+	delete [] lookup;
 }
 
 void CGameEngine::setFragLimit(int aFragLimit)
