@@ -1,7 +1,7 @@
 7.	Technologies
 
 7.1	Enabling technologies
-Platform for the game can be any modern PC, with a 3D accelerator installed. Controlling of the mech is ideally done with a joystick, but keyboard and mouse are required for playing.
+Platform for the game can be any modern PC, with a 3D accelerator installed. Controlling of the mech is ideally done with a joystick, but at least keyboard and mouse are required for playing.
 [Describe the platform suitable or necessary for the game concept. Consider issues critical for the functionality of the game (e.g. minimum screen size, controls, network lag, etc). Describe additional required technologies like sensors or servers.]
 
 7.2	Level editor
