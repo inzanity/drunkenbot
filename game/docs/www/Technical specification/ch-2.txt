@@ -23,12 +23,12 @@
 2.1.5	Building a building
 
 	- <b>Performing</b>: Move mouse curson on top of a building you want to build and press left button once or press the quick button on keyboard which refers to the building in question. Then move mouse cursor to the place you want to put the building and press left mouse button once. Then wait for the building to complete.
-	- <b>Implementation</b>: CDirectInput class tells that if left mouse button is pressed and gives the coordinates, which are used to determine if the cursor was on top of a building icon in action menu. If was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other objects inherited from CGameObj class and the coordinates are inside the 'energisized' region a building object is created on those coordinates. Selected items action queue, action menu and info screen is asked to update themselves.
+	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed and gives the coordinates, which are used to determine if the cursor was on top of a building icon in action menu. If it was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other objects or heightmap and the coordinates are inside the 'energisized' region a building object is created to those coordinates. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.6	Cancelling building of a building
 
 	- <b>Performing</b>: First select the building you wish to cancel with mouse. Then press the cancel button from action menu or press 'esc' from keyboard.
-	- <b>Implementation</b>: 'selected' variable points to a game object. When CDirectInput class tells that left mouse button was pressed on top of a cancel button in action menu or 'esc' was pressed on keyboard a 'cancel' command is sent to selected game object and it determines that because the object is being built, the building is canceled. Action queue, action menu and info screen is asked to update themselves.
+	- <b>Implementation</b>: 'selected' variable points to a game object. When CDirectInput class tells that left mouse button was pressed on top of a cancel button in action menu or 'esc' was pressed on keyboard a 'cancel' command is sent to selected game object. Because the object is being built, the cancel command cancels the building process. Action queue, action menu and info screen is asked to update themselves.
 
 2.1.7	Using action queue to develop technology and build mechs
 

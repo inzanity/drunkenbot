@@ -1,4 +1,3 @@
-2.1.5, 2.1.6, 2.1.7 - Resurssit. "inherited from CGameObj class" ehkä turhan tarkasti sanottu, varsinkin ku heightmap-törmäyskin pitää tarkistaa.
 2.1.9 - Vois olla yleisemmin mech actions.
 2.1.9 / 2.2.3 Shooting Dama mallista vois kertoo jotain
 3.1.X - Upgrading mechs. Kun esim joku ase on kehitetty, niin mechit pitää vielä yks kerrallaan upgradettaa. Onko just rakennetulla mechillä muuten upgradet, vai pitääkö nekin päivittää?
