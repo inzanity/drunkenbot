@@ -90,6 +90,8 @@ protected:
 	int mType;
 	/** Timer for animations. Animation is played during 1 time units. */
 	float mAnimationTimer;
+
+	static float sqr(float aNum);
 };
 
 /**

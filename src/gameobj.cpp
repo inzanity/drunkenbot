@@ -4,11 +4,6 @@
 #include "../inc/botinfo.h"
 #include "../inc/tilemap.h"
 
-float sqr(float aNum)
-{
-	return aNum * aNum;
-}
-
 // CGameObj
 
 CGameObj::CGameObj(int aType) : mRadius(0), mOrientation(0), mType(aType), mAnimationTimer(0)
@@ -59,6 +54,10 @@ float CGameObj::animationTimer() const
 	return mAnimationTimer;
 }
 
+float CGameObj::sqr(float aNum)
+{
+	return aNum * aNum;
+}
 
 
 // CMovingGameObj
