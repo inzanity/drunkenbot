@@ -42,6 +42,8 @@ private:
 	CGameUI *mGameUI;
 	uint32 mTime;
 	uint16 mNewId;
+	DWORD mPrevTime;
+	int mShowFPS;
 };
 
 extern CGame *game;

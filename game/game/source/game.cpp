@@ -5,12 +5,13 @@
 #include "../include/turret.h"
 #include "../include/dock.h"
 
+#pragma comment(lib, "winmm");
 
 inline DWORD FtoDW(FLOAT f) {return *((DWORD*)&f);}
 
 CGame *game = NULL;
 
-CGame::CGame() : mBuildings(64), mMechs(32), mTime(0), mNewId(0)
+CGame::CGame() : mBuildings(64), mMechs(32), mTime(0), mNewId(0), mPrevTime(timeGetTime()), mShowFPS(1)
 {
 	game = this;
 }
@@ -130,10 +131,7 @@ bool CGame::loop()
 			mMechs.mTable[i].mObj->draw(10);
 
 	if (directInput->checkKey(WRITE_TEXT))
-	{
-		string foo = "Write:";
-		mMessageBox->addMessage(&foo, 10);
-	}
+		mMessageBox->addMessage("foo", 10);
 	if (directInput->checkKey(KEY_1))
 	{
 		if (mCam->gameMode() == EModeRTS)
@@ -142,7 +140,18 @@ bool CGame::loop()
 			mCam->setRTSMode();
 	}
 	mGameUI->draw();
-	mMessageBox->draw();
+	if (mShowFPS)
+		mShowFPS++;
+	if (mShowFPS > 20)
+	{
+		DWORD time = timeGetTime() - mPrevTime;
+		mPrevTime = timeGetTime();
+		char temp[32];
+		sprintf(temp, "FPS: %f", 20000.f / time);
+		mMessageBox->addMessage(temp, mTime + 20*10);
+		mShowFPS = 1;
+	}
+	mMessageBox->draw(mTime);
 
 	device->EndScene();
 	d3dObj->flip();

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding = "Windows-1252"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.00"
+	Version="7.10"
 	Name="game"
 	ProjectGUID="{9F218748-3E6F-4AC8-B0FF-D628D1324464}"
 	Keyword="Win32Proj">
@@ -52,7 +52,13 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -97,109 +103,162 @@
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
 				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
+	<References>
+	</References>
 	<Files>
 		<Filter
 			Name="Source Files"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
-				RelativePath="source\animation.cpp">
+				RelativePath=".\source\animation.cpp">
 			</File>
 			<File
-				RelativePath="source\animationStorage.cpp">
+				RelativePath=".\source\animationStorage.cpp">
 			</File>
 			<File
-				RelativePath="source\camera.cpp">
+				RelativePath=".\source\building.cpp">
 			</File>
 			<File
-				RelativePath="source\d3dUtil.cpp">
+				RelativePath=".\source\buildingdata.cpp">
 			</File>
 			<File
-				RelativePath="source\directInput.cpp">
+				RelativePath=".\source\camera.cpp">
 			</File>
 			<File
-				RelativePath="source\game.cpp">
+				RelativePath=".\source\d3dUtil.cpp">
 			</File>
 			<File
-				RelativePath="source\gameObj.cpp">
+				RelativePath=".\source\directInput.cpp">
 			</File>
 			<File
-				RelativePath="source\heightMap.cpp">
+				RelativePath=".\source\dock.cpp">
 			</File>
 			<File
-				RelativePath="source\main.cpp">
+				RelativePath=".\source\game.cpp">
 			</File>
 			<File
-				RelativePath="source\meshHierarchy.cpp">
+				RelativePath=".\source\gameObj.cpp">
 			</File>
 			<File
-				RelativePath="source\message.cpp">
+				RelativePath=".\source\gameui.cpp">
 			</File>
 			<File
-				RelativePath="source\particleSystem.cpp">
+				RelativePath=".\source\heightMap.cpp">
 			</File>
 			<File
-				RelativePath="source\particleSystemLoader.cpp">
+				RelativePath=".\source\main.cpp">
 			</File>
 			<File
-				RelativePath="source\skybox.cpp">
+				RelativePath=".\source\mech.cpp">
 			</File>
 			<File
-				RelativePath="source\texture.cpp">
+				RelativePath=".\source\meshHierarchy.cpp">
+			</File>
+			<File
+				RelativePath=".\source\message.cpp">
+			</File>
+			<File
+				RelativePath=".\source\messageBox.cpp">
+			</File>
+			<File
+				RelativePath=".\source\particleSystem.cpp">
+			</File>
+			<File
+				RelativePath=".\source\particleSystemLoader.cpp">
+			</File>
+			<File
+				RelativePath=".\source\skybox.cpp">
+			</File>
+			<File
+				RelativePath=".\source\stdafx.h">
+			</File>
+			<File
+				RelativePath=".\source\texture.cpp">
+			</File>
+			<File
+				RelativePath=".\source\turret.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
-				RelativePath="include\animation.h">
+				RelativePath=".\include\animation.h">
 			</File>
 			<File
-				RelativePath="include\animationStorage.h">
+				RelativePath=".\include\animationStorage.h">
 			</File>
 			<File
-				RelativePath="include\camera.h">
+				RelativePath=".\include\building.h">
 			</File>
 			<File
-				RelativePath="include\d3dUtil.h">
+				RelativePath=".\include\buildingdata.h">
 			</File>
 			<File
-				RelativePath="include\def.h">
+				RelativePath=".\include\camera.h">
 			</File>
 			<File
-				RelativePath="include\directInput.h">
+				RelativePath=".\include\d3dUtil.h">
 			</File>
 			<File
-				RelativePath="include\game.h">
+				RelativePath=".\include\def.h">
 			</File>
 			<File
-				RelativePath="include\gameObj.h">
+				RelativePath=".\include\directInput.h">
 			</File>
 			<File
-				RelativePath="include\heightMap.h">
+				RelativePath=".\include\dock.h">
 			</File>
 			<File
-				RelativePath="include\indexList.h">
+				RelativePath=".\include\game.h">
 			</File>
 			<File
-				RelativePath="include\meshHierarchy.h">
+				RelativePath=".\include\gameObj.h">
 			</File>
 			<File
-				RelativePath="include\message.h">
+				RelativePath=".\include\gameui.h">
 			</File>
 			<File
-				RelativePath="include\particleSystem.h">
+				RelativePath=".\include\heightMap.h">
 			</File>
 			<File
-				RelativePath="include\particleSystemLoader.h">
+				RelativePath=".\include\indexList.h">
 			</File>
 			<File
-				RelativePath="include\skybox.h">
+				RelativePath=".\include\mech.h">
 			</File>
 			<File
-				RelativePath="include\texture.h">
+				RelativePath=".\include\meshHierarchy.h">
+			</File>
+			<File
+				RelativePath=".\include\message.h">
+			</File>
+			<File
+				RelativePath=".\include\messageBox.h">
+			</File>
+			<File
+				RelativePath=".\include\particleSystem.h">
+			</File>
+			<File
+				RelativePath=".\include\particleSystemLoader.h">
+			</File>
+			<File
+				RelativePath=".\include\skybox.h">
+			</File>
+			<File
+				RelativePath=".\include\texture.h">
+			</File>
+			<File
+				RelativePath=".\include\turret.h">
 			</File>
 		</Filter>
 		<Filter

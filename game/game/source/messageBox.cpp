@@ -11,7 +11,6 @@ CMessageBox::CMessageBox(int aX1, int aY1, int aX2, int aY2, const int aAmount) 
 	{
 		mMessages[i].priority	= mAmount - 1 - i;
 		mMessages[i].data		= "";
-		mMessages[i].time		= 0;
 		mMessages[i].expiry		= 0;
 	}
 	mRc			= new RECT[mAmount];
@@ -59,7 +58,7 @@ CMessageBox::~CMessageBox()
 
 }
 
-void CMessageBox::addMessage(string* aMessage, int aExpiry)
+void CMessageBox::addMessage(const char *aMessage, int aExpiry)
 {
 	for (int i = 0; i < mAmount; i++)
 	{
@@ -69,17 +68,15 @@ void CMessageBox::addMessage(string* aMessage, int aExpiry)
 	}
 	assert (i < mAmount);	// data structure failure
 
-	mMessages[i].data		= *aMessage;
+	mMessages[i].data		= aMessage;
 	mMessages[i].priority	= 0;
 	mMessages[i].expiry		= aExpiry;
-
-	time (&(mMessages[i].time));
 
 	for (i++;i < mAmount; i++)
 		mMessages[i].priority	+= 1;
 }
 
-void CMessageBox::draw()
+void CMessageBox::draw(uint32 aTime)
 {
 //	RECT	rc[mAmount];
 	int		height = (mY2 - mY1) / mAmount;
@@ -89,7 +86,7 @@ void CMessageBox::draw()
 	int		counter	 = 0;
 	for (int i = 0; i < mAmount; i++)
 	{
-		if (mMessages[i].data != "" && (time(NULL) - mMessages[i].time) < mMessages[i].expiry)
+		if (mMessages[i].data != "" && aTime < mMessages[i].expiry)
 		{
 			SetRect(&(mRc[counter]), mX1, mY1+(height*counter), mX2, mY1+(height*(counter+1)));
 			mFont->DrawText(mTextSprite, mMessages[i].data.c_str(), -1, &(mRc[counter]), DT_NOCLIP, D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f ));

@@ -20,7 +20,6 @@ struct OnGameMessage
 {
 	int		priority;
 	string	data;
-	time_t	time;
 	int		expiry;
 };
 
@@ -31,9 +30,9 @@ public:
 			~CMessageBox	();
 
 			// adds message to messageBox. Empiry-time in seconds
-	void	addMessage		(string* aMessage, int aExpiry);
+	void	addMessage		(const char *aMessage, int aExpiry);
 
-	void	draw			();
+	void	draw			(uint32 aTime);
 
 private:
 	int				mX1;
