@@ -56,8 +56,11 @@ public:
 	 * Does error checking and performs valid actions.
 	 * @param aBulletList List to add new bullets in case of <code>EActionShoot</code>.
 	 * @param aVoices List to add new sound sources in case of <code>EActionShoot</code>.
+	 * @param aWeaponList List of all weapons in the field for picking up.
+	 * @param aDefaultWeapon Default weapon to use after dropping current weapon.
 	 */
-	void performActions(list<CBulletInfo *> *aBulletList, list<TVector> *aVoices);
+	void performActions(list<CBulletInfo *> *aBulletList, list<TVector> *aVoices,
+						list<CWeaponInfo *> *aWeaponList, const CWeapon *aDefaultWeapon);
 
 	/** Update bot according to its new state and position. @return True if bot is alive. */
 	bool update();
