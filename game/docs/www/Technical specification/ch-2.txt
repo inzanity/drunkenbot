@@ -45,6 +45,10 @@
 	- <b>Performing</b>: You can give actions to mech normally by selecting an action from action menu or using proper shortcut key from keyboard and left clicking with mouse on the terrain. With 'shift' pressed down you can combine actions which are then performed in the order they were given.
 	- <b>Implementation</b>: CDirectInput class tells that action was given with mouse. If action queue is not full, 'add action' message is sent to the selected game object. If shift button is pressed down the actions are added to the action queue in given order and object performs them in FIFO order.
 
+2.1.9.1	Moving actions
+
+2.1.9.2	Attacking actions
+
 2.1.10	Changing into FPS mode
 
 	- <b>Performing</b>: First select a mech you want to control in first person perspective. Then you can press 'enter' or bound key for this mech from keyboard or double click it with left mouse button. Perspective moves to FPS instantaneously.

@@ -3,7 +3,7 @@
 3.1.1	Enemies and neutrals
 
 	- <b>Performing</b>: When enemies or neutrals are sighted, they attack you immediately or retreat, depending on the situation.
-	- <b>Implementation</b>: When an enemy or an neutral game object is close enough to a players object it starts to follow scripted routine or calculates the situation based on current strength etc. wheter to attack or retreat.
+	- <b>Implementation</b>: When an enemy or an neutral game object is close enough to a players object it starts to follow scripted routine or attacks or retreats depending on the mode it's in.
 
 3.1.2	On-game messages
 
@@ -22,8 +22,8 @@
 
 3.1.5	Environmental occurrences
 
-	- <b>Performing</b>: Day and night changes is real time. In day time sunlight provides all the light needed. At nights mechs and bases have additional lights to enable seeing in the darkness. Every now and then at nights lightning strikes down from the sky. Lightnings can be captured with lighning power station thus creating additional energy.
-	- <b>Implementation</b>: When game time variable increases to match definion of night time, game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down randomly.
+	- <b>Performing</b>: Day and night changes is real time. In day time sunlight provides all the light needed. At nights mechs and bases have additional lights to enable seeing in the darkness. Every now and then at nights lightning strikes down from the sky. Lightnings can be captured with lightning power station thus creating additional energy.
+	- <b>Implementation</b>: When game time variable increases to match definition of night time, game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down randomly.
 
 3.2	FPS-mode
 3.2.1	Radar
