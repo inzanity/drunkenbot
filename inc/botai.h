@@ -175,7 +175,7 @@ private:
 typedef CBotAI *(*TBotAIGetter)();
 
 /** Getter function for the AI class. Must be implemented. @return Instance of the AI class. */
-CBotAI *getBotAI();
+extern "C" CBotAI *getBotAI();
 
 
 #endif // BOTAI_H

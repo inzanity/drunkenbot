@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include "test.h"
 
-CBotAI *getBotAI()
+extern "C" CBotAI *getBotAI()
 {
 	return new CTestAI();
 }
