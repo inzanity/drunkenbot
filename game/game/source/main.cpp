@@ -2,6 +2,7 @@
 #include "../include/d3dUtil.h"
 #include "../include/animationStorage.h"
 #include "../include/game.h"
+#include "../include/directInput.h"
 
 #define		KScreenWidth	640
 #define		KScreenHeight	480
@@ -84,6 +85,8 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 		return false;
 	}
 
+	CDirectInput *controllers = new CDirectInput(&hWnd);
+
 	// Enter the message loop
 	ZeroMemory(&msg, sizeof(msg));
 	while(msg.message != WM_QUIT)
@@ -105,6 +108,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 	}
 	delete game;
 	delete animationStorage;
+	delete controllers;
 	delete d3dObj;
     
 	UnregisterClass(KClassName,	aHInst);
