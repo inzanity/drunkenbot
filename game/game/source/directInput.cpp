@@ -23,6 +23,7 @@ CDirectInput::CDirectInput()
 	mBoundKeys[MOVE_LEFT]	= DIK_A;
 	mBoundKeys[MOVE_RIGHT]	= DIK_D;
 	mBoundKeys[MOVE_UP]		= DIK_W;
+	mBoundKeys[MOVE_DOWN]	= DIK_S;
 	mBoundKeys[MOVE_FORWARD]= DIK_F;
 	mBoundKeys[KEY_1]		= DIK_1;
 	mBoundKeys[KEY_2]		= DIK_2;
