@@ -41,7 +41,7 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 	} while ((tile & KTileTypeMask) != CTilemap::ETileEmpty);
 	mMovingDirection = mOrientation = 2 * PI * rand() / float(RAND_MAX);
 	mBunkered = false;
-	mAcitionDelay = 0;
+	mActionDelay = 0;
 	mBotAction = EActionNone;
 	mSpawningPos = mPos;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
