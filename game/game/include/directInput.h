@@ -66,4 +66,6 @@ private:
 	int						mBoundKeys[KEYBOARD_SIZE];
 };
 
+extern CDirectInput *directInput;
+
 #endif // DIRECTINPUT_H

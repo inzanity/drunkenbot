@@ -52,9 +52,9 @@ public:
 	 */
 	virtual void externalize(ostream &aStream);
 	/**	Getter for index. @return Index, where this object is stored */
-	uint16 index();
+	uint16 index() const;
 	/**	Getter for id. @return Objects unique id */
-	uint16 id();
+	uint16 id() const;
 	/**
 	 * Message handler.
 	 * Messages are used with AI and interaction between objects instead of polling.
@@ -121,9 +121,9 @@ public:
 	virtual void handleCollision(const MGameObj *aObj);
 
 	/** Draw object. @param aTimeFactor Elapsed time */
-	virtual void draw(uint32 aTime);
-	/** Transform object before rendering. @param Elapsed time */
-	virtual void update(uint32 aTime);
+	virtual void draw(uint32 aTimeFactor);
+	/** Transform object before rendering. @param aTimeFactor Elapsed time */
+	virtual void update(uint32 aTimeFactor);
 	/** Sets current Animation. @param aAnim New Animation to use @param aAnimSpeed Speed of the animation */
 	void setAnimation(MAnimation *aAnim, float aAnimSpeed = 1);
 	/** Get Animation playing speed. @return Animation speed */
@@ -165,6 +165,28 @@ protected:
 	MAnimation *	mAnimation;
 	D3DXVECTOR3		mPos, mSpeed;
 	D3DXQUATERNION	mOrientation, mRotSpeed;
+};
+
+/** Secure pointer class for game objects. */
+class CGameObjPtr
+{
+public:
+	/** Constructor for NULL pointer. */
+	CGameObjPtr();
+	/** Constructor. @param aID Unique id @param aIndex Index */
+	CGameObjPtr(uint16 aId, uint16 aIndex);
+	/** Setter for the pointer. @param aID Unique id @param aIndex Index */
+	void setPtr(uint16 aId, uint16 aIndex);
+	/** Set pointer to NULL. */
+	void setPtrToNULL();
+	/** Getter for MGameObj ponter. @return Pointer to the valid MGameObj, or NULL if object */
+	MGameObj *ptr();
+	/**	Getter for index. @return Index, where this object is stored */
+	uint16 index() const;
+	/**	Getter for id. @return Objects unique id */
+	uint16 id() const;
+private:
+	uint16 mIndex, mId;
 };
 
 #endif // GAMEOBJ_H

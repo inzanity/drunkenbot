@@ -162,6 +162,8 @@ void CParticleSystem::draw(uint32 aTime)
 	if (!mVertexBuffer)
 		restore(NULL);
 
+	device->SetTransform(D3DTS_VIEW, d3dObj->mMatrixStack->GetTop());
+
 	// Set up point sprites
     device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	device->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -178,7 +180,7 @@ void CParticleSystem::draw(uint32 aTime)
 	}
 
 	float *ptr = NULL;
-	mVertexBuffer->Lock(0, mVertexSize * mParticles, (void**)&ptr, D3DLOCK_DISCARD);
+	mVertexBuffer->Lock(0, 0, (void**)&ptr, D3DLOCK_DISCARD);
 	int j = 0;
 	for (int i = 0; i < mParticles; i++)
 	{

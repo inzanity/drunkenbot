@@ -5,6 +5,7 @@
 #include "gameObj.h"
 #include "camera.h"
 #include "message.h"
+#include "heightMap.h"
 
 class CGame
 {
@@ -20,6 +21,7 @@ public:
 	void sendMessage(uint16 aMsg, MGameObj *aObj,
 					 uint32 aParam1, uint32 aParam2, uint32 aTime = 0);
 	void destroyObj(MGameObj *aObj);
+	MGameObj *getGameObj(uint16 aIndex, uint16 aId);
 
 	void testi();
 
@@ -29,8 +31,11 @@ private:
 	list<MGameObj *> mDestroyList;
 	CMessageList mMsgList;
 	CIndexList<CDrawable> mBuildings;
+	CHeightMap *mHeightMap;
 	CCamera *cam;
 	int mTime;
 };
+
+extern CGame *game;
 
 #endif // GAME_H

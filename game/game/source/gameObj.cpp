@@ -1,4 +1,42 @@
-#include "..\include\gameObj.h"
+#include "../include/gameObj.h"
+#include "../include/game.h"
+
+// CGameObjPtr
+
+CGameObjPtr::CGameObjPtr() : mIndex(KNullIndex), mId(0)
+{
+}
+
+CGameObjPtr::CGameObjPtr(uint16 aId, uint16 aIndex) : mIndex(aIndex), mId(aId)
+{
+}
+
+void CGameObjPtr::setPtr(uint16 aId, uint16 aIndex)
+{
+	mId = aId;
+	mIndex = aIndex;
+}
+
+void CGameObjPtr::setPtrToNULL()
+{
+	mId = 0;
+	mIndex = KNullIndex;
+}
+
+MGameObj *CGameObjPtr::ptr()
+{
+	return game->getGameObj(mIndex, mId);
+}
+
+uint16 CGameObjPtr::index() const
+{
+	return mIndex;
+}
+
+uint16 CGameObjPtr::id() const
+{
+	return mId;
+}
 
 // MGameObj
 
@@ -18,12 +56,12 @@ void MGameObj::externalize(ostream &aStream)
 {
 }
 
-uint16 MGameObj::index()
+uint16 MGameObj::index() const
 {
 	return mIndex;
 }
 
-uint16 MGameObj::id()
+uint16 MGameObj::id() const
 {
 	return mId;
 }
@@ -72,7 +110,6 @@ void CDrawable::draw(uint32 aTimeFactor)
 	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
 	D3DXQuaternionToAxisAngle(&mOrientation, &vec, &angle);
 	d3dObj->mMatrixStack->RotateAxisLocal(&vec, angle);
-	d3dObj->mD3DDevice->SetTransform(D3DTS_VIEW, d3dObj->mMatrixStack->GetTop());
 
 	mAnimTime += (uint32)(aTimeFactor * mAnimSpeed);
 	if (mAnimation)
@@ -145,10 +182,10 @@ const D3DXQUATERNION *CDrawable::rotSpeed() const
 	return &mRotSpeed;
 }
 
-void CDrawable::update(uint32 aTime)
+void CDrawable::update(uint32 aTimeFactor)
 {
-	mPos += mSpeed * (float)aTime;
-	mOrientation *= mRotSpeed * (float)aTime;
+	mPos += mSpeed * (float)aTimeFactor;
+	mOrientation *= mRotSpeed * (float)aTimeFactor;
 }
 
 float CDrawable::radiusSqr() const

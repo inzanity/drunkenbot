@@ -6,6 +6,8 @@
 #define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=NULL; } }
 #define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p)=NULL; } }
 
+CDirectInput *directInput = NULL;
+
 CDirectInput::CDirectInput()
 {
 	for (int i = 0; i < KEYBOARD_SIZE; i++)
@@ -48,7 +50,9 @@ CDirectInput::CDirectInput()
     if (FAILED(mKeyboard->SetProperty(DIPROP_BUFFERSIZE, &dipdw.diph)))
 		FreeDirectInput();
 */
+	directInput = this;
 }
+
 CDirectInput::~CDirectInput()
 {
 	FreeDirectInput();

@@ -31,7 +31,7 @@ void CTexture::release()
 void CTexture::restore(const char *aFileName)
 {
 	if (!mTexture)
-		if(FAILED(D3DXCreateTextureFromFile(d3dObj->mD3DDevice,	aFileName, &mTexture)))
+		if(FAILED(D3DXCreateTextureFromFile(d3dObj->mD3DDevice, aFileName, &mTexture)))
 			mTexture = NULL;
 }
 

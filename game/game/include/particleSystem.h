@@ -5,7 +5,6 @@
 
 class CParticleSystem : public MAnimation
 {
-private:
 public:
 	CParticleSystem(int aParticles, int aDuration, char aPosNum, char aColorNum, char aSizeNum, const char *aTexFile);
 	~CParticleSystem();

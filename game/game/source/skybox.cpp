@@ -23,11 +23,11 @@ void CSkyBox::draw()
 	m->_41 = m->_42 = m->_43 = 0;
 	d3dObj->mD3DDevice->SetTransform(D3DTS_VIEW, m);
 
+	d3dObj->mD3DDevice->SetStreamSource(0, mVB, 0, 5 * sizeof(float));
+	d3dObj->mD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_TEX1);
 	for(int i = 0; i < 6; i += 1)
 	{
 		d3dObj->mD3DDevice->SetTexture(0, *mTex[i]);
-		d3dObj->mD3DDevice->SetStreamSource(0, mVB, 0, 5 * sizeof(float));
-		d3dObj->mD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_TEX1);
 		d3dObj->mD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, i * 4, 2);
 	}
 	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
