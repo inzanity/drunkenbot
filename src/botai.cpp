@@ -1,6 +1,7 @@
 #include "../inc/botai.h"
 
-#define KExclusiveActions (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon)
+#define KExclusiveActions	(EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon)
+#define KAllActions			(EActionMove | EActionTurn | EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon)
 
 CBotAI::CBotAI() : mTilemap(NULL), mData(NULL), mAction(EActionNone), mMovingDir(EMoveForward),
 				   mTurningDir(ETurnLeft), mShootingDir(0)
@@ -59,17 +60,17 @@ bool CBotAI::shoot(float aDir)
 
 bool CBotAI::bunker()
 {
-	return setAction(EActionBunker, KExclusiveActions);
+	return setAction(EActionBunker, KAllActions);
 }
 
 bool CBotAI::pickWeapon()
 {
-	return setAction(EActionPickWeapon, KExclusiveActions);
+	return setAction(EActionPickWeapon, KAllActions);
 }
 
 bool CBotAI::dropWeapon()
 {
-	return setAction(EActionDropWeapon, KExclusiveActions);
+	return setAction(EActionDropWeapon, KAllActions);
 }
 
 void CBotAI::cancelAction(TBotAction aAction)

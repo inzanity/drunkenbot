@@ -107,24 +107,21 @@ public:
 
 	/**
 	 * Bunker/unbunker bot. Action duration 4 rounds.
-	 * If <code>EActionShoot</code>, <code>EActionPickWeapon</code> or <code>EActionDropWeapon</code> is defined,
-	 * it will be cancelled.
+	 * All other actions will be cancelled.
 	 * @return True if action was legal.
 	 */
 	bool bunker();
 
 	/**
 	 * Pick up a weapon. Action duration 2 rounds.
-	 * If <code>EActionShoot</code>, <code>EActionBunker</code> or <code>EActionDropWeapon</code> is defined,
-	 * it will be cancelled. To pick a weapon, it has to be close enough (distance <= radius of the bot + radius of the weapon).
+	 * All other actions will be cancelled.
 	 * @return True if action was legal.
 	 */
 	bool pickWeapon();
 
 	/**
 	 * Drop a weapon. Action duration 1 round.
-	 * If <code>EActionShoot</code>, <code>EActionBunker</code> or <code>EActionPickWeapon</code> is defined,
-	 * it will be cancelled. Dropped weapon disappears permanently, and it can not be picked up again.
+	 * All other actions will be cancelled.
 	 * @return True if action was legal.
 	 */
 	bool dropWeapon();
