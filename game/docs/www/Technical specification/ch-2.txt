@@ -3,48 +3,47 @@
 2.1.1	Selecting an object
 
 	- <b>Performing</b>: Move mouse on top an object (etc. building or mech) and click left mouse button once.
-	- Implementation: CDirectInput class tells that left mouse button was pressed and supplies the coordinates, which are used to determine if there is an object underneath to be selected. If there is, 'selected'-variable is updated.
+	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed and supplies the coordinates, which are used to determine if there is an object underneath to be selected. If there is, 'selected' variable is updated. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.2	Unselecting an object
 
-	- Performing: While an object is selected, move mouse cursor to empty place and click left mouse button once. Also pressing 'esc' on keyboard unselects object.
-	- Implementation: CDirectInput class tells that left mouse button was pressed and supplies the coordinates, which are used to determine if there is an object underneath to be selected. If there isn't, 'selection'-variable is cleared. Same happens if CDirectInput class supplies keyboard input 'esc'.
+	- <b>Performing</b>: While an object is selected, move mouse cursor to empty place and click left mouse button once. Also pressing 'esc' on keyboard unselects object.
+	- <b>Implementation</b>: CDirectInput class tells that left mouse button was pressed and supplies the coordinates, which are used to determine if there is an object underneath to be selected. If there isn't, 'selection' variable is cleared. Same happens if CDirectInput class supplies keyboard input 'esc'. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.3	Binding a selection
 
-	- Performing: While an object is selected, hold 'Ctrl' button down and choose a number to bind the object to.
-	- Implementation: CDirectInput class tells if 'Ctrl' is down and a number is pressed. After that 'selected'-variable is checked. If not empty, it's contents are copied to 'bind[number]'-variable.
+	- <b>Performing</b>: While an object is selected, hold 'Ctrl' button down and choose a number to bind the object to.
+	- <b>Implementation</b>: CDirectInput class tells if 'Ctrl' is down and a number is pressed. After that 'selected' variable is checked. If not empty, it's contents are copied to 'bind[number]' variable.
 
 2.1.4	Referring to bound object
 
-	- Performing: In any state of the game, if an object is bound to a certain number, pressing this number selects the object immediately.
-	- Implementation: If CDirectInput class tells that a number was pressed, 'bind[number]'-variable is checked, and if not empty it's contents is copied to 'selected'-variable.
+	-  <b>Performing</b>: In any state of the game, if an object is bound to a certain number, pressing this number selects the object immediately.
+	- <b>Implementation</b>: If CDirectInput class tells that a number was pressed, 'bind[number]' variable is checked, and if not empty it's contents is copied to 'selected' variable. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.5	Building a building
 
-	- Performing: Move mouse curson on top a building you want to build and press left button once or press the quick button on keyboard which refers to the building in question. Then move mouse cursor to the place you want to put the building and press left mouse button once. Then wait for the building to complete.
-	- Implementation: CDirectInput class tells that if left mouse button is pressed and gives the coordinates, which are used to determine if the cursor was on top of a building-icon in action menu. If was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other CGameObj-variables and the coordinates are inside the 'energisized' region a building of CGameObj class is created on those coordinates.
+	- <b>Performing</b>: Move mouse curson on top a building you want to build and press left button once or press the quick button on keyboard which refers to the building in question. Then move mouse cursor to the place you want to put the building and press left mouse button once. Then wait for the building to complete.
+	- <b>Implementation</b>: CDirectInput class tells that if left mouse button is pressed and gives the coordinates, which are used to determine if the cursor was on top of a building icon in action menu. If was, then the mouse cursor is chanced to a appropriate building. A correct keyboard button does the same thing (checked from CDirectInput). When left mouse button is pressed again, the coordinates tell where the building is set to be built. If there was no collisions with other CGameObj variables and the coordinates are inside the 'energisized' region a building of CGameObj class is created on those coordinates. Selected items action queue, action menu and info screen is asked to update themselves.
 
 2.1.6	Cancelling building of a building
 
-	- Performing: First select the building you wish to cancel with mouse. Then press the cancel button from action menu or press 'esc' from keyboard.
-	- Implementation:
+	- <b>Performing</b>: First select the building you wish to cancel with mouse. Then press the cancel button from action menu or press 'esc' from keyboard.
+	- <b>Implementation</b>: 'selected' variable points to a CGameObj object. When CDirectInput class tells that left mouse button was pressed on top of a cancel button in action menu or 'esc' was pressed on keyboard a 'cancel' command is sent to selected CGameObj and it determines that because the object is being built, the building is canceled. Action queue, action menu and info screen is asked to update themselves.
 
 2.1.7	Using action queue to develop technology and build mechs
 
-	- Performing: 
-	- Implementation:
+	- <b>Performing</b>: Select a building you want to use to build or develop something. After selection the objects action menu shows all the building/development possibilities. Clicking one of them with left mouse button adds it to the objects action queue to be built/developed. Building/developement of an item can be cancelled by clicking it with left mouse button. Every command has also a shortcut key.
+	- <b>Implementation</b>: If 'selected' variable is not empty and CDirectInput class tells that left mouse button was pressed on top of action menus item, the item is added to the action queue. If left mouse button is pressed over the item in queue a cancel message is sent to the item.
 
 2.1.8	Changing mech's mode
 
-	- Performing: 
-	- Implementation:
+	- <b>Performing</b>: When mech is selected you can change mechs mode from action menu with left mouse button.
+	- <b>Implementation</b>: CDirectInput class tells that left mouse button is pressed on top of one of the buttons in action menu and a message of that button is sent to the selected CGameObj and if it's mech it changes it's mode accordingly.
 
 2.1.9	Adding mech actions to queue
 
-	- Performing: 
-	- Implementation:
-
+	- <b>Performing</b>: You can give actions to mech normally by selecting an action from action menu or using proper shortcut key from keyboard and left clicking with mouse on the terrain. With 'shift' pressed down you can combine actions which are then performed in the order they were given.
+	- <b>Implementation</b>: CDirectInput class tells that shift button is pressed down and action was given with mouse. Add action message is sent to the selected CGameObj and it performs them in FIFO order.
 
 
 
