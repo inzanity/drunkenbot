@@ -33,10 +33,10 @@ All objects in the game are derived from CGameObj. Most of these objects are vis
 IColliding is interface for all objects that can collide with height map (see 1.5.1) or each other. Collision detection has two phases. First distance between objects is compared to the radius of both objects. After that bounding boxes are used for more accurate detection. Every object may have several bounding boxes.
 
 1.2.2	Drawable objects
-Basicly all visible objects derives from CDrawable. However, it is possible to draw other kinds of objects if necessary. CDrawable is base class of most of the game objects, and it contains all basic components like position, movement, and animation data. Drawable objects are updated and drawed every frame using these values.
+Basically all visible objects derive from CDrawable. However, it is possible to draw other kinds of objects if necessary. CDrawable is the base class of most of the game objects, and it contains all basic components like position, movement and animation data. Drawable objects are updated and drawed every frame using these values.
 
 1.2.3	CMech
-The single most important game objects is CMech. It contains all mech data and behaviour. However some parts, like AI (see 1.5.2), are divided to separate classes. As mech animations are more complicated (different weapons, turning upper body, shooting, moving), it requires more animation data than common CDrawable object.
+The single most important game object is CMech. It contains all mech data and behaviour. However some parts, like AI (see 1.5.2), are divided to separate classes. As mech animations are more complicated (different weapons, turning upper body, shooting, moving), it requires more animation data than common CDrawable object.
 
 1.2.4	CBuilding
 Buildings are noticeable part of the game. All RTS-mode functionality, like buildings, technologies, upgrades and resources are directly connected to the buildings. Buildings which are just part of the technology tree (see 1.4), but have no special purpose, are directly CBuilding instances. Extended classes have to be implemented for more complicated buildings, like command center, dock yard, power distribution system and defence building (turret).
@@ -46,9 +46,9 @@ Distribution channels are special pipes for resource distribution. They can only
 1.3	Message system
 Messages are used for communication between game objects. This enables general interaction, timing of events, message based state machines (see 1.5.2) and more efficient way to get information from environment. In traditional polling system, objects are observing game state in every frame. In message based system, objects are informed by a message when an event occurs.
 
-Game objects are stored in special data structures. These are similar to linked lists, but are implemented using indices (to fixed size node array) instead of pointers. Using index and id of the receiver object, message can be delivered in constant time while still insuring the validity of the receiver. Index and id of the sender object are also included to the message to enable replying. 
+Game objects are stored in special data structures. These are similar to linked lists, but are implemented using indices (to fixed size node array) instead of pointers. Using index and id of the receiver object, message can be delivered in constant time while still insuring the validity of the receiver. Index and id of the sender object are also included in the message to enable replying. 
 
-Message contains one integer to identify the message, two parameters and a time delay. Receiver of the message can be same as the sender, as it can be used for timing purposes. There is no support for multiple recipients or cancelling  queued (sended but not delivered) messages. When game is loaded or saved, whole message queue has to be included.
+Message contains one integer to identify the message, two parameters and a time delay. Receiver of the message can be same as the sender, as it can be used for timing purposes. There is no support for multiple recipients or cancelling queued (sended but not delivered) messages. When game is loaded or saved, whole message queue has to be included.
 
 1.4	Technology tree
 Game contains several data classes for loading and storing information about weapons, buildings and technology tree. All technology tree related data is loaded from xml-file. Predefined schema files are used to make technology tree creation and manipulation easier (see 4.X). See concept document 3.3.2 and 3.3.4 for weapon and building data descriptions.
@@ -58,7 +58,7 @@ The game is heavily concentrated on artificial intelligence. It has to deal with
 
 AI components are tightly tied up to game object classes. Most of them can be isolated to separate classes, but they are still under the Game Objects package. External tools are used for scripting and fuzzy logic (see 4).
 
-Even if AI is essential part of the game, it can't be made perfect. Strategic AI is not as important as other parts, because scripted missions are used in single player campaigne.
+Even if AI is essential part of the game, it can't be made perfect. Strategic AI is not as important as other parts, because scripted missions are used in single player campaign.
 
 1.5.1	Pathfinding
 Pathfinding is common problem in almost every game. In RTS games it has to be dealed very carefully, as there is usually lots of moving units. In this game however, there is only few moving units, which simplifies the problem.
@@ -77,7 +77,7 @@ Building the base becomes very demanding task, because computer should be able t
 
 Fuzzy system is used to determine the best strategy (see 4.X). Rules are based on the gathered knowledge and the game state. For example, if enemy has an economic advantage and strong defence, expanding might be a good idea.
 
-Scouting and small strokes are performed during the whole game. Multiple mechs are not used before tactical AI technology level. If no resources are available and can't be gathered, full attack strategy is used for the rest of the game.
+Scouting and small strokes are performed during the whole game. Multiple mechs are not used before tactical AI technology level. If resources are not available or can't be gathered, full attack strategy is used for the rest of the game.
 
 1.5.4	Scripting
 Several AI components are based on scripting language Lua. Lua is also used in scripted single player missions. Scripts for these components can be added from the level editor (see 4.X).
