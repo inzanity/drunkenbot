@@ -7,11 +7,6 @@
 #include <cstdlib>
 #include "../inc/bot.h"
 
-	CBotAI *mBotAI;
-	char *mDllName;
-	HMODULE mDllHandle;
-	int mFrags;
-
 CBot::CBot(const char *aDllName) : mBotAI(NULL), mDllName(NULL), mDllHandle(NULL), mFrags(0)
 {
 	mDllName = new char[strlen(aDllName) + 1];
@@ -93,11 +88,7 @@ void CBot::loadAI()
 		TBotAIGetter getter = (TBotAIGetter)GetProcAddress(mDllHandle, "getBotAI");
 		if (getter)
 			mBotAI = getter();
-//		else
-//			cout<<"No function found\n";
 	}
-//	else
-//		cout<<"No library found.\n";
 #else
 	if (mDllHandle)
 		dlclose(mDllHandle);
@@ -109,5 +100,4 @@ void CBot::loadAI()
 			mBotAI = getter();
 	}
 #endif
-	// TODO: #ifdef _PURKKA_
 }
