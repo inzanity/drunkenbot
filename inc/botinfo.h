@@ -43,3 +43,5 @@ public:
 	/** Default constructor */
 	CBotInfo();
 };
+
+#endif // BOTINFO_H
