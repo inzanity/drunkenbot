@@ -105,7 +105,10 @@ bool CGameEngine::loop()
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->performActions(&mBulletList, &mVoiceList);
 	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
+	{
+		(*bulIter)->resetTimeFactor();
 		(*bulIter)->chkCollision((const char **)mTilemap, (CBotInfo **)mBots, false);
+	}
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)&mBots[i + 1], true);
 	return true;
@@ -118,15 +121,15 @@ void CGameEngine::draw(float aTimeInterval, int aBotIndex)
 		return;
 	mGfxEngine->setActiveBot(aBotIndex >= 0 && aBotIndex < mBotNum ? mBots[aBotIndex] : NULL);
 	mGfxEngine->drawTilemap(mTilemap, mMapWidth, mMapHeight);
-	for (int i = 0; i < mBotNum; i++)
-	{
-		mBots[i]->move(aTimeInterval);
-		mGfxEngine->drawGameObj(mBots[i]);
-	}
 	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
 	{
 		(*bulIter)->move(aTimeInterval);
 		mGfxEngine->drawGameObj((*bulIter));
+	}
+	for (int i = 0; i < mBotNum; i++)
+	{
+		mBots[i]->move(aTimeInterval);
+		mGfxEngine->drawGameObj(mBots[i]);
 	}
 }
 
