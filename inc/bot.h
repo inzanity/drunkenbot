@@ -1,11 +1,9 @@
 /** @file bot.h
- * Definition of Dippaadai.
- * Rairairai.
- *
- * @todo foo
+ * Definition of CBot.
+ * Bot information from engines point of view. 
  *
  * @author Japa
- * @version 0.1
+ * @version 1.0
  */
 
 #ifndef BOT_H
@@ -15,20 +13,21 @@
 
 /**
  * Class to store all bot information.
- * Bots are controlled using mBotAI, and all data is stored in mBotInfo.
+ * Bots are controlled using CBotAI, and all data is stored in CBotInfo.
  * 
  */
 class CBot
 {
 public:
-	/**
-	 * Default constructor.
-	 */
-	CBot();
+	/** Constructor. @param aDllName Name of the .dll file to load <code>CBotAI</code>. */
+	CBot(const char *aDllName);
+
+	/** */
 
 private:
 	CBotAI *mBotAI;
 	CBotInfo mBotInfo;
+	char *mDllName;
 }
 
 
