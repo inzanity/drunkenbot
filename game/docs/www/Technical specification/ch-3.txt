@@ -15,15 +15,15 @@
 	- <b>Performing</b>: The whole map is shown here. Clicking here with left mouse button you can change the place of top-down view or use actions of selected objects directly to a certain place.
 	- <b>Implementation</b>: The whole game world is projected here like it's seen to player. If CDirectInput class tells that left mouse button is pressed on top this map, correct place of the place in the world is calculated and left mouse button message is generated to object or the game depending on if there is any object selected etc.
 
-3.1.4	Resources display
+3.1.4	Resources
 
-	- <b>Performing</b>: Your available resources are displayed in the top-right corner.
+	- <b>Performing</b>: Your available resources are displayed in the top-right corner. When collecting resources from sources you can see the increasing resources immediately.
 	- <b>Implementation</b>: Amount of metal and chemicals are stored in variables and the overall and used amount of power is calculated from all the building objects and energy generator objects preferences.
 
 3.1.5	Environmental occurrences
 
-	- <b>Performing</b>: Every now and then in the nights lightning strikes down from the sky creating damage to what ever it hits. Lightnings can be captured with lighning power station thus enabling certain area around the station to be safe from damage from lightnings.
-	- <b>Implementation</b>: When game time variable increases to match definion of night time, game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down creating damage to whatever object it hits (if object present).
+	- <b>Performing</b>: Day and night changes is real time. In day time sunlight provides all the light needed. At nights mechs and bases have additional lights to enable seeing in the darkness. Every now and then at nights lightning strikes down from the sky. Lightnings can be captured with lighning power station thus creating additional energy.
+	- <b>Implementation</b>: When game time variable increases to match definion of night time, game starts to calculate random occurrences for lightings with random starting and finishing points (finishing point of course dependant on starting point). If Starting point is near enough to a lightning power station object, finishing point goes automatically to the object, but if not, the lightning strikes down randomly.
 
 3.2	FPS-mode
 3.2.1	Radar
