@@ -54,6 +54,11 @@
 	- <b>Performing</b>: First select a mech you want to control in first person perspective. Then you can press 'enter' or bound key for this mech from keyboard or double click it with left mouse button. Perspective moves to FPS instantaneously.
 	- <b>Implementation</b>: When CDirectInput class tells that left mouse button is double clicked or 'enter' or number is pressed, the message is sent to the selected object and it proceeds with changing perspective to FPS if everything is in order (selected object is mech etc.).
 
+2.1.11	Exploring the Map
+
+	- <b>Performing</b>: A mech can see only to a certain distance, and so can a building. Totally unseen areas are covered in black, and the map needs to be explored with a mech. After a location has been seen once, it will be visible within a fog. Only buildings (as the were at the time they were seen) and the level are seen under the fog.
+	- <b>Implementation</b>: A array will contain information of visible and seen locations. The values in the array will be updated every round, so that visible or foggy areas become foggy. Then all players objects that have visual capabilities will update information about what they see. Info about seen buildings will be preserved when they're inside the fog, and their state will be updated when they're seen again.
+
 2.2	FPS Functions
 2.2.1	Moving
 
