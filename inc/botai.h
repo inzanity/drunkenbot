@@ -34,13 +34,6 @@ class CBotAI
 {
 public:
 	/**
-	 * Bot actions. Every action is a combination of these.
-	 * See checkAction() for detailed information about legal actions.
-	 */
-	enum TBotAction {EActionNone = 0, EActionMove = 1, EActionShoot = 2,
-					 EActionBunker = 4, EActionPickWeapon = 8, EActionDropWeapon = 16};
-
-	/**
 	 * Bot moving directions. Direction can be only one of these.
 	 * @see move().
 	 */
@@ -135,7 +128,7 @@ public:
 	list<CVisibleBulletInfo *> mBullets;
 
 	/** List of sources causing noise. Only angle of incidence can be detected. */
-	list<float> mSourceOfNoise;
+	list<float> mSourcesOfNoise;
 
 	/** Information about this bot. */
 	CBotInfo mData;

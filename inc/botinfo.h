@@ -14,6 +14,13 @@
 #define BOTINFO_H
 
 /**
+ * Bot actions. Every action is a combination of these.
+ * See CBotAI::checkAction() for detailed information about legal actions.
+ */
+enum TBotAction {EActionNone = 0, EActionMove = 1, EActionShoot = 2,
+				 EActionBunker = 4, EActionPickWeapon = 8, EActionDropWeapon = 16};
+
+/**
  * Public class for general bot information.
  * When bots see other bots, they will get this information of it.
  */
@@ -59,8 +66,14 @@ public:
 	 */
 	char actionDelay();
 
+	/** Getter for current weapon */
+	const CWeapon *weapon();
+
 protected:
 	char mActionDelay;
+	CWeapon *mWeapon;
+	TBotAction mBotAction;
+	bool mBunkered;
 };
 
 #endif // BOTINFO_H

@@ -14,6 +14,10 @@
 
 #include "bot.h"
 #include "graphicsengine.h"
+#include "bullet.h"
+#include <list>
+
+using std::list;
 
 /**
  * Game engine includes all higher level logic for the game.
@@ -23,21 +27,17 @@ class CGameEngine
 {
 public:
 	/**
-	 * Default constructor to load all available bots. Game mode is FFA.
-	 * @param aMap Stream to read tilemap from.
-	 */
-	CGameEngine(istream &aMap);
-
-	/**
 	 * Constructor to load bots from stream.
-	 * @param aStream Stream to load teams and bots.
+	 * Data is read from streams in given order.
+	 * @param aWeapons Stream to read available weapon types.
 	 * @param aMap Stream to read tilemap.
+	 * @param aStream Stream to load teams and bots, or NULL to load all available bots (ffa).
 	 */
-	CGameEngine(istream &aTeamInfo, istream &aMap);
+	CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo = NULL);
 
 	/**
 	 * Setter for graphics engine.
-	 * @param aGraphicsEngine Graphics engine used to draw game, NULL to disable drawing.
+	 * @param aGraphicsEngine Graphics engine used to draw game. NULL to disables drawing.
 	 */
 	void setGraphicsEngine(CGraphicsEngine *aGraphicsEngine);
 
@@ -63,6 +63,9 @@ public:
 
 private:
 	CGraphicsEngine *mGfxEngine;
+	list<CBulletInfo *> mBulletList;
+	list<CWeaponInfo *> mWeaponList;
+	CWeapon *mWeaponTypes;
 	CBot *mBots;
 	char **mTileMap;
 	int mFragLimit;

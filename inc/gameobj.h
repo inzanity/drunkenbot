@@ -13,6 +13,15 @@
 
 class CBotInfo;
 
+/** Struct for 2D coordinates. */
+struct TPosition
+{
+	/** X-coordinates */
+	float mXPos;
+	/** Y-coordinates */
+	float mYPos;
+};
+
 /**
  * Base class for all game objects.
  * Common attributes for locating and drawing objects.
@@ -45,10 +54,8 @@ public:
 	float animationTimer();
 
 protected:
-	/** X-coordinates of the object. */
-	float mXPos;
-	/** Y-coordinates of the object. */
-	float mYPos;
+	/** Coordinates of the object. */
+	TPosition mPos;
 	/** Radius of the game object. */
 	float mRadius;
 	/** Orientation of the game object. With moving objects, orientation is used as a moving direction. */
@@ -86,11 +93,12 @@ protected:
 	 * Checks collisions and calculates time factor for moving.
 	 * Time factor is 1.0, if no collisions are detected. In a case of collision
 	 * both objects are handled using handleCollision().
-	 * @param aTileMap Tilemap to detect collisions. Bots can collide with walls and obstacles,
-	 *        while bullets can collide only with walls.
+	 * @param aTileMap Tilemap to detect collisions.
 	 * @param aBots List of all bots.
+	 * @param aCollisionWithObstacles True to enable collisions with obstacles.
+	 *        Bots can collide with walls and obstacles, while bullets can collide only with walls.
 	 */
-	void chkCollision(const char **aTileMap, CBotInfo **aBots);
+	void chkCollision(const char **aTileMap, CBotInfo **aBots, bool aCollisionWithObstacles);
 
 	/**
 	 * Raycaster to scan visible tiles. Can be used to check collisions with walls.
@@ -98,10 +106,9 @@ protected:
 	 * @param aAngle Moving direction for casted ray.
 	 * @param aDstTileMap Tilemap to write visible tiles. NULL to disable vision scanning
 	 *		  (with collision detection).
-	 * @param aXPos X position of the detected collision.
-	 * @param aYPos X position of the detected collision.
+	 * @return Position of the detected collision.
 	 */
-	void scanTileMap(const char **aSrcTileMap, float aAngle, CTileMap *aDstTileMap, float &aXPos, float &aYPos);
+	TPosition scanTileMap(const char **aSrcTileMap, float aAngle, CTileMap *aDstTileMap);
 
 	/** Collision handling.  */
 	virtual void handleCollision(int aType) = 0;
@@ -112,13 +119,5 @@ protected:
 private:
 	float mMovingTimeFactor;
 };
-
-/*
-(v1x^2 + v2x^2)*t^2 + (v1x - v2x)(x1x - x2x)t + x1x^2 + x2x^2 +
-(v1y^2 + v2y^2)*t^2 + (v1y - v2y)(x1y - x2y)t + x1y^2 + x2y^2 = (r1 + r2)^2
-(v1x^2 + v2x^2 + v1y^2 + v2y^2) * t^2 + ((v1x - v2x)(x1x - x2x) + (v1y - v2y)(x1y - x2y)t + x1y^2 + x2y^2 - (r1 + r2)^2 = 0
-
-t = ((v2x - v1x)(x1x - x2x) + (v2y - v1y)(x1x - x2x) ± v(((v1x - v2x)(x1x - x2x) + (v1y - v2y)(x1x - x2x))^2 - 4(v1x^2 + v2x^2 + v1y^2 + v2y^2)(x1y^2 + x2y^2 - (r1 + r2)^2)))/2(v1x^2 + v2x^2 + v1y^2 + v2y^2)
-*/
 
 #endif // GAMEOBJ_H

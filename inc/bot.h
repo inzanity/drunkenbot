@@ -29,14 +29,27 @@ public:
 	void spawn(const char **aTileMap, const CGameObj *aGameObjects);
 
 	/**
+	 * Updates visible objects and bots actions using CBotAI.
+	 * @param aTileMap The whole tilemap.
+	 * @param aBots Array containing all bots.
+	 * @param aBulletList List of all bullets in the field.
+	 * @param aWeaponList List of all weapons in the field.
+	 * @param aVoices List of all voice sources.
+	 */
+	void think(const char **aTileMap, CVisibleBotInfo *aBots, list<CBulletInfo *> *aBulletList,
+			   list<CWeaponInfo *> *aWeaponList, list<TPosition> *aVoices);
+
+	/**
+	 * Does error checking and performs valid actions.
+	 */
+	void performActions(list<CWeaponInfo *> *mBulletList, list<TPosition> *mVoices);
+
+	/**
 	 * Checks and handles collisions. See CMovingGameObj::chkCollision().
 	 * @param aTileMap Tilemap to detect collisions. Bots can collide with walls and obstacles.
 	 * @param aBots List of all bots.
 	 */
-	void chkCollision(char **aTileMap, CBotInfo **aBots);
-
-	/** Updates bots actions using CBotAI. Performs error checking for invalid actions. */
-	void think();
+	void chkCollision(const char **aTileMap, CBotInfo **aBots);
 
 	/**
 	 * Moves bot and prepares it for drawing.
@@ -50,6 +63,7 @@ private:
 	CBotAI *mBotAI;
 	char *mDllName;
 	HMODULE mDllHandle;
+	int mFrags;
 };
 
 #endif // BOT_H
