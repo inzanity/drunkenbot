@@ -68,7 +68,12 @@ protected:
 	float mRadius;
 	/** Orientation angle of the game object. */
 	float mOrientation;
-	/** Type of the game object. @todo Game object type specification. */
+	/** 
+	 * Type of the game object.
+	 * The type id consist of 3 four bit fields, team info, object specific id and object type id.
+	 * Thus bitmasks are 0xf00 for team info, 0xf0 for object data and 0xf for object type.
+	 * Currently there are 3 object types bot, weapon and bullet, with values 1, 2 and 3 in respective order.
+	 */
 	int mType;
 	/** Timer for animations. Animation is played during 1 time units. */
 	float mAnimationTimer;
