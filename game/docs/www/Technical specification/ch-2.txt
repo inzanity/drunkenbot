@@ -2,7 +2,7 @@
 2.1	RTS Functions
 2.1.1	Selecting an object
 
-	- Performing: Move mouse on top an object (etc. building or mech) and click left mouse button once.
+	- <b>Performing</b>: Move mouse on top an object (etc. building or mech) and click left mouse button once.
 	- Implementation: CDirectInput class tells that left mouse button was pressed and supplies the coordinates, which are used to determine if there is an object underneath to be selected. If there is, 'selected'-variable is updated.
 
 2.1.2	Unselecting an object
