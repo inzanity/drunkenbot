@@ -1,3 +1,4 @@
+#include <cmath>
 #include "../inc/tilemap.h"
 
 CTilemap::CTilemap(int aWidth, int aHeight) : mWidth(aWidth), mHeight(aHeight)
@@ -34,12 +35,12 @@ char CTilemap::getTile(int aX, int aY) const
 
 char CTilemap::getTile(float aX, float aY) const
 {
-	return getTile(int(aX), int(aY));
+	return getTile((int)floorf(aX), (int)floorf(aY));
 }
 
 char CTilemap::getTile(const CGameObj *aGameObj) const
 {
-	return getTile(int(aGameObj->xPos()), int(aGameObj->yPos()));
+	return getTile((int)floorf(aGameObj->xPos()), (int)floorf(aGameObj->yPos()));
 }
 
 CTilemap::TTileType CTilemap::type(char aTile) const

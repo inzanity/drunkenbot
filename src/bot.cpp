@@ -222,11 +222,11 @@ void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 			 (CTilemap::TTileType)(tile & 3) != CTilemap::ETileWall;
 			 tile = aTilemap[(int)pos.mY][(int)pos.mX])
 		{
-			mBotAI->mTilemap->setTile(int(pos.mX - mSpawningPos.mX), int(pos.mY - mSpawningPos.mY), tile);
+			mBotAI->mTilemap->setTile((int)floorf(pos.mX - mSpawningPos.mX), (int)floorf(pos.mY - mSpawningPos.mY), tile);
 			time = getNextEdge(pos, speed);
 			pos.mX += time * speed.mX;
 			pos.mY += time * speed.mY;
 		}
-		mBotAI->mTilemap->setTile(int(pos.mX - mSpawningPos.mX), int(pos.mY - mSpawningPos.mY), tile);
+		mBotAI->mTilemap->setTile((int)floorf(pos.mX - mSpawningPos.mX), (int)floorf(pos.mY - mSpawningPos.mY), tile);
 	}
 }
