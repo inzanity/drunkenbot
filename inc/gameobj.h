@@ -18,9 +18,9 @@ class CTilemap;
 struct TPosition
 {
 	/** X-coordinates */
-	float mXPos;
+	float mX;
 	/** Y-coordinates */
-	float mYPos;
+	float mY;
 };
 
 /**
