@@ -51,6 +51,7 @@ private:
 	MAnimation *mAnimation;
 	MAnimation *mConstructAnimation;
 	uint32 mConstructionTime;
+
 	int mHitpoints;
 	int mPrice;
 	int mTechnologyMask;

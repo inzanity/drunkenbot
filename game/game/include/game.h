@@ -8,6 +8,7 @@
 #include "heightMap.h"
 #include "messageBox.h"
 #include "gameui.h"
+#include "building.h"
 
 enum TObjectType{ETypeBuilding, ETypeMech, ETypeExplosion, ETypeCamera};
 
@@ -31,11 +32,11 @@ private:
 
 public:
 	CHeightMap *mHeightMap;
+	CIndexList<CDrawable> mBuildings;
+	CIndexList<CMech> mMechs;
 private:
 	list<MGameObj *> mDestroyList;
 	CMessageList mMsgList;
-	CIndexList<CDrawable> mBuildings;
-	CIndexList<CMech> mMechs;
 	CCamera *mCam;
 	CMessageBox *mMessageBox;
 	CGameUI *mGameUI;

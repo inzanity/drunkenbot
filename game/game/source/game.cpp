@@ -2,6 +2,8 @@
 #include "../include/animationStorage.h"
 #include "../include/directInput.h"
 #include "../include/mech.h"
+#include "../include/turret.h"
+
 
 inline DWORD FtoDW(FLOAT f) {return *((DWORD*)&f);}
 
@@ -74,12 +76,13 @@ bool CGame::init()
 	CDrawable *fire = new CDrawable(getNewGameObjectPtr(ETypeBuilding), anim, 1.f, &D3DXVECTOR3(2, mHeightMap->height(2, 6), 6), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
 	mBuildings.add(fire);
 
-	anim = CAnimationStorage::ptr()->getAnimation("data/tiger.x");
-	CDrawable *tiger = new CDrawable(getNewGameObjectPtr(ETypeBuilding), anim, 1.f, &D3DXVECTOR3(8, mHeightMap->height(8, 8) + .7f, 8), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
-	mBuildings.add(tiger);
-
 	CMech *mech = new CMech(getNewGameObjectPtr(ETypeMech), &D3DXVECTOR3(5, mHeightMap->height(5, 5), 5), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 0, 0));
 	mMechs.add(mech);
+
+	CTurret *turret = new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(10, mHeightMap->height(10, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
+	mBuildings.add(turret);
+	CTurret *turret2 = new CTurret(getNewGameObjectPtr(ETypeBuilding), true, &D3DXVECTOR3(5, mHeightMap->height(5, 10), 10), D3DXQuaternionRotationYawPitchRoll(&quat, 0, 1, 0));
+	mBuildings.add(turret2);
 
 	mMessageBox = new CMessageBox(0, 0, 200, 200, 10);
 
@@ -112,10 +115,13 @@ bool CGame::loop()
 	for (uint16 i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
 		mMechs.mTable[i].mObj->update(10);
 
-	for (uint16 i = mBuildings.first(); i != mBuildings.end(); i = mBuildings.mTable[i].mNext)
+	for (i = mBuildings.first(); i != mBuildings.end(); i = mBuildings.mTable[i].mNext)
+	{
 		mBuildings.mTable[i].mObj->draw(10);
+		mBuildings.mTable[i].mObj->update(2);
+	}
 	MGameObj *fpsTarget = mCam->targetObj().ptr();
-	for (uint16 i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
+	for (i = mMechs.first(); i != mMechs.end(); i = mMechs.mTable[i].mNext)
 		if (mMechs.mTable[i].mObj != fpsTarget)
 			mMechs.mTable[i].mObj->draw(10);
 
@@ -126,10 +132,11 @@ bool CGame::loop()
 	}
 	if (directInput->checkKey(KEY_1))
 	{
-		if (mCam->gameMode() == EModeRTS)
+/*		if (mCam->gameMode() == EModeRTS)
 			mCam->setFPSMode(mMechs.mTable[mMechs.first()].mObj->objectPtr());
 		else
 			mCam->setRTSMode();
+*/
 	}
 	mGameUI->draw();
 	mMessageBox->draw();
