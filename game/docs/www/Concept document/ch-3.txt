@@ -1,11 +1,9 @@
 3.	Gameplay
 
 3.1	Overview
-
 Basically ***GAME NAME*** is a real time strategy (RTS) game. As usually in this genre, it includes everything from resource management to building up a military base and fighting the enemies. However, it has a whole new unit control and combat system. Instead of building an army, each side has to build massive war machines. These machines, known as mechs, are provided with the highest technology available, making only one of them worth of an army. As the whole war is wrapped around these machines and their technology, controlling the machine becomes an essential part of the game.
 
 3.2	Gameplay description
-
 From the strategical point of view, game is about gathering and managing resources, building a base, developing technologies and constructing the war machines. This is called the RTS mode. Player observes the world from top-down perspective. Only small part of the map fits to the screen, and the screen can be scrolled to view different areas of the map. Minimap can be used to get the general idea of the whole map. Unknown areas are shown as black, and has to be explored before seeing them. Areas far from buildings and units are covered by fog (fog of war). Enemy units can't be seen under the fog, but the rest of the map is seen as it was before.
 
 There are three types of resources - electric power, metals and chemicals. Metals and chemicals for the industry can be collected from the rich occurrences of the otherwise bare ground by building distribution channels. Electricity can be produced with nuclear factories or from nigth storms by storing energy from the lighnings. Electricity is needed to maintain the functioning of the base. Mech contains internal source of power, and doesn't need resources in order to operate. Metals and chemicals are needed for buildings, machines, technologies and upgrades. Buildings and technoligies may also require other buildings and technologies (see 3.3.3).
@@ -15,10 +13,11 @@ Simple commands can be given to mechs from RTS mode. These commands and their ex
 Full control of the mechs happens from the first person perspective (FPS mode). Instead of giving commands, player is able to operate the mech as accurately as possible. This includes moving, turning, aiming, weapon selection, firing and some other actions (see 3.3.2). Most of the important battles are made in FPS mode.
 
 3.3	Rules
-[Describe the rules of the game. Define all game objects, concepts, their behaviors, and how they relate to one another.]
 This chapter explains the rules and core mechanics of the game. Implementation details are not covered here. All constants and properties required for balancing the game are left outside.
 
-3.3.1	Mech actions
+3.3.1	Mech properties and actions
+Mech has several properties affecting the gameplay. For example speed, hitpoints, weapons and other available technologies. For more detailed explanation of technologies, see 3.3.3.
+
 From RTS mode, following commands can be given to mech:
 	- Move
 	- Stop
@@ -29,18 +28,18 @@ From RTS mode, following commands can be given to mech:
 
 Mech can be fully controlled in FPS mode. This includes:
 	- Moving forward
+	- Moving backward
 	- Turning
 	- Turning the upper part of the mech, including vision and weapons
-	- Aiming??????????????????????
 	- All actions from RTS mode
 
 Mech has following automatic operation modes (enabled by AI technologies, see 3.3.3):
-	- None
-	- Autoaim
-	- Autofire
-	- Scout
-	- Attack
-	- Defence
+	- Manual mode
+	- Autoaim mode
+	- Autofire mode
+	- Scout mode
+	- Attack mode
+	- Defence mode
 
 3.3.2	Buildings and technology tree
 Game contains one set of buildings and technologies for player to use. However, different sets are used for enemies in single player game. These sets is called technology trees. Technology tree consists of buildings, and dependence relationships between buildings and technologies. Because technology trees are fully configurable by tools (see 7.1), and has to be balanced by tweaking, they are not defined in this document. However, there is several buildings and relationships common to all technology trees. Each building is defined by following properties:
@@ -66,31 +65,93 @@ Place for building, reparing and upgrading mechs. When mech is ordered to move t
 3.2.2.4	Defence of the base
 Each technology tree has special kind of buildings for defence, which are automatically firing at enemies nearby. Weapon is defined by additional property. Other important defence building is wall, cheap building with high hitpoints. While it's not necessary for all technology trees, it should be very common.
 
+3.2.2.5	Power distribution system
+Buildings can only be constructed close to the other buildings. One action of the mech is build a power distribution system. This action is enabled, if all requirements for the building are fulfilled. Power distribution system makes it possible to build distant expansion bases. These are important for the gameplay, since the player is forced to scout for additional enemy resource gathering bases and defence centers.
+
 3.3.3	Technologies
+To enable different kind of strategies, game contains four different technology branches. These branches are not exclusive, but having the most advanced technologies usually requires developing the whole branch. Each technology has cost in metals, cost in chemicals and research time.
+
+3.3.3.1	Movement
+	- Movement area
+		- Basic movement, plain terrain (default)
+		- Advanced movement, rough terrain
+		- Landing jets (maximum weight requirement)
+	- Moving speed
+		- Certain number of speed upgrades
+			- The impact gets smaller and smaller with every upgrade
+			- Weight of the mech has a linear drawback to the speed
+	- Turning upper body
+		- Certain number of upgrades
+			- Linear impact to the maximum turning angle
+			- Maximum of 180 degrees, which enables full turning
+3.3.3.2	Attack
+	- Collection of weapons. Example collection could look like this:
+		- Chain saw
+		- Minigun
+		- Missile
+		- Laser
+		- Landmine
+		- Bazooka
+		- Homing missile
+		- EMP Shockwave
+
+3.3.3.3	Defence
+	- Armour
+		- Certain number of piercing armour upgrades
+		- Certain number of explosion armour upgrades
+			- Both damage types can be reduced by some percentage value
+			- The impact gets smaller and smaller with every upgrade (of that type)
+		- Defence mechanism for homing missiles
+		- EMP defence system
+		- Landmine detector
+
+3.3.3.4	Technology
+	- Radar (spinning radar with short radius and delayed detection)
+	- Machine vision (detect enemy mechs, usually required for pathfinding and autoaiming)
+	- Path finding
+	- Advanced radar (wider radius and instant detection)
+	- Map scanner (makes the whole map explored, doesn't remove the fog of war)
+	- Auto aim (automaticly moves the crosshair)
+	- Advanced machine vision (detect technology level of the enemy mech)
+	- Tactical AI (enables automatic scout, attack and defence modes for mech)
+
+3.3.3.5	Upgrades
+When technology research has been completed, mechs aren't automatically able to use it. All mechs has to be upgraded one by one to get the advantages of the new technology (see 3.2.2.3). Some upgrades (weapons, shields) may increase the weight of the mech.
+
+In addition to the technology upgrades, size of the mech can be upgraded. Each technology tree defines certain number of size upgrades. Size has a linear impact to hitpoints.
 
 3.3.4	Weapons
+Like buildings and technology trees, game contains one set of weapons for player to use, but different sets are used for enemies in single player game. Weapons are fully configurable by tools (see 7.1), and need to be tweaked for balancing. Each weapon has following properties:
+	- Technology cost in metals
+	- Technology cost in chemicals
+	- Technology research time
+	- Range (of ranged OR melee weapon)
+	- Explosion/effect radius
+	- Fire rate
+	- Ammunition speed
+	- Piercing damage
+	- Explosion damage
+	- Weapon type (legal combination of ranged, melee, homing, landmine and continual effect)
+	- Time (for homing missile to try, landmine to activate or effect to continue)
+	- Weight
+	- Required mech size
 
 3.4	Goals, victory and end conditions
 
 3.4.1	Goals
-[Describe the goals (in each game mode).]
-Primary goal is to eliminate enemies by destroying all of their buildings. This can be achieved by developing powerful war machines, mechs, and defeating enemy in a battle. As simple as that might sound, the way to the victory may not be easy. Being the best requires both tactical and strategical skills, as well as fast reactions. Don't count on your luck, there is no room for accidences.
+Primary goal is to eliminate enemies by destroying all of their buildings. This can be achieved by developing powerful war machines, mechs, and defeating enemies in a battle. As simple as that might sound, the way to the victory may not be easy. Being the best requires both tactical and strategical skills, as well as fast reactions. Don't count on your luck, there is no room for accidences.
 
 3.4.2	Subgoals
-[Describe the subgoals (in each game mode).]
-To complete single player mission, player has to accomplish mission objectives. Each mission may include several types of objectives, and the objectives can change during the mission...
+To complete single player mission, player has to accomplish mission objectives. Each mission may include several types of objectives, and the objectives can change during the mission. Each objective may a have time limit. Player can be rewarded for accomplishing a subgoal with resources, mechs, technologies, upgrades or even buildings, and there may be optional subgoals (just to reward the player). Subgoal types are:
+	- Build/develop something (building, technology, mech, upgrade)
+	- Eliminate enemies (see 3.4.1)
+	- Survive (time limit needed)
+	- Keep control of the target area (no enemy units let inside, time limit needed)
+	- Destroy targets (buildings or mechs)
+	- Get to the target (area, building or mech)
 
-3.4.3	Goal structures
-[Describe the goal structures (in each game mode).]
-
-3.4.4	Scoring system
-[Describe the scoring system (in each game mode).]
-
-3.4.5	Victory conditions
-[Describe the victory conditions (in each game mode).]
-
-3.4.6	End conditions
-[Describe the end conditions (in each game mode).]
+3.4.4	End conditions and scoring system
+Victory can be achieved by accomplishing all the goals. In that case, game is ended instantly. Failing any goal will cause defeat. This will end the game in single player game, but in multiplayer game player is just dropped out of the game.In addition to victory and defeat, there is no scoring system.
 
 3.5	Controls and feedback
 [Map out the game procedures and controls: what does the player have to do? Use visual aids like control tables and flowcharts, along with detailed descriptions.]
