@@ -1,0 +1,7 @@
+7.	Technologies
+
+7.1	Enabling technologies
+[Describe the platform suitable or necessary for the game concept. Consider issues critical for the functionality of the game (e.g. minimum screen size, controls, network lag, etc). Describe additional required technologies like sensors or servers.]
+
+7.2	Level editor
+[If the game requires the implementation of a level editor, describe the necessary features and details of its functionality.]
