@@ -6,7 +6,7 @@ CVS (Concurrent Versions System) is used for version control. All documentation,
 Microsoft Visual Studio 6.0 and .NET are used in developing and debugging. Programming language is c++, but ParticleEditor and level editor use graphical interfaces implemented in c#. Managed c++ wrapper is used to glue c# and c++ code together. Lua language (<a href="http://www.lua.org">http://www.lua.org</a>) is used for scripting.
 
 4.4	Graphics
-Blender ( <a href="http://www.blender.org">http://www.blender.org</a>) is used to create 3D models and animations. 2D graphics, like textures, are done using gimp (http://www.gimp.org). In-house particle editor is implemented to create particle effects.
+Blender (<a href="http://www.blender.org">http://www.blender.org</a>) is used to create 3D models and animations. 2D graphics, like textures, are done using gimp (<a href="http://www.gimp.org">http://www.gimp.org</a>). In-house particle editor is implemented to create particle effects.
 
 4.5	Level editor
 In-house level editor can be used to design maps. Height maps for the map can not be modified from the editor. 2D graphics software, Leveller (<a href="http://www.daylongraphics.com/products/leveller/">http://www.daylongraphics.com/products/leveller/</a>) or similar freeware software is used to create and manipulate height maps instead.
