@@ -9,10 +9,12 @@
 						<xsd:sequence>
 							<xsd:element name="technology" minOccurs="0" maxOccurs="unbounded">
 								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="requires" minOccurs="0" maxOccurs="unbounded" type="xsd:integer" />
+									</xsd:sequence>
 									<xsd:attribute name="id" type="xsd:integer" use="required"/>
 									<xsd:attribute name="building" type="xsd:integer" use="required"/>
 									<xsd:attribute name="name" type="xsd:string" use="required"/>
-									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
 									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
 									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
 									<xsd:attribute name="picture" type="xsd:string" use="required"/>
@@ -20,14 +22,26 @@
 							</xsd:element>
 							<xsd:element name="building" minOccurs="0" maxOccurs="unbounded">
 								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="requires" minOccurs="0" maxOccurs="unbounded" type="xsd:integer" />
+									</xsd:sequence>
 									<xsd:attribute name="id" type="xsd:integer" use="required"/>
 									<xsd:attribute name="name" type="xsd:string" use="required"/>
-									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
 									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
 									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
-									<xsd:attribute name="energyProduction" type="xsd:integer" default="0"/>
+									<xsd:attribute name="energyProductionNight" type="xsd:integer" default="0"/>
+									<xsd:attribute name="energyProductionDay" type="xsd:integer" default="0"/>
 									<xsd:attribute name="energyConsumption" type="xsd:integer" use="required"/>
-									<xsd:attribute name="buildingType" type="xsd:integer" default="0"/>
+									<xsd:attribute name="buildingType" use="required">
+										<xsd:simpleType>
+											<xsd:restriction base="xsd:string">
+												<xsd:enumeration value="general"/>
+												<xsd:enumeration value="turret"/>
+												<xsd:enumeration value="pipe"/>
+											</xsd:restriction>
+										</xsd:simpleType>
+									</xsd:attribute>
+										
 									<xsd:attribute name="weapon" type="xsd:integer"/>
 									<xsd:attribute name="hitpoints" type="xsd:integer" use="required"/>
 									<xsd:attribute name="animation" type="xsd:string" use="required"/>
@@ -37,10 +51,12 @@
 							</xsd:element>
 							<xsd:element name="weapon" minOccurs="0" maxOccurs="unbounded">
 								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="requires" minOccurs="0" maxOccurs="unbounded" type="xsd:integer" />
+									</xsd:sequence>
 									<xsd:attribute name="id" type="xsd:integer" use="required"/>
 									<xsd:attribute name="name" type="xsd:string" use="required"/>
 									<xsd:attribute name="model" type="xsd:string" use="required"/>
-									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
 									<xsd:attribute name="bullet" type="xsd:string" use="required"/>
 									<xsd:attribute name="picture" type="xsd:string" use="required"/>
 									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
@@ -75,8 +91,8 @@
 												<xsd:attribute name="value" type="xsd:string" use="required"/>
 											</xsd:complexType>
 										</xsd:element>
+										<xsd:element name="requires" minOccurs="0" maxOccurs="unbounded" type="xsd:integer" />
 									</xsd:sequence>
-									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
 									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
 									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
 								</xsd:complexType>
