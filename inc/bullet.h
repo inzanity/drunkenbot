@@ -38,6 +38,12 @@ public:
 	/** Getter for the bullet type. */
 	int bulletType();
 
+	/**
+	 * Collision handler.
+	 * @param aType Type of the collision.
+	 */
+	void handleCollision(int aType);
+
 private:
 	int mBulletType;
 };
