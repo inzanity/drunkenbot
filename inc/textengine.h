@@ -40,6 +40,7 @@ public:
 private:
 	char *mMapSymbols;
 	char *mBotSymbols;
+	char *mBulletSymbols;
 };
 
 #endif // TEXTENGINE_H
