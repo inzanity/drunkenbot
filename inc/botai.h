@@ -14,8 +14,8 @@
 #include <list>
 #include "tilemap.h"
 #include "botinfo.h"
-#include "weaponinfo.h"
-#include "bulletinfo.h"
+#include "weapon.h"
+#include "bullet.h"
 
 using std::list;
 
