@@ -1,0 +1,2 @@
+<img src="images/logo.gif" "Avalance: Battle over Platonia"><br />
+This is a technical specification for Avalance: Battle over Platonia fps/rts game.
