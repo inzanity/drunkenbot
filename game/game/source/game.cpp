@@ -112,7 +112,7 @@ bool CGame::loop()
 	if (directInput->checkKey(WRITE_TEXT))
 	{
 		string foo = "Write:";
-		mMessageBox->addMessage(&foo, 5);
+		mMessageBox->addMessage(&foo, 10);
 	}
 	mMessageBox->draw();
 
