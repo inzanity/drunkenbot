@@ -14,11 +14,13 @@ public:
 	void activate(CGameObjPtr aTarget);
 private:
 	bool mActive;
-	int mCounter;
+	int mCounter, mTimer;
 	ID3DXSprite *mSprite;
 	CTexture *mCrossCursor;
 	CTexture *mWeaponBarTexture;
 	CTexture *mRadarTexture;
+	MAnimation *mRadarAnim;
+	MAnimation *mMinimapPingAnim;
 	CGameObjPtr mMech;
 };
 
