@@ -20,8 +20,6 @@ my $allinone = readTxt(0);
 createPage("index", $allinone, $menu, -1);
 createPage("toc", $toc, $menu, 0);
 
-$toc =~ s/ch-[0-9].html//g;
-
 $allinone .= $toc;
 
 for (; $ch0 <= $ch1; $ch0++) {
@@ -29,6 +27,7 @@ for (; $ch0 <= $ch1; $ch0++) {
 	$allinone .= $txt;
 	createPage("ch-$ch0", $txt, $menu, $ch0);
 }
+$allinone =~ s/ch-[0-9]+.html//g;
 createPage("allinone", $allinone, $menu, -2);
 
 print "Done.\n";
@@ -95,6 +94,7 @@ sub readTxt {
 			$req = " " x $req;
 			s/^\t+- /$req<li>/;
 		} elsif ($_) {
+			s/(\(see[^)]+?)([0-9]+)(.[0-9.]+)(\))/$1<a href="ch-$2.html#$2$3">$2$3<\/a>$4/g;
 			while ($ullevel > 0) { $cont .= " " x ($ullevel - 1) . "</ul>\n"; $ullevel--; }
 			s/^.*$/<p>$&<\/p>/;
 		}
