@@ -4,7 +4,7 @@
 # General configuration options
 #---------------------------------------------------------------------------
 PROJECT_NAME           = "Drunken Bot III"
-PROJECT_NUMBER         = 69
+PROJECT_NUMBER         = 
 OUTPUT_DIRECTORY       = "E:/Programming/Projects/Drunken Bot III/doc/"
 OUTPUT_LANGUAGE        = English
 USE_WINDOWS_ENCODING   = YES
@@ -66,7 +66,7 @@ RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
-EXAMPLE_PATH           = 
+EXAMPLE_PATH           = "E:/Programming/Projects/Drunken Bot III/doc/"
 EXAMPLE_PATTERNS       = 
 EXAMPLE_RECURSIVE      = NO
 IMAGE_PATH             = 
