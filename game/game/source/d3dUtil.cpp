@@ -39,7 +39,7 @@ void CD3DObj::release()
 
 	if (mMatrixStack != NULL)
 	{
-		delete mMatrixStack;
+		mMatrixStack->Release();
 		mMatrixStack = NULL;
 	}
 }
