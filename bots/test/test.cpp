@@ -13,7 +13,7 @@ float ff(float foo)
 	return foo;
 }
 
-float sqr(float bar)
+float pow2(float bar)
 {
 	return bar * bar;
 }
@@ -39,7 +39,7 @@ void CTestAI::think()
 	CVisibleBotInfo *target;
 	list<CVisibleBotInfo *>::iterator i;
 	for (i = mBots.begin(); i != mBots.end(); i++)
-		if ((plop = sqr((*i)->yPos() - mData->yPos()) + sqr((*i)->xPos() - mData->xPos())) < angle)
+		if ((plop = pow2((*i)->yPos() - mData->yPos()) + pow2((*i)->xPos() - mData->xPos())) < angle)
 		{
 			angle = plop;
 			target = *i;
@@ -55,7 +55,7 @@ void CTestAI::think()
 				turn(ETurnLeft);
 		}
 		else
-			if (sqr(target->yPos() - mData->yPos()) + sqr(target->xPos() - mData->xPos()) < 49)
+			if (pow2(target->yPos() - mData->yPos()) + pow2(target->xPos() - mData->xPos()) < 49)
 				shoot(angle);
 		move(EMoveForward);
 	}
