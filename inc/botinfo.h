@@ -1,5 +1,5 @@
 /** @file botinfo.h
- * Definition of bot info classes.
+ * Definition of bot info classes CVisibleBotInfo and CBotInfo.
  * This header specifies internal and external data structures for the
  * game objectish information of the robots.
  * @see CBot

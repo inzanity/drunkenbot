@@ -1,5 +1,5 @@
 /** @file bullet.h
- * Definition of bullet info classes.
+ * Definition of bullet info classes CVisibleBulletInfo and CBulletInfo.
  * This header specifies the public (for the AI:s) and private
  * (for the engine) data structures for flying bullets.
  *

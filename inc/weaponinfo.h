@@ -1,5 +1,5 @@
 /** @file weaponinfo.h
- * Definition of weapon info classes.
+ * Definition of weapon info classes CVisibleWeaponInfo and CWeaponInfo.
  * This header specifies the public (for the AI:s) and private
  * (for the engine) data structures for weapons lying in the field
  *

@@ -1,5 +1,5 @@
 /** @file weapon.h
- * Definition of weapon attribute class.
+ * Definition of weapon attribute class CWeapon.
  * This header specifies a blablabla for...
  *
  * @author inz
@@ -12,8 +12,7 @@
 using std::istream;
 
 /**
- * Blablabla
- * foo
+ * Class in which information about different weapon types is stored.
  */
 class CWeapon
 {
