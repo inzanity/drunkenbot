@@ -23,16 +23,16 @@ public:
 				  MAnimation *aConstructAnimation,
 				  uint32 aConstructionTime,
 				  char *aName,
-				  int *aRequires,
-				  int aNumRequires,
-				  int aHitpoints,
-				  int aPriceMineral,
-				  int aPriceGas,
-				  int aEnergyProductionNight,
-				  int aEnergyProductionDay,
-				  int aEnergyConsumption,
+				  uint32 *aRequires,
+				  uint32 aNumRequires,
+				  uint32 aHitpoints,
+				  uint32 aPriceMineral,
+				  uint32 aPriceGas,
+				  uint32 aEnergyProductionNight,
+				  uint32 aEnergyProductionDay,
+				  uint32 aEnergyConsumption,
 				  enum BuildingType aBuildingType,
-				  int aWeapon,
+				  uint32 aWeapon,
 				  CTexture *aPicture);
 	/**
 	 * Destructor.
@@ -43,59 +43,57 @@ public:
 	void setConstructAnimation(MAnimation *aConstructAnimation);
 	void setConstructionTime(uint32 aConstructionTime);
 	void setName(char *aName);
-	void setRequires(const std::vector<int> &aRequires);
-	void setHitpoints(int aHitpoints);
-	void setPriceMineral(int aPriceMineral);
-	void setPriceGas(int aPriceGas);
-	void setEnergyProductionNight(int aEnergyProductionNight);
-	void setEnergyProductionDay(int aEnergyProductionDay);
-	void setEnergyConsumption(int aEnergyConsumption);
+	void setRequires(const std::vector<uint32> &aRequires);
+	void setHitpoints(uint32 aHitpoints);
+	void setPriceMineral(uint32 aPriceMineral);
+	void setPriceGas(uint32 aPriceGas);
+	void setEnergyProductionNight(uint32 aEnergyProductionNight);
+	void setEnergyProductionDay(uint32 aEnergyProductionDay);
+	void setEnergyConsumption(uint32 aEnergyConsumption);
 	void setBuildingType(enum BuildingType aBuildingType);
-	void setWeapon(int aWeapon);
+	void setWeapon(uint32 aWeapon);
 	void setPicture(CTexture *aPicture);
-	void setTechnologies(const std::vector<int> &aTechnologies);
-	/**
-	 * Getter for the animation file path.
-	 */
-	MAnimation *getAnimation();
-	/**
-	 * Getter for the constructing animation file path.
-	 */
-	MAnimation *getConstructAnimation();
-	/**
-	 * Getter for construction time.
-	 */
+	void setTechnologies(const std::vector<uint32> &aTechnologies);
+
+	uint32 getId() const;
+	MAnimation *getAnimation() const;
+	MAnimation *getConstructAnimation() const;
 	uint32 getConstructionTime() const;
-	/**
-	 * Getter for hitpoints.
-	 */
-	int getHitpoints() const;
-	/**
-	 * Getter for price.
-	 */
-	int getPriceGas() const;
+	std::string getName() const;
+	uint32 *getRequires() const;
+	uint32 getNumRequires() const;
+	uint32 *getTechnologies() const;
+	uint32 getNumTechnologies() const;
+	uint32 getHitpoints() const;
+	uint32 getPriceMineral() const;
+	uint32 getPriceGas() const;
+	uint32 getEnergyProductionNight() const;
+	uint32 getEnergyProductionDay() const;
+	uint32 getEnergyConsumption() const;
+	enum BuildingType getBuildingType() const;
+	uint32 getWeapon() const;
+	CTexture *getPicture() const;
 
 	void dumpData() const;
 private:
-	uint32 mID;
+	uint32 mId;
 	MAnimation *mAnimation;
 	MAnimation *mConstructAnimation;
 	uint32 mConstructionTime;
 
 	std::string mName;
-	int mId;
-	int *mRequires;
-	int mNumRequires;
-	int *mTechnologies;
-	int mNumTechnologies;
-	int mHitpoints;
-	int mPriceMineral;
-	int mPriceGas;
-	int mEnergyProductionNight;
-	int mEnergyProductionDay;
-	int mEnergyConsumption;
+	uint32 *mRequires;
+	uint32 mNumRequires;
+	uint32 *mTechnologies;
+	uint32 mNumTechnologies;
+	uint32 mHitpoints;
+	uint32 mPriceMineral;
+	uint32 mPriceGas;
+	uint32 mEnergyProductionNight;
+	uint32 mEnergyProductionDay;
+	uint32 mEnergyConsumption;
 	enum BuildingType mBuildingType;
-	int mWeapon;
+	uint32 mWeapon;
 	CTexture *mPicture;
 };
 

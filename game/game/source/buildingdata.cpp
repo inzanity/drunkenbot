@@ -9,16 +9,16 @@ CBuildingData::CBuildingData(MAnimation *aAnimation,
 							 MAnimation *aConstructAnimation,
 							 uint32 aConstructionTime,
 							 char *aName,
-							 int *aRequires,
-							 int aNumRequires,
-							 int aHitpoints,
-							 int aPriceMineral,
-							 int aPriceGas,
-							 int aEnergyProductionNight,
-							 int aEnergyProductionDay,
-							 int aEnergyConsumption,
+							 uint32 *aRequires,
+							 uint32 aNumRequires,
+							 uint32 aHitpoints,
+							 uint32 aPriceMineral,
+							 uint32 aPriceGas,
+							 uint32 aEnergyProductionNight,
+							 uint32 aEnergyProductionDay,
+							 uint32 aEnergyConsumption,
 							 enum BuildingType aBuildingType,
-							 int aWeapon,
+							 uint32 aWeapon,
 							 CTexture *aPicture) : 
 								    mAnimation(aAnimation),
 									mConstructAnimation(aConstructAnimation),
@@ -82,46 +82,46 @@ void CBuildingData::setName(char *aName)
 	mName = aName;
 }
 
-void CBuildingData::setRequires(const std::vector<int> &aRequires)
+void CBuildingData::setRequires(const std::vector<uint32> &aRequires)
 {
-	mNumRequires = aRequires.size();
+	mNumRequires = (uint32)aRequires.size();
 	if (mNumRequires)
 	{
-		mRequires = new int[mNumRequires];
-		for (int i = 0; i < mNumRequires; i++)
+		mRequires = new uint32[mNumRequires];
+		for (uint32 i = 0; i < mNumRequires; i++)
 			mRequires[i] = aRequires[i];
 	}
 }
-void CBuildingData::setTechnologies(const std::vector<int> &aTechnologies)
+void CBuildingData::setTechnologies(const std::vector<uint32> &aTechnologies)
 {
-	mNumTechnologies = aTechnologies.size();
+	mNumTechnologies = (uint32)aTechnologies.size();
 	if (mNumTechnologies) {
-		mTechnologies = new int[mNumTechnologies];
-		for (int i = 0; i < mNumTechnologies; i++)
+		mTechnologies = new uint32[mNumTechnologies];
+		for (uint32 i = 0; i < mNumTechnologies; i++)
 			mTechnologies[i] = aTechnologies[i];
 	}
 }
-void CBuildingData::setHitpoints(int aHitpoints)
+void CBuildingData::setHitpoints(uint32 aHitpoints)
 {
 	mHitpoints = aHitpoints;
 }
-void CBuildingData::setPriceMineral(int aPriceMineral)
+void CBuildingData::setPriceMineral(uint32 aPriceMineral)
 {
 	mPriceMineral = aPriceMineral;
 }
-void CBuildingData::setPriceGas(int aPriceGas)
+void CBuildingData::setPriceGas(uint32 aPriceGas)
 {
 	mPriceGas = aPriceGas;
 }
-void CBuildingData::setEnergyProductionNight(int aEnergyProductionNight)
+void CBuildingData::setEnergyProductionNight(uint32 aEnergyProductionNight)
 {
 	mEnergyProductionNight = aEnergyProductionNight;
 }
-void CBuildingData::setEnergyProductionDay(int aEnergyProductionDay)
+void CBuildingData::setEnergyProductionDay(uint32 aEnergyProductionDay)
 {
 	mEnergyProductionDay = aEnergyProductionDay;
 }
-void CBuildingData::setEnergyConsumption(int aEnergyConsumption)
+void CBuildingData::setEnergyConsumption(uint32 aEnergyConsumption)
 {
 	mEnergyConsumption = aEnergyConsumption;
 }
@@ -129,38 +129,13 @@ void CBuildingData::setBuildingType(enum BuildingType aBuildingType)
 {
 	mBuildingType = aBuildingType;
 }
-void CBuildingData::setWeapon(int aWeapon)
+void CBuildingData::setWeapon(uint32 aWeapon)
 {
 	mWeapon = aWeapon;
 }
 void CBuildingData::setPicture(CTexture *aPicture)
 {
 	mPicture = aPicture;
-}
-
-MAnimation *CBuildingData::getAnimation()
-{
-	return mAnimation;
-}
-
-MAnimation *CBuildingData::getConstructAnimation()
-{
-	return mConstructAnimation;
-}
-
-uint32 CBuildingData::getConstructionTime() const
-{
-	return mConstructionTime;
-}
-
-int CBuildingData::getHitpoints() const
-{
-	return mHitpoints;
-}
-
-int CBuildingData::getPriceGas() const
-{
-	return mPriceGas;
 }
 
 /*
@@ -187,3 +162,95 @@ void CBuildingData::dumpData() const
 	if (mBuildingType) cout << "\tBuildingType: " << mBuildingType << endl;
 	if (mWeapon) cout << "\tWeapon: " << mWeapon << endl;
 }*/
+
+uint32 CBuildingData::getId() const
+{
+	return mId;
+}
+
+MAnimation *CBuildingData::getAnimation() const
+{
+	return mAnimation;
+}
+
+MAnimation *CBuildingData::getConstructAnimation() const
+{
+	return mConstructAnimation;
+}
+
+uint32 CBuildingData::getConstructionTime() const
+{
+	return mConstructionTime;
+}
+
+
+std::string CBuildingData::getName() const
+{
+	return mName;
+}
+
+uint32 *CBuildingData::getRequires() const
+{
+	return mRequires;
+}
+
+uint32 CBuildingData::getNumRequires() const
+{
+	return mNumRequires;
+}
+
+uint32 *CBuildingData::getTechnologies() const
+{
+	return mTechnologies;
+}
+
+uint32 CBuildingData::getNumTechnologies() const
+{
+	return mNumTechnologies;
+}
+
+uint32 CBuildingData::getHitpoints() const
+{
+	return mHitpoints;
+}
+
+uint32 CBuildingData::getPriceMineral() const
+{
+	return mPriceMineral;
+}
+
+uint32 CBuildingData::getPriceGas() const
+{
+	return mPriceGas;
+}
+
+uint32 CBuildingData::getEnergyProductionNight() const
+{
+	return mEnergyProductionNight;
+}
+
+uint32 CBuildingData::getEnergyProductionDay() const
+{
+	return mEnergyProductionDay;
+}
+
+uint32 CBuildingData::getEnergyConsumption() const
+{
+	return mEnergyConsumption;
+}
+
+enum BuildingType CBuildingData::getBuildingType() const
+{
+	return mBuildingType;
+}
+
+uint32 CBuildingData::getWeapon() const
+{
+	return mWeapon;
+}
+
+CTexture *CBuildingData::getPicture() const
+{
+	return mPicture;
+}
+
