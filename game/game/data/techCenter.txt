@@ -1,0 +1,7 @@
+2
+techCenter.x							0	2000;
+../../tools/particleEditor/ParticleEffects/flame_blue.lua	0	2000
+	1	0	0	0
+	0	1	0	0
+	0	0	1	0
+	0	.1	0	1;

@@ -1,4 +1,5 @@
 #include "../include/particleSystemLoader.h"
+#include "../include/animCombination.h"
 #include "../include/animationStorage.h"
 
 CAnimationStorage *CAnimationStorage::mSingletonPtr = NULL;
@@ -30,6 +31,8 @@ MAnimation *CAnimationStorage::getAnimation(const char *aFileName)
 			anim = CParticleSystemLoader::load(aFileName);
 		else if (l > 2 && !stricmp(&aFileName[l - 2], ".x"))
 			anim = new CMeshAnimation(aFileName);
+		else if (l > 4 && !stricmp(&aFileName[l - 4], ".txt"))
+			anim = new CAnimCombination(aFileName);
 		else
 			return NULL;
 		mAnimations[aFileName] = anim;

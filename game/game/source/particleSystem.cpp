@@ -43,6 +43,8 @@ CParticleSystem::CParticleSystem(int aParticles, int aDuration, char aPosNum, ch
 		mStartingTime[i] = 0;
 	}
 	setTexture(aTexFile);
+	mBoundingBox.mMax = D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	mBoundingBox.mMin = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
 }
 
 CParticleSystem::~CParticleSystem()
