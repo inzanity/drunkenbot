@@ -16,7 +16,7 @@
  * Public interface for weapons
  * When bots see a weapon, this is the info they get of it
  */
-class CVisibleWeaponInfo
+class CVisibleWeaponInfo : public CGameObj
 {
 public:
 	/** Default constructor */
@@ -31,16 +31,10 @@ public:
 	 * @param aYPos Current Y coordinate of the bot
 	 */
 	CVisibleWeaponInfo(const CVisibleWeaponInfo *aWeapon, float aXPos, float aYPos);
-	/** Getter for the X coordinate */
-	float xPos();
-	/** Getter for the Y coordinate */
-	float yPos();
 	/** Getter for the weapon type */
 	int weaponType();
 
 private:
-	float mXPos;
-	float mYPos;
 	int mWeaponType;
 };
 

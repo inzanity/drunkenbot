@@ -1,7 +1,7 @@
 /** @file bullet.h
  * Definition of bullet info classes
  * This header specifies the public (for the AI:s) and private
- * (for the engine) data structures for bullets flying in da air
+ * (for the engine) data structures for flying bullets.
  *
  * @todo Everything
  *
@@ -13,8 +13,8 @@
 #define BULLET_H
 
 /**
- * Public class for weapons
- * When bots see a weapon, this is the info they get of it
+ * Public class for bullets
+ * When bots see a bullet, this is the info they get of it
  */
 class CVisibleBulletInfo : public CMovingGameObj
 {
@@ -31,7 +31,7 @@ public:
 	 * @param aYPos Current Y coordinate of the bot
 	 */
 	CVisibleBulletInfo(const CVisibleBulletInfo *aBullet, float aXPos, float aYPos);
-	/** Getter for the weapon type */
+	/** Getter for the bullet type */
 	int bulletType();
 
 private:
@@ -47,7 +47,7 @@ class CBulletInfo : public CVisibleBulletInfo
 	/** Default constructor */
 	CBulletInfo();
 	/** Constructor with type and coordinates
-	 * Creates a weapon of given type to given coordinates.
+	 * Creates a bullet of given type to given coordinates.
 	 * @param aBulletType Type of bullet
 	 * @param aXPos X position for the bullet
 	 * @param aYPos Y position for the bullet
