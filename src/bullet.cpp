@@ -20,7 +20,7 @@ CBulletInfo::~CBulletInfo()
 
 bool CBulletInfo::handleCollision(char)
 {
-	if (mShooter->weapon()->explosionRadius() > 0)
+	if (mExplosionRadius > 0)
 	{
 		mType &= EObjectBullet ^ 0xffffffff;
 		mType |= EObjectExplosion;
@@ -30,7 +30,7 @@ bool CBulletInfo::handleCollision(char)
 
 char CBulletInfo::getDamage() const
 {
-	return int(mShooter->weapon()->damage());
+	return int(mDamage);
 }
 
 void CBulletInfo::changeFragNum(bool aAddFrag)
@@ -43,9 +43,9 @@ bool CBulletInfo::update()
 	CMovingGameObj::update();
 	if ((mType & KObjectTypeMask) == EObjectExplosion)
 	{
-		if (mRadius >= mShooter->weapon()->explosionRadius())
+		if (mRadius >= mExplosionRadius)
 			return false;
-		mRadius += mShooter->weapon()->explosionSpeed();
+		mRadius += mExplosionSpeed;
 		return true;
 	}
 	return (!mCollisionDetected);
