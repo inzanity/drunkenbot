@@ -19,16 +19,21 @@
 class CDirectInput
 {
 public:
-			CDirectInput	(HWND *aHWnd);
+			CDirectInput	();
 			~CDirectInput	();
-	void	UpdateUI		(HWND *aHWnd);
 	void	Activate		();
+	void	ReadState		();
+
+	bool	testi			();
 
 private:
 	void	FreeDirectInput();
 
-	LPDIRECTINPUT8       mDI;		// The DirectInput object         
-	LPDIRECTINPUTDEVICE8 mKeyboard;	// The keyboard device 
+	LPDIRECTINPUT8			mDI;		// The DirectInput object         
+	LPDIRECTINPUTDEVICE8	mKeyboard;	// The keyboard device 
+	LPDIRECTINPUTDEVICE8	mMouse;		// The mouse device     
+	BYTE					mKeyboardState[256];
+	DIMOUSESTATE2			mMouseState;
 };
 
 #endif // DIRECTINPUT_H

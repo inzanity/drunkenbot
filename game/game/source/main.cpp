@@ -85,7 +85,8 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 		return false;
 	}
 
-	CDirectInput *controllers = new CDirectInput(&hWnd);
+	CDirectInput *controllers = new CDirectInput();
+	controllers->Activate();
 
 	// Enter the message loop
 	ZeroMemory(&msg, sizeof(msg));
@@ -105,6 +106,9 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+		controllers->ReadState();
+		if (controllers->testi())
+			game->testi();
 	}
 	delete game;
 	delete animationStorage;

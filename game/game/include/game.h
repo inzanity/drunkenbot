@@ -20,6 +20,9 @@ public:
 	void sendMessage(uint16 aMsg, MGameObj *aObj,
 					 uint32 aParam1, uint32 aParam2, uint32 aTime = 0);
 	void destroyObj(MGameObj *aObj);
+
+	void testi();
+
 private:
 	void chkDestroyList	();
 private:

@@ -101,6 +101,17 @@ void CGame::destroyObj(MGameObj *aObj)
 	mDestroyList.push_back(aObj);
 }
 
+void CGame::testi()
+{
+	D3DXQUATERNION quat;
+	MAnimation *anim;
+
+	anim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/flame.lua");
+	CDrawable *fire = new CDrawable(0, mBuildings.firstEmpty(), anim, 1.f, &D3DXVECTOR3(5, 0, 20), D3DXQuaternionRotationYawPitchRoll(&quat, 3.14f/2.f, 0, 0));
+	mBuildings.add(fire);
+
+}
+
 void CGame::chkDestroyList()
 {
 	list<MGameObj *>::iterator iter;
