@@ -41,10 +41,10 @@ public:
 	/** Getter for the type of the object. @see mType. */
 	int type();
 
-protected:
-	/** Setter for the position of the object. @param aXPos X-coordinates. @param aYPos Y-coordinates. */
-	void setPos(float aXPos, float aYPos);
+	/** Getter for animation timer. May be used by CGraphicsEngine. */
+	float animationTimer();
 
+protected:
 	/** X-coordinates of the object. */
 	float mXPos;
 	/** Y-coordinates of the object. */
@@ -55,6 +55,8 @@ protected:
 	float mDirection;
 	/** Type of the game object. @todo Game object type specification. */
 	int mType;
+	/** Timer for animations. Animation is played during 1 time units. */
+	float mAnimationTimer;
 };
 
 /**
@@ -74,13 +76,6 @@ public:
 	float velocity();
 
 protected:
-	/**
-	 * Setter for the speed.
-	 * @param aVelocity Velocity of the object.
-	 * @aDirection Orientation and moving direction of the object.
-	 */
-	void setSpeed(float aVelocity, float aDirection);
-
 	/**
 	 * Move object according to its velocity and direction.
 	 * @param aTimeFactor Time interval to move object.

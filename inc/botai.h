@@ -22,7 +22,7 @@ using std::list;
 /**
  * Base class for external AI class.
  * Bots are controlled using think() method once in every frame.
- * Action flags are used to define bot movement and other actions. @see TBotAction
+ * Action flags are used to define bot movement and other actions (see TBotAction).
  * @note
  * All provided information about this bot or surrounding world is "read only".
  * Changing anything else than action flags and moving/shooting direction will have
@@ -35,7 +35,7 @@ class CBotAI
 public:
 	/**
 	 * Bot actions. Every action is a combination of these.
-	 * @see checkAction() for detailed information about legal actions.
+	 * See checkAction() for detailed information about legal actions.
 	 */
 	enum TBotAction {EActionNone = 0, EActionMove = 1, EActionShoot = 2,
 					 EActionBunker = 4, EActionPickWeapon = 8, EActionDropWeapon = 16};
@@ -117,6 +117,7 @@ public:
 	 * Only one of <code>EActionShoot</code>, <code>EActionBunker</code>,
 	 * <code>EActionPickWeapon</code> or <code>EActionDropWeapon</code> can be defined at the time.
 	 * If bot has been bunkered, <code>EActionMove</code> can not be defined.
+	 * Action can not be changed, before it has been completed. See CBotInfo::actionDelay().
 	 * @return True for legal actions, false for illegal.
 	 */
 	bool checkAction();
