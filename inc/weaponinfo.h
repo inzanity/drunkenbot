@@ -1,4 +1,4 @@
-/** @file weapon.h
+/** @file weaponinfo.h
  * Definition of weapon info classes.
  * This header specifies the public (for the AI:s) and private
  * (for the engine) data structures for weapons lying in the field
