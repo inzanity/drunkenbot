@@ -109,22 +109,25 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 	if (mVelocity > 0)
 	{
 		TVector speed = {xSpeed, ySpeed};
-		float t;
+		float totalTime;
 		char tile;
 		int dir = (int)(mMovingDirection / PI * 4);
 		for (int i = dir - 1; i <= dir + 2; i++)
 		{
 			TVector pos = {mPos.mX + cos(i * PI / 4.f) * mRadius,
 						   mPos.mY + sin(i * PI / 4.f) * mRadius};
-			for (t = 0; t < mMovingTimeFactor; t += getNextEdge(pos, speed))
+			for (time = totalTime = 0; totalTime < mMovingTimeFactor; totalTime += time)
 			{
-				pos.mX += t * speed.mX; pos.mY += t * speed.mY;
+				pos.mX += time * speed.mX; pos.mY += time * speed.mY;
 				tile = aTilemap[(int)pos.mY][(int)pos.mX] & 3;
 				if (tile == CTilemap::ETileWall || (aCollisionWithObstacles && tile == CTilemap::ETileObstacle))
 					break;
+				if ((mType & 3) == EObjectBullet && pos.mY >= 48.f)
+					int plop = 3;
+				time = getNextEdge(pos, speed);
 			}
-			if (mMovingTimeFactor > t)
-				mMovingTimeFactor = t;
+			if (mMovingTimeFactor > totalTime)
+				mMovingTimeFactor = totalTime;
 		}
 		if (mMovingTimeFactor < 1.f)
 			handleCollision(15);
