@@ -162,7 +162,7 @@ public:
 	list<float> mSourcesOfNoise;
 
 	/** Information about this bot. */
-	CBotInfo mData;
+	CBotInfo *mData;
 
 private:
 	bool setAction(TBotAction aAction, int aExclusiveActions);

@@ -66,6 +66,9 @@ public:
 	/** Default constructor. @param aTeamInfo Team info. */
 	CBotInfo(int aTeamInfo);
 
+	/** Copy constructor. */
+	CBotInfo(CBotInfo *aBotInfo, float aXPos, float aYPos);
+
 	/** Destructor. */
 	virtual ~CBotInfo();
 
