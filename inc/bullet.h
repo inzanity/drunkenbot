@@ -54,6 +54,7 @@ private:
  */
 class CBulletInfo : public CVisibleBulletInfo
 {
+public:
 	/** Default constructor. */
 	CBulletInfo();
 

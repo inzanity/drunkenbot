@@ -13,6 +13,10 @@
 #include "botai.h"
 #include "graphicsengine.h"
 
+#ifndef _WINDOWS_
+# define HMODULE void *
+#endif
+
 using std::list;
 /*
 #ifndef HMODULE
