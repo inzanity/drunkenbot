@@ -7,8 +7,8 @@
  * @version 0.1
  */
 
-#ifndef WEAPON_H
-#define WEAPON_H
+#ifndef WEAPONINFO_H
+#define WEAPONINFO_H
 
 /**
  * Public interface for weapons.
@@ -68,4 +68,4 @@ class CWeaponInfo : public CVisibleWeaponInfo
 	virtual ~CWeaponInfo();
 };
 
-#endif // WEAPON_H
+#endif // WEAPONINFO_H
