@@ -49,7 +49,7 @@ void CFPSModeUI::handleInput()
 		}
 		else if (mouseY > d3dObj->height() - 200)
 		{
-			D3DXQUATERNION quaternion(.001f, 0, 0, 1);
+			D3DXQUATERNION quaternion(1, 0, 0, 0.001f);
 			mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
 		}
 	}
@@ -117,12 +117,9 @@ void CFPSModeUI::draw(uint32 aTime)
 	d3dObj->mMatrixStack->Translate(0.55, -0.35, 1.5);
 	d3dObj->mMatrixStack->Push();
 	d3dObj->mMatrixStack->TranslateLocal(0.1, 0, 0);
-	d3dObj->mMatrixStack->Push();
-	d3dObj->mMatrixStack->TranslateLocal(0.1, 0, 0);
 	mMinimapPingAnim->draw(aTime);
 	d3dObj->mMatrixStack->Pop();
-	mMinimapPingAnim->draw(aTime);
-	d3dObj->mMatrixStack->Pop();
+	d3dObj->mMatrixStack->TranslateLocal(0.1, 0.1, 0);
 	mMinimapPingAnim->draw(aTime);
 	d3dObj->mMatrixStack->Pop();
 	return;
