@@ -1,0 +1,2 @@
+1.	Design history
+[A design document is a continuously changing reference tool. Every time a new version is released, it is good to list the significant modifications that have been made. Document version number and list of major changes should be listed in this chapter.]
