@@ -1,2 +1,4 @@
-3.2.X - Tactical AI
+3.2.X - Techejä: Map scanner (näkee koko kartan), machine visionit, Tactical AI
+3.2.2 Areadama-aseet (mm. räjähdykset), empiltä suojautuminen!
+3.1.X Homing missilet, Land minet (myös niitten detectaus) -- tosin fps/rts jaottelu ei näissäkään oikein toimi
 2.1.9.1, .2 Mech action types
