@@ -37,7 +37,7 @@ void CTextEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 {
 	int x, y;
-	x = floor(aGameObj->xPos());
-	y = floor(aGameObj->yPos());
-	printf("\033[%d:%dH%c", y, x, mBotSymbols[(aGameObj->type() >> 4) & 3]);
+	x = (int)floor(aGameObj->xPos());
+	y = (int)floor(aGameObj->yPos());
+	printf("\033[%d;%dH%c", y, x, mBotSymbols[(aGameObj->type() >> 4) & 3]);
 }
