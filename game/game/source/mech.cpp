@@ -7,7 +7,7 @@
 CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
 	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/bones_move.x"), 1.f, aPos, aOrientation),
 	mUpperBody(CAnimationStorage::ptr()->getAnimation("data/turretTop.x")), mUBOrientation(0, 0, 0, 1),
-	mFPSMode(false), mOperationMode(EMechManualMode), mRadarRange(10), mRadarDelay(true)
+	mFPSMode(false), mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true)
 {
 	const TBox *box = mAnimation->getBoundingBox();
 	mUBPos = D3DXVECTOR3(0, box->mMax.y, 0);

@@ -31,6 +31,7 @@ void CFPSModeUI::handleInput()
 		mActive = false;
 		game->mRTSModeUI->activate(mMech);
 		mech->setSpeed(&D3DXVECTOR3(0, 0, 0));
+		mech->setRotSpeed(&D3DXQUATERNION(0, 0, 0, 1));
 		return;
 	}
 	if (!mCounter || !mech) return; /* Controlling requires 100% FPS mode */
@@ -117,18 +118,27 @@ void CFPSModeUI::draw(uint32 aTime)
 	d3dObj->mMatrixStack->RotateAxis(&D3DXVECTOR3(vec.x, vec.z, vec.y), angle);
 	d3dObj->mMatrixStack->Translate(0.55, -0.35, 1.5);
 	if (vec.y < 0) angle = 2 * D3DX_PI - angle;
-	for (int i = game->mBuildings.first(); i != game->mBuildings.end(); i = game->mBuildings.mTable[i].mNext)
+	float radarRange2 = mech->radarRange() * mech->radarRange();
+	float scale = sqrt(mRadarAnim->getRadiusSqr()) / mech->radarRange();
+
+	if (mech->radarDelay() == true) 
 	{
-		D3DXVECTOR3 position = *game->mBuildings.mTable[i].mObj->pos() - *mech->pos();
-		float f = atan2f(position.x, position.z) - angle;
-		f = 2 * D3DX_PI * a + D3DX_PI/2.f- f;
-		if (f < 0) f += 2 * D3DX_PI;
-		if (f > 2 * D3DX_PI) f -= 2 * D3DX_PI;
-		int time = mMinimapPingAnim->getDuration() * f / (2 * D3DX_PI);
-		d3dObj->mMatrixStack->Push();
-		d3dObj->mMatrixStack->TranslateLocal(position.x/100, position.z/100, 0);
-		mMinimapPingAnim->draw(time);
-		d3dObj->mMatrixStack->Pop();
+		for (int i = game->mBuildings.first(); i != game->mBuildings.end(); i = game->mBuildings.mTable[i].mNext)
+		{
+			D3DXVECTOR3 position = *game->mBuildings.mTable[i].mObj->pos() - *mech->pos();
+			//if the position is out of range of the radar then skip the object
+			if(position.x * position.x + position.z * position.z > radarRange2) continue;
+
+			float f = atan2f(position.x, position.z) - angle;
+			f = 2 * D3DX_PI * a + D3DX_PI/2.f- f;
+			if (f < 0) f += 2 * D3DX_PI;
+			if (f > 2 * D3DX_PI) f -= 2 * D3DX_PI;
+			int time = mMinimapPingAnim->getDuration() * f / (2 * D3DX_PI);
+			d3dObj->mMatrixStack->Push();
+			d3dObj->mMatrixStack->TranslateLocal(position.x*scale, position.z*scale, 0);
+			mMinimapPingAnim->draw(time);
+			d3dObj->mMatrixStack->Pop();
+		}
 	}
 	d3dObj->mMatrixStack->Pop();
 	return;
