@@ -6,8 +6,12 @@
 
 CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
 	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/bones_move.x"), 1.f, aPos, aOrientation),
-	mFPSMode(false), mOperationMode(EMechManualMode)
+	mUpperBody(CAnimationStorage::ptr()->getAnimation("data/turretTop.x")), mUBOrientation(0, 0, 0, 1),
+	mFPSMode(false), mOperationMode(EMechManualMode), mRadarRange(10), mRadarDelay(true)
 {
+	const TBox *box = mAnimation->getBoundingBox();
+	mUBPos = D3DXVECTOR3(0, box->mMax.y, 0);
+
 	D3DXQuaternionRotationYawPitchRoll(&mOrientation, 0.5f, 0, 0);
 //	game->sendMessage(EMsgMechMove, this, 0, 0, 0);
 	mSize = 2;
@@ -64,4 +68,35 @@ D3DXVECTOR3 CMech::getEyePos() const
 	eye.y += mSize * 0.9f;
 
 	return eye;
+}
+
+float CMech::radarRange() const
+{
+	return mRadarRange;
+}
+
+bool CMech::radarDelay() const
+{
+	return mRadarDelay;
+}
+
+void CMech::draw(uint32 aTimeFactor)
+{
+	d3dObj->mMatrixStack->Push();
+
+	D3DXVECTOR3 vec;
+	float angle;
+	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
+	D3DXQuaternionToAxisAngle(&mOrientation, &vec, &angle);
+	d3dObj->mMatrixStack->RotateAxisLocal(&vec, angle);
+
+	mAnimTime += (uint32)(aTimeFactor * mAnimSpeed);
+	if (mAnimation)
+		mAnimation->draw(mAnimTime);
+	d3dObj->mMatrixStack->TranslateLocal(mUBPos.x, mUBPos.y, mUBPos.z);
+	D3DXQuaternionToAxisAngle(&mUBOrientation, &vec, &angle);
+	d3dObj->mMatrixStack->RotateAxisLocal(&vec, angle);
+	if (mUpperBody)
+		mUpperBody->draw(mAnimTime);
+	d3dObj->mMatrixStack->Pop();
 }

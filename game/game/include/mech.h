@@ -14,11 +14,16 @@ public:
 	virtual void externalize(ostream &aStream);
 	virtual void handleMessage(CMessage *aMsg);
 	virtual void update(uint32 aTimeFactor);
-//	virtual void draw(uint32 aTimeFactor);
+	virtual void draw(uint32 aTimeFactor);
 	D3DXVECTOR3 getEyePos() const;
+	float radarRange() const;
+	bool radarDelay() const;
 private:
 	MAnimation *mUpperBody;
+	D3DXVECTOR3 mUBPos;
 	D3DXQUATERNION mUBOrientation;
+	float mRadarRange;
+	bool mRadarDelay;
 	float mSize;
 	bool mFPSMode;
 	TMechOperationMode mOperationMode;
