@@ -40,7 +40,7 @@ CBulletInfo::~CBulletInfo()
 {
 }
 
-bool CBulletInfo::handleCollision(int aDamage)
+bool CBulletInfo::handleCollision(int)
 {
 	return true;
 }

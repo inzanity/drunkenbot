@@ -100,7 +100,7 @@ TVector CMovingGameObj::scanTilemap(const char ** aSrcTilemap, float aAngle, CTi
 	return pos;
 }
 
-bool CMovingGameObj::handleCollision(int aDamage)
+bool CMovingGameObj::handleCollision(int)
 {
 	return true;
 }

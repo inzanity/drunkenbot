@@ -22,7 +22,8 @@ bool CWeapon::shoot()
 {
 	if (!mBulletCount)
 		return false;
-	--mBulletCount;
+	if (mBulletCount > 0)
+		--mBulletCount;
 	return true;
 }
 
