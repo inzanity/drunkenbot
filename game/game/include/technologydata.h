@@ -2,6 +2,7 @@
 #define TECHNOLOGYDATA_H
 
 #include <vector>
+#include <string>
 #include "animation.h"
 
 class CTechnologyData {

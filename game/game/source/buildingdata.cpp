@@ -1,4 +1,3 @@
-// #include "StdAfx.h"
 #include "../include/buildingdata.h"
 
 CBuildingData::CBuildingData(MAnimation *aAnimation,
@@ -29,7 +28,8 @@ CBuildingData::CBuildingData(MAnimation *aAnimation,
 									mEnergyProductionDay(aEnergyProductionDay),
 									mEnergyConsumption(aEnergyConsumption),
 									mBuildingType(aBuildingType),
-									mWeapon(aWeapon)
+									mWeapon(aWeapon),
+									mPicture(aPicture)
 {
 }
 
@@ -48,7 +48,8 @@ CBuildingData::CBuildingData() :
 									mEnergyProductionDay(0),
 									mEnergyConsumption(0),
 									mBuildingType(GENERAL),
-									mWeapon(0)
+									mWeapon(0),
+									mPicture(0)
 {
 }
 
@@ -132,6 +133,14 @@ void CBuildingData::setWeapon(uint32 aWeapon)
 void CBuildingData::setPicture(CTexture *aPicture)
 {
 	mPicture = aPicture;
+}
+
+void CBuildingData::dumpData() const
+{
+	if (mRequires)
+		delete [] mRequires;
+	if (mTechnologies)
+		delete [] mTechnologies;
 }
 
 uint32 CBuildingData::getId() const
