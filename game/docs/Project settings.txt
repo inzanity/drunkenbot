@@ -1,0 +1,56 @@
+1.Project group
+1.1Group name
+1.2Members
+inz
+Anza
+Jaba
+1.3Strengths and weaknesses
+Network programmer, Website designer, Core engine programmer, Tools programmer, AI programmer, audio professional
+No artist, no experience, no time
+2.PROJECT objectives
+2.1Goal and schedule
+Create modern, visually impressive game. Create website for the game.
+Schedule?
+2.2Future plans
+Game can be used in portfolio. No further development is planned.
+3.platform
+3.1Target platforms
+Windows. No additional platforms supported.
+3.2Minimum requirements
+Moderate PC with 3d accelerator (no shaders)
+4.development
+4.1Languages
+C++
+Lua for scripting
+XML for data files
+4.2APIs, Engines and Libraries
+DirectX, inhouse engine, possibly external libraries (i.e. for audio)
+4.3Content creation tools
+Possibly inhouse level editor
+External XML editor
+4.4Version control system / project database
+CVS, TortoiseCVS
+4.5Documenting
+Website, word documents
+Doxygen documents
+5.Programming conventions
+5.1Naming conventions
+Classes		C prefix, mixed case (capital first letter)
+Functions		mixed case (lowercase first letter)
+Member variables	m prefix, mixed case (capital first letter)
+Arguments		a prefix, mixed case (capital first letter)
+Constants		uppercase, underscore for spaces
+5.2Warning policy
+Zero warning policy, Visual Studio warning level 3 (default)
+5.3Comments
+Doxygen comments for interfaces
+5.4General writing conventions
+End of line characters: \r\n or \n
+End of file: Extra end of line
+Indents: Tabulators (4 spaces)
+Line length: Fit to screen (about 120 characters)
+6.group communication
+6.1Meetings
+Weekly "Europe"-meetings
+6.2Communication
+IRC channel #peliohjhtyoryhma
