@@ -5,4 +5,4 @@ In the Face entertainment is proud to present [[GAME TITLE HERE]], the world-ren
 In the Face makes this possible with it's three members, who have intelligence and abilities like sheep don't. The crew members are:
 	- Jarmo "Japa" Kauko (Project leader, Master coder, Usability expert)
 	- Antero "Anza" Salonen (Music composer, Senior coder, Usability expert, Graphics expert)
-	- Santtu "inz" Lakkala (Web Monkey, Coder Slave)
+	- Santtu "inz" Lakkala (Networking specialist, Web Monkey, Coder Slave)
