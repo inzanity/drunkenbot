@@ -37,10 +37,13 @@
 									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
 									<xsd:attribute name="bullet" type="xsd:string" use="required"/>
 									<xsd:attribute name="picture" type="xsd:string" use="required"/>
+									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="mass" type="xsd:integer" use="required"/>
 									<xsd:attribute name="range" type="xsd:integer" use="required"/>
 									<xsd:attribute name="type" type="xsd:integer" use="required"/>
 									<xsd:attribute name="piercingDamage" type="xsd:integer" use="required"/>
 									<xsd:attribute name="explosiveDamage" type="xsd:integer" use="required"/>
+									<xsd:attribute name="accuracy" type="xsd:integer" use="required"/>
 								</xsd:complexType>
 							</xsd:element>
 							<xsd:element name="mech" minOccurs="1" maxOccurs="1">
@@ -51,6 +54,7 @@
 									<xsd:attribute name="explosiveArmor" type="xsd:integer" use="required"/>
 									<xsd:attribute name="speed" type="xsd:integer" use="required"/>
 									<xsd:attribute name="animation" type="xsd:string" use="required"/>
+									<xsd:attribute name="mass" type="xsd:integer" use="required"/>
 								</xsd:complexType>
 							</xsd:element>
 							<xsd:element name="upgrade" minOccurs="0" maxOccurs="unbounded">
@@ -63,6 +67,8 @@
 											</xsd:complexType>
 										</xsd:element>
 									</xsd:sequence>
+									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
+									<xsd:attribute name="price" type="xsd:integer" use="required"/>
 								</xsd:complexType>
 							</xsd:element>
 						</xsd:sequence>
