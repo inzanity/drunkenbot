@@ -15,28 +15,50 @@ void CFPSModeUI::handleInput()
 {
 	if (!mActive) return; /* Active UI will handle input */
 	int mouseX = directInput->getMouseX();
-	CMech *ptr = (CMech *)mMech.ptr();
+	CMech *mech = (CMech *)mMech.ptr();
 	if (directInput->checkKey(KEY_1))
 	{
 		mActive = false;
 		game->mRTSModeUI->activate(mMech);
-		ptr->setSpeed(&D3DXVECTOR3(0, 0, 0));
+		mech->setSpeed(&D3DXVECTOR3(0, 0, 0));
 		return;
 	}
-	if (!mCounter || !ptr) return; /* Controlling requires 100% FPS mode */
+	if (!mCounter || !mech) return; /* Controlling requires 100% FPS mode */
 	if (directInput->checkMouseButton(0))
 	{
 	}
-	if (directInput->isPressed(MOVE_FORWARD))
+//reset stuff before new button check
+	{
+		mech->setSpeed(&D3DXVECTOR3(0, 0, 0));
+		mech->setRotSpeed(&D3DXQUATERNION(0, 0, 0, 1));
+	}
+
+	if (directInput->isPressed(MOVE_UP))
 	{
 		D3DXMATRIX mat;
 		D3DXVECTOR4 out;
-		D3DXMatrixRotationQuaternion(&mat, ptr->orientation());
-		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, .002f), &mat);
-		ptr->setSpeed((const D3DXVECTOR3 *)&out);
+		D3DXMatrixRotationQuaternion(&mat, mech->orientation());
+		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, .005f), &mat);
+		mech->setSpeed((const D3DXVECTOR3 *)&out);
 	}
-	else
-		ptr->setSpeed(&D3DXVECTOR3(0, 0, 0));
+	else if (directInput->isPressed(MOVE_DOWN))
+	{
+		D3DXMATRIX mat;
+		D3DXVECTOR4 out;
+		D3DXMatrixRotationQuaternion(&mat, mech->orientation());
+		D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, -.005f), &mat);
+		mech->setSpeed((const D3DXVECTOR3 *)&out);
+	}
+	else if (directInput->isPressed(MOVE_LEFT))
+	{
+		D3DXQUATERNION quaternion(0, -.001f, 0, 1);
+		mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
+	}
+	else if (directInput->isPressed(MOVE_RIGHT))
+	{
+		D3DXQUATERNION quaternion(0, .001f, 0, 1);
+		mech->setRotSpeed((const D3DXQUATERNION *)&quaternion);
+	}
 }
 
 void CFPSModeUI::draw(uint32 aTime)

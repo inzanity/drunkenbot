@@ -62,5 +62,6 @@ D3DXVECTOR3 CMech::getEyePos() const
 {
 	D3DXVECTOR3 eye = mPos;
 	eye.y += mSize * 0.9f;
+
 	return eye;
 }
