@@ -2,7 +2,7 @@
 
 // CVisibleWeaponInfo
 
-CVisibleWeaponInfo::CVisibleWeaponInfo(int aWeaponType) : CGameObj(aWeaponType << 4 | 3), mWeaponType(aWeaponType)
+CVisibleWeaponInfo::CVisibleWeaponInfo(int aWeaponType) : CGameObj(aWeaponType << 4 | EObjectWeapon), mWeaponType(aWeaponType)
 {
 }
 

@@ -2,7 +2,7 @@
 
 // CVisibleBotInfo
 
-CVisibleBotInfo::CVisibleBotInfo(int aTeamInfo) : CMovingGameObj(aTeamInfo | 1), mEnemy(false)
+CVisibleBotInfo::CVisibleBotInfo(int aTeamInfo) : CMovingGameObj(aTeamInfo | EObjectBot), mEnemy(false)
 {
 }
 

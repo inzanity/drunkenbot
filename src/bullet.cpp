@@ -3,7 +3,7 @@
 
 // CVisibleBulletInfo
 
-CVisibleBulletInfo::CVisibleBulletInfo(int aBulletType) : CMovingGameObj(2), mBulletType(aBulletType)
+CVisibleBulletInfo::CVisibleBulletInfo(int aBulletType) : CMovingGameObj(EObjectBullet), mBulletType(aBulletType)
 {
 }
 
@@ -34,7 +34,7 @@ CBulletInfo::CBulletInfo(int aBulletType, float aXPos, float aYPos, float aDirec
 	mPos.mY = aYPos;
 	mOrientation = mMovingDirection = aDirection;
 	mVelocity = aVelocity;
-	mRadius = .2;
+	mRadius = .2f;
 }
 
 CBulletInfo::~CBulletInfo()

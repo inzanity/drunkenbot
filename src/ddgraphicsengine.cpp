@@ -8,7 +8,7 @@ CDDGraphicsEngine::CDDGraphicsEngine(HWND aHWnd, const istream *aGfxInfo) :
 									 mHWnd(aHWnd), mWidth(0), mHeight(0), mMapWidth(0), mMapHeight(0),
 									 mSrcTileWidth(0), mSrcTileHeight(0), mDestTileWidth(0), mDestTileHeight(0), 
 									 mPrimary(NULL), mClipper(NULL), mDD(NULL), mBack(NULL), mTiles(NULL), 
-									 mBots(NULL)
+									 mBots(NULL), mBullets(NULL)
 {
 	DDSURFACEDESC ddsd;
 	HRESULT ddrval;
@@ -62,7 +62,9 @@ CDDGraphicsEngine::CDDGraphicsEngine(HWND aHWnd, const istream *aGfxInfo) :
 	mSrcTileWidth = mSrcTileHeight = 16;
 	mTiles = CSurface::create(mDD, "res/tiles.bmp");
 	mBots = CSurface::create(mDD, "res/bot.bmp");
+	mBullets = CSurface::create(mDD, "res/bullet.bmp");
 	mBots->setColorKey(RGB(255, 239, 239));
+	mBullets->setColorKey(RGB(255, 239, 239));
 }
 
 CDDGraphicsEngine::~CDDGraphicsEngine()
@@ -118,11 +120,22 @@ void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 	int x2 = x1 + w;
 	int y2 = y1 + h;
 	CRect rect;
-	rect.left = frame * mSrcTileWidth;
-	rect.top = dir * mSrcTileHeight;
-	rect.right = rect.left + mSrcTileWidth;
-	rect.bottom = rect.top + mSrcTileHeight;
-	mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
+	if (type == EObjectBot)
+	{
+		rect.left = frame * mSrcTileWidth;
+		rect.top = dir * mSrcTileHeight;
+		rect.right = rect.left + mSrcTileWidth;
+		rect.bottom = rect.top + mSrcTileHeight;
+		mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
+	}
+	else if (type == EObjectBullet)
+	{
+		rect.left = index * mSrcTileWidth;
+		rect.top = dir * mSrcTileHeight;
+		rect.right = rect.left + mSrcTileWidth;
+		rect.bottom = rect.top + mSrcTileHeight;
+		mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
+	}
 }
 
 void CDDGraphicsEngine::flip()
@@ -216,6 +229,11 @@ void CDDGraphicsEngine::releaseObjects()
 		delete mBots;
 		mBots = NULL;
 	}
+	if (mBullets)
+	{
+		delete mBullets;
+		mBullets = NULL;
+	}
 
 	if(mDD)
 	{
@@ -235,6 +253,8 @@ HRESULT CDDGraphicsEngine::restore()
 	ddrval = mTiles->restore();
 	if (ddrval != DD_OK) return ddrval;
 	ddrval = mBots->restore();
+	if (ddrval != DD_OK) return ddrval;
+	ddrval = mBullets->restore();
 	return ddrval;
 }
 

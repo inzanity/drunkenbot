@@ -74,6 +74,7 @@ private:
 	CSurface *mBack;
 	CSurface *mTiles;
 	CSurface *mBots;
+	CSurface *mBullets;
 };
 
 #endif // DDGRAPHICSENGINE_H
