@@ -56,8 +56,8 @@
 
 2.1.11	Exploring the Map
 
-	- <b>Performing</b>: A mech can see only to a certain distance, and so can a building. Totally unseen areas are covered in black, and the map needs to be explored with a mech. After a location has been seen once, it will be visible within a fog. Only buildings (as the were at the time they were seen) and the level are seen under the fog.
-	- <b>Implementation</b>: A array will contain information of visible and seen locations. The values in the array will be updated every round, so that visible or foggy areas become foggy. Then all players objects that have visual capabilities will update information about what they see. Info about seen buildings will be preserved when they're inside the fog, and their state will be updated when they're seen again.
+	- <b>Performing</b>: A mech can see only to a certain distance, and so can a building. Totally unseen areas are covered in black, and the map needs to be explored with a mech. After a location has been seen once, it will be visible within a fog. Only buildings (as the were at the time they were seen) and the level are seen under the fog. There is also a tecnology that allows the player to see the whole map as fogged (instead of black).
+	- <b>Implementation</b>: A array will contain information of visible and seen locations. The values in the array will be updated every round, so that visible or foggy areas become foggy. Then all players objects that have visual capabilities will update information about what they see. Info about seen buildings will be preserved when they're inside the fog, and their state will be updated when they're seen again. If the "see all"-technology is developed, the seen flag will be set for the whole array.
 
 2.1.12	Upgrading mechs
 
