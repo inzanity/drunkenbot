@@ -23,6 +23,7 @@ using std::list;
 #define KMoveSpeedForward	(.25f)
 #define KMoveSpeedBackwards	(.1f)
 #define KTurnSpeed			(.1f * PI)
+#define KInaccuracy			(PI / 36.f)
 
 /**
  * Base class for external AI class.

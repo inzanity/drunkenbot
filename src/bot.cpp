@@ -168,9 +168,11 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		mBotAction = (TBotAction)(mBotAI->action() & (EActionShoot | EActionBunker | EActionPickWeapon | EActionDropWeapon));
 		if (mBotAction == EActionShoot && mWeapon->shoot())
 		{
-			TVector pos = { mPos.mX + (mRadius + 0.3f) * cos(mOrientation), mPos.mY + (mRadius + 0.3f) * sin(mOrientation) };
-			aBulletList->push_back(new CBulletInfo(mPos.mX + (mRadius + 0.5f) * cos(mOrientation),
-												   mPos.mY + (mRadius + 0.5f) * sin(mOrientation),
+			float inaccuracy = KInaccuracy * mAimingFactor;
+			float dir = mOrientation - inaccuracy + rand() / (float)RAND_MAX * 2 * inaccuracy;
+			TVector pos = { mPos.mX + (mRadius + 0.3f) * cos(dir), mPos.mY + (mRadius + 0.3f) * sin(dir) };
+			aBulletList->push_back(new CBulletInfo(mPos.mX + (mRadius + 0.5f) * cos(dir),
+												   mPos.mY + (mRadius + 0.5f) * sin(dir),
 												   mOrientation + mBotAI->shootingDir(), this));
 			aVoices->push_back(pos);
 			mActionDelay = (char)mWeapon->reloadTime();
@@ -233,6 +235,12 @@ float CBot::spawningXPos() const
 float CBot::spawningYPos() const
 {
 	return mSpawningPos.mY;
+}
+
+char *CBot::name() const
+{
+	char *ptr = strrchr(mDllName, '/');
+	return (ptr ? ptr + 1 : mDllName);
 }
 
 void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const

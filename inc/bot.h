@@ -74,6 +74,8 @@ public:
 	/** Getter for y-coordinates of the spawning location. May be used by CGraphicsEngine. */
 	float spawningYPos() const;
 
+	/** Getter for name. By default this is name of the .dll file. @return Name of the bot. */
+	char *name() const;
 
 private:
 	/** Load AI class from file (mDllName). */

@@ -129,13 +129,15 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 				mMovingTimeFactor = totalTime;
 		}
 		if (mMovingTimeFactor < 1.f)
-			handleCollision(15);
+			if (!handleCollision(15))
+				changeFragNum(false);
 	}
 
 	xSpeed += mEpsilon;
 	int i;
 	for (i = 0; aBots[i]; i++)
 	{
+		bool enemy = (aBots[i]->type() & KObjectTeamMask) != (mType & KObjectTeamMask);
 		if (sqr(aBots[i]->xPos() - mPos.mX) + sqr(aBots[i]->yPos() - mPos.mY) < sqr(mVelocity + aBots[i]->velocity() + mRadius + aBots[i]->radius()))
 		{
 			float xSpeed2 = aBots[i]->velocity() * cos(aBots[i]->movingDirection());
@@ -161,15 +163,19 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 						time1 -= mEpsilon;
 						if (((CMovingGameObj *)aBots[i])->mMovingTimeFactor > time1)
 							((CMovingGameObj *)aBots[i])->mMovingTimeFactor = time1;
-						handleCollision(((const CMovingGameObj *)aBots[i])->getDamage());
-						((CMovingGameObj *)aBots[i])->handleCollision(getDamage());
+						if (!handleCollision(((const CMovingGameObj *)aBots[i])->getDamage()))
+							aBots[i]->changeFragNum(enemy);
+						if (!((CMovingGameObj *)aBots[i])->handleCollision(getDamage()))
+							aBots[i]->changeFragNum(enemy);
 					}
 				}
 				else if ((time1 > mEpsilon && time2 < -mEpsilon) || (time1 < -mEpsilon && time2 > mEpsilon))
 				{
 					((CMovingGameObj *)aBots[i])->mMovingTimeFactor = 0.f;
-					handleCollision(((const CMovingGameObj *)aBots[i])->getDamage());
-					((CMovingGameObj *)aBots[i])->handleCollision(getDamage());
+					if (!handleCollision(((const CMovingGameObj *)aBots[i])->getDamage()))
+						aBots[i]->changeFragNum(enemy);
+					if (!((CMovingGameObj *)aBots[i])->handleCollision(getDamage()))
+						changeFragNum(enemy);
 				}
 			}
 		}

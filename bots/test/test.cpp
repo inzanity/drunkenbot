@@ -34,17 +34,31 @@ CTestAI::~CTestAI()
 
 void CTestAI::think()
 {
-	float angle = 100000.f;
+	float angle = mData->weapon()->damage() * (mData->weapon()->explosionRadius() ? mData->weapon()->explosionRadius() : 1);
 	float plop;
-	CVisibleBotInfo *target;
-	list<CVisibleBotInfo *>::iterator i;
-	for (i = mBots.begin(); i != mBots.end(); i++)
-		if ((plop = pow2((*i)->yPos() - mData->yPos()) + pow2((*i)->xPos() - mData->xPos())) < angle)
+	bool weapon = 0;
+	CGameObj *target = NULL;
+	list<CVisibleBotInfo *>::iterator b;
+	list<CWeaponInfo *>::iterator w;
+
+	for (w = mWeapons.begin(); w != mWeapons.end(); w++)
+		if ((plop = (*w)->damage() * ((*w)->explosionRadius() ? (*w)->explosionRadius() : 1)) > angle)
 		{
 			angle = plop;
-			target = *i;
+			target = *w;
+			weapon = 1;
 		}
-	if (mBots.size())
+	if (!target)
+	{
+		angle = 100000;
+		for (b = mBots.begin(); b != mBots.end(); b++)
+			if ((plop = pow2((*b)->yPos() - mData->yPos()) + pow2((*b)->xPos() - mData->xPos())) < angle)
+			{
+				angle = plop;
+				target = *b;
+			}
+	}
+	if (target)
 	{
 		angle = ff(atan2(target->yPos() - mData->yPos(), target->xPos() - mData->xPos()) - mData->orientation());
 		if (fabs(angle) > PI / 20 && action() == EActionNone)
@@ -54,10 +68,15 @@ void CTestAI::think()
 			else
 				turn(ETurnRight);
 		}
-		else
+		move(EMoveForward);
+		if (!weapon)
+		{
 			if (pow2(target->yPos() - mData->yPos()) + pow2(target->xPos() - mData->xPos()) < 49)
 				shoot(angle);
-		move(EMoveForward);
+		}
+		else
+			if ((angle = pow2(target->yPos() - mData->yPos()) + pow2(target->xPos() - mData->xPos())) < 1)
+				pickWeapon();
 	}
 	else
 	{

@@ -154,7 +154,15 @@ char **CGameEngine::getResults(bool aTeamResults) const
 	{
 		return NULL;
 	}
-	return NULL;
+	char **results = new char *[mBotNum + 1];
+	for (int i = 0; i < mBotNum; i++)
+	{
+		char *name = mBots[i]->name();
+		results[i] = new char[strlen(name) + 6];
+		sprintf(results[i], "%-5d%s", mBots[i]->fragNum(), name);
+	}
+	results[mBotNum] = NULL;
+	return results;
 
 }
 
