@@ -30,7 +30,7 @@
 	- <b>Performing</b>: First select the building you wish to cancel with mouse. Then press the cancel button from action menu or press 'esc' from keyboard.
 	- <b>Implementation</b>: 'selected' variable points to a game object. When CDirectInput class tells that left mouse button was pressed on top of a cancel button in action menu or 'esc' was pressed on keyboard a 'cancel' command is sent to selected game object. Because the object is being built, the cancel command cancels the building process. Action queue, action menu and info screen is asked to update themselves.
 
-2.1.7	Using action queue to develop technology
+2.1.7	Using action queue to develop technology or build mechs
 
 	- <b>Performing</b>: Select a building you want to use to build or develop something. After selection the objects action menu shows all the building/development possibilities. Clicking one of them with left mouse button adds it to the objects action queue to be built/developed. Building/developement of an item can be cancelled by clicking it with left mouse button. Every command has also a shortcut key.
 	- <b>Implementation</b>: If 'selected' variable is not empty, CDirectInput class tells that left mouse button was pressed on top of action menus item and the action queue is not full, the item is added to the queue. If left mouse button is pressed over the item in queue a cancel message is sent to the item. The queue will be popped every time the previous item is completed, the resources are checked just in time. If resources are too few for queued item, it will be set pending, and it will wait until resources are available.
@@ -43,7 +43,7 @@
 2.1.9	Mech actions
 
 	- <b>Performing</b>: You can give actions to mech normally by selecting an action from action menu or using proper shortcut key from keyboard and left clicking with mouse on the terrain. With 'shift' pressed down you can combine actions which are then performed in the order they were given.
-	- <b>Implementation</b>: CDirectInput class tells that action was given with mouse. If action queue is not full, 'add action' message is sent to the selected game object. If shift button is pressed down the actions are added to the action queue in given order and object performs them in FIFO order.
+	- <b>Implementation</b>: CDirectInput class tells that action was given with mouse. If shift was not pressed, 'do action' message is sent to the selected game object and it's action queue cleared. If shift button is pressed down the actions are added to the action queue in given order and object performs them in FIFO order.
 
 2.1.9.1	Moving actions
 
@@ -58,6 +58,11 @@
 
 	- <b>Performing</b>: A mech can see only to a certain distance, and so can a building. Totally unseen areas are covered in black, and the map needs to be explored with a mech. After a location has been seen once, it will be visible within a fog. Only buildings (as the were at the time they were seen) and the level are seen under the fog.
 	- <b>Implementation</b>: A array will contain information of visible and seen locations. The values in the array will be updated every round, so that visible or foggy areas become foggy. Then all players objects that have visual capabilities will update information about what they see. Info about seen buildings will be preserved when they're inside the fog, and their state will be updated when they're seen again.
+
+2.1.12	Upgrading mechs
+
+	- <b>Performing</b>: When a mech is in a build platform, the platform is selected and there are upgrades available, the upgrades will be in the action menu. Clicking these will queue the action. The mech may not be moved out of the platform, or the upgrade is cancelled. New technologies will be available to the mechs only thorough upgrades.
+	- <b>Implementation</b>: When a mech arrives at a build platform, the platform will be sent a message, and it will store a pointer to the mech object. When a platform is selected, it checks, if the pointer is set. Then it polls available upgrades, and upgrades already done, and tells the action menu to display the available options. When a item in the action menu are clicked, the action is added to the action queue. The queue will be popped when the platform is not doing anything. When a action is popped from the queue, it will check and reserve (or wait for) needed resources, and check that the right mech is at the platform. After that a message will be sent to the platform and the mech to set their status and animations. If the mech is moved, the upgrade will be cancelled, and the resources freed. After the action's duration counter finshises, the mech is sent a message and it's date upgrade to reflect the upgrade.
 
 2.2	FPS Functions
 2.2.1	Moving
