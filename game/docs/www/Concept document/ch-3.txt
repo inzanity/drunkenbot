@@ -1,19 +1,74 @@
 3.	Gameplay
 
 3.1	Overview
-[Describe the core gameplay. This should tie into a physical or software prototype. Use the prototype as the model and present in this chapter an overview of how it functions.]
+
 Basically ***GAME NAME*** is a real time strategy (RTS) game. As usually in this genre, it includes everything from resource management to building up a military base and fighting the enemies. However, it has a whole new unit control and combat system. Instead of building an army, each side has to build massive war machines. These machines, known as mechs, are provided with the highest technology available, making only one of them worth of an army. As the whole war is wrapped around these machines and their technology, controlling the machine becomes an essential part of the game.
 
 3.2	Gameplay description
 
-From the strategical point of view, game is about gathering and managing resources, building a base, developing technologies and constructing the war machines. Player observes the world from top-down perspective. Only small part of the map fits to the screen, and the screen can be scrolled to view different areas of the map. Minimap can be used to get the general idea of the whole map. Unknown areas are shown as black, and has to be explored before seeing them. Areas far from buildings and units are covered by fog (fog of war). Enemy units can't be seen under the fog, while the rest of the map is seen as it was before.
+From the strategical point of view, game is about gathering and managing resources, building a base, developing technologies and constructing the war machines. This is called the RTS mode. Player observes the world from top-down perspective. Only small part of the map fits to the screen, and the screen can be scrolled to view different areas of the map. Minimap can be used to get the general idea of the whole map. Unknown areas are shown as black, and has to be explored before seeing them. Areas far from buildings and units are covered by fog (fog of war). Enemy units can't be seen under the fog, but the rest of the map is seen as it was before.
 
-There are two types of resources, electric power and materials. Materials for the industry can be collected from the rich occurrences of the otherwise bare ground by building distribution channels. Electricity can be produced from the sun, nuclear factories or from nigth storms by storing energy from the lighnings. Resources are needed for buildings, machines, technologies and upgrades. Some electricity is also needed to maintain functioning. Mech contains internal source of power, and doesn't need resources in order to operate.
+There are three types of resources - electric power, metals and chemicals. Metals and chemicals for the industry can be collected from the rich occurrences of the otherwise bare ground by building distribution channels. Electricity can be produced with nuclear factories or from nigth storms by storing energy from the lighnings. Electricity is needed to maintain the functioning of the base. Mech contains internal source of power, and doesn't need resources in order to operate. Metals and chemicals are needed for buildings, machines, technologies and upgrades. Buildings and technoligies may also require other buildings and technologies (see 3.3.3).
 
-...
+Simple commands can be given to mechs from RTS mode. These commands and their execution depends on the AI technology level of the mech. Mech without AI technology has to be controlled by hand, and it doesn't have any ability to avoid obstacles. On the other hand, mech provided with the highest AI technology is able to function with just one attack or defence command.
+
+Full control of the mechs happens from the first person perspective (FPS mode). Instead of giving commands, player is able to operate the mech as accurately as possible. This includes moving, turning, aiming, weapon selection, firing and some other actions (see 3.3.2). Most of the important battles are made in FPS mode.
 
 3.3	Rules
 [Describe the rules of the game. Define all game objects, concepts, their behaviors, and how they relate to one another.]
+This chapter explains the rules and core mechanics of the game. Implementation details are not covered here. All constants and properties required for balancing the game are left outside.
+
+3.3.1	Mech actions
+From RTS mode, following commands can be given to mech:
+	- Move
+	- Stop
+	- Patrol
+	- Select weapon
+	- Attack to target or use special weapon
+	- Build power distribution system (see 3.2.2.4)
+
+Mech can be fully controlled in FPS mode. This includes:
+	- Moving forward
+	- Turning
+	- Turning the upper part of the mech, including vision and weapons
+	- Aiming??????????????????????
+	- All actions from RTS mode
+
+Mech has following automatic operation modes (enabled by AI technologies, see 3.3.3):
+	- None
+	- Autoaim
+	- Autofire
+	- Scout
+	- Attack
+	- Defence
+
+3.3.2	Buildings and technology tree
+Game contains one set of buildings and technologies for player to use. However, different sets are used for enemies in single player game. These sets is called technology trees. Technology tree consists of buildings, and dependence relationships between buildings and technologies. Because technology trees are fully configurable by tools (see 7.1), and has to be balanced by tweaking, they are not defined in this document. However, there is several buildings and relationships common to all technology trees. Each building is defined by following properties:
+	- Cost in metals
+	- Cost in chemicals
+	- Power consumption
+	- Hitpoints
+	- Collision rectangles
+	- Audiovisual appearance
+	- Depencence relationships
+
+3.2.2.1	Command center
+Command center is the main building of the game. It is required to build any other buildings. Resource distribution channels (see 3.2.2.2) must be connected to the command center in order to deliver resources.
+
+3.2.2.2	Resource gathering
+Each technology tree needs a buildings for producing energy. These buildings use negative power consumption property to indicate power producing. Each of these buildings increase the power storage capacity. Additional flag (and possibly animations) are needed for buildings producing energy from lightnings.
+
+Distribution channels are needed for every technology tree as well. They are sort of a pipes from Command center to the metal or chemical occurrences. For collision checking, channel is considered as rough terrain (see movement area, 3.3.3). Channel consists of blocks, but visual appearance is a contunuous pipe. Two channels can be connected, and it's possible to have branches. Block of the channel can be destroyed as any other building, and unconnected channel doesn't deliver resources.
+
+3.2.2.3	Dock yard
+Place for building, reparing and upgrading mechs. When mech is ordered to move to the Dock yard, it walks to the center of the building. After that it can be repaired or upgraded, if any upgrades are available and it has all required upgrades installed. Implementation note: repairing the mech should be much cheaper than building a new one.
+
+3.2.2.4	Defence of the base
+Each technology tree has special kind of buildings for defence, which are automatically firing at enemies nearby. Weapon is defined by additional property. Other important defence building is wall, cheap building with high hitpoints. While it's not necessary for all technology trees, it should be very common.
+
+3.3.3	Technologies
+
+3.3.4	Weapons
 
 3.4	Goals, victory and end conditions
 
