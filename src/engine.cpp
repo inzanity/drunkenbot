@@ -51,12 +51,11 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 		}
 #else
 		struct dirent **filelist;
-		int count;
 		int i;
 		
 		mBotNum = scandir("bots/", &filelist, fileselector, NULL);
 
-		mBots = new CBot *[count];
+		mBots = new CBot *[mBotNum];
 
 		for (i = 0; i < mBotNum; i++)
 		{
