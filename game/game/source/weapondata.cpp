@@ -185,4 +185,3 @@ void CWeaponData::setAccuracy(uint32 aAccuracy)
 {
 	mAccuracy = aAccuracy;
 }
-
