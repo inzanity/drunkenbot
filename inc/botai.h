@@ -2,7 +2,7 @@
  * @file botai.h
  * Definition of CBotAI base class.
  * Includes everything needed to build AI for the bot.
- * In order to load AI from dll, <code>getBotAI</code> must be implemented.
+ * In order to load AI from dll, <code>getBotAI()</code> must be implemented.
  *
  * @author Japa
  * @version 1.0
