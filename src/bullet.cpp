@@ -5,7 +5,7 @@
 // CBulletInfo
 
 CBulletInfo::CBulletInfo(float aXPos, float aYPos, float aDirection, CBotInfo *aShooter) :
-	CMovingGameObj(EObjectBullet | (aShooter->weapon()->type() << KObjectIndexShift)), mShooter(aShooter)
+	CMovingGameObj(EObjectBullet | (aShooter->weapon()->weaponType() << KObjectIndexShift)), mShooter(aShooter)
 {
 	mPos.mX = aXPos;
 	mPos.mY = aYPos;

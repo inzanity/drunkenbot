@@ -2,7 +2,7 @@
 
 // CWeaponInfo
 
-CWeaponInfo::CWeaponInfo(const CWeapon *aWeapon, float aXPos, float aYPos) : CGameObj(aWeapon->type() << KObjectIndexShift | EObjectWeapon), CWeapon(aWeapon)
+CWeaponInfo::CWeaponInfo(const CWeapon *aWeapon, float aXPos, float aYPos) : CGameObj(aWeapon->weaponType() << KObjectIndexShift | EObjectWeapon), CWeapon(aWeapon)
 {
 	mPos.mX = aXPos;
 	mPos.mY = aYPos;
