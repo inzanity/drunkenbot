@@ -95,12 +95,6 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 	return true;
 }
 
-TVector CMovingGameObj::scanTilemap(const char ** aSrcTilemap, float aAngle, CTilemap * aDstTilemap) const
-{
-	TVector pos = mPos;
-	return pos;
-}
-
 bool CMovingGameObj::handleCollision(int)
 {
 	return true;
@@ -115,18 +109,17 @@ void CMovingGameObj::addFrag()
 {
 }
 
-float CMovingGameObj::getNextEdge(TVector aPos, TVector aSpeed) const
+float CMovingGameObj::getNextEdge(TVector aPos, TVector aSpeed)
 {
-	float x = aPos.mX - int(aPos.mX);
-	float y = aPos.mY - int(aPos.mY);
+	float dX = aSpeed.mX < 0 ? floorf(aPos.mX) - aPos.mX : 1.f - aPos.mX + floorf(aPos.mX);
+	float dY = aSpeed.mY < 0 ? floorf(aPos.mY) - aPos.mY : 1.f - aPos.mY + floorf(aPos.mY);
 
-	float xTime = 100000.f, yTime = 100000.f;
+	if (dX == 0) dX = (aSpeed.mX < 0 ? -1.f : 1.f);
+	if (dY == 0) dY = (aSpeed.mY < 0 ? -1.f : 1.f);
 
-	if (aSpeed.mX > 0)		xTime = (1.f - x) / aSpeed.mX;
-	else if (aSpeed.mX < 0)	xTime = x / -aSpeed.mX;
-
-	if (aSpeed.mY > 0)		yTime = (1.f - y) / aSpeed.mY;
-	else if (aSpeed.mY < 0)	yTime = y / -aSpeed.mY;
+	float xTime = dX / aSpeed.mX, yTime = dY / aSpeed.mY;
+	if (fabs(aSpeed.mX) != fabs(aSpeed.mY) && (xTime >= 1,41421 || yTime >= 1,41421))
+		int plop = 100;
 
 	return (xTime < yTime ? xTime : yTime) + mEpsilon;
 }
