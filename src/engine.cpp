@@ -148,17 +148,22 @@ void CGameEngine::draw(float aTimeInterval, int aBotIndex)
 	}
 }
 
-char **CGameEngine::getResults(bool aTeamResults) const
+char **CGameEngine::getResults(bool aTeamResults, char **aResults) const
 {
+	char **results;
 	if (aTeamResults)
 	{
 		return NULL;
 	}
-	char **results = new char *[mBotNum + 1];
+	if (!aResults)
+		results = new char *[mBotNum + 1];
+	else
+		results = aResults;
 	for (int i = 0; i < mBotNum; i++)
 	{
 		char *name = mBots[i]->name();
-		results[i] = new char[strlen(name) + 6];
+		if (!aResults)
+			results[i] = new char[strlen(name) + 6];
 		sprintf(results[i], "%-5d%s", mBots[i]->fragNum(), name);
 	}
 	results[mBotNum] = NULL;
