@@ -25,7 +25,8 @@ public:
 	/**
 	 * Reloads AI from dll, creates and initializes new bot.
 	 * @param aTileMap Tilemap for locating new bot.
-	 * @param aGameObjects Bot should not be located near these objects. */
+	 * @param aGameObjects Bot should not be located near these objects.
+	 */
 	void spawn(const char **aTileMap, const CGameObj *aGameObjects);
 
 	/**
@@ -41,8 +42,10 @@ public:
 
 	/**
 	 * Does error checking and performs valid actions.
+	 * @param aBulletList List to add new bullets in case of <code>EActionShoot</code>.
+	 * @param aVoices List to add new sound sources in case of <code>EActionShoot</code>.
 	 */
-	void performActions(list<CWeaponInfo *> *mBulletList, list<TPosition> *mVoices);
+	void performActions(list<CWeaponInfo *> *aBulletList, list<TPosition> *aVoices);
 
 	/**
 	 * Checks and handles collisions. See CMovingGameObj::chkCollision().
