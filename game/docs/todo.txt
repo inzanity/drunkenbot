@@ -1,5 +1,1 @@
 3.2.X - Techejä: machine visionit, Tactical AI
-2.1.9.1, .2 Mech action types
-
-
-Vai pitäiskö tehä 2.3 ja 3.3 ja siirtää niihin sellaset toiminnot jotka toimii rts- ja fps-modeissa (General functions)
