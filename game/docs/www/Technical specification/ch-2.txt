@@ -68,8 +68,8 @@
 
 2.2.4	Changing a weapon
 
-	- <b>Performing</b>: The primary weapon can be changed using the right mouse button or pressing numbers 1 through 10 for certain weapon.
-	- <b>Implementation</b>: CDirectInput class tells that right mouse button or one of the number buttons was pressed. The mech game object will then be told that it should change weapon. The object will then set it's primary weapon and update it's animation to show the new selected weapon.
+	- <b>Performing</b>: The primary weapon can be changed using the right mouse button.
+	- <b>Implementation</b>: CDirectInput class tells that right mouse button was pressed. The mech game object will then be told that it should change weapon. The object will then set it's primary weapon and update it's animation to show the new selected weapon.
 
 2.2.5	Building power distribution system
 
@@ -78,5 +78,5 @@
 
 2.2.6	Changing into RTS mode
 
-	- <b>Performing</b>: The mode can be changed back to the RTS mode by pressing escape in the FPS mode. This may also occurr non-interactively, if the mech in question is destroyed while in use.
-	- <b>Implementation</b>: CDirectInput tells when the key is pressed. The mech object will be notified, and it will return to the state it was before the FPS mode, and the visible area in the RTS will be centered to the mech.
+	- <b>Performing</b>: The mode can be changed back to the RTS mode by pressing escape or one of the bound numbers for object in the FPS mode. This may also occurr non-interactively, if the mech in question is destroyed while in use.
+	- <b>Implementation</b>: CDirectInput tells when the key is pressed. The mech object will be notified, and it will return to the state it was before the FPS mode, and the visible area in the RTS will be centered to the mech or the newly selected object.
