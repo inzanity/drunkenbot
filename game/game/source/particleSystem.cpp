@@ -195,7 +195,11 @@ void CParticleSystem::draw(uint32 aTime)
 	for (int i = 0; i < mParticles; i++)
 	{
 		int t = aTime + mStartingTime[i];
-		if (mLife[i] <= 0 || (!mLooping && t >= mLife[i])) continue;
+		if (mLife[i] <= 0 || (!mLooping && t >= mLife[i]))
+		{
+			ZeroMemory(ptr, mVertexSize);
+			continue;
+		}
 		int time = (mLooping ? t % mLife[i] : t);
 		float s = (mPosNum - 1) * time / (float)mLife[i];
 		int is = (int)s;
