@@ -12,7 +12,7 @@ CFPSModeUI::CFPSModeUI() : mActive(false), mCounter(0), mMech()
 	mWeaponBarTexture = CAnimationStorage::ptr()->getTexture("data/weaponbar.bmp");
 	mRadarTexture = CAnimationStorage::ptr()->getTexture("data/fpsradar.bmp");
 	mRadarAnim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/radar.lua");
-	mMinimapPingAnim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/minimapping.lua");
+	mMinimapPingAnim = CAnimationStorage::ptr()->getAnimation("../tools/particleEditor/particleEffects/minimapenemmy.lua");
 }
 
 CFPSModeUI::~CFPSModeUI()
@@ -96,10 +96,16 @@ void CFPSModeUI::draw(uint32 aTime)
 	mSprite->End();
 
 	CMech *mech = (CMech *)mMech.ptr();
+	D3DXMATRIX mat;
+	D3DXVECTOR4 out;
+	D3DXMatrixRotationQuaternion(&mat, mech->orientation());
+	D3DXVec3Transform(&out, &D3DXVECTOR3(0, 0, 1.f), &mat);
 	const D3DXQUATERNION *mechOrientation = mech->orientation();
 	float angle;
-	D3DXVECTOR3 unusedvec;
-	D3DXQuaternionToAxisAngle(mechOrientation, &unusedvec, &angle);
+	float a = aTime/(float)mRadarAnim->getDuration();
+	a -=(int)a;	
+	D3DXVECTOR3 vec;
+	D3DXQuaternionToAxisAngle(mechOrientation, &vec, &angle);
 
 	d3dObj->mMatrixStack->Push();
 	D3DXMATRIX *identityMatrix = d3dObj->mMatrixStack->GetTop();
@@ -112,15 +118,28 @@ void CFPSModeUI::draw(uint32 aTime)
 	d3dObj->mMatrixStack->Push();
 	identityMatrix = d3dObj->mMatrixStack->GetTop();
 	D3DXMatrixIdentity(identityMatrix);
-	d3dObj->mMatrixStack->TranslateLocal(0.1, 0, 0);
-	d3dObj->mMatrixStack->RotateAxis(&D3DXVECTOR3(0, 0, 1), angle);
+	d3dObj->mMatrixStack->RotateAxis(&D3DXVECTOR3(vec.x, vec.z, vec.y), angle);
 	d3dObj->mMatrixStack->Translate(0.55, -0.35, 1.5);
-	d3dObj->mMatrixStack->Push();
-	d3dObj->mMatrixStack->TranslateLocal(0.1, 0, 0);
-	mMinimapPingAnim->draw(aTime);
-	d3dObj->mMatrixStack->Pop();
-	d3dObj->mMatrixStack->TranslateLocal(0.1, 0.1, 0);
-	mMinimapPingAnim->draw(aTime);
+	for (int i = game->mBuildings.first(); i != game->mBuildings.end(); i = game->mBuildings.mTable[i].mNext)
+	{
+		D3DXVECTOR3 position = *game->mBuildings.mTable[i].mObj->pos() - *mech->pos();
+		float f = acos((position.x*out.x + position.z*out.z) / sqrt(position.x*position.x + position.z*position.z));
+		if (position.x*out.z - position.z*out.x < 0) f = 2 * D3DX_PI - f;
+		char temp[64];
+		sprintf(temp, "angle: %f", f);
+//		game->mMessageBox->addMessage(temp, aTime + 10);
+//		if (position.x > 0) f = 2 * D3DX_PI - f;
+		f = 2 * D3DX_PI * a + D3DX_PI/2.f- f;
+		if (f < 0) f += 2 * D3DX_PI;
+		if (f > 2 * D3DX_PI) f -= 2 * D3DX_PI;
+		if (f < 0 || f >= 2 * D3DX_PI)
+			int teppo = 43;
+		int time = mMinimapPingAnim->getDuration() * f / (2 * D3DX_PI);
+		d3dObj->mMatrixStack->Push();
+		d3dObj->mMatrixStack->TranslateLocal(position.x/100, position.z/100, 0);
+		mMinimapPingAnim->draw(time);
+		d3dObj->mMatrixStack->Pop();
+	}
 	d3dObj->mMatrixStack->Pop();
 	return;
 }

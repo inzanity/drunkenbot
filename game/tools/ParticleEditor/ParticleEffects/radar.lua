@@ -3,7 +3,7 @@ Options.Particles = 25
 Options.Coordinates = 40
 Options.Colors = 1
 Options.Sizes = 1
-Options.Duration = 150
+Options.Duration = 1000
 Options.Looping = true
 Options.Texture = "../particles/16x16_default.bmp"
 initParticleSystem(Options)

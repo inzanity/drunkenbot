@@ -180,7 +180,7 @@ bool CGame::loop()
 		mPrevTime = timeGetTime();
 		char temp[64];
 		sprintf(temp, "FPS: %f", 20000.f / time);
-		mMessageBox->addMessage(temp, mTime + 20*10);
+//		mMessageBox->addMessage(temp, mTime + 20*10);
 //		sprintf(temp, "mouse1: %d, mouse2: %d, mouse3: %d", (int)mouse->rgbButtons[0], (int)mouse->rgbButtons[1], (int)mouse->rgbButtons[2]);
 //		mMessageBox->addMessage(temp, mTime + 20*10);
 		mShowFPS = 1;

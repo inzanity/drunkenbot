@@ -40,11 +40,11 @@ public:
 	CCamera *mCam;
 	CRTSModeUI *mRTSModeUI;
 	CFPSModeUI *mFPSModeUI;
+	CMessageBox *mMessageBox;
 private:
 	list<MGameObj *> mDestroyList;
 //	CPathFinder *mPathFinder;
 	CMessageList mMsgList;
-	CMessageBox *mMessageBox;
 	uint32 mTime;
 	uint16 mNewId;
 	DWORD mPrevTime;
