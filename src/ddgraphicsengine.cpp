@@ -26,7 +26,23 @@ CDDGraphicsEngine::CDDGraphicsEngine(HWND aHWnd, const istream *aGfxInfo) :
 		initFail("SetCooperativeLevel failed");
 		return;
 	}
+/*
+	    // Get exclusive mode
+    ddrval = mDD->SetCooperativeLevel(mHWnd, DDSCL_EXCLUSIVE | DDSCL_FULLSCREEN);
+    if(ddrval != DD_OK)
+    {
+        initFail("foo");
+		return;
+    }
 
+    // Set the video mode to 800x600x16
+    ddrval = mDD->SetDisplayMode(800, 600, 16);
+    if(ddrval != DD_OK)
+    {
+        initFail("bar");
+		return;
+    }
+*/
 	// Create the primary surface
 	ddsd.dwSize = sizeof(ddsd);
 	ddsd.dwFlags = DDSD_CAPS;
@@ -46,6 +62,7 @@ CDDGraphicsEngine::CDDGraphicsEngine(HWND aHWnd, const istream *aGfxInfo) :
 	mSrcTileWidth = mSrcTileHeight = 16;
 	mTiles = CSurface::create(mDD, "res/tiles.bmp");
 	mBots = CSurface::create(mDD, "res/bot.bmp");
+	mBots->setColorKey(RGB(255, 239, 239));
 }
 
 CDDGraphicsEngine::~CDDGraphicsEngine()
@@ -58,24 +75,32 @@ void CDDGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 	mDestTileWidth = mWidth / aWidth; mDestTileHeight = mHeight / aHeight;
 	mMapWidth = aWidth * mDestTileWidth;
 	mMapHeight = aHeight * mDestTileHeight;
-	CRect rect;
+	CRect rect, destRect(mDestTileWidth, mDestTileHeight);
 
 	int x = 0, y = 0;
 	for (int i = 0; i < aWidth; i++)
 	{
 		for (int j = 0; j < aHeight; j++)
 		{
-			int type = aTilemap[j][i] & 3;
-			int tileNum = (aTilemap[j][i] >> 2) & 31;
+			char tile = (mActiveBot ?
+				mActiveBot->botAI()->mTilemap->getTile(i - mActiveBot->spawningXPos(), j - mActiveBot->spawningYPos()) :
+				aTilemap[j][i]);
+			int type = tile & 3;
+			int tileNum = (tile >> 2) & 31;
 			rect.left = tileNum * mSrcTileWidth;
 			rect.top = type * mSrcTileHeight;
 			rect.right = rect.left + mSrcTileWidth;
 			rect.bottom = rect.top + mSrcTileHeight;
-			mBack->blit(mTiles, rect, CRect(x, y, x + mDestTileWidth, y + mDestTileHeight), 0);
-			y += mDestTileHeight;
+			if (mActiveBot && tile & (1<<7))
+			{
+				rect.top += 4 * mSrcTileHeight;
+				rect.bottom += 4 * mSrcTileHeight;
+			}
+			mBack->blit(mTiles, rect, destRect, 0);
+			destRect.top += mDestTileHeight; destRect.bottom += mDestTileHeight;
 		}
-		y = 0;
-		x += mDestTileWidth;
+		destRect.top = 0; destRect.bottom = mDestTileHeight;
+		destRect.left += mDestTileWidth; destRect.right += mDestTileWidth;
 	}
 }
 
@@ -97,7 +122,7 @@ void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 	rect.top = dir * mSrcTileHeight;
 	rect.right = rect.left + mSrcTileWidth;
 	rect.bottom = rect.top + mSrcTileHeight;
-	mBack->blit(mBots, rect, CRect(x1, y1, x2, y2), 0);
+	mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
 }
 
 void CDDGraphicsEngine::flip()

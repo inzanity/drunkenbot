@@ -16,18 +16,23 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 		mPos.mX = 1.f + rand() % (aWidth-2);
 		mPos.mY = 1.f + rand() % (aHeight-2);
 	} while ((aTilemap[int(mPos.mY)][int((mPos.mX))] & 3) != 3);
+	mSpawningPos = mPos;
 	loadAI();
+	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
 	mRadius = 1.f;
 }
 
-void CBot::think(const char **aTilemap, CVisibleBotInfo **aBots, int aBotNum, list<CBulletInfo *> *aBulletList,
-				 list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
+void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots, int aBotNum,
+				 list<CBulletInfo *> *aBulletList, list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
 {
 	std::list<CBulletInfo *>::iterator bulIter;
 	std::list<CWeaponInfo *>::iterator weaIter;
 	std::list<TVector>::iterator voiIter;
 	if (!mBotAI)
 		return;
+	mBotAI->mTilemap->resetFogOfWar();
+	float dAngle = FOV / (2 * sqrt(aWidth * aWidth + aHeight * aHeight) * tan(FOV / 2.f));
+	scanTilemap(aTilemap, dAngle);
 	for (int i = 0; i < aBotNum; i++)
 		if (aBots[i]->type() != mType && !(aTilemap[int(aBots[i]->yPos())][int(aBots[i]->yPos())] & 0x80))
 			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mPos.mX, mPos.mY, mType));
@@ -157,4 +162,34 @@ void CBot::loadAI()
 			mBotAI = getter();
 	}
 #endif
+}
+
+float CBot::spawningXPos() const
+{
+	return mSpawningPos.mX;
+}
+
+float CBot::spawningYPos() const
+{
+	return mSpawningPos.mY;
+}
+
+void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
+{
+	float time;
+	for (float angle = mOrientation - FOV / 2.f; angle < mOrientation + FOV / 2.f; angle += aDAngle)
+	{
+		TVector pos = mPos;
+		TVector speed = {cos(angle), sin(angle)};
+		for (char tile = aTilemap[(int)pos.mY][(int)pos.mX];
+			 (CTilemap::TTileType)(tile & 3) != CTilemap::ETileWall;
+			 tile = aTilemap[(int)pos.mY][(int)pos.mX])
+		{
+			mBotAI->mTilemap->setTile(pos.mX - mSpawningPos.mX - 1, pos.mY - mSpawningPos.mY - 1, tile);
+			time = getNextEdge(pos, speed);
+			pos.mX += time * speed.mX;
+			pos.mY += time * speed.mY;
+		}
+		mBotAI->mTilemap->setTile(pos.mX - mSpawningPos.mX - 1, pos.mY - mSpawningPos.mY - 1, tile);
+	}
 }
