@@ -57,9 +57,10 @@ public:
 	 * Getter for results.
 	 * Results are sorted by scores. First 5 characters of each line are reserved for scores.
 	 * @param aTeamResults True to get team results, false to get results for every bot.
+	 * @param aResults Pointer to previously fetched scores or NULL.
 	 * @return Sorted table of strings including scores and names.
 	 */
-	char **getResults(bool aTeamResults) const;
+	char **getResults(bool aTeamResults, char **aResults) const;
 
 	/**
 	 * Resets scores and initializes new game.
