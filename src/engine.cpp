@@ -87,15 +87,24 @@ void CGameEngine::setGraphicsEngine(CGraphicsEngine *aGraphicsEngine)
 
 bool CGameEngine::loop()
 {
+	list<CBulletInfo *>::iterator bulIter;
 	int i;
 	for (i = 0; i < mBotNum; i++)
 		if (!mBots[i]->update())
-			mBots[i]->spawn((const char **)mTilemap, mMapWidth, mMapHeight, (const CGameObj **)mBots);
+			mBots[i]->spawn((const char **)mTilemap, mMapWidth, mMapHeight, (const CGameObj **)mBots, (const CWeapon *)mWeaponTypes[0]);
+	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
+		if (!(*bulIter)->update())
+		{
+			delete (*bulIter);
+			mBulletList.erase(bulIter++);
+		}
 	for (i = 0; i < mBotNum; i++)
-		mBots[i]->think((const char **)mTilemap, mMapWidth, mMapHeight, (CVisibleBotInfo **)mBots, mBotNum,
+		mBots[i]->think((const char **)mTilemap, mMapWidth, mMapHeight, (CVisibleBotInfo **)mBots,
 						&mBulletList, &mWeaponList, &mVoiceList);
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->performActions(&mBulletList, &mVoiceList);
+	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
+		(*bulIter)->chkCollision((const char **)mTilemap, (CBotInfo **)mBots, false);
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)&mBots[i + 1], true);
 	return true;
@@ -103,6 +112,7 @@ bool CGameEngine::loop()
 
 void CGameEngine::draw(float aTimeInterval, int aBotIndex)
 {
+	list<CBulletInfo *>::iterator bulIter;
 	if (!mGfxEngine)
 		return;
 	mGfxEngine->setActiveBot(aBotIndex >= 0 && aBotIndex < mBotNum ? mBots[aBotIndex] : NULL);
@@ -111,6 +121,11 @@ void CGameEngine::draw(float aTimeInterval, int aBotIndex)
 	{
 		mBots[i]->move(aTimeInterval);
 		mGfxEngine->drawGameObj(mBots[i]);
+	}
+	for (bulIter = mBulletList.begin(); bulIter != mBulletList.end(); bulIter++)
+	{
+		(*bulIter)->move(aTimeInterval);
+		mGfxEngine->drawGameObj((*bulIter));
 	}
 }
 
@@ -165,7 +180,7 @@ void CGameEngine::restart(istream *aMap)
 	delete [] lookup;
 
 	for (i = 0; i < mBotNum; i++)
-		mBots[i]->spawn((const char **)mTilemap, mMapWidth, mMapHeight, (const CGameObj**)mBots);
+		mBots[i]->spawn((const char **)mTilemap, mMapWidth, mMapHeight, (const CGameObj**)mBots, mWeaponTypes[0]);
 }
 
 void CGameEngine::setFragLimit(int aFragLimit)
