@@ -14,14 +14,15 @@ CFPSModeUI::~CFPSModeUI()
 void CFPSModeUI::handleInput()
 {
 	if (!mActive) return; /* Active UI will handle input */
-	int mouseX = directInput->getMouseX(), mouseY = directInput->getMouseY();
+	int mouseX = directInput->getMouseX();
+	CMech *ptr = (CMech *)mMech.ptr();
 	if (directInput->checkKey(KEY_1))
 	{
 		mActive = false;
 		game->mRTSModeUI->activate(mMech);
+		ptr->setSpeed(&D3DXVECTOR3(0, 0, 0));
 		return;
 	}
-	CMech *ptr = (CMech *)mMech.ptr();
 	if (!mCounter || !ptr) return; /* Controlling requires 100% FPS mode */
 	if (directInput->checkMouseButton(0))
 	{
