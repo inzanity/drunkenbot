@@ -35,6 +35,11 @@ public:
 	 * @param aHeight Height of the source tilemap.
 	 */
 	CTilemap(int aWidth, int aHeight);
+	
+	/**
+	 * Destructor.
+	 */
+	~CTilemap();
 
 	/**
 	 * Setter for tiles.

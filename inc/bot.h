@@ -35,6 +35,9 @@ public:
 	 */
 	CBot(const char *aDllName, int aTeamInfo);
 
+	/** Destructor. */
+	~CBot();
+
 	/**
 	 * Reloads AI from dll, creates and initializes new bot.
 	 * @param aTilemap Tilemap for locating new bot.

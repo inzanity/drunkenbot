@@ -10,6 +10,10 @@ CBotAI::CBotAI() : mTilemap(NULL), mData(NULL), mAction(EActionNone), mMovingDir
 
 CBotAI::~CBotAI()
 {
+	if (mTilemap)
+		delete mTilemap;
+	if (mData)
+		delete mData;
 }
 
 void CBotAI::init(int &aSpeed, int &aArmour, int &aAiming, int &aSize)

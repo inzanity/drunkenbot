@@ -12,6 +12,16 @@ CTilemap::CTilemap(int aWidth, int aHeight) : mWidth(aWidth), mHeight(aHeight)
 	}
 }
 
+CTilemap::~CTilemap()
+{
+	if (mTilemap)
+	{
+		for (int i = 0; i < 2 * mHeight - 1; i++)
+			delete [] mTilemap[i];
+		delete [] mTilemap;
+	}
+}
+
 void CTilemap::setTile(int aX, int aY, char aTile)
 {
 	if (aX <= -mWidth || aX >= mWidth || aY <= -mHeight || aY >= mHeight)

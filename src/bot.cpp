@@ -10,6 +10,14 @@ CBot::CBot(const char *aDllName, int aTeamInfo) : CBotInfo(aTeamInfo), mBotAI(NU
 	strcpy(mDllName, aDllName);
 }
 
+CBot::~CBot()
+{
+	if (mBotAI)
+		delete mBotAI;
+	if (mDllName)
+		delete [] mDllName;
+}
+
 void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects, const CWeapon *aWeapon)
 {
 	loadAI();
@@ -44,6 +52,8 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 	mActionDelay = 0;
 	mBotAction = EActionNone;
 	mSpawningPos = mPos;
+	if (mBotAI->mTilemap)
+		delete mBotAI->mTilemap;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
 	mHealth = 100;
 	if (mWeapon)

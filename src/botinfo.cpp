@@ -46,6 +46,8 @@ CBotInfo::CBotInfo(CBotInfo *aBotInfo, float aXPos, float aYPos) : CVisibleBotIn
 
 CBotInfo::~CBotInfo()
 {
+	if (mWeapon)
+		delete mWeapon;
 }
 
 const CWeapon *CBotInfo::weapon()

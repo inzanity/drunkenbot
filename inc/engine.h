@@ -36,6 +36,11 @@ public:
 	CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo = NULL);
 
 	/**
+	 * Destructor.
+	 */
+	~CGameEngine();
+
+	/**
 	 * Setter for graphics engine.
 	 * @param aGraphicsEngine Graphics engine used to draw game. NULL to disables drawing.
 	 */

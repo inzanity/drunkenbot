@@ -80,6 +80,35 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 	restart(aMap);
 }
 
+CGameEngine::~CGameEngine()
+{
+	int i;
+	if (mTilemap)
+	{
+		for (i = 0; i < mMapHeight; i++)
+			delete [] mTilemap[i];
+		delete [] mTilemap;
+		mTilemap = NULL;
+	}
+	if (mBots)
+	{
+		for (i = 0; i < mBotNum; i++)
+			delete mBots[i];
+		delete [] mBots;
+		mBots = NULL;
+	}
+	for (; !mWeaponList.empty(); mWeaponList.pop_back())
+		delete mWeaponList.back();
+	for (; !mBulletList.empty(); mBulletList.pop_back())
+		delete mBulletList.back();
+	if (mWeaponTypes)
+	{
+		for (i = 0; i < mWeaponNum; i++)
+			delete mWeaponTypes[i];
+		delete [] mWeaponTypes;
+	}
+}
+
 void CGameEngine::setGraphicsEngine(CGraphicsEngine *aGraphicsEngine)
 {
 	mGfxEngine = aGraphicsEngine;
@@ -181,7 +210,7 @@ void CGameEngine::restart(istream *aMap)
 	if (mTilemap)
 	{
 		for (i = 0; i < mMapHeight; i++)
-			delete mTilemap[i];
+			delete [] mTilemap[i];
 		delete [] mTilemap;
 		mTilemap = NULL;
 	}
