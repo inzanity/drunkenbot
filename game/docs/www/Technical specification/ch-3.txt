@@ -30,3 +30,8 @@
 
 	- <b>Performing</b>: When the radar technology is developed, the mechs will get an on screen radar, that will scan the mechs surroundings. The radar will show any mechs in the vicinity, at first if they're in the direction of the radar "beam", and with more advanced technology they are detected if they're near enough.
 	- <b>Implementation</b>: If the mech has radar technology, it's distance and direction from other mechs are calculated. If they're close enough and at the direction of the radar (for the less advanced radar), they will be shown as dots on the radar.
+
+3.2.2	Damage modelling
+
+	- <b>Performing</b>: When a mech is hit by a bullet, it will get damaged.
+	- <b>Implementation</b>: If the collision detection algorithm (see 1.2.1) detects a collision between a bullet and a mech, the mech will be polled for it's armour details. The different damage amounts caused by the bullet will then be scaled by the appropriate armor level of the mech and the results summed. The mech's hitpoints will then be reduced by the sum. The location of the hit makes no difference, a hit is a hit.
