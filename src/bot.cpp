@@ -20,7 +20,7 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 		aiming >= 75 && aiming <= 125 && size >= 75 && size <= 125 && sum == 400)
 	{
 		mSpeedFactor = speed * .01f;
-		mArmourFactor = armour * .01f;
+		mArmourFactor = 2.f - armour * .01f;
 		mAimingFactor = aiming * .01f;
 		mRadius = 1.f - size * .005f;
 	}

@@ -121,8 +121,8 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 					if (foo < minTime) minTime = time;
 					if (foo < 1.f)
 					{	
-						handleCollision(3);
-//						aBots[i]->handleCollision(5);
+						handleCollision(((const CMovingGameObj *)aBots[i])->getDamage());
+						((CMovingGameObj *)aBots[i])->handleCollision(getDamage());
 					}
 				}
 			}

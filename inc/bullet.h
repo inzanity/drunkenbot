@@ -70,6 +70,9 @@ public:
 	/** Increase frag counter. @param aAddFrag True to increase, false to reduce counter. */
 	void changeFragNum(bool aAddFrag);
 
+	/** Checks if bullet is still alive and updates radius for explosions. @return True if bullet is alive. */
+	bool alive();
+
 protected:
 	/**
 	 * Collision handling.
@@ -83,6 +86,7 @@ protected:
 
 private:
 	CBotInfo *mShooter;
+	bool mAlive; 
 };
 
 #endif // BULLET_H

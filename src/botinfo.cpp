@@ -73,13 +73,13 @@ int CBotInfo::fragNum()
 
 bool CBotInfo::handleCollision(char aDamage)
 {
-	mHealth -= aDamage;
+	mHealth -= aDamage * mArmourFactor;
 	return (mHealth < 0);
 }
 
-int CBotInfo::getDamage()
+int CBotInfo::getDamage() const
 {
-	return 0x69;
+	return 15;
 }
 
 void CBotInfo::changeFragNum(bool aAddFrag)
