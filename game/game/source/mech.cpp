@@ -5,8 +5,8 @@
 #define GRAVITY 0.05f
 
 CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, const D3DXQUATERNION *aOrientation) :
-	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/bones_move.x"), 1.f, aPos, aOrientation),
-	mUpperBody(CAnimationStorage::ptr()->getAnimation("data/turretTop.x")), mUBOrientation(0, 0, 0, 1),
+	CDrawable(aObjPtr, CAnimationStorage::ptr()->getAnimation("data/mech.x"), 1.f, aPos, aOrientation),
+	mUpperBody(CAnimationStorage::ptr()->getAnimation("data/mechTop.x")), mUBOrientation(0, 0, 0, 1),
 	mFPSMode(false), mOperationMode(EMechManualMode), mRadarRange(40), mRadarDelay(true)
 {
 	const TBox *box = mAnimation->getBoundingBox();
