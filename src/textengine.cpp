@@ -1,14 +1,15 @@
 #include <iostream>
 #include <cstring>
+#include <cstdio>
 
 #include "../inc/textengine.h"
-
 
 using namespace std;
 
 CTextEngine::CTextEngine() : mMapSymbols(NULL), mBotSymbols(NULL)
 {
 	mMapSymbols = " #o. $u, Ms' %n` ";
+	mBotSymbols = "@0&P";
 	cout << "\033[2J\033[1;1H";
 }
 
@@ -35,4 +36,8 @@ void CTextEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 
 void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 {
+	int x, y;
+	x = floor(aGameObj->xPos());
+	y = floor(aGameObj->yPos());
+	printf("\033[%d:%dH%c", y, x, mBotSymbols[(aGameObj->type() >> 4) & 3]);
 }
