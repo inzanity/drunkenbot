@@ -48,7 +48,7 @@
 2.1.8.2 Building power distribution system
 
 	- <b>Performing</b>: Building power distribution system is like building any other building (see 2.1.5). Only requirements are resources and clear terrain. Mech can not be controlled while building. Action can be performed from the fps mode with shortcut key, in which case current mech location is used for building.
-	- <b>Implementation</b>: First part of the building is simalar to moving command (see 2.1.9.1). If mech fails to get to the location, action is cancelled. Second part is similar to building a normal building (see 2.1.5), but special animation is played for the mech. After building is completed (or cancelled), mech returns to normal state.
+	- <b>Implementation</b>: First part of the building is simalar to moving command (see 2.1.8.1). If mech fails to get to the location, action is cancelled. Second part is similar to building a normal building (see 2.1.5), but special animation is played for the mech. After building is completed (or cancelled), mech returns to normal state.
 	
 2.1.8.3	Changing weapons and modes
 
