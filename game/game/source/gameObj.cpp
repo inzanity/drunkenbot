@@ -209,7 +209,7 @@ void CDrawable::draw(uint32 aTimeFactor)
 	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
 	TBox mBoundingBox = *mAnimation->getBoundingBox();
 	float vb[5*4];
-	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
 	d3dObj->mD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 	d3dObj->mD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
 	d3dObj->mD3DDevice->SetTransform(D3DTS_VIEW, d3dObj->mMatrixStack->GetTop());
@@ -235,7 +235,7 @@ void CDrawable::draw(uint32 aTimeFactor)
 	vb[16] = mBoundingBox.mMax.x; vb[17] = mBoundingBox.mMax.y; vb[18] = mBoundingBox.mMax.z;
 	((D3DCOLOR *)vb)[19] = D3DCOLOR_XRGB(255, 0, 0);
 	d3dObj->mD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vb, 4 * sizeof(float));
-	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 	d3dObj->mD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 	d3dObj->mMatrixStack->RotateYawPitchRollLocal(mYAngle, mXAngle, 0);
 

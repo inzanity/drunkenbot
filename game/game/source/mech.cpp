@@ -23,10 +23,10 @@ CMech::CMech(CGameObjPtr aObjPtr, const D3DXVECTOR3 *aPos, float aXAngle, float 
 	const TBox *b2 = mUpperBody->getBoundingBox();
 	mSize = 2;
 	mBoundingBox.mMin.x = min(b1->mMin.x, b2->mMin.x);
-	mBoundingBox.mMin.y = min(b1->mMin.y, b2->mMin.y);
+	mBoundingBox.mMin.y = min(b1->mMin.y, b2->mMin.y + b1->mMax.y);
 	mBoundingBox.mMin.z = min(b1->mMin.z, b2->mMin.z);
 	mBoundingBox.mMax.x = max(b1->mMax.x, b2->mMax.x);
-	mBoundingBox.mMax.y = max(b1->mMax.y, b2->mMax.y);
+	mBoundingBox.mMax.y = max(b1->mMax.y, b2->mMax.y + b1->mMax.y);
 	mBoundingBox.mMax.z = max(b1->mMax.z, b2->mMax.z);
 
 	mBoundingBox.mMin.x = mBoundingBox.mMin.z = (mBoundingBox.mMin.x + mBoundingBox.mMin.z) / 2.0f;
@@ -213,7 +213,7 @@ void CMech::draw(uint32 aTimeFactor)
 	d3dObj->mMatrixStack->TranslateLocal(mPos.x, mPos.y, mPos.z);
 	float vb[5*4];
 	d3dObj->mD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
 	d3dObj->mD3DDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
 	d3dObj->mD3DDevice->SetTransform(D3DTS_VIEW, d3dObj->mMatrixStack->GetTop());
 	vb[0] = mBoundingBox.mMax.x; vb[1] = mBoundingBox.mMin.y; vb[2] = mBoundingBox.mMax.z;
@@ -238,7 +238,7 @@ void CMech::draw(uint32 aTimeFactor)
 	vb[16] = mBoundingBox.mMax.x; vb[17] = mBoundingBox.mMax.y; vb[18] = mBoundingBox.mMax.z;
 	((D3DCOLOR *)vb)[19] = D3DCOLOR_XRGB(255, 0, 0);
 	d3dObj->mD3DDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, vb, 4 * sizeof(float));
-	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	d3dObj->mD3DDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
 	d3dObj->mD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	d3dObj->mMatrixStack->RotateYawPitchRollLocal(mYAngle, mXAngle, 0);
