@@ -68,6 +68,7 @@ public:
 	bool visible(unsigned char aTile);
 private:
 	unsigned char **mTileMap;
+	int mWidth, mHeight;
 };
 
 #endif // TILEMAP_H
