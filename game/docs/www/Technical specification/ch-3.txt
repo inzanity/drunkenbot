@@ -27,7 +27,7 @@
 
 3.1.6	Strategic AI
 
-	- <b>Performing</b>: The computer opponent in the game will try to beat the player using partly pre-scripted strategic AI. Different strategic actions may be triggered by timers or players actions.
+	- <b>Performing</b>: The computer opponent in the game will try to beat the player using partly pre-scripted strategic AI. It is able to beat beginner player and doesn't get stuck or look obviously stupid. Different strategic actions may be triggered by timers or players actions.
 	- <b>Implementation</b>: Multilayered AI is implemented using fuzzy logic, simple terrain analysis, pre-scripted build orders and message based state machines (see 1.5.3). The strategic AI can use the advanced tactical AI actions like autoaim even before it has developed them, but only to single mech at a time.
 
 3.2	FPS-mode
