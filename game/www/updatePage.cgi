@@ -78,16 +78,16 @@ sub readTxt {
 		chomp;
 		if (/^[0-9]+\.\t/) {
 			while ($ullevel > 0) { $cont .= " " x ($ullevel - 1) . "</ul>\n"; $ullevel--; }
-			s/^([0-9]+\.)\t(.+)$/<h2 id="$1">$1 $2<\/h2>/; 
+			s/^([0-9]+\.)\t(.+)$/<h2 id="h$1">$1 $2<\/h2>/; 
 		} elsif (/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\t/) {
 			while ($ullevel > 0) { $cont .= " " x ($ullevel - 1) . "</ul>\n"; $ullevel--; }
-			s/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\t(.+)$/<h5 id="$1">$1 $2<\/h5>/; 
+			s/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\t(.+)$/<h5 id="h$1">$1 $2<\/h5>/; 
 		} elsif (/[0-9]+\.[0-9]+\.[0-9]\t/) {
 			while ($ullevel > 0) { $cont .= " " x ($ullevel - 1) . "</ul>\n"; $ullevel--; }
-			s/^([0-9]+\.[0-9]+\.[0-9]+)\t(.+)$/<h4 id="$1">$1 $2<\/h4>/; 
+			s/^([0-9]+\.[0-9]+\.[0-9]+)\t(.+)$/<h4 id="h$1">$1 $2<\/h4>/; 
 		} elsif (/[0-9]+\.[0-9]+\t/) { 
 			while ($ullevel > 0) { $cont .= " " x ($ullevel - 1) . "</ul>\n"; $ullevel--; }
-			s/^([0-9]+\.[0-9]+)\t(.+)$/<h3 id="$1">$1 $2<\/h3>/; 
+			s/^([0-9]+\.[0-9]+)\t(.+)$/<h3 id="h$1">$1 $2<\/h3>/; 
 		} elsif (/^(\t+)-/) {
 			my $req = length($1);
 			while ($ullevel > $req) { $cont .= " " x ($ullevel - 1) . "</ul>\n"; $ullevel--; }
@@ -95,7 +95,7 @@ sub readTxt {
 			$req = " " x $req;
 			s/^\t+- /$req<li>/;
 		} elsif ($_) {
-			s/(\(see[^)]+?)([0-9]+)(.[0-9.]+)(\))/$1<a href="ch-$2.html#$2$3">$2$3<\/a>$4/g;
+			s/(\(see[^)]+?)([0-9]+)(.[0-9.]+)(\))/$1<a href="ch-$2.html#h$2$3">$2$3<\/a>$4/g;
 			while ($ullevel > 0) { $cont .= " " x ($ullevel - 1) . "</ul>\n"; $ullevel--; }
 			s/^.*$/<p>$&<\/p>/;
 		}
@@ -119,21 +119,21 @@ sub generateToc {
 			chomp;
 			if (/^[0-9]+\.\t/) {
 				while ($qlevel > 0) { $cont .= "</blockquote>\n"; $qlevel--; }
-				s/^([0-9]+\.)\t(.+)$/<a href="ch-$ch0.html#$1">$1 $2<\/a><br>/; 
+				s/^([0-9]+\.)\t(.+)$/<a href="ch-$ch0.html#h$1">$1 $2<\/a><br>/; 
 				my $chap = $1;
 				chop $chap;
 				$$menuobjs{$chap} = $2;
 			} elsif (/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\t/) {
 				while ($qlevel < 3) { $cont .= "<blockquote>\n"; $qlevel++; }
-				s/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\t(.+)$/<a href="ch-$ch0.html#$1">$1 $2<\/a><br>/; 
+				s/^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\t(.+)$/<a href="ch-$ch0.html#h$1">$1 $2<\/a><br>/; 
 			} elsif (/[0-9]+\.[0-9]+\.[0-9]+\t/) {
 				while ($qlevel > 2) { $cont .= "</blockquote>\n"; $qlevel--; }
 				while ($qlevel < 2) { $cont .= "<blockquote>\n"; $qlevel++; }
-				s/^([0-9]+\.[0-9]+\.[0-9]+)\t(.+)$/<a href="ch-$ch0.html#$1">$1 $2<\/a><br>/; 
+				s/^([0-9]+\.[0-9]+\.[0-9]+)\t(.+)$/<a href="ch-$ch0.html#h$1">$1 $2<\/a><br>/; 
 			} elsif (/[0-9]+\.[0-9]+\t/) { 
 				while ($qlevel > 1) { $cont .= "</blockquote>\n"; $qlevel--; }
 				while ($qlevel < 1) { $cont .= "<blockquote>\n"; $qlevel++; }
-				s/^([0-9]+\.[0-9]+)\t(.+)$/<a href="ch-$ch0.html#$1">$1 $2<\/a><br>/; 
+				s/^([0-9]+\.[0-9]+)\t(.+)$/<a href="ch-$ch0.html#h$1">$1 $2<\/a><br>/; 
 			} else {
 				next;
 			}
