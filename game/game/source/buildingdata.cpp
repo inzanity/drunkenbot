@@ -1,9 +1,5 @@
 // #include "StdAfx.h"
 #include "../include/buildingdata.h"
-#include <iostream>
-
-using std::cout;
-using std::endl;
 
 CBuildingData::CBuildingData(MAnimation *aAnimation,
 							 MAnimation *aConstructAnimation,
@@ -137,31 +133,6 @@ void CBuildingData::setPicture(CTexture *aPicture)
 {
 	mPicture = aPicture;
 }
-
-/*
-void CBuildingData::dumpData() const
-{
-	if (mId) cout << "Building " << mName << "(" << mId << ")" << endl;
-	if (mAnimation) cout << "\tAnimation: " << mAnimation << endl;
-	if (mConstructAnimation) cout << "\tConstructAnimation: " << mConstructAnimation << endl;
-	if (mConstructionTime) cout << "\tConstructionTime: " << mConstructionTime << endl;
-	if (mName.length()) cout << "\tName: " << mName << endl;
-	if (mRequires) cout << "\tRequires: " << mRequires << endl;
-	if (mNumRequires) cout << "\tNumRequires: " << mNumRequires << endl;
-	if (mNumTechnologies) {
-		cout << "\tTechnologies:" << endl;
-		for (int i = 0; i < mNumTechnologies; i++)
-			cout << "\t\t" << mTechnologies[i] << endl;
-	}
-	if (mHitpoints) cout << "\tHitpoints: " << mHitpoints << endl;
-	if (mPriceMineral) cout << "\tPriceMineral: " << mPriceMineral << endl;
-	if (mPriceGas) cout << "\tPriceGas: " << mPriceGas << endl;
-	if (mEnergyProductionNight) cout << "\tEnergyProductionNight: " << mEnergyProductionNight << endl;
-	if (mEnergyProductionDay) cout << "\tEnergyProductionDay: " << mEnergyProductionDay << endl;
-	if (mEnergyConsumption) cout << "\tEnergyConsumption: " << mEnergyConsumption << endl;
-	if (mBuildingType) cout << "\tBuildingType: " << mBuildingType << endl;
-	if (mWeapon) cout << "\tWeapon: " << mWeapon << endl;
-}*/
 
 uint32 CBuildingData::getId() const
 {

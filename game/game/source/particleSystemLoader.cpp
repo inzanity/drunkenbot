@@ -180,6 +180,7 @@ int CParticleSystemLoader::initParticleSystem(lua_State *aState)
 	temp[last + 1] = '\0';
 	strcat(temp, texture);
 	mParticleSystem = new CParticleSystem(particles, duration, mPosNum, mColorNum, mSizeNum, temp);
+	mParticleSystem->enableLooping(looping);
 	lua_pop(aState, 2);
 	return 0;
 }

@@ -196,7 +196,7 @@ D3DXVECTOR3 CHeightMap::mouseCoords(int aMouseX, int aMouseY)
 		pos += dir * ((pos.x < 0 ? 0 : mHMapSize) - pos.x) / dir.x;
 	if ((pos.z < 0 && dir.z > 0) || (pos.z >= mVMapSize && dir.z < 0))
 		pos += dir * ((pos.z < 0 ? 0 : mVMapSize) - pos.z) / dir.z;
-	float s = 1.f / max(abs(dir.x), abs(dir.z));
+	float s = 1.f / max(fabs(dir.x), fabs(dir.z));
 	while (pos.y > height(pos.x, pos.z))
 	{
 		pos += dir * s;
