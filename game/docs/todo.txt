@@ -1,11 +1,20 @@
 Gif- ja sxw-filuja on tekstimuotosena cvs:ssä -- laita santtu uusiks binarynä
 
 schema-fileen
-	hinnat, energian kulutus
 	requires: erikseen mitä rakennuksia/techejä/uppeja vaatii -- lista, merkkijono (pilkuilla eroteltu) vai flagi-ratkasu?
-	technology: id rakennukseen mistä devataan
+		- Flagi-ratkaisu taitaa itseasiassa olla turhaa "optimointia",
+		  enemmän aikaa vie todennäköisesti rakennusten / techien
+		  läpikäynti, lista varmaan paras ratkaisu skemaan.
+
 	building: tyyppi (normaali, sähkönkeruu, putki, turret), jos turret niin aseen id
+		- Tyyppi, ase ja sähköntuotanto listätty (tarviiko sähkönkeruu
+		  olla eri tyyppinen välttämättä. (en jaksanu tehdä mitään
+		  choice grouppia niistä, imo sekottaa enemmän kuin auttaa.
+
 	mech: saattaa tarvita koordinaatteja tai jotain infoo (silmien paikka, aseitten paikat).. mietitään nää myöhemmin
+		- Aseen paikka taitaa muuttua animaatiossa, mikä saattaa
+		  hankaloittaa.
+
 muuten näyttää hyvältä, pientä viilausta voi aina tehä sit ku saadaan noita juttuja koodattua
 
 

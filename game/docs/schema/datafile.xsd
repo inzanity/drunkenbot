@@ -10,9 +10,11 @@
 							<xsd:element name="technology" minOccurs="0" maxOccurs="unbounded">
 								<xsd:complexType>
 									<xsd:attribute name="id" type="xsd:integer" use="required"/>
+									<xsd:attribute name="building" type="xsd:integer" use="required"/>
 									<xsd:attribute name="name" type="xsd:string" use="required"/>
 									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
-									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
 									<xsd:attribute name="picture" type="xsd:string" use="required"/>
 									<xsd:attribute name="animation" type="xsd:string" use="required"/>
 								</xsd:complexType>
@@ -22,7 +24,12 @@
 									<xsd:attribute name="id" type="xsd:integer" use="required"/>
 									<xsd:attribute name="name" type="xsd:string" use="required"/>
 									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
-									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
+									<xsd:attribute name="energyProduction" type="xsd:integer" default="0"/>
+									<xsd:attribute name="energyConsumption" type="xsd:integer" use="required"/>
+									<xsd:attribute name="buildingType" type="xsd:integer" default="0"/>
+									<xsd:attribute name="weapon" type="xsd:integer"/>
 									<xsd:attribute name="hitpoints" type="xsd:integer" use="required"/>
 									<xsd:attribute name="animation" type="xsd:string" use="required"/>
 									<xsd:attribute name="constructAnimation" type="xsd:string" use="required"/>
@@ -37,7 +44,8 @@
 									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
 									<xsd:attribute name="bullet" type="xsd:string" use="required"/>
 									<xsd:attribute name="picture" type="xsd:string" use="required"/>
-									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
 									<xsd:attribute name="mass" type="xsd:integer" use="required"/>
 									<xsd:attribute name="range" type="xsd:integer" use="required"/>
 									<xsd:attribute name="type" type="xsd:integer" use="required"/>
@@ -48,13 +56,15 @@
 							</xsd:element>
 							<xsd:element name="mech" minOccurs="1" maxOccurs="1">
 								<xsd:complexType>
-									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
 									<xsd:attribute name="hitpoints" type="xsd:integer" use="required"/>
 									<xsd:attribute name="piercingArmor" type="xsd:integer" use="required"/>
 									<xsd:attribute name="explosiveArmor" type="xsd:integer" use="required"/>
 									<xsd:attribute name="speed" type="xsd:integer" use="required"/>
 									<xsd:attribute name="animation" type="xsd:string" use="required"/>
 									<xsd:attribute name="mass" type="xsd:integer" use="required"/>
+									<xsd:attribute name="building" type="xsd:integer" use="required"/>
 								</xsd:complexType>
 							</xsd:element>
 							<xsd:element name="upgrade" minOccurs="0" maxOccurs="unbounded">
@@ -68,7 +78,8 @@
 										</xsd:element>
 									</xsd:sequence>
 									<xsd:attribute name="requires" type="xsd:integer" default="0"/>
-									<xsd:attribute name="price" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceGas" type="xsd:integer" use="required"/>
+									<xsd:attribute name="priceMineral" type="xsd:integer" use="required"/>
 								</xsd:complexType>
 							</xsd:element>
 						</xsd:sequence>
