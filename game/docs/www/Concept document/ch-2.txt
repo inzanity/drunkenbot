@@ -4,7 +4,7 @@
 The game is a combination of real time strategy and first person shooter. The goal is to free the planet from evil by destroying it. The evil has its own forces, which try to prevent this. The game allows the player to explore the world in a first person view, while also allowing building, thus modifying the game world.
 
 2.2	Technological and social environment
-The game is played on a normal PC-computer, and can be played against and/or with other players via local area network or the Internet.
+The game is played on a normal PC-computer, against the computer. In future versions, multiplayer support via network might be implemented.
 
 2.3	Setting 
 The game is placed in a distant future on an inhabitable planet, where all human lifeforms must stay indoors, and everything outdoors is done with robots.

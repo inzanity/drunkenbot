@@ -1,10 +1,5 @@
 chapter 8 dokkariin
-kuvat interface-kohdassa ei n‰y (kuvia ei varmaan kopioida oikeeseen paikkaan?)
-3.6.1 Multiplayer experience, kirjotin vaan yhen rivin :)
-poistetaan 3.7 Levels (ei haluta varmaan m‰‰r‰t‰ viel‰). tai sit kirjotetaan muutama lause yleisell‰ tasolla..?
 kirjotusvirheet!!
-design history (palautettava versio on 1.0, ja muutokset kirjataan vasta siit‰ eteenp‰in)
-controls kappaleeseen maininta, ett‰ n‰pp‰imet default asetuksia, ja t‰ysin conffattavissa (jos niin halutaan)
 multiplayer on mainittu monessa kohtaa, pit‰is tehd‰ selv‰ks ett‰ se on jatkokehitysidea
 tietokonevastustajan korkean tason strategical ai:sta pit‰s kertoo jotain.. siit‰ teh‰‰n aika simppeli (jatkokehitysidea: parempi ai)
 size/weight jutut j‰i s‰‰nnˆiss‰ ep‰selviks (kokoa p‰ivitet‰‰n, painoon vaikuttaa myˆs suojat ja aseet?)
@@ -15,3 +10,14 @@ teht‰v‰njakoo vois parantaa:
 mulle vois laittaa (vaikka master coderin tilalle :) core engine architecture, ai programming, tools development
 jompi kumpi vois ottaa p‰‰vastuun level designista, ja yleins‰ content creation (tech tree suunnittelu, ai scriptien kirjotus jne)
 usability on ihan hyv‰ olla jollain, mut ei ehk‰ mulla :)
+
+ ----
+
+Tarkistettava: poistetaan 3.7 Levels (ei haluta varmaan m‰‰r‰t‰ viel‰). tai sit kirjotetaan muutama lause yleisell‰ tasolla..?
+Tarkistettava: controls kappaleeseen maininta, ett‰ n‰pp‰imet default asetuksia, ja t‰ysin conffattavissa (jos niin halutaan) (Myˆs RTS?)
+Tarkistettava: 3.6.1 Multiplayer experience, kirjotin vaan yhen rivin :) (v‰h‰n lis‰‰)
+
+ ----
+
+Korjattu: kuvat interface-kohdassa ei n‰y (kuvia ei varmaan kopioida oikeeseen paikkaan?)
+Korjattu: design history (palautettava versio on 1.0, ja muutokset kirjataan vasta siit‰ eteenp‰in)

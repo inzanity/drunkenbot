@@ -153,7 +153,7 @@ To complete single player mission, player has to accomplish mission objectives. 
 	- Get to the target (area, building or mech)
 
 3.4.4	End conditions
-Victory can be achieved by accomplishing all the goals. In that case, game is ended instantly. Failing any goal will cause defeat. This will end the game in single player game, but in multiplayer game player is just dropped out of the game.In addition to victory and defeat, there is no scoring system.
+Victory can be achieved by accomplishing all the goals. In that case, game is ended instantly. Failing any goal will cause defeat. This will end the game in single player game, but in multiplayer game, if implemented, player is just dropped out of the game. In addition to victory and defeat, there is no scoring system.
 
 3.5	User interface
 [Map out the game procedures and controls: what does the player have to do? Use visual aids like control tables and flowcharts, along with detailed descriptions.]
@@ -170,7 +170,7 @@ If the mech is selected, all actions and automatic operation modes are shown as 
 Every action in the game has a shortcut key. For example, pressing 's' when mech is selected will stop the mech. Items from the queue can be cancelled and removed by left clicking the item. Queue has a fixed length, and new actions can't be selected while queue is full. Player can change to the FPS mode by double clicking the mech, pressing enter when mech is selected or pressed binded number key of the selected mech (after selection).
 
 3.5.1.2	FPS mode controls
-Controlling the mech requires both the mouse and the keyboard. Upper body can be turned using mouse. Pressing 'w' key moves the mech forwards, and 's' moves it backwards. Turning of the mech can be done with 'a' and 'd' keys. Left mouse button is used for shooting, right mouse button for changing weapon. There are shortcut keys for automatic operation modes, and for building the power distribution system. If scout, attack or defence automatic operation mode is selected, moving the mech manually returns it to autofire mode. Pressing esc or binded shortcut number returns the game to the RTS mode.
+Controlling the mech requires both the mouse and the keyboard. Upper body can be turned using mouse. Pressing 'w' key moves the mech forwards, and 's' moves it backwards. Turning of the mech can be done with 'a' and 'd' keys. Left mouse button is used for shooting, right mouse button for changing weapon. There are shortcut keys for automatic operation modes, and for building the power distribution system. If scout, attack or defence automatic operation mode is selected, moving the mech manually returns it to autofire mode. Pressing esc or binded shortcut number returns the game to the RTS mode. The FPS mode controls given are default settings and can be customized from the game menu, to fit personal preferences.
 
 3.5.2	Interfaces
 <a href="images/rts.jpg"><img src="images/rts.jpg" width="400"></a>
@@ -189,11 +189,10 @@ Sounds are also used to give feedback to the player.
 3.6	Modes and other features
 
 3.6.1	Multiplayer experience
-In multiplayer game, players can communicate by writing messages (see 3.5.3). 
+If multiplayer capabilities are done, there will be a game server, that will allow the players to find opponents and talk about the game. They can also exchange messages during the game (see 3.5.3), but the game server allows the aftermath and pre-game boasting.
 
 3.6.2	Saving and resuming
 In single player game, player is able to skip passed levels and continue playing the level where he was before. Game can not be saved during the mission.
 
 3.7	Levels
-[Describe the designs for each level. Describe in what ways the levels differ. What transitions are there between levels (e.g. cut-scenes)? If there are no levels as such, describe ways in which the player can get a breather.]
-[Document with a flowchart all the areas and screens that will need to be created. This flowchart should be an appendix to this document.]
+The levels will support the plot. Transition between levels will be filled with little written stories, that keep the player interested and motivated, even while the game itself is not running. In some levels the player is given only a mech in the beginning, and the goal set to getting to certain place, where there's no need, nor ways to build anything. Then there are levels, where only the command center is given and the player needs to build his way to reach objectives.
