@@ -98,7 +98,7 @@ public:
 	/**
 	 * Pick up a weapon. Action duration 2 rounds.
 	 * If <code>EActionShoot</code>, <code>EActionBunker</code> or <code>EActionDropWeapon</code> is defined,
-	 * it will be cancelled. To pick a weapon, it has to be close enough (distance <= 1).
+	 * it will be cancelled. To pick a weapon, it has to be close enough (distance <= radius of the bot + radius of the weapon).
 	 */
 	void pickWeapon();
 
@@ -117,6 +117,7 @@ public:
 	 * Only one of <code>EActionShoot</code>, <code>EActionBunker</code>,
 	 * <code>EActionPickWeapon</code> or <code>EActionDropWeapon</code> can be defined at the time.
 	 * If bot has been bunkered, <code>EActionMove</code> can not be defined.
+	 * @return True for legal actions, false for illegal.
 	 */
 	bool checkAction();
 
@@ -127,10 +128,10 @@ public:
 	list<CVisibleBotInfo *> mBots;
 
 	/** List of all visible weapons. */
-	list<CVisibleWeaponInfo> aWeapons;
+	list<CVisibleWeaponInfo *> aWeapons;
 
 	/** List of all visible bullets. Bullets are usually fast, but may be detected and dodged. */
-	list<CVisibleBulletInfo> mBullets;
+	list<CVisibleBulletInfo *> mBullets;
 
 	/** List of sources causing noise. Only angle of incidence can be detected. */
 	list<float> mSourceOfNoise;
