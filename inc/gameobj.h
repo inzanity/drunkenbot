@@ -6,6 +6,8 @@
  *
  * @author Japa
  * @version 1.0
+ *
+ * @todo Update mAnimationTimer in game object classes.
  */
 
 #ifndef GAMEOBJ_H
@@ -14,11 +16,11 @@
 #define PI 3.14159265358979f
 
 #define KObjectTeamMask		0xFF0000
-#define KObjectIndexMask		0xFF00
+#define KObjectIndexMask	0xFF00
 #define KObjectTypeMask		0xFF
-#define KObjectTeamShift		16
-#define KObjectIndexShift		8
-#define KObjectTypeShift		0
+#define KObjectTeamShift	16
+#define KObjectIndexShift	8
+#define KObjectTypeShift	0
 
 class CBotInfo;
 class CTilemap;
