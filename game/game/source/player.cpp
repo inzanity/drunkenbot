@@ -1,6 +1,62 @@
 #include "../include/player.h"
 #include "../include/animationStorage.h"
 
+#include "../include/MyContent.h"
+#include "../include/SAXErrorHandlerImpl.h"
+
+CPlayer::CPlayer(const char *aDataFile)
+{
+	CoInitialize(NULL); 
+	ISAXXMLReader* pRdr = NULL;
+
+	HRESULT hr = CoCreateInstance(
+								__uuidof(SAXXMLReader), 
+								NULL, 
+								CLSCTX_ALL, 
+								__uuidof(ISAXXMLReader), 
+								(void **)&pRdr);
+
+	if(!FAILED(hr)) 
+	{
+		MyContent * pMc = new MyContent();
+
+		hr = pRdr->putContentHandler(pMc);
+
+		// No sense to do so in this example, just an illustration how to set other handlers
+		//===================================================================================
+		 SAXErrorHandlerImpl * pEc = new SAXErrorHandlerImpl();
+		 hr = pRdr->putErrorHandler(pEc);
+		// SAXDTDHandlerImpl * pDc = new SAXDTDHandlerImpl();
+		// hr = pRdr->putDTDHandler(pDc);
+
+		 static wchar_t URL[1000];
+		 mbstowcs( URL, aDataFile, 999 );
+		hr = pRdr->parseURL(URL);
+		pRdr->Release();
+
+		mNumBuildings = pMc->getBuildingData().size();
+		mNumUpgrades = pMc->getUpgradeData().size();
+		mNumTechs = pMc->getTechnologyData().size();
+		mNumWeapons = pMc->getWeaponData().size();
+
+		mBuildings = new CBuildingData *[mNumBuildings];
+		mUpgrades = new CUpgradeData *[mNumUpgrades];
+		mTechs = new CTechnologyData *[mNumTechs];
+		mWeapons = new CWeaponData *[mNumWeapons];
+
+		int i;
+		for (i = 0; i < mNumBuildings; i++)
+			mBuildings[i] = pMc->getBuildingData()[i];
+		for (i = 0; i < mNumUpgrades; i++)
+			mUpgrades[i] = pMc->getUpgradeData()[i];
+		for (i = 0; i < mNumTechs; i++)
+			mTechs[i] = pMc->getTechnologyData()[i];
+		for (i = 0; i < mNumWeapons; i++)
+			mWeapons[i] = pMc->getWeaponData()[i];
+	}
+	CoUninitialize();
+}
+
 CPlayer::CPlayer(CBuildingData **aBuildings, int aNumBuildings) :
 	mBuildings(aBuildings), mNumBuildings(aNumBuildings), mMinerals(0)
 {
@@ -11,13 +67,13 @@ CPlayer::CPlayer(CBuildingData **aBuildings, int aNumBuildings) :
 		CAnimationStorage::ptr()->getAnimation("data/turretTop.x"),
 		CAnimationStorage::ptr()->getAnimation("data/turret.x"),
 		10000, "Turret", NULL, 0, 100, 10, 69, 0, 0, 1, TURRET, 0,
-		CAnimationStorage::ptr()->getTexture("data/images/turret_icon.bmp"));
+		CAnimationStorage::ptr()->getTexture("data/images/turret_icon.bmp"), 0);
 	mBuildings[1] = new CBuildingData(
 		CAnimationStorage::ptr()->getAnimation("data/silo.x"),
 		NULL,
 		CAnimationStorage::ptr()->getAnimation("data/silo.x"),
 		10000, "Silo", NULL, 0, 100, 10, 69, 0, 0, 1, GENERAL, 0,
-		CAnimationStorage::ptr()->getTexture("data/images/silo_icon.bmp"));
+		CAnimationStorage::ptr()->getTexture("data/images/silo_icon.bmp"), 0);
 
 	mNumTechs = 1;
 	mTechs = new CTechnologyData *[mNumTechs];

@@ -53,6 +53,11 @@ CTexture *CTechnologyData::getPicture() const
 	return mPicture;
 }
 
+int CTechnologyData::getShortcut() const
+{
+	return mShortcut;
+}
+
 void CTechnologyData::setRequires(std::vector<uint32> &aRequires)
 {
 	mNumRequires = (uint32)aRequires.size();
@@ -68,7 +73,7 @@ void CTechnologyData::setId(uint32 aId)
 	mId = aId;
 }
 
-void CTechnologyData::setName(std::string aName)
+void CTechnologyData::setName(const char *aName)
 {
 	mName = aName;
 }
@@ -91,4 +96,8 @@ void CTechnologyData::setDevelopTime(uint32 aDevelopTime)
 void CTechnologyData::setPicture(CTexture *aPicture)
 {
 	mPicture = aPicture;
+}
+void CTechnologyData::setShortcut(int aShortcut)
+{
+	mShortcut = aShortcut;
 }

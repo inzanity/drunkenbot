@@ -15,7 +15,8 @@ CBuildingData::CBuildingData(MAnimation *aAnimation,
 							 uint32 aEnergyConsumption,
 							 enum BuildingType aBuildingType,
 							 uint32 aWeapon,
-							 CTexture *aPicture) : 
+							 CTexture *aPicture,
+							 int aShortcut) : 
 								    mAnimation(aAnimation),
 									mUpperBodyAnimation(aUpperBodyAnimation),
 									mConstructAnimation(aConstructAnimation),
@@ -31,7 +32,8 @@ CBuildingData::CBuildingData(MAnimation *aAnimation,
 									mEnergyConsumption(aEnergyConsumption),
 									mBuildingType(aBuildingType),
 									mWeapon(aWeapon),
-									mPicture(aPicture)
+									mPicture(aPicture),
+									mShortcut(aShortcut)
 {
 }
 
@@ -58,6 +60,10 @@ CBuildingData::CBuildingData() :
 CBuildingData::~CBuildingData()
 {
 	// AnimationStorage does the deleting, we don't need to.
+	if (mRequires)
+		delete [] mRequires;
+	if (mTechnologies)
+		delete [] mTechnologies;
 }
 
 void CBuildingData::setId(int aId)
@@ -140,13 +146,9 @@ void CBuildingData::setPicture(CTexture *aPicture)
 {
 	mPicture = aPicture;
 }
-
-void CBuildingData::dumpData() const
+void CBuildingData::setShortcut(int aShortcut)
 {
-	if (mRequires)
-		delete [] mRequires;
-	if (mTechnologies)
-		delete [] mTechnologies;
+	mShortcut = aShortcut;
 }
 
 uint32 CBuildingData::getId() const
@@ -245,3 +247,7 @@ CTexture *CBuildingData::getPicture() const
 	return mPicture;
 }
 
+int CBuildingData::getShortcut() const
+{
+	return mShortcut;
+}

@@ -106,6 +106,11 @@ uint32 CWeaponData::getAccuracy() const
 	return mAccuracy;
 }
 
+int CWeaponData::getShortcut() const
+{
+	return mShortcut;
+}
+
 void CWeaponData::setRequires(std::vector<uint32> &aRequires)
 {
 	mNumRequires = (uint32)aRequires.size();
@@ -184,4 +189,8 @@ void CWeaponData::setExplosiveDamage(uint32 aExplosiveDamage)
 void CWeaponData::setAccuracy(uint32 aAccuracy)
 {
 	mAccuracy = aAccuracy;
+}
+void CWeaponData::setShortcut(int aShortcut)
+{
+	mShortcut = aShortcut;
 }

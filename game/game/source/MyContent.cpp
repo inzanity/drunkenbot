@@ -113,10 +113,14 @@ HRESULT STDMETHODCALLTYPE MyContent::startElement(
 				mBuildingData.back()->setPicture(CAnimationStorage::ptr()->getTexture(buf));
 			else if (!wcsnicmp(ln, L"animation", lnl))
 				mBuildingData.back()->setAnimation(CAnimationStorage::ptr()->getAnimation(buf));
+			else if (!wcsnicmp(ln, L"upperBodyAnimation", lnl))
+				mBuildingData.back()->setUpperBodyAnimation(CAnimationStorage::ptr()->getAnimation(buf));
 			else if (!wcsnicmp(ln, L"constructAnimation", lnl))
 				mBuildingData.back()->setConstructAnimation(CAnimationStorage::ptr()->getAnimation(buf));
 			else if (!wcsnicmp(ln, L"constructionTime", lnl))
 				mBuildingData.back()->setConstructionTime(atoi(buf));
+			else if (!wcsnicmp(ln, L"shortcut", lnl))
+				mBuildingData.back()->setShortcut(atoi(buf));
 		}
 	} else if (!wcsnicmp(pwchLocalName, L"mech", cchLocalName)) {
 		mMechData.push_back(new CMechData());
@@ -170,6 +174,8 @@ HRESULT STDMETHODCALLTYPE MyContent::startElement(
 				mTechnologyData.back()->setDevelopTime(atoi(buf));
 			else if (!wcsnicmp(ln, L"picture", lnl))
 				mTechnologyData.back()->setPicture(CAnimationStorage::ptr()->getTexture(buf));
+			else if (!wcsnicmp(ln, L"shortcut", lnl))
+				mTechnologyData.back()->setShortcut(atoi(buf));
 		}
 	} else if (!wcsnicmp(pwchLocalName, L"weapon", cchLocalName)) {		
 		mWeaponData.push_back(new CWeaponData());
@@ -211,6 +217,33 @@ HRESULT STDMETHODCALLTYPE MyContent::startElement(
 				mWeaponData.back()->setExplosiveDamage(atoi(buf));
 			else if (!wcsnicmp(ln, L"accuracy", lnl))
 				mWeaponData.back()->setAccuracy(atoi(buf));
+			else if (!wcsnicmp(ln, L"shortcut", lnl))
+				mWeaponData.back()->setShortcut(atoi(buf));
+		}
+	} else if (!wcsnicmp(pwchLocalName, L"upgrade", cchLocalName)) {		
+		mUpgradeData.push_back(new CUpgradeData());
+		mDataType = TUPGRADE;
+		int l;
+		pAttributes->getLength(&l);
+		for (int i = 0; i < l; i++) {
+			wchar_t *ln, *vl;
+			int lnl, vll;
+			pAttributes->getLocalName(i, &ln, &lnl);
+			pAttributes->getValue(i, &vl, &vll);
+			wcstombs(buf, vl, 256);
+
+			if (!wcsnicmp(ln, L"id", lnl))
+				mUpgradeData.back()->setId(atoi(buf));
+			else if (!wcsnicmp(ln, L"name", lnl))
+				mUpgradeData.back()->setName(buf);
+			else if (!wcsnicmp(ln, L"priceGas", lnl))
+				mUpgradeData.back()->setPriceGas(atoi(buf));
+			else if (!wcsnicmp(ln, L"priceMineral", lnl))
+				mUpgradeData.back()->setPriceMineral(atoi(buf));
+			else if (!wcsnicmp(ln, L"shortcut", lnl))
+				mUpgradeData.back()->setShortcut(atoi(buf));
+			else if (!wcsnicmp(ln, L"picture", lnl))
+				mUpgradeData.back()->setPicture(CAnimationStorage::ptr()->getTexture(buf));
 		}
 	}
     return hr;

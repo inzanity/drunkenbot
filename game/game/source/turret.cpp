@@ -4,7 +4,7 @@
 #include "../include/animationStorage.h"
 
 CTurret::CTurret(CGameObjPtr aObjPtr, bool aReady, const D3DXVECTOR3 *aPos, float aXAngle, float aYAngle) :
-	CBuilding(aObjPtr, new CBuildingData(CAnimationStorage::ptr()->getAnimation("data/turret.x"), CAnimationStorage::ptr()->getAnimation("data/turretTop.x"), CAnimationStorage::ptr()->getAnimation("data/turret.x"), 1, "Foobar", NULL, 0, 1, 1, 1, 1, 1, 1, TURRET, 1, NULL), aReady, aPos, aXAngle, aYAngle)
+	CBuilding(aObjPtr, new CBuildingData(CAnimationStorage::ptr()->getAnimation("data/turret.x"), CAnimationStorage::ptr()->getAnimation("data/turretTop.x"), CAnimationStorage::ptr()->getAnimation("data/turret.x"), 1, "Foobar", NULL, 0, 1, 1, 1, 1, 1, 1, TURRET, 1, NULL, 0), aReady, aPos, aXAngle, aYAngle)
 {
 	mTurretAngle			= 0.f;
 	mTargetReached			= false;
