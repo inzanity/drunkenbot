@@ -102,16 +102,16 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 
 	for (int i = 0; aBots[i]; i++)
 	{
-		if (sqr(aBots[i]->mPos.mX - mPos.mX) + sqr(aBots[i]->mPos.mY - mPos.mY) < sqr(mVelocity + aBots[i]->mVelocity + mRadius + aBots[i]->mRadius))
+		if (sqr(aBots[i]->xPos() - mPos.mX) + sqr(aBots[i]->yPos() - mPos.mY) < sqr(mVelocity + aBots[i]->velocity() + mRadius + aBots[i]->radius()))
 		{
 			float foo;
 			float xSpeed2 = aBots[i]->velocity() * cos(aBots[i]->movingDirection());
 			float ySpeed2 = aBots[i]->velocity() * sin(aBots[i]->movingDirection());
-			float rooted = -sqr(mPos.mY - aBots[i]->mPos.mY) * sqr(xSpeed - xSpeed2) + 2 * (xSpeed - xSpeed2) * (ySpeed - ySpeed2) * (mPos.mX - aBots[i]->mPos.mX) * (mPos.mY - aBots[i]->mPos.mY) - sqr(mPos.mX - aBots[i]->mPos.mX) * sqr(ySpeed - ySpeed2) + (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2)) * sqr(mRadius + aBots[i]->mRadius);
+			float rooted = -sqr(mPos.mY - aBots[i]->yPos()) * sqr(xSpeed - xSpeed2) + 2 * (xSpeed - xSpeed2) * (ySpeed - ySpeed2) * (mPos.mX - aBots[i]->xPos()) * (mPos.mY - aBots[i]->yPos()) - sqr(mPos.mX - aBots[i]->xPos()) * sqr(ySpeed - ySpeed2) + (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2)) * sqr(mRadius + aBots[i]->radius());
 			if (rooted > 0)
 			{
 				float root = sqrt(rooted);
-				float plop = (ySpeed2 - ySpeed) * (aBots[i]->mPos.mY - mPos.mY) + (xSpeed2 - xSpeed) * (aBots[i]->mPos.mX - xSpeed);
+				float plop = (ySpeed2 - ySpeed) * (aBots[i]->yPos() - mPos.mY) + (xSpeed2 - xSpeed) * (aBots[i]->xPos() - xSpeed);
 				float divider = 1 / (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2));
 				foo = time = (plop + root) * divider;
 				if (time > 0)
@@ -121,6 +121,7 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 					if (foo < minTime) minTime = time;
 					if (foo < 1.f)
 					{	
+						handleCollision(3);
 //						aBots[i]->handleCollision(5);
 					}
 				}
