@@ -36,15 +36,15 @@ namespace ParticleEditor
 		}
 		private const float ROT_CHANGE = .04f;
 		private const float DIST_CHANGE = 1.0f;
-		private ParticleLib.D3DObj d3dObj;
-		private ParticleLib.ParticleSystem particleSystem;
+		private ParticleLib.D3DObj d3dObj = null;
+		private ParticleLib.ParticleSystem particleSystem = null;
 		private System.Timers.Timer timer1;
 		private int time = 0;
 		private float xRot, yRot, dist;
 		private bool[] buttonPressed = new bool[6];
-		private bool resized = false;
 		private bool play = true;
 		private String homeDir = Directory.GetCurrentDirectory();
+		private int width, height;
 
 		private System.Windows.Forms.StatusBar statusBar1;
 		private System.Windows.Forms.Panel panel1;
@@ -214,6 +214,7 @@ namespace ParticleEditor
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(306, 340);
 			this.panel1.TabIndex = 2;
+			this.panel1.Click += new System.EventHandler(this.panel1_Click);
 			this.panel1.Resize += new System.EventHandler(this.Panel1_Resize);
 			// 
 			// mainMenu1
@@ -458,6 +459,11 @@ namespace ParticleEditor
 			// numericUpDownParticles
 			// 
 			this.numericUpDownParticles.Location = new System.Drawing.Point(83, 24);
+			this.numericUpDownParticles.Maximum = new System.Decimal(new int[] {
+																				   1000,
+																				   0,
+																				   0,
+																				   0});
 			this.numericUpDownParticles.Name = "numericUpDownParticles";
 			this.numericUpDownParticles.Size = new System.Drawing.Size(46, 20);
 			this.numericUpDownParticles.TabIndex = 6;
@@ -724,15 +730,6 @@ namespace ParticleEditor
 
 		private void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			if (resized)
-			{
-				if (panel1.Width <= 0 || panel1.Height <= 0)
-					return;
-				d3dObj.initWindowed();
-//				particleSystem = new ParticleLib.ParticleSystem(100, 2, 1, 1, "particle.bmp");
-				resized = false;
-				return;
-			}
 			if (particleSystem == null)
 				return;
 			if (buttonPressed[0])
@@ -776,9 +773,13 @@ namespace ParticleEditor
 
 		private void Panel1_Resize(object sender, System.EventArgs e)
 		{
+			if (panel1.Width <= 0 || panel1.Height <= 0 || (panel1.Width == width && panel1.Height == height))
+				return;
+			width = panel1.Width; height = panel1.Height;
 			particleSystem = null;
+			System.GC.Collect();
+			d3dObj.initWindowed();
 			statusBar1.Text = "Press \"Reload\" after resizing";
-			resized = true;
 		}
 
 		private void pictureBoxTexture_Click(object sender, System.EventArgs e)
@@ -934,8 +935,9 @@ namespace ParticleEditor
 
 		private void buttonReload_Click(object sender, System.EventArgs e)
 		{
+			String file = "ParticleEditorTemp.dat";
 			String temp = saveFileDialogPS.FileName;
-			saveFileDialogPS.FileName = Path.GetFullPath("ParticleEditorTemp.dat");
+			saveFileDialogPS.FileName = Path.GetFullPath(file);
 			save(buttonReload);
 			try 
 			{
@@ -944,10 +946,20 @@ namespace ParticleEditor
 			}
 			catch (ApplicationException ae)
 			{
+				String error = ae.Message;
 				particleSystem = null;
-				String error = ae.Message.Substring(ae.Message.IndexOf(':') + 1);
+				int ind = error.IndexOf(file);
+				if (ind > 0)
+				{
+					error = error.Substring(ind + (file + ":").Length);
+					int line = Convert.ToInt32(error.Substring(0, error.IndexOf(':')));
+					error = "Line " + (line - 8) + error.Substring(error.IndexOf(':'));
+				}
+/*				String error = ae.Message.Substring(ae.Message.IndexOf(':') + 1);
 				int line = Convert.ToInt32(error.Substring(0, error.IndexOf(':')));
 				statusBar1.Text = "Line " + (line - 8) + error.Substring(error.IndexOf(':'));
+*/
+				statusBar1.Text = error;
 			}
 			saveFileDialogPS.FileName = temp;
 			time = 0;
@@ -964,6 +976,15 @@ namespace ParticleEditor
 			{
 				buttonPlay.ImageIndex = 7;
 				play = true;
+			}
+		}
+
+		private void panel1_Click(object sender, System.EventArgs e)
+		{
+			if (colorDialog1.ShowDialog() == DialogResult.OK)
+			{
+				panel1.BackColor = colorDialog1.Color;
+				d3dObj.setBGColor((uint)((0xFF << 24) | colorDialog1.Color.ToArgb()));
 			}
 		}
 	}
