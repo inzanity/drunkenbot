@@ -4,6 +4,8 @@
  *
  * @author Japa
  * @version 1.0
+ *
+ * @todo Read animation information from stream.
  */
 
 #ifdef WIN32
@@ -75,6 +77,7 @@ private:
 	CSurface *mTiles;
 	CSurface *mBots;
 	CSurface *mBullets;
+	CSurface *mWeapons;
 };
 
 #endif // DDGRAPHICSENGINE_H

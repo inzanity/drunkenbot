@@ -8,7 +8,7 @@ CDDGraphicsEngine::CDDGraphicsEngine(HWND aHWnd, const istream *aGfxInfo) :
 									 mHWnd(aHWnd), mWidth(0), mHeight(0), mMapWidth(0), mMapHeight(0),
 									 mSrcTileWidth(0), mSrcTileHeight(0), mDestTileWidth(0), mDestTileHeight(0), 
 									 mPrimary(NULL), mClipper(NULL), mDD(NULL), mBack(NULL), mTiles(NULL), 
-									 mBots(NULL), mBullets(NULL)
+									 mBots(NULL), mBullets(NULL), mWeapons(NULL)
 {
 	DDSURFACEDESC ddsd;
 	HRESULT ddrval;
@@ -63,8 +63,10 @@ CDDGraphicsEngine::CDDGraphicsEngine(HWND aHWnd, const istream *aGfxInfo) :
 	mTiles = CSurface::create(mDD, "res/tiles.bmp");
 	mBots = CSurface::create(mDD, "res/bot.bmp");
 	mBullets = CSurface::create(mDD, "res/bullet.bmp");
+	mWeapons = CSurface::create(mDD, "res/weapon.bmp");
 	mBots->setColorKey(RGB(255, 239, 239));
 	mBullets->setColorKey(RGB(255, 239, 239));
+	mWeapons->setColorKey(RGB(255, 239, 239));
 }
 
 CDDGraphicsEngine::~CDDGraphicsEngine()
@@ -135,6 +137,14 @@ void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 		rect.right = rect.left + mSrcTileWidth;
 		rect.bottom = rect.top + mSrcTileHeight;
 		mBack->blit(mBullets, rect, CRect(x1, y1, x2, y2));
+	}
+	else if (type == CGameObj::EObjectWeapon)
+	{
+		rect.left = frame * mSrcTileWidth;
+		rect.top = index * mSrcTileHeight;
+		rect.right = rect.left + mSrcTileWidth;
+		rect.bottom = rect.top + mSrcTileHeight;
+		mBack->blit(mWeapons, rect, CRect(x1, y1, x2, y2));
 	}
 }
 
@@ -234,6 +244,11 @@ void CDDGraphicsEngine::releaseObjects()
 		delete mBullets;
 		mBullets = NULL;
 	}
+	if (mWeapons)
+	{
+		delete mWeapons;
+		mWeapons = NULL;
+	}
 
 	if(mDD)
 	{
@@ -255,6 +270,8 @@ HRESULT CDDGraphicsEngine::restore()
 	ddrval = mBots->restore();
 	if (ddrval != DD_OK) return ddrval;
 	ddrval = mBullets->restore();
+	if (ddrval != DD_OK) return ddrval;
+	ddrval = mWeapons->restore();
 	return ddrval;
 }
 
