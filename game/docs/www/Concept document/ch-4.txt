@@ -4,15 +4,15 @@
 [Describe game characters properties: AI, traits, and behavior. What is the purpose of each character? In what ways can the player modify characters' properties?]
 
 4.1.1	Player characters
-There are no mechs for special purposes, all the mechs are basically the same, only differing in size and weaponry. The mechs can do nothing on their own at first, but with enabling technologies (see 3.3.3) they can find their way to the other side on their own, or shoot enemy mechs on sight.
+There are no mechs for special purposes, all the mechs are basically the same, only differing in size and weaponry. The mechs can do nothing on their own at first, but with enabling technologies (see 3.3.3) they can be made to find their way using non-linear route, scout the unknown areas, attack or defence the base. With certain technology and mide, they can shoot enemy mechs on sight.
 
 4.1.2	Nonplayer characters
 
 4.1.2.1	Enemies
-Enemy characters will shoot player characters on sight, they only retreat if scripted so in the level. When they are not activated (by script action or noticing player), they do nothing.
+In scripted storyline supporting levels, enemy characters will shoot player characters on sight, they only retreat if scripted so in the level. When they are not activated (by script action or noticing player), they do nothing. In normal levels enemy mechs share their tactical AI with the player mechs.
 
 4.1.2.2	Friends and allies
-Allies do not interfere with player characters, unless scripted.
+Allies do not interfere with player characters, unless scripted. Normally, they don't understand to attach at the same time with the player.
 
 4.1.2.3	Neutral
 Neutral units either just hang around, or shoot everybody on sight, depending on level settings. They may be used as script elements to "tell" the story.
