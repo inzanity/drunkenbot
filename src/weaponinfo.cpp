@@ -6,6 +6,7 @@ CWeaponInfo::CWeaponInfo(const CWeapon *aWeapon, float aXPos, float aYPos) : CGa
 {
 	mPos.mX = aXPos;
 	mPos.mY = aYPos;
+	mRadius = .5f;
 }
 
 CWeaponInfo::CWeaponInfo(const CWeaponInfo *aWeaponInfo, float aXPos, float aYPos) : CGameObj(aWeaponInfo, aXPos, aYPos), CWeapon(aWeaponInfo)
