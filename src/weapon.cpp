@@ -1,5 +1,5 @@
 #include <cmath>
-#include <iostream>
+#include <istream>
 
 #include "../inc/weapon.h"
 
