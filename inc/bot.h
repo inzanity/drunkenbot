@@ -36,20 +36,20 @@ public:
 	 * @param aTilemap Tilemap for locating new bot.
 	 * @param aWidth Width of the tilemap. @aHeight Height of the tilemap.
 	 * @param aGameObjects Bot should not be located near these objects.
+	 * @param aWeapon Default weapon.
 	 */
-	void spawn(const char **aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects);
+	void spawn(const char **aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects, const CWeapon *aWeapon);
 
 	/**
 	 * Updates visible objects and bots actions using CBotAI.
 	 * @param aTilemap The whole tilemap.
 	 * @param aWidth Width of the tilemap. @aHeight Height of the tilemap.
 	 * @param aBots Array containing all bots.
-	 * @param aBotNum Number of bots.
 	 * @param aBulletList List of all bullets in the field.
 	 * @param aWeaponList List of all weapons in the field.
 	 * @param aVoices List of all voice sources.
 	 */
-	void think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots, int aBotNum,
+	void think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo **aBots,
 			   list<CBulletInfo *> *aBulletList, list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices);
 
 	/**
