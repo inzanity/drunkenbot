@@ -94,8 +94,10 @@ sub readTxt {
 			while ($ullevel < $req) { $cont .= " " x $ullevel . "<ul>\n"; $ullevel++; }
 			$req = " " x $req;
 			s/^\t+- /$req<li>/;
+			s/(\(see[^)]+?)([0-9]+)(\.[0-9.]+)(\))/$1<a href="ch-$2.html#h$2$3">$2$3<\/a>$4/gi;
 		} elsif ($_) {
-			s/(\(see[^)]+?)([0-9]+)(.[0-9.]+)(\))/$1<a href="ch-$2.html#h$2$3">$2$3<\/a>$4/g;
+			s/(\(see[^)]+?)([0-9]+)(\.[0-9.]+)(\))/$1<a href="ch-$2.html#h$2$3">$2$3<\/a>$4/gi;
+			s/(see )([0-9]+)(\.[0-9.]+)/$1<a href="ch-$2.html#h$2$3">$2$3<\/a>/gi;
 			while ($ullevel > 0) { $cont .= " " x ($ullevel - 1) . "</ul>\n"; $ullevel--; }
 			s/^.*$/<p>$&<\/p>/;
 		}
