@@ -22,3 +22,5 @@ After staggering defeats against DreadForce Avalance was sure that nothing would
 
 Avalance won the fight on Platonia, but the war had only begun...
 
+5.3	Narrative devices
+The story is shown to the player as text when advancing to a new level, the levels themselves have things that follow the plot, things available in the beginning, the landscape and the objectives for completing the level. Sometimes the plot has a turn in the middle of a mission, and then the updated storyline, and objectives, are shown to the player (the game is paused while showing the text).
