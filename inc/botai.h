@@ -21,7 +21,7 @@ using std::list;
 
 /**
  * Base class for external AI class.
- * Bots are controlled using <code>think</code> method once in every frame.
+ * Bots are controlled using think() method once in every frame.
  * Action flags are used to define bot movement and other actions. @see TBotAction
  * @note
  * All provided information about this bot or surrounding world is "read only".

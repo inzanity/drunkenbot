@@ -13,22 +13,26 @@
 
 /**
  * Class to store all bot information.
- * Bots are controlled using CBotAI, and all data is stored in CBotInfo.
- * 
+ * Bots are controlled using CBotAI. AI is always reloaded during spawning.
  */
-class CBot
+class CBot : public CBotInfo
 {
 public:
-	/** Constructor. @param aDllName Name of the .dll file to load <code>CBotAI</code>. */
+	/** Constructor. @param aDllName Name of the .dll file to load CBotAI. */
 	CBot(const char *aDllName);
 
-	/** */
+	/**
+	 * Reload AI from dll, create and initialize new bot.
+	 * @param aTileMap Tilemap for locating new bot.
+	 * @param aGameObjects Bot should not be located near these objects. */
+	void spawn(const char **aTileMap, const CGameObj *aGameObjects);
 
 private:
-	CBotAI *mBotAI;
-	CBotInfo mBotInfo;
-	char *mDllName;
-}
+	void loadAI();
 
+	CBotAI *mBotAI;
+	char *mDllName;
+	HMODULE mDllHandle;
+};
 
 #endif // BOT_H
