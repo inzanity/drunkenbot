@@ -35,6 +35,12 @@ public:
 	bool shoot();
 	
 	/**
+	 * Getter for reload time.
+	 * @return Reload time in turns.
+	 */
+	int reloadTime();
+	
+	/**
 	 * Getter for bullet count.
 	 * @return Amount of bullets available.
 	 */
@@ -65,6 +71,7 @@ public:
 	float damage();
 
 private:
+	int mReloadTime;
 	int mBulletCount;
 	float mBulletSpeed;
 	float mExplosionRadius;
