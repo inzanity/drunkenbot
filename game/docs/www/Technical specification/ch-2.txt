@@ -48,12 +48,12 @@
 2.1.8.2	Building power distribution system
 
 	- <b>Performing</b>: Building power distribution system is like building any other building (see 2.1.5). Only requirements are resources and clear terrain. Mech can not be controlled while building. Action can be performed from the fps mode with shortcut key, in which case current mech location is used for building.
-	- <b>Implementation</b>: First part of the building is simalar to moving command (see 2.1.8.1). If mech fails to get to the location, action is cancelled. Second part is similar to building a normal building (see 2.1.5), but special animation is played for the mech. After building is completed (or cancelled), mech returns to normal state.
+	- <b>Implementation</b>: First part of the building is simalar to moving command (see 2.1.8.1). If mech fails to get to the location, action is cancelled. Second part is similar to building a normal building (see 2.1.5), but special animation is played for the mech, and a flag is set to indicate the building state. After building is completed (or cancelled), mech returns to the normal state.
 	
 2.1.8.3	Changing weapons and modes
 
-	- <b>Performing</b>: Different weapons and operating modes can be selected from submenus.
-	- <b>Implementation</b>: Submenu is displayed after selecting "Select weapon" or "Change mode" action group. At this point, command can be cancelled. After selecting the real action (weapon or mode), message is sent to the mech and action is performed instantly.
+	- <b>Performing</b>: Different weapons and operating modes can be selected from submenus. Changing the operation mode can be similarly performed from the fps mode with a shortcut key. Changing the weapon from the fps mode is a bit different operation (see 2.2.4).
+	- <b>Implementation</b>: Submenu is displayed after selecting "Select weapon" or "Change mode" action group. At this point, command can be cancelled. After selecting the real action (weapon or mode), message is sent to the mech and action is performed instantly. Info screen and mech animation is updated according to the change.
 
 2.1.8.4	Attacking actions
 
@@ -93,15 +93,10 @@
 
 2.2.4	Changing a weapon
 
-	- <b>Performing</b>: The primary weapon can be changed using the right mouse button.
-	- <b>Implementation</b>: CDirectInput class tells that right mouse button was pressed. The mech game object will then be told that it should change weapon. The object will then set it's primary weapon and update it's animation to show the new selected weapon.
+	- <b>Performing</b>: The primary weapon can be changed using the right mouse button. This selects next available weapon from the weapon bar. First weapon from the bar is selected after last one.
+	- <b>Implementation</b>: CDirectInput class tells that right mouse button was pressed. The mech game object will then be told that it should change weapon. The object will then set it's primary weapon and update it's animation to show the new selected weapon. Weapon bar is updated to show current weapon.
 
-2.2.5	Building power distribution system
-
-	- <b>Performing</b>: A Power Distribution System building can be build by pressing the 'b' key at the desired location.
-	- <b>Implementation</b>: CDirectInput class tells that that the 'b' key was pressed. The mech game object will be told to start building. The mech then sets it's animation and sets a flag that it is building. The mechs coordinates are quieried and a new CBuilding object will be created for the building being built to the mech's location.
-
-2.2.6	Changing into RTS mode
+2.2.5	Changing into RTS mode
 
 	- <b>Performing</b>: The mode can be changed back to the RTS mode by pressing escape or one of the bound numbers for object in the FPS mode. This may also occurr non-interactively, if the mech in question is destroyed while in use.
 	- <b>Implementation</b>: CDirectInput tells when the key is pressed. The mech object will be notified, and it will return to the state it was before the FPS mode, and the visible area in the RTS will be centered to the mech or the newly selected object.
