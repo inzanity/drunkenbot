@@ -32,6 +32,7 @@ int main()
 
 
 #include "../inc/ddgraphicsengine.h"
+#pragma comment(lib, "winmm")
 
 CDDGraphicsEngine *gfxEngine = NULL;
 bool active = true;
@@ -42,6 +43,10 @@ long FAR PASCAL	windowProc(HWND	aHWnd, UINT	aMsg, WPARAM aWParam, LPARAM aLParam
 	{
 	case WM_DESTROY:
 		PostQuitMessage(0);
+		break;
+	case WM_SIZE:
+		if (gfxEngine)
+			gfxEngine->resize();
 		break;
 	case WM_KEYDOWN:
 		if (aWParam == VK_ESCAPE)
@@ -57,7 +62,10 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 {
 	const char	KClassName[]	= "DrunkenBot";
 	const char	KWindowName[]	= "Drunken Bot III";
-	int width = 800, height = 600;
+	char *windowName = new char[64];
+	int frameCounter = 0;
+	float fps;
+	DWORD startTime = timeGetTime();
 
 	WNDCLASS	wc;
 	MSG			msg;
@@ -81,7 +89,7 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 	}
 
 	// Create window
-	hWnd = CreateWindow(KClassName,	KWindowName, WS_OVERLAPPEDWINDOW ^ WS_SIZEBOX ^ WS_MAXIMIZEBOX, CW_USEDEFAULT, CW_USEDEFAULT, width, height, NULL, NULL, aHInst, NULL);
+	hWnd = CreateWindow(KClassName,	KWindowName, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 800, NULL, NULL, aHInst, NULL);
 	if (hWnd)
 	{
 		ShowWindow(hWnd, aCmdShow);
@@ -90,13 +98,14 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 	else
 		return false;
 
-	gfxEngine = new CDDGraphicsEngine(hWnd, width, height, NULL);
+	gfxEngine = new CDDGraphicsEngine(hWnd, NULL);
 
 	ifstream map("res/map.txt");
 	ifstream weapons("res/weapons.txt");
 	CGameEngine *gameEngine = new CGameEngine(&weapons, &map);
 	map.close();
 	weapons.close();
+	gameEngine->setGraphicsEngine(gfxEngine);
 
 	// Enter the message loop
 	ZeroMemory(&msg, sizeof(msg));
@@ -105,8 +114,19 @@ int	PASCAL WinMain(HINSTANCE aHInst, HINSTANCE aHInstPrev, LPSTR aCmdLine, int a
 		if (active) // Handle messages, and render the rest of the time
 		{
 			if (!(gotMsg = PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)))
+			{
 				if(!gameEngine->loop())
 					break;
+				gfxEngine->flip();
+				if (++frameCounter >= 100)
+				{
+					frameCounter = 0;
+					fps = 100000.f / float(timeGetTime() - startTime);
+					sprintf(windowName, "%s, fps: %f", KWindowName, fps);
+					SetWindowText(hWnd, windowName);
+					startTime = timeGetTime();
+				}
+			}
 		}
 		else // Wait for messages
 			gotMsg = GetMessage(&msg, NULL, 0U, 0U);
