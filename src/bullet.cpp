@@ -34,6 +34,7 @@ CBulletInfo::CBulletInfo(int aBulletType, float aXPos, float aYPos, float aDirec
 	mPos.mY = aYPos;
 	mOrientation = mMovingDirection = aDirection;
 	mVelocity = aVelocity;
+	mRadius = .2;
 }
 
 CBulletInfo::~CBulletInfo()
