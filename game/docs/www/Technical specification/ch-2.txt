@@ -45,7 +45,7 @@
 	- <b>Performing</b>: You can give actions to mech normally by selecting an action from action menu or using proper shortcut key from keyboard and left clicking with mouse on the terrain. With 'shift' pressed down you can combine actions which are then performed in the order they were given.
 	- <b>Implementation</b>: CDirectInput class tells that shift button is pressed down and action was given with mouse. Add action message is sent to the selected game object and it performs them in FIFO order.
 
-2.1.10	Changin into FPS mode
+2.1.10	Changing into FPS mode
 
 	- <b>Performing</b>: First select a mech you want to control in first person perspective. Then you can press 'enter' or binded key for this mech from keyboard or double click it with left mouse button. Perspective moves to FPS instantaneously.
 	- <b>Implementation</b>: When CDirectInput class tells that left mouse button is double clicked or 'enter' or number is pressed, the message is sended to the selected object and is proceeds with changing perspective to FPS if everything is in order (selected object is mech etc.).
@@ -74,3 +74,4 @@
 2.2.5	Building power distribution system
 
 	- <b>Performing</b>: A Power Distribution System building can be build by pressing the 'b' key at the desired location.
+	- <b>Implementation</b>: CDirectInput class tells that that the 'b' key was pressed. The mech game object will be told to start building. The mech then sets it's animation and sets a flag that it is building. The mechs coordinates are quieried and a new CBuilding object will be created for the building being built to the mech's location.
