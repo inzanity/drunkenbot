@@ -1,0 +1,60 @@
+3.	Gameplay
+
+3.1	Overview
+[Describe the core gameplay. This should tie into a physical or software prototype. Use the prototype as the model and present in this chapter an overview of how it functions.]
+Basically ***GAME NAME*** is a real time strategy (RTS) game. As usually in this genre, it includes everything from resource management to building up a military base and fighting the enemies. However, it has a whole new unit control and combat system. Instead of building an army, each side has to build massive war machines. These machines, known as mechs, are provided with the highest technology available, making only one of them worth of an army. As the whole war is wrapped around these machines and their technology, controlling the machine becomes an essential part of the game.
+
+3.2	Gameplay description
+
+From the strategical point of view, game is about gathering and managing resources, building a base, developing technologies and constructing the war machines. Player observes the world from top-down perspective. Only small part of the map fits to the screen, and the screen can be scrolled to view different areas of the map. Minimap can be used to get the general idea of the whole map. Unknown areas are shown as black, and has to be explored before seeing them. Areas far from buildings and units are covered by fog (fog of war). Enemy units can't be seen under the fog, while the rest of the map is seen as it was before.
+
+There are two types of resources, electric power and materials. Materials for the industry can be collected from the rich occurrences of the otherwise bare ground by building distribution channels. Electricity can be produced from the sun, nuclear factories or from nigth storms by storing energy from the lighnings. Resources are needed for buildings, machines, technologies and upgrades. Some electricity is also needed to maintain functioning. Mech contains internal source of power, and doesn't need resources in order to operate.
+
+...
+
+3.3	Rules
+[Describe the rules of the game. Define all game objects, concepts, their behaviors, and how they relate to one another.]
+
+3.4	Goals, victory and end conditions
+
+3.4.1	Goals
+[Describe the goals (in each game mode).]
+Primary goal is to eliminate enemies by destroying all of their buildings. This can be achieved by developing powerful war machines, mechs, and defeating enemy in a battle. As simple as that might sound, the way to the victory may not be easy. Being the best requires both tactical and strategical skills, as well as fast reactions. Don't count on your luck, there is no room for accidences.
+
+3.4.2	Subgoals
+[Describe the subgoals (in each game mode).]
+To complete single player mission, player has to accomplish mission objectives. Each mission may include several types of objectives, and the objectives can change during the mission...
+
+3.4.3	Goal structures
+[Describe the goal structures (in each game mode).]
+
+3.4.4	Scoring system
+[Describe the scoring system (in each game mode).]
+
+3.4.5	Victory conditions
+[Describe the victory conditions (in each game mode).]
+
+3.4.6	End conditions
+[Describe the end conditions (in each game mode).]
+
+3.5	Controls and feedback
+[Map out the game procedures and controls: what does the player have to do? Use visual aids like control tables and flowcharts, along with detailed descriptions.]
+
+3.5.1	Interfaces
+[Create wireframes for every interface the artists will need to create. Along with each wireframe should be a description of how it functions. Detail out the various stages for each interface.]
+
+3.5.2	Feedback
+[Describe ways of how the player gets feedback from his actions.]
+
+3.6	Modes and other features
+[Describe the different modes or other features that will affect the implementation of the gameplay.]
+
+3.6.1	Multiplayer experience
+[What community related features are there? How does communication between players take place?]
+
+3.6.2	Saving and resuming
+[Explain how the game situation can be saved and resumed.]
+
+3.7	Levels
+[Describe the designs for each level. Describe in what ways the levels differ. What transitions are there between levels (e.g. cut-scenes)? If there are no levels as such, describe ways in which the player can get a breather.]
+[Document with a flowchart all the areas and screens that will need to be created. This flowchart should be an appendix to this document.]
