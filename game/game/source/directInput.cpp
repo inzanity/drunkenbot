@@ -124,6 +124,11 @@ bool CDirectInput::checkKey(GameAction aAction)
 	else return false;
 }
 
+const DIMOUSESTATE2* CDirectInput::getMouseState()
+{
+	return &mMouseState;
+}
+
 void CDirectInput::bindKey(GameAction aAction, int aKey)
 {
 	for (int i = 0; i < KEYBOARD_SIZE; i++)
@@ -135,16 +140,6 @@ void CDirectInput::bindKey(GameAction aAction, int aKey)
 
 int CDirectInput::getKey(GameAction aAction)
 {
-/*
-	if (aAction == MOVE_LEFT)
-		return DIK_A;
-	if (aAction == MOVE_RIGHT)
-		return DIK_A;
-	if (aAction == MOVE_DOWN)
-		return DIK_A;
-	if (aAction == MOVE_UP)
-		return DIK_A;
-*/
 	return mBoundKeys[aAction];
 }
 

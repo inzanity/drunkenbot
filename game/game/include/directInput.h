@@ -35,24 +35,28 @@ struct KeyboardTable
 class CDirectInput
 {
 public:
-			CDirectInput	();
-			~CDirectInput	();
-	void	Activate		();
-	void	ReadState		();
+							CDirectInput	();
+							~CDirectInput	();
+	void					Activate		();
+	void					ReadState		();
 
 	// checks if action key hold down
-	bool	isPressed		(GameAction aAction);
+	bool					isPressed		(GameAction aAction);
 	// checks if action key pressed down and flags it checked
-	bool	checkKey		(GameAction aAction);
+	bool					checkKey		(GameAction aAction);
+
+	// returns mouse-coordinates
+	const DIMOUSESTATE2*	getMouseState	();
+
 
 	// binds a key to an action
-	void	bindKey			(GameAction aAction, int aKey);
+	void					bindKey			(GameAction aAction, int aKey);
 
 
 private:
-	int		getKey			(GameAction aAction);
+	int						getKey			(GameAction aAction);
 
-	void	FreeDirectInput();
+	void					FreeDirectInput();
 
 	LPDIRECTINPUT8			mDI;		// The DirectInput object         
 	LPDIRECTINPUTDEVICE8	mKeyboard;	// The keyboard device 
