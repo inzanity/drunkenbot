@@ -10,8 +10,10 @@ CBot::CBot(const char *aDllName, int aTeamNumber) : CBotInfo(aTeamNumber << 8), 
 
 void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj **aGameObjects)
 {
-	mPos.mX = 1.f + rand() % (aWidth-2);
-	mPos.mY = 1.f + rand() % (aHeight-2);
+	do {
+		mPos.mX = 1.f + rand() % (aWidth-2);
+		mPos.mY = 1.f + rand() % (aHeight-2);
+	} while ((aTilemap[int(mPos.mY)][int((mPos.mX))] & 3) != 3);
 	loadAI();
 	mRadius = 1.f;
 }
