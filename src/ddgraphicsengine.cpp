@@ -134,7 +134,7 @@ void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 		rect.top = dir * mSrcTileHeight;
 		rect.right = rect.left + mSrcTileWidth;
 		rect.bottom = rect.top + mSrcTileHeight;
-		mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
+		mBack->blit(mBullets, rect, CRect(x1, y1, x2, y2));
 	}
 }
 
