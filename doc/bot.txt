@@ -1,1 +1,17 @@
-foo
+Robot specifications.
+
+The purpose of this document is to specify abilities and disabilities of the robots
+and define basic rules of controlling them.
+
+Robots are acting in simplified tile based environment. Tile is a rectangular block
+with a constant size, namely 100 units/side. Block can be either wall, obstacle or an emty block.
+
+The robot is equipped with quite inadvanced mobilizing utilities, and it can only move
+in four directions (forward, backwards, left or right). Moving speed is constant, 25 units/round
+forward and 10 units/round to other directions. In order to change direction, the robot is able to
+turn 18 degrees/round.
+
+For input the robot uses a radar cabable of scanning an sector of 90 degrees with infinite radius.
+The radar can scan areas behind an obstacle, while unveiling it's existence, but not thorough walls.
+Besides the radar, the robot has multiple sound sensors that are used with an accurate timer to get
+the direction to the source of the sound.
