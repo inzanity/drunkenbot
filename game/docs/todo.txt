@@ -1,4 +1,3 @@
 3.1.X - Strategic AI
 3.2.X - Tactical AI
 2.1.9.1, .2 Mech action types
-3.1.4 Putken ehjyys, keräytyminen
