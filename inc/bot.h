@@ -11,7 +11,6 @@
 
 #include <list>
 #include "botai.h"
-#include "graphicsengine.h"
 
 using std::list;
 

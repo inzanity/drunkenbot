@@ -9,13 +9,12 @@
 #ifndef TEXTENGINE_H
 #define TEXTENGINE_H
 
-#include "gameobj.h"
 #include "graphicsengine.h"
 
 /**
  * Text graphics engine.
  */
-class CTextEngine : public IGraphicsEngine
+class CTextEngine : public CGraphicsEngine
 {
 public:
 	/** Constructor. */

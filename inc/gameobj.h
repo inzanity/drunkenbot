@@ -58,7 +58,7 @@ public:
 	/** Getter for the type of the object. @see mType. */
 	int type() const;
 
-	/** Getter for animation timer. May be used by IGraphicsEngine. */
+	/** Getter for animation timer. May be used by CGraphicsEngine. */
 	float animationTimer() const;
 
 protected:

@@ -1,5 +1,5 @@
 /** @file graphicsengine.h
- * Definition of IGraphicsEngine.
+ * Definition of CGraphicsEngine.
  * All general graphics related stuff. 
  *
  * @author Japa
@@ -9,17 +9,20 @@
 #ifndef GRAPHICSENGINE_H
 #define GRAPHICSENGINE_H
 
-#include "gameobj.h"
+#include "bot.h"
 
 /**
  * Graphics engine interface.
  * Used by CGameEngine to draw the game.
  */
-class IGraphicsEngine
+class CGraphicsEngine
 {
 public:
+	/** Constructor. */
+	CGraphicsEngine();
+
 	/** Destructor. */
-	virtual ~IGraphicsEngine() {}
+	virtual ~CGraphicsEngine();
 
 	/**
 	 * Pure virtual method for drawing tilemap.
@@ -31,6 +34,12 @@ public:
 
 	/** Pure virtual method for drawing game object. */
 	virtual void drawGameObj(const CGameObj *aGameObj) = 0;
+
+	/** Pure virtual setter for active bot. @param aBot Active bot used for drawing, or NULL to disable active bot. */
+	void setActiveBot(const CBot *aBot);
+
+protected:
+	const CBot *mActiveBot;
 };
 
 #endif // GRAPHICSENGINE_H

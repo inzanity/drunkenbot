@@ -19,7 +19,7 @@ int main()
 
 	CGameEngine *engine = new CGameEngine(&weapons, &map);
 
-	IGraphicsEngine *gEngine = new CTextEngine();
+	CGraphicsEngine *gEngine = new CTextEngine();
 
 	engine->setGraphicsEngine(gEngine);
 

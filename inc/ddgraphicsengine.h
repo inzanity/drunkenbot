@@ -15,7 +15,6 @@
 #include <ddraw.h>
 #include "ddutil.h"
 #include "graphicsengine.h"
-#include "gameobj.h"
 
 #pragma comment(lib, "ddraw")
 
@@ -24,7 +23,7 @@ using std::istream;
 /**
  * Direct Draw graphics engine.
  */
-class CDDGraphicsEngine : public IGraphicsEngine
+class CDDGraphicsEngine : public CGraphicsEngine
 {
 public:
 	/**

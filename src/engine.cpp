@@ -54,7 +54,7 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 		for (i = 0; i < mBotNum; i++)
 		{
 			sprintf(fileName, "bots/%s", findFileData.cFileName);
-			mBots[i] = new CBot(fileName);
+			mBots[i] = new CBot(fileName, i);
 			FindNextFile(handle, &findFileData);
 		}
 #else
@@ -79,7 +79,7 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 	restart(aMap);
 }
 
-void CGameEngine::setGraphicsEngine(IGraphicsEngine *aGraphicsEngine)
+void CGameEngine::setGraphicsEngine(CGraphicsEngine *aGraphicsEngine)
 {
 	mGfxEngine = aGraphicsEngine;
 }
@@ -93,16 +93,20 @@ bool CGameEngine::loop()
 		mBots[i]->chkCollision((const char **)mTilemap, (CBotInfo **)mBots, true);
 	for (i = 0; i < mBotNum; i++)
 		mBots[i]->performActions(&mBulletList, &mVoiceList);
-	if (mGfxEngine)
-	{
-		mGfxEngine->drawTilemap(mTilemap, mMapWidth, mMapHeight);
-		for (i = 0; i < mBotNum; i++)
-		{
-			mGfxEngine->drawGameObj(mBots[i]);
-			mBots[i]->update(1.f);
-		}
-	}
 	return true;
+}
+
+void CGameEngine::draw(float aTimeInterval, int aBotIndex)
+{
+	if (!mGfxEngine)
+		return;
+	mGfxEngine->setActiveBot(aBotIndex >= 0 && aBotIndex < mBotNum ? mBots[aBotIndex] : NULL);
+	mGfxEngine->drawTilemap(mTilemap, mMapWidth, mMapHeight);
+	for (int i = 0; i < mBotNum; i++)
+	{
+		mGfxEngine->drawGameObj(mBots[i]);
+		mBots[i]->update(aTimeInterval);
+	}
 }
 
 char **CGameEngine::getResults(bool aTeamResults) const
