@@ -14,7 +14,7 @@
 #include <list>
 #include "tilemap.h"
 #include "botinfo.h"
-#include "weapon.h"
+#include "weaponinfo.h"
 #include "bullet.h"
 
 using std::list;
@@ -155,7 +155,7 @@ private:
 };
 
 /** Type of the AI class getter function. */
-typedef CBotAI *(*)() TBotAIGetter;
+typedef CBotAI *(*TBotAIGetter)();
 
 /** Getter function for the AI class. Must be implemented. @return Instance of the AI class. */
 CBotAI *getBotAI();

@@ -9,9 +9,16 @@
 #ifndef BOT_H
 #define BOT_H
 
+#include <list>
 #include "botai.h"
 #include "graphicsengine.h"
 
+using std::list;
+/*
+#ifndef HMODULE
+#define HMODULE void *
+#endif
+*/
 /**
  * Class to store all bots information.
  * Bots are controlled using CBotAI. AI is always reloaded during spawning.
@@ -25,9 +32,10 @@ public:
 	/**
 	 * Reloads AI from dll, creates and initializes new bot.
 	 * @param aTilemap Tilemap for locating new bot.
+	 * @param aWidth Width of the tilemap. @aHeight Height of the tilemap.
 	 * @param aGameObjects Bot should not be located near these objects.
 	 */
-	void spawn(const char **aTilemap, const CGameObj *aGameObjects);
+	void spawn(const char **aTilemap, int aWidth, int aHeight, const CGameObj *aGameObjects);
 
 	/**
 	 * Updates visible objects and bots actions using CBotAI.

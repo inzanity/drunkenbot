@@ -34,7 +34,7 @@ public:
 	 * @param aY Y-coordinates of the tile.
 	 * @param aTile Type of the tile. Setted tile is always visible.
 	 */
-	void setTile(int aX, int aY, ETileType aTile);
+	void setTile(int aX, int aY, TTileType aTile);
 
 	/** Resets "fog of war"-flags to true. All tiles are initially not visible. */
 	void resetFogOfWar();

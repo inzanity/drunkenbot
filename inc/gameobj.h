@@ -111,8 +111,8 @@ protected:
 	 */
 	TPosition scanTilemap(const char **aSrcTilemap, float aAngle, CTilemap *aDstTilemap);
 
-	/** Collision handling.  */
-	virtual void handleCollision(int aType) = 0;
+	/** Collision handling. @param aDamage Damage caused by collision. */
+	virtual void handleCollision(int aDamage) = 0;
 
 	/** Velocity of the moving game object. Moving direction depends on the orientation of the object. */
 	float mVelocity;

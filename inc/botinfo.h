@@ -14,6 +14,8 @@
 #ifndef BOTINFO_H
 #define BOTINFO_H
 
+#include "weapon.h"
+
 /**
  * Bot actions. Every action is a combination of these.
  * See CBotAI::checkAction() for detailed information about legal actions.
@@ -49,6 +51,9 @@ public:
 	 * @return True if seen bot is in other team, false if in own.
 	 */
 	bool enemy();
+
+	/** Collision handling. @param aDamage Damage caused by collision. */
+	void handleCollision(int aDamage);
 };
 
 /** Private class for general bot information. */
