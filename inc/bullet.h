@@ -65,8 +65,9 @@ public:
 	 * @param aYPos Y position for the bullet.
 	 * @param aDirection Direction of the bullet (in radians).
 	 * @param aVelocity Velocity of the bullet (tiles/round).
+	 * @param aShooter The bot that shot this bullet.
 	 */
-	CBulletInfo(int aBulletType, float aXPos, float aYPos, float aDirection, float aVelocity);
+	CBulletInfo(int aBulletType, float aXPos, float aYPos, float aDirection, float aVelocity, CBotInfo *aShooter);
 
 	/**
 	 * Checks and handles collisions. See CMovingGameObj::chkCollision().
@@ -77,6 +78,22 @@ public:
 
 	/** Destructor. */
 	virtual ~CBulletInfo();
+
+	/**
+	 * Collision handling.
+	 * @param aDamage Damage caused by collision.
+	 * @return False if object has died (never for bullets).
+	 */
+	bool handleCollision(int aDamage);
+
+	/** Getter for damage caused in collision. */
+	int getDamage();
+
+	/** Increase frag counter of the shooter bot. */
+	void addFrag();
+
+private:
+	CBotInfo *mShooter;
 };
 
 #endif // BULLET_H
