@@ -90,7 +90,7 @@ CSDLGraphicsEngine::CSDLGraphicsEngine(istream *aGfxInfo) :
 									 mWidth(0), mHeight(0), mMapWidth(0), mMapHeight(0),
 									 mSrcTileWidth(0), mSrcTileHeight(0), mDestTileWidth(0), mDestTileHeight(0), 
 									 mTiles(NULL), 
-									 mBots(NULL), mBullets(NULL)
+									 mBots(NULL), mBullets(NULL), mWeapons(NULL)
 {
 	SDL_Surface *temp;
 	
@@ -129,6 +129,12 @@ CSDLGraphicsEngine::CSDLGraphicsEngine(istream *aGfxInfo) :
 	SDL_SetColorKey(temp, SDL_SRCCOLORKEY, SDL_MapRGB(temp->format, 255, 239, 239));
 	mBullets = SDL_DisplayFormatAlpha(temp);
 	SDL_FreeSurface(temp);
+	if (aGfxInfo)
+		*aGfxInfo >> filename;
+	temp = SDL_LoadBMP(aGfxInfo ? filename.c_str() : "res/weapon.bmp");
+	SDL_SetColorKey(temp, SDL_SRCCOLORKEY, SDL_MapRGB(temp->format, 255, 239, 239));
+	mWeapons = SDL_DisplayFormatAlpha(temp);
+	SDL_FreeSurface(temp);
 }
 
 CSDLGraphicsEngine::~CSDLGraphicsEngine()
@@ -161,7 +167,7 @@ void CSDLGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 			rect.y = type * mSrcTileHeight;
 			rect.w = mSrcTileWidth;
 			rect.h = mSrcTileHeight;
-			if (mActiveBot && (tile & ETileFowMask))
+			if (mActiveBot && (tile & KTileFowMask))
 			{
 				rect.y += 4 * mSrcTileHeight;
 			}
@@ -175,7 +181,7 @@ void CSDLGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 
 void CSDLGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 {
-	if (mActiveBot && mActiveBot->botAI()->mTilemap->getTile(int(aGameObj->xPos()) - mActiveBot->spawningXPos(), int(aGameObj->yPos()) - mActiveBot->spawningYPos()) && ETileFowMask)
+	if (mActiveBot && mActiveBot->botAI()->mTilemap->getTile(int(aGameObj->xPos()) - mActiveBot->spawningXPos(), int(aGameObj->yPos()) - mActiveBot->spawningYPos()) && KTileFowMask)
 		return;
 	int type = (aGameObj->type() & KObjectTypeMask) >> KObjectTypeShift;
 	int index = (aGameObj->type() & KObjectTypeMask) >> KObjectIndexShift;
@@ -192,7 +198,7 @@ void CSDLGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 	rect2.y = y1;
 	rect2.w = w;
 	rect2.h = h;
-	if (type == EObjectBot)
+	if (type == CGameObj::EObjectBot)
 	{
 		rect.x = frame * mSrcTileWidth;
 		rect.y = dir * mSrcTileHeight;
@@ -200,14 +206,22 @@ void CSDLGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 		rect.h = mSrcTileHeight;
 		SDL_ScaleBlit(mBots, &rect, mScreen, &rect2);
 	}
-	else if (type == EObjectBullet || type == EObjectExplosion)
+	else if (type == CGameObj::EObjectBullet || type == CGameObj::EObjectExplosion)
 							{
 		rect.x = index * mSrcTileWidth;
-		rect.y = (type == EObjectExplosion ? 8 : dir) * mSrcTileHeight;
+		rect.y = (type == CGameObj::EObjectExplosion ? 8 : dir) * mSrcTileHeight;
 		rect.w = mSrcTileWidth;
 		rect.h = mSrcTileHeight;
 		SDL_ScaleBlit(mBullets, &rect, mScreen, &rect2);
 	}
+ 	else if (type == CGameObj::EObjectWeapon)
+ 	{
+ 		rect.x = frame * mSrcTileWidth;
+ 		rect.y = index * mSrcTileHeight;
+ 		rect.w = mSrcTileWidth;
+ 		rect.h = mSrcTileHeight;
+ 		SDL_ScaleBlit(mWeapons, &rect, mScreen, &rect2);
+ 	}
 }
 
 char CSDLGraphicsEngine::flip()
@@ -284,6 +298,11 @@ void CSDLGraphicsEngine::releaseObjects()
 	{
 		SDL_FreeSurface(mBullets);
 		mBullets = NULL;
+	}
+	if (mWeapons)
+	{
+		SDL_FreeSurface(mWeapons);
+		mWeapons = NULL;
 	}
 }
 /*
