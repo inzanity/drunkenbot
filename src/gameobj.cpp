@@ -1,4 +1,5 @@
-#include <math.h>
+#include <cmath>
+#include <iostream>
 #include "../inc/gameobj.h"
 #include "../inc/botinfo.h"
 #include "../inc/tilemap.h"
@@ -62,7 +63,7 @@ float CGameObj::animationTimer() const
 const float CMovingGameObj::mEpsilon = 0.00001f;
 
 CMovingGameObj::CMovingGameObj(int aType) : CGameObj(aType), mVelocity(0), mMovingDirection(0), mCollisionDetected(false),
-											mMovingTimeFactor(0.f)
+											mMovingTimeFactor(1.f)
 {
 }
 
@@ -87,6 +88,11 @@ float CMovingGameObj::movingDirection() const
 	return mMovingDirection;
 }
 
+void CMovingGameObj::resetTimeFactor()
+{
+	mMovingTimeFactor = 1.f;
+}
+
 void CMovingGameObj::move(float aTimeFactor)
 {
 	if (mMovingTimeFactor > 0)
@@ -101,10 +107,9 @@ void CMovingGameObj::move(float aTimeFactor)
 
 bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, bool aCollisionWithObstacles)
 {
-	float time, minTime = 1.f;
+	float time1, time2, minTime = 1.f;
 	float xSpeed = mVelocity * cos(mMovingDirection);
 	float ySpeed = mVelocity * sin(mMovingDirection);
-	mMovingTimeFactor = 1.f;
 
 	if (mVelocity > 0)
 	{
@@ -116,13 +121,13 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 		{
 			TVector pos = {mPos.mX + cos(i * PI / 4.f) * mRadius,
 						   mPos.mY + sin(i * PI / 4.f) * mRadius};
-			for (time = totalTime = 0; totalTime < mMovingTimeFactor; totalTime += time)
+			for (time1 = totalTime = 0; totalTime < mMovingTimeFactor; totalTime += time1)
 			{
-				pos.mX += time * speed.mX; pos.mY += time * speed.mY;
+				pos.mX += time1 * speed.mX; pos.mY += time1 * speed.mY;
 				tile = aTilemap[(int)pos.mY][(int)pos.mX] & 3;
 				if (tile == CTilemap::ETileWall || (aCollisionWithObstacles && tile == CTilemap::ETileObstacle))
 					break;
-				time = getNextEdge(pos, speed);
+				time1 = getNextEdge(pos, speed);
 			}
 			if (mMovingTimeFactor > totalTime)
 				mMovingTimeFactor = totalTime;
@@ -131,11 +136,12 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 			handleCollision(15);
 	}
 
-	for (int i = 0; aBots[i]; i++)
+	xSpeed += .0001f;
+	int i;
+	for (i = 0; aBots[i]; i++)
 	{
 		if (sqr(aBots[i]->xPos() - mPos.mX) + sqr(aBots[i]->yPos() - mPos.mY) < sqr(mVelocity + aBots[i]->velocity() + mRadius + aBots[i]->radius()))
 		{
-			float foo;
 			float xSpeed2 = aBots[i]->velocity() * cos(aBots[i]->movingDirection());
 			float ySpeed2 = aBots[i]->velocity() * sin(aBots[i]->movingDirection());
 			float rooted = -sqr((mPos.mY - aBots[i]->yPos()) * (xSpeed - xSpeed2) - (mPos.mX - aBots[i]->xPos()) * (ySpeed - ySpeed2)) + (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2)) * sqr(mRadius + aBots[i]->radius());
@@ -144,25 +150,36 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 				float root = sqrt(rooted);
 				float plop = (ySpeed - ySpeed2) * (aBots[i]->yPos() - mPos.mY) + (xSpeed - xSpeed2) * (aBots[i]->xPos() - mPos.mX);
 				float divider = 1 / (sqr(ySpeed - ySpeed2) + sqr(xSpeed - xSpeed2));
-				foo = time = (plop + root) * divider;
-				if (time > 0)
+				time1 = (plop + root) * divider;
+				time2 = (plop - root) * divider;
+				if (time1 > 0 && time2 > 0)
 				{
-					time = (plop - root) * divider;
-					if (time < foo) foo = time;
-					if (foo < minTime) minTime = foo;
-					if (foo < 1.f && (aCollisionWithObstacles || foo < mMovingTimeFactor))
+					if (time1 > time2)
+						time1 = time2;
+					if (minTime > time1)
+						minTime = time1;
+					if (time1 < 1.f && (aCollisionWithObstacles || time1 < mMovingTimeFactor))
 					{	
-						if (((CMovingGameObj *)aBots[i])->mMovingTimeFactor > foo)
-							((CMovingGameObj *)aBots[i])->mMovingTimeFactor = foo;
+						if (time1 < 0)
+							time1 = time2;
+						time1 -= mEpsilon;
+						if (((CMovingGameObj *)aBots[i])->mMovingTimeFactor > time1)
+							((CMovingGameObj *)aBots[i])->mMovingTimeFactor = time1;
 						handleCollision(((const CMovingGameObj *)aBots[i])->getDamage());
 						((CMovingGameObj *)aBots[i])->handleCollision(getDamage());
 					}
+				}
+				else if ((time1 > mEpsilon && time2 < -mEpsilon) || (time1 < -mEpsilon && time2 > mEpsilon))
+				{
+					((CMovingGameObj *)aBots[i])->mMovingTimeFactor = 0.f;
+					handleCollision(((const CMovingGameObj *)aBots[i])->getDamage());
+					((CMovingGameObj *)aBots[i])->handleCollision(getDamage());
 				}
 			}
 		}
 	}
 	if (mMovingTimeFactor > minTime)
-		mMovingTimeFactor = minTime;
+		mMovingTimeFactor = minTime - mEpsilon;
 	mCollisionDetected = (mMovingTimeFactor < 1.f ? true : false);
 	return true;
 }
