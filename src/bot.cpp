@@ -25,12 +25,15 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 		mRadius = 1.f - size * .005f;
 	}
 	else
-		mSpeedFactor = mArmourFactor = mAimingFactor = mRadius = 1.f;
+	{
+		mSpeedFactor = mArmourFactor = mAimingFactor = 1.f;
+		mRadius = .5f;
+	}
 
 	int tile;
 	do {
-		mPos.mX = 1.f + rand() % (aWidth-2);
-		mPos.mY = 1.f + rand() % (aHeight-2);
+		mPos.mX = 1 + rand() % (aWidth-2);
+		mPos.mY = 1 + rand() % (aHeight-2);
 		tile = aTilemap[int(mPos.mY - mRadius)][int((mPos.mX + mRadius))] |
 				   aTilemap[int(mPos.mY - mRadius)][int((mPos.mX - mRadius))] |
 				   aTilemap[int(mPos.mY + mRadius)][int((mPos.mX + mRadius))] |
@@ -219,11 +222,11 @@ void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 			 (CTilemap::TTileType)(tile & 3) != CTilemap::ETileWall;
 			 tile = aTilemap[(int)pos.mY][(int)pos.mX])
 		{
-			mBotAI->mTilemap->setTile(int(pos.mX - mSpawningPos.mX - 1), int(pos.mY - mSpawningPos.mY - 1), tile);
+			mBotAI->mTilemap->setTile(int(pos.mX - mSpawningPos.mX), int(pos.mY - mSpawningPos.mY), tile);
 			time = getNextEdge(pos, speed);
 			pos.mX += time * speed.mX;
 			pos.mY += time * speed.mY;
 		}
-		mBotAI->mTilemap->setTile(int(pos.mX - mSpawningPos.mX - 1), int(pos.mY - mSpawningPos.mY - 1), tile);
+		mBotAI->mTilemap->setTile(int(pos.mX - mSpawningPos.mX), int(pos.mY - mSpawningPos.mY), tile);
 	}
 }
