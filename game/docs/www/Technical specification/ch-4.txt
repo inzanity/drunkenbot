@@ -16,5 +16,8 @@ For normal game mode, only map specific constants, starting locations and resour
 4.6	Configuration
 Weapons, buildings and the technology tree (relationships) are fully configurable for each party. All required information is loaded from xml file. XAmple XML Editor (<a href="http://www.felixgolubov.com/XMLEditor/">http://www.felixgolubov.com/XMLEditor/</a>) is used to create schema files and create/configure technology tree.
 
-4.7	Documentation
+4.7	Music and sound effects
+The game music is made with Propellerhead Reason 2.5. Sound effects are recorded with Creative Labs Wave Studio and manipulated with Propellerhead Reason 2.5.
+
+4.6	Documentation
 Documentation of the game is available from the <a href="http://humppa.mikas.net/~avalance/">web site</a>. All documents are text files, which makes web site maintenance easier. Class and package diagrams are designed using Dia (<a href="http://www.gnome.org/projects/dia/">http://www.gnome.org/projects/dia/</a>). Some classes are documented using javadoc style comments, but comprehensive class documentation will not be available.
