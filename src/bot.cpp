@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include "../inc/bot.h"
 
+#include <cmath>
+
 CBot::CBot(const char *aDllName, int aTeamNumber) : CBotInfo(aTeamNumber << 8), mBotAI(NULL), mDllName(NULL), mDllHandle(NULL), mFrags(0)
 {
 	mDllName = new char[strlen(aDllName) + 1];
@@ -21,24 +23,24 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 void CBot::think(const char **aTilemap, CVisibleBotInfo **aBots, int aBotNum, list<CBulletInfo *> *aBulletList,
 				 list<CWeaponInfo *> *aWeaponList, list<TVector> *aVoices)
 {
-	list<CBulletInfo *>::iterator bulIter;
-	list<CWeaponInfo *>::iterator weaIter;
-	list<TVector>::iterator voiIter;
+	std::list<CBulletInfo *>::iterator bulIter;
+	std::list<CWeaponInfo *>::iterator weaIter;
+	std::list<TVector>::iterator voiIter;
 	if (!mBotAI)
 		return;
 	for (int i = 0; i < aBotNum; i++)
-		if (aBots[i]->type() != mType && aTilemap[int(floor(aBots[i]->yPos()))][int(floor(aBots[i]->yPos()))] & 0x80)
+		if (aBots[i]->type() != mType && aTilemap[int(aBots[i]->yPos())][int(aBots[i]->yPos())] & 0x80)
 			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mPos.mX, mPos.mY, mType));
 	for (weaIter = aWeaponList->begin(); weaIter != aWeaponList->end(); weaIter++)
-		if (aTilemap[int(floor((*weaIter)->yPos()))][int(floor((*weaIter)->xPos()))] & 0x80)
+		if (aTilemap[int((*weaIter)->yPos())][int((*weaIter)->xPos())] & 0x80)
 			mBotAI->mWeapons.push_front(new CVisibleWeaponInfo(*weaIter, mPos.mX, mPos.mY));
 
 	for (bulIter = aBulletList->begin(); bulIter != aBulletList->end(); bulIter++)
-		if (aTilemap[int(floor((*bulIter)->yPos()))][int(floor((*bulIter)->xPos()))] & 0x80)
+		if (aTilemap[int((*bulIter)->yPos())][int((*bulIter)->xPos())] & 0x80)
 			mBotAI->mBullets.push_front(new CVisibleBulletInfo(*bulIter, mPos.mX, mPos.mY));
 
 	for (voiIter = aVoices->begin(); voiIter != aVoices->end(); voiIter++)
-		if (aTilemap[int(floor((*voiIter).mY))][int(floor((*voiIter).mX))] & 0x80)
+		if (aTilemap[int((*voiIter).mY)][int((*voiIter).mX)] & 0x80)
 			mBotAI->mSourcesOfNoise.push_front(atan2((*voiIter).mX - mBotAI->mData.xPos(), (*voiIter).mY - mBotAI->mData.yPos()));
 
 	mBotAI->think();
