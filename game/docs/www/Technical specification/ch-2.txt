@@ -42,12 +42,26 @@
 
 2.1.9	Mech actions
 
-	- <b>Performing</b>: You can give actions to mech normally by selecting an action from action menu or using proper shortcut key from keyboard and left clicking with mouse on the terrain. With 'shift' pressed down you can combine actions which are then performed in the order they were given.
-	- <b>Implementation</b>: CDirectInput class tells that action was given with mouse. If shift was not pressed, 'do action' message is sent to the selected game object and it's action queue cleared. If shift button is pressed down the actions are added to the action queue in given order and object performs them in FIFO order.
+	- <b>Performing</b>: You can command the mech by selecting an action from the action menu or using proper shortcut key from keyboard. Some actions are actually action groups, and the action is selected from the submenu. Actions (excluding stop) can be cancelled from the submenu, right clicking on the terrain or pressing esc. Destination for most of the actions has to be given by left clicking on the terrain. With 'shift' pressed down you can combine actions which are then performed in the order they were given. Queued actions can be cancelled by left clicing from the action queue.
+	- <b>Implementation</b>: CDirectInput and action menu classes are used to detect given orders. Submenu is displayed instead of the main action menu when needed. Every submenu contains Cancel action, which returns to the main action menu. If shift was not pressed, 'do action' message is sent to the selected game object and it's action queue cleared. If shift button is pressed down the actions are added to the action queue in given order and object performs them in FIFO order. 
 
 2.1.9.1	Moving actions
 
-2.1.9.2	Attacking actions
+	- <b>Performing</b>: Mech has three different moving commands -- move, stop and patrol. Destination is required for move and patrol commands. Queuing action after patrol is not possible and results to instant performing.
+	- <b>Implementation</b>: Command and destination is passed to the selected mech by using message system. Current position has to be stored for patrolling. If path finding technology has been developed, A* algorithm is used for navigation (see 1.5.1). Otherwise direct route is used. If no path is available, action is cancelled. As stop command doesn't require destination and has no subactions, it doesn't have sub action menu and is performed instantly.
+
+2.1.9.2 Building power distribution system
+
+	- <b>Performing</b>: Building power distribution system is like building any other building (see 2.1.5). Only requirements are resources and clear terrain. Mech can not be controlled while building. Action can be performed from the fps mode with shortcut key, in which case current mech location is used for building.
+	- <b>Implementation</b>: First part of the building is simalar to moving command (see 2.1.9.1). If mech fails to get to the location, action is cancelled. Second part is similar to building a normal building (see 2.1.5), but special animation is played for the mech. After building is completed (or cancelled), mech returns to normal state.
+	
+2.1.9.3	Changing weapons and modes
+	- <b>Performing</b>: Different weapons and operating modes can be selected from submenus.
+	- <b>Implementation</b>: Submenu is displayed after selecting "Select weapon" or "Change mode" action group. At this point, command can be cancelled. After selecting the real action (weapon or mode), message is sent to the mech and action is performed instantly.
+
+2.1.9.4	Attacking actions
+	- <b>Performing</b>: Attack action depends on the available technology and the selected weapon. EMP shockwave can be launched instantly, byt destination coordinates are required for other weapons. With landmines, mech has to travel to the selected location before burrowing the mine. Othervice mech starts to shoot the target. If autoaim technology is available, moving target can be attacked as long as it is on sight. Without autoaim fixed destination coordinates are used.
+	- <b>Implementation</b>: Bullet creation and damage model is identical to the fps mode shooting (see 2.2.3). Attacking will continue until target is destroyed (requires machine vision), or new command is given.
 
 2.1.10	Changing into FPS mode
 
