@@ -68,7 +68,7 @@ CGameEngine::CGameEngine(istream *aWeapons, istream *aMap, istream *aTeamInfo) :
 		for (i = 0; i < mBotNum; i++)
 		{
 			snprintf(fileName, 63, "bots/%s", filelist[i]->d_name);
-			mBots[i] = new CBot(fileName, i);
+			mBots[i] = new CBot(fileName, (i << KObjectTeamShift) | (i << KObjectIndexShift));
 			free(filelist[i]);
 		}
 		free(filelist);
