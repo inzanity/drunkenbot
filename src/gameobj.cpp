@@ -119,7 +119,7 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 			for (t = 0; t < mMovingTimeFactor; t += getNextEdge(pos, speed))
 			{
 				pos.mX += t * speed.mX; pos.mY += t * speed.mY;
-				tile = aTilemap[(int)pos.mY][(int)pos.mX];
+				tile = aTilemap[(int)pos.mY][(int)pos.mX] & 3;
 				if (tile == CTilemap::ETileWall || (aCollisionWithObstacles && tile == CTilemap::ETileObstacle))
 					break;
 			}
