@@ -155,13 +155,13 @@ void CSDLGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 			char tile = (mActiveBot ?
 				mActiveBot->botAI()->mTilemap->getTile(i - int(mActiveBot->spawningXPos() + .01), j - int(mActiveBot->spawningYPos() + .01)) :
 				aTilemap[j][i]);
-			int type = tile & 3;
-			int tileNum = (tile >> 2) & 31;
+			int type = tile & KTileTypeMask;
+			int tileNum = (tile & KTileIndexMask) >> KTileIndexShift;
 			rect.x = tileNum * mSrcTileWidth;
 			rect.y = type * mSrcTileHeight;
 			rect.w = mSrcTileWidth;
 			rect.h = mSrcTileHeight;
-			if (mActiveBot && tile & (1<<7))
+			if (mActiveBot && (tile & ETileFowMask))
 			{
 				rect.y += 4 * mSrcTileHeight;
 			}
@@ -175,11 +175,11 @@ void CSDLGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 
 void CSDLGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 {
-	if (mActiveBot && mActiveBot->botAI()->mTilemap->getTile(int(aGameObj->xPos()) - mActiveBot->spawningXPos(), int(aGameObj->yPos()) - mActiveBot->spawningYPos()) >> 7)
+	if (mActiveBot && mActiveBot->botAI()->mTilemap->getTile(int(aGameObj->xPos()) - mActiveBot->spawningXPos(), int(aGameObj->yPos()) - mActiveBot->spawningYPos()) && ETileFowMask)
 		return;
-	int type = aGameObj->type() & 255;
-	int index = (aGameObj->type() >> 8) & 255;
-// TODO:	int team = (aGameObj->type() >> 16) & 255;
+	int type = (aGameObj->type() & KObjectTypeMask) >> KObjectTypeShift;
+	int index = (aGameObj->type() & KObjectTypeMask) >> KObjectIndexShift;
+//	int team = (aGameObj->type() >> KObjectTeamShift) & KObjectTypeMask;
 	int frame = int(aGameObj->animationTimer() * 0)/*framenum*/;
 	int dir = int((aGameObj->orientation() + PI / 8.f) / (PI / 4.f)) % 8;
 	int w = int(mDestTileWidth * 2.f * aGameObj->radius());

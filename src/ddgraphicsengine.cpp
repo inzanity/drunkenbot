@@ -87,13 +87,13 @@ void CDDGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 			char tile = (mActiveBot ?
 				mActiveBot->botAI()->mTilemap->getTile(i - mActiveBot->spawningXPos(), j - mActiveBot->spawningYPos()) :
 				aTilemap[j][i]);
-			int type = tile & 3;
-			int tileNum = (tile >> 2) & 31;
+			int type = tile & KTileTypeMask;
+			int tileNum = (tile & KTileIndexMask) >> KTileIndexShift;
 			rect.left = tileNum * mSrcTileWidth;
 			rect.top = type * mSrcTileHeight;
 			rect.right = rect.left + mSrcTileWidth;
 			rect.bottom = rect.top + mSrcTileHeight;
-			if (mActiveBot && tile & (1<<7))
+			if (mActiveBot && (tile & KTileFowMask))
 			{
 				rect.top += 4 * mSrcTileHeight;
 				rect.bottom += 4 * mSrcTileHeight;
@@ -108,9 +108,9 @@ void CDDGraphicsEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 
 void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 {
-	int type = aGameObj->type() & 255;
-	int index = (aGameObj->type() >> 8) & 255;
-	int team = (aGameObj->type() >> 16) & 255;
+	int type = (aGameObj->type() & KObjectTypeMask) >> KObjectTypeShift;
+	int index = (aGameObj->type() & KObjectTypeMask) >> KObjectIndexShift;
+//	int team = (aGameObj->type() >> KObjectTeamShift) & KObjectTypeMask;
 	int frame = aGameObj->animationTimer() * 0/*framenum*/;
 	int dir = int((aGameObj->orientation() + PI / 8.f) / (PI / 4.f)) % 8;
 	int w = mDestTileWidth * 2.f * aGameObj->radius();
@@ -120,7 +120,7 @@ void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 	int x2 = x1 + w;
 	int y2 = y1 + h;
 	CRect rect;
-	if (type == EObjectBot)
+	if (type == CGameObj::EObjectBot)
 	{
 		rect.left = frame * mSrcTileWidth;
 		rect.top = dir * mSrcTileHeight;
@@ -128,10 +128,10 @@ void CDDGraphicsEngine::drawGameObj(const CGameObj *aGameObj)
 		rect.bottom = rect.top + mSrcTileHeight;
 		mBack->blit(mBots, rect, CRect(x1, y1, x2, y2));
 	}
-	else if (type == EObjectBullet || type == EObjectExplosion)
-							{
+	else if (type == CGameObj::EObjectBullet || type == CGameObj::EObjectExplosion)
+	{
 		rect.left = index * mSrcTileWidth;
-		rect.top = (type == EObjectExplosion ? 8 : dir) * mSrcTileHeight;
+		rect.top = (type == CGameObj::EObjectExplosion ? 8 : dir) * mSrcTileHeight;
 		rect.right = rect.left + mSrcTileWidth;
 		rect.bottom = rect.top + mSrcTileHeight;
 		mBack->blit(mBullets, rect, CRect(x1, y1, x2, y2));

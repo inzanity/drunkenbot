@@ -7,10 +7,9 @@ CVisibleBotInfo::CVisibleBotInfo(int aTeamInfo) : CMovingGameObj(aTeamInfo | EOb
 }
 
 CVisibleBotInfo::CVisibleBotInfo(CVisibleBotInfo *aBotInfo, float aXPos, float aYPos, int aType) :
-								CMovingGameObj(aBotInfo), mEnemy((aType & KTeamMask) == (mType & KTeamMask))
+								CMovingGameObj(aBotInfo, aXPos, aYPos),
+								mEnemy((aType & KObjectTeamMask) == (mType & KObjectTeamMask))
 {
-	mPos.mX = aBotInfo->xPos() - aXPos;
-	mPos.mY = aBotInfo->yPos() - aYPos;
 }
 
 CVisibleBotInfo::~CVisibleBotInfo()

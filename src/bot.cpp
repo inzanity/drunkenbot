@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-CBot::CBot(const char *aDllName, int aTeamNumber) : CBotInfo(aTeamNumber << 8), mBotAI(NULL), mDllName(NULL), mDllHandle(NULL), mFrags(0)
+CBot::CBot(const char *aDllName, int aTeamNumber) : CBotInfo(aTeamNumber << KObjectTeamShift), mBotAI(NULL), mDllName(NULL), mDllHandle(NULL), mFrags(0)
 {
 	mDllName = new char[strlen(aDllName) + 1];
 	strcpy(mDllName, aDllName);
@@ -38,7 +38,7 @@ void CBot::spawn(const char ** aTilemap, int aWidth, int aHeight, const CGameObj
 				   aTilemap[int(mPos.mY - mRadius)][int(mPos.mX - mRadius)] &
 				   aTilemap[int(mPos.mY + mRadius)][int(mPos.mX + mRadius)] &
 				   aTilemap[int(mPos.mY + mRadius)][int(mPos.mX - mRadius)];
-	} while ((tile & 3) != CTilemap::ETileEmpty);
+	} while ((tile & KTileTypeMask) != CTilemap::ETileEmpty);
 	mSpawningPos = mPos;
 	mBotAI->mTilemap = new CTilemap(aWidth, aHeight);
 	mHealth = 100;
@@ -62,7 +62,7 @@ void CBot::think(const char **aTilemap, int aWidth, int aHeight, CVisibleBotInfo
 	scanTilemap(aTilemap, dAngle);
 	for (int i = 0; aBots[i]; i++)
 	{
-		if (aBots[i]->type() != mType && !(mBotAI->mTilemap->getTile(floorf(aBots[i]->xPos()) - mSpawningPos.mX, floorf(aBots[i]->yPos()) - mSpawningPos.mY) >> 7))
+		if (aBots[i]->type() != mType && !(mBotAI->mTilemap->getTile(floorf(aBots[i]->xPos()) - mSpawningPos.mX, floorf(aBots[i]->yPos()) - mSpawningPos.mY) & KTileFowMask))
 		{
 			mBotAI->mBots.push_front(new CVisibleBotInfo(aBots[i], mSpawningPos.mX, mSpawningPos.mY, mType));
 		}
@@ -154,7 +154,7 @@ void CBot::performActions(list<CBulletInfo *> * aBulletList, list<TVector> * aVo
 		if (mBotAction == EActionShoot && mWeapon->shoot())
 		{
 			TVector pos = { mPos.mX + (mRadius + 0.3f) * cos(mOrientation), mPos.mY + (mRadius + 0.3f) * sin(mOrientation) };
-			aBulletList->push_back(new CBulletInfo(/*(mWeapon->type() >> 8) & 0xF*/0,
+			aBulletList->push_back(new CBulletInfo(/*mWeapon->type()*/0,
 												   mPos.mX + (mRadius + 0.5f) * cos(mOrientation),
 												   mPos.mY + (mRadius + 0.5f) * sin(mOrientation),
 												   mOrientation + mBotAI->shootingDir(), mWeapon->bulletSpeed(), this));
@@ -231,7 +231,7 @@ void CBot::scanTilemap(const char ** aTilemap, float aDAngle) const
 		TVector speed = {cos(angle), sin(angle)};
 		time = 0;
 		for (tile = aTilemap[(int)floorf(pos.mY)][(int)floorf(pos.mX)];
-			 (CTilemap::TTileType)(tile & 3) != CTilemap::ETileWall;
+			 (CTilemap::TTileType)(tile & KTileTypeMask) != CTilemap::ETileWall;
 			 tile = aTilemap[(int)floorf(pos.mY)][(int)floorf(pos.mX)])
 		{
 			mBotAI->mTilemap->setTile((int)(floorf(pos.mX) - mSpawningPos.mX), (int)(floorf(pos.mY) - mSpawningPos.mY), tile);

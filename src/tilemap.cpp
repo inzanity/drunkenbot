@@ -8,7 +8,7 @@ CTilemap::CTilemap(int aWidth, int aHeight) : mWidth(aWidth), mHeight(aHeight)
 	{
 		mTilemap[i] = new char[2 * mWidth - 1]; 
 		for (int j = 0; j < 2 * mWidth - 1; j++)
-			mTilemap[i][j] = (char)(ETileUndetected | (1<<7));
+			mTilemap[i][j] = (char)(ETileUndetected | KTileFowMask);
 	}
 }
 
@@ -23,13 +23,13 @@ void CTilemap::resetFogOfWar()
 {
 	for (int i = 0; i < 2 * mHeight - 1; i++)
 		for (int j = 0; j < 2 * mWidth - 1; j++)
-			mTilemap[i][j] |= (1<<7);
+			mTilemap[i][j] |= KTileFowMask;
 }
 
 char CTilemap::getTile(int aX, int aY) const
 {
 	if (aX <= -mWidth || aX >= mWidth || aY <= -mHeight || aY >= mHeight)
-		return (char)(ETileUndetected | (1<<7));
+		return (char)(ETileUndetected | KTileFowMask);
 	return mTilemap[aY + mHeight - 1][aX + mWidth - 1];
 }
 
@@ -45,10 +45,10 @@ char CTilemap::getTile(const CGameObj *aGameObj) const
 
 CTilemap::TTileType CTilemap::type(char aTile) const
 {
-	return (TTileType(aTile & 3));
+	return (TTileType(aTile & KTileTypeMask));
 }
 
 bool CTilemap::visible(char aTile) const
 {
-	return !(aTile & (1<<7));
+	return !(aTile & KTileFowMask);
 }

@@ -13,12 +13,15 @@
 
 #define PI 3.14159265358979f
 
-#define KTeamMask 0xF00
+#define KObjectTeamMask		0xFF0000
+#define KObjectIndexMask		0xFF00
+#define KObjectTypeMask		0xFF
+#define KObjectTeamShift		16
+#define KObjectIndexShift		8
+#define KObjectTypeShift		0
 
 class CBotInfo;
 class CTilemap;
-
-enum TObjectType{EObjectBot, EObjectWeapon, EObjectBullet, EObjectExplosion};
 
 /** Struct for 2D coordinates. */
 struct TVector
@@ -36,11 +39,19 @@ struct TVector
 class CGameObj
 {
 public:
+	/** Type of the game object. */
+	enum TObjectType{EObjectBot, EObjectWeapon, EObjectBullet, EObjectExplosion};
+
 	/** Constructor. @param aType Type of the game object. @see mType. */
 	CGameObj(int aType);
 
-	/** Copy constructor. @param aGameObj Source game object to copy data from. */
-	CGameObj(const CGameObj *aGameObj);
+	/**
+	 * Copy constructor with relative position.
+	 * @param aBullet Source game object to copy data from.
+	 * @param aXPos X coordinate of the origin.
+	 * @param aYPos Y coordinate of the origin.
+	 */
+	CGameObj(const CGameObj *aGameObj, float aXPos, float aYPos);
 
 	/** Destructor. */
 	virtual ~CGameObj();
@@ -72,9 +83,9 @@ protected:
 	float mOrientation;
 	/** 
 	 * Type of the game object.
-	 * The type id consist of 3 four bit fields, team info, object specific id and object type id.
-	 * Thus bitmasks are 0xf00 for team info, 0xf0 for object data and 0xf for object type.
-	 * Currently there are 3 object types bot, weapon and bullet, with values 1, 2 and 3 in respective order.
+	 * The type id consist of 3 four bit fields, team info, object specific index and object type id.
+	 * Thus bitmasks are 0xff0000 for team info, 0xff00 for object data and 0xff for object type.
+	 * See TObjectType.
 	 */
 	int mType;
 	/** Timer for animations. Animation is played during 1 time units. */
@@ -91,8 +102,13 @@ public:
 	/** Constructor. @param aType Type of the object. */
 	CMovingGameObj(int aType);
 
-	/** Copy constructor. @param aGameObj Source game object to copy data from. */
-	CMovingGameObj(const CMovingGameObj *aGameObj);
+	/**
+	 * Copy constructor with relative position.
+	 * @param aBullet Source game object to copy data from.
+	 * @param aXPos X coordinate of the origin.
+	 * @param aYPos Y coordinate of the origin.
+	 */
+	CMovingGameObj(const CMovingGameObj *aGameObj, float aXPos, float aYPos);
 
 	/** Destructor. */
 	virtual ~CMovingGameObj();

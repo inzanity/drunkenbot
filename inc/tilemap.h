@@ -10,6 +10,13 @@
 
 #include "gameobj.h"
 
+#define KTileFowMask	0x80
+#define KTileIndexMask	0x7C
+#define KTileTypeMask	0x3
+#define KTileFowShift	7
+#define KTileIndexShift	2
+#define KTileTypeShift	0
+
 /**
  * Class to store tilemap for CBotAI.
  * Coordinates are relative to bots spawning position.

@@ -35,10 +35,10 @@ void CTextEngine::drawTilemap(char **aTilemap, int aWidth, int aHeight)
 				cTemp = mActiveBot->botAI()->mTilemap->getTile(j - mActiveBot->spawningXPos(), i - mActiveBot->spawningYPos());
 			else
 				cTemp = aTilemap[i][j];
-			if (cTemp >> 7 != cOld)
-				cout << "\033[" << (cTemp >> 7?"0;34m":"0m");;
+			if ((cTemp & KTileFowMask) != cOld)
+				cout << "\033[" << ((cTemp & KTileFowMask)?"0;34m":"0m");
 			cout << mMapSymbols[cTemp & 15];
-			cOld = cTemp >> 7;
+			cOld = cTemp & KTileFowMask;
 		}
 		cout << endl;
 	}
@@ -52,7 +52,7 @@ void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 	char out = '\0';
 	x = (int)aGameObj->xPos();
 	y = (int)aGameObj->yPos();
-	if ((aGameObj->type() & 0xf) == EObjectExplosion)
+	if ((aGameObj->type() & KObjectTypeMask) == CGameObj::EObjectExplosion)
 	{
 		for (int i = -int(aGameObj->radius()); i <= int(aGameObj->radius()); i++)
 		{
@@ -68,13 +68,13 @@ void CTextEngine::drawGameObj(const CGameObj *aGameObj)
 		}
 		return;
 	}
-	if ((aGameObj->type() & 0xf) == EObjectBot)
-		out = mBotSymbols[(aGameObj->type() >> 8) & 3];
-	else if ((aGameObj->type() & 0xf) == EObjectBullet)
+	if ((aGameObj->type() & KObjectTypeMask) == CGameObj::EObjectBot)
+		out = mBotSymbols[(aGameObj->type() >> KObjectTeamShift) & 3];
+	else if ((aGameObj->type() & KObjectTypeMask) == CGameObj::EObjectBullet)
 		out = mBulletSymbols[int((((const CMovingGameObj *)aGameObj)->movingDirection()) / PI * 4 + .5f) & 3];
 	if (mActiveBot)
 	{
-		if (!(mActiveBot->botAI()->mTilemap->getTile(x - mActiveBot->spawningXPos(), y - mActiveBot->spawningYPos()) >> 7))
+		if (!(mActiveBot->botAI()->mTilemap->getTile(x - mActiveBot->spawningXPos(), y - mActiveBot->spawningYPos()) & KTileFowMask))
 			printf("\033[%d;%dH\033[1;36m%c\n", y + 1, x + 1, out);
 	}
 	else

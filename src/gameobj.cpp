@@ -16,10 +16,13 @@ CGameObj::CGameObj(int aType) : mRadius(0), mOrientation(0), mType(aType), mAnim
 	mPos.mX = mPos.mY = 0;
 }
 
-CGameObj::CGameObj(const CGameObj *aGameObj) : mPos(aGameObj->mPos), mRadius(aGameObj->mRadius),
-											   mOrientation(aGameObj->mOrientation), mType(aGameObj->mType),
-											   mAnimationTimer(aGameObj->mAnimationTimer)
+CGameObj::CGameObj(const CGameObj *aGameObj, float aXPos, float aYPos) : mPos(aGameObj->mPos), mRadius(aGameObj->mRadius),
+																		 mOrientation(aGameObj->mOrientation),
+																		 mType(aGameObj->mType),
+																		 mAnimationTimer(aGameObj->mAnimationTimer)
 {
+	mPos.mX -= aXPos;
+	mPos.mY -= aYPos;
 }
 
 CGameObj::~CGameObj()
@@ -67,10 +70,9 @@ CMovingGameObj::CMovingGameObj(int aType) : CGameObj(aType), mVelocity(0), mMovi
 {
 }
 
-CMovingGameObj::CMovingGameObj(const CMovingGameObj *aGameObj) : CGameObj(aGameObj), mVelocity(aGameObj->mVelocity),
-																 mMovingDirection(aGameObj->mVelocity),
-																 mCollisionDetected(aGameObj->mCollisionDetected),
-																 mMovingTimeFactor(aGameObj->mMovingDirection)
+CMovingGameObj::CMovingGameObj(const CMovingGameObj *aGameObj, float aXPos, float aYPos) :
+	CGameObj(aGameObj, aXPos, aYPos), mVelocity(aGameObj->mVelocity), mMovingDirection(aGameObj->mVelocity),
+	mCollisionDetected(aGameObj->mCollisionDetected), mMovingTimeFactor(aGameObj->mMovingDirection)
 {
 }
 
@@ -119,7 +121,7 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 			for (time1 = totalTime = 0; totalTime < mMovingTimeFactor; totalTime += time1)
 			{
 				pos.mX += time1 * speed.mX; pos.mY += time1 * speed.mY;
-				tile = aTilemap[(int)pos.mY][(int)pos.mX] & 3;
+				tile = aTilemap[(int)pos.mY][(int)pos.mX] & KTileTypeMask;
 				if (tile == CTilemap::ETileWall || (aCollisionWithObstacles && tile == CTilemap::ETileObstacle))
 					break;
 				time1 = getNextEdge(pos, speed);
