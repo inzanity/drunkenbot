@@ -115,8 +115,8 @@ bool CMovingGameObj::chkCollision(const char ** aTilemap, CBotInfo ** aBots, boo
 		int dir = (int)(mMovingDirection / PI * 4);
 		for (int i = dir - 1; i <= dir + 2; i++)
 		{
-			TVector pos = {mPos.mX + cos(i * PI / 4.f) * mRadius,
-						   mPos.mY + sin(i * PI / 4.f) * mRadius};
+			TVector pos = {float(mPos.mX + cos(i * PI / 4.f) * mRadius),
+						   float(mPos.mY + sin(i * PI / 4.f) * mRadius)};
 			for (time1 = totalTime = 0; totalTime < time2; totalTime += time1)
 			{
 				pos.mX += time1 * speed.mX; pos.mY += time1 * speed.mY;

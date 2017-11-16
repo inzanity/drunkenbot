@@ -1,6 +1,7 @@
 #ifndef WIN32
 # include <cstdlib>
 # include <cstring>
+# include <cstdio>
 # include <dirent.h>
 #endif
 #include "../inc/engine.h"

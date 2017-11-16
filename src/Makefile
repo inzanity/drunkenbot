@@ -14,7 +14,7 @@ upd:
 	(cd ..; cvs update)
 
 ../dbot: $(OBJS)
-	$(CXX) $(LDFLAGS) -o ../dbot $(OBJS) $(SDLLIBS)
+	$(CXX) -o ../dbot $(OBJS) $(SDLLIBS) $(LDFLAGS)
 
 clean:
 	rm -f $(OBJS)

@@ -2,7 +2,7 @@ OBJS := $(patsubst %.cpp, %.o, $(wildcard *.cpp))
 HEADERS := $(wildcard *.h)
 
 LIBS := 
-CXXFLAGS := -W -Wall -pedantic -ansi -g -c
+CXXFLAGS := -W -Wall -pedantic -ansi -g -c -fPIC
 
 all: ../test.so
 

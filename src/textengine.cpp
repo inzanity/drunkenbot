@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdio>
+#include <cmath>
 
 #include "../inc/textengine.h"
 

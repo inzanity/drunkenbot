@@ -38,9 +38,9 @@ public:
 	
 	void drawGameObj(const CGameObj *aGameObj);
 private:
-	char *mMapSymbols;
-	char *mBotSymbols;
-	char *mBulletSymbols;
+	const char *mMapSymbols;
+	const char *mBotSymbols;
+	const char *mBulletSymbols;
 };
 
 #endif // TEXTENGINE_H
